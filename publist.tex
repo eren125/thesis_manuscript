@@ -1,0 +1,68 @@
+%!TEX root = A-web.tex
+% Nicolas Castel PhD thesis -- (C) 2023
+
+% List of publications
+\clearpage
+\begingroup
+    % Format author name in bold: https://tex.stackexchange.com/a/73246
+    \def\makenamesetup{%
+        \def\bibnamedelima{~}%
+        \def\bibnamedelimb{ }%
+        \def\bibnamedelimc{ }%
+        \def\bibnamedelimd{ }%
+        \def\bibnamedelimi{ }%
+        \def\bibinitperiod{.}%
+        \def\bibinitdelim{~}%
+        \def\bibinithyphendelim{.-}%
+    }
+    \newcommand*{\makename}[3]{\begingroup\makenamesetup\xdef#1{#2, #3}\endgroup}
+
+    \newbibmacro*{name:bold}[2]{%
+      \makename{\currname}{#1}{#2}%
+      \makename{\findname}{\lastname}{\firstname}%
+      \makename{\findinit}{\lastname}{\firstinit}%
+      \ifboolexpr{ test {\ifdefequal{\currname}{\findname}}
+                or test {\ifdefequal{\currname}{\findinit}} }{\itshape\bfseries}{}}
+
+    \newcommand*{\boldname}[3]{%
+        \def\lastname{#1}%
+        \def\firstname{#2}%
+        \def\firstinit{#3}%
+    }
+
+    \xpretobibmacro{name:family}{\begingroup\usebibmacro{name:bold}{#1}{#2}}{}{}
+    \xpretobibmacro{name:given-family}{\begingroup\usebibmacro{name:bold}{#1}{#2}}{}{}
+    \xpretobibmacro{name:family-given}{\begingroup\usebibmacro{name:bold}{#1}{#2}}{}{}
+    \xpretobibmacro{name:delim}{\begingroup\normalfont}{}{}
+
+    \xapptobibmacro{name:family}{\endgroup}{}{}
+    \xapptobibmacro{name:given-family}{\endgroup}{}{}
+    \xapptobibmacro{name:family-given}{\endgroup}{}{}
+    \xapptobibmacro{name:delim}{\endgroup}{}{}
+
+    \boldname{Ren}{Emmanuel}{E.}
+
+    \begin{refsection}[publications.bib]
+        \begin{refcontext}[sorting=ynt]
+            \DeclareFieldFormat{labelnumberwidth}{#1}
+            \nocite{*}
+
+            \addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+            \chapter*{List of Publications}
+            \startcontents[chapters]
+            \section*{Peer-reviewed papers}
+            % \printbibliography[heading=subsectionbibheading,title={Peer-reviewed Journals},type=article,env=publist,keyword={phd}]
+            % \printbibliography[heading=subsectionbibheading,title={Preprints},type=unpublished,env=publist]
+            \printbibliography[heading=none,type=article,env=publist,keyword={published}]
+
+            \section*{Preprint}
+            \printbibliography[heading=none,type=article,env=publist,keyword={preprint}]
+            
+        \end{refcontext}
+    \end{refsection}
+
+    \boldname{}{}{}
+\endgroup
+
+% Reset TOC depth
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}

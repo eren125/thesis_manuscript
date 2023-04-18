@@ -1,0 +1,37 @@
+%!TeX spellcheck = fr-FR
+% Nicolas Castel PhD thesis -- (C) 2023
+
+\documentclass[thesis]{subfiles}
+
+\begin{document}
+
+\begin{otherlanguage}{french}
+
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thefigure}{R\arabic{figure}}
+\setcounter{figure}{0}
+\titlecontents{section}[4.8em]{\addvspace{0.1em}}{\contentslabel{2.2em}}{}{\titlerule*[1pc]{.}\contentspage}[]
+
+\chapter*{Résumé en français}
+\startcontents[chapters]
+\printpartialtoc
+
+\section*{Introduction}
+
+\todo{5 à 10 pages}
+
+Les matériaux poreux sont des matériaux 
+
+
+\vfill
+\begin{center}
+    \pgfornament[width=6cm,color=CTsemi]{75}
+\end{center}
+\vfill\vfill
+
+\end{otherlanguage}
+
+\OnlyInSubfile{\printglobalbibliography}
+
+\end{document}

@@ -1,0 +1,364 @@
+% Emmanuel Ren PhD thesis -- (C) 2023
+
+% Template and LaTeX structure adapted from:
+% Guillaume Fraux PhD thesis -- (C) 2019
+% Distributed under CC-BY-SA-NC license 4.0
+% Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+
+\documentclass[11pt, a4paper]{book}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{classicthesis}
+
+\usepackage[greek, french, english]{babel}
+\usepackage{libertine}
+\usepackage{inconsolata}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage[frenchmath]{mathastext}
+\usepackage{dsfont}
+\usepackage{subfiles}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usepackage{xspace}
+\usepackage{mdframed}
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{afterpage}
+\usepackage{xpatch}
+\usepackage{pifont}
+\usepackage{newunicodechar}
+\usepackage[parfill]{parskip}
+\usepackage[autostyle=false, style=english]{csquotes}
+\usepackage[font={it}]{caption}
+\usepackage[titletoc]{appendix}
+\usepackage{pgfornament}
+\usepackage[
+    backend=biber,
+    bibencoding=utf8,
+    maxbibnames=99,
+    maxcitenames=1,
+    url=false,
+    sorting=none,
+    citestyle=numeric-comp,
+]{biblatex}
+
+\usepackage[version=4]{mhchem}
+
+\usepackage{siunitx}
+% Fix from https://tex.stackexchange.com/a/24278/225087
+%\newcommand{\angstrom}{\text{\normalfont\AA}}
+
+% Automatic ordering of punctuation at citation conflicts with the template bibliography: https://tex.stackexchange.com/a/132938/225087
+% Need to manually check it is in the "text [3]." format. https://tex.stackexchange.com/q/34414/225087
+%"text \cite{}."
+%\usepackage{cite}
+%\usepackage[numbers,super]{natbib}
+%\usepackage{natmove}
+
+% Need to call pygmentize
+%\usepackage[outputdir=build]{minted}
+
+% Remove spacing between list items
+% https://tex.stackexchange.com/a/10689/225087
+%\usepackage{enumitem}
+%\setlist{nosep} % or \setlist{noitemsep} to leave space around whole list
+
+
+\usepackage[
+    pdfusetitle,
+    pdfauthor={Emmanuel Ren},
+    pdftitle={Atomistic models and properties of amorphous metal-organic frameworks for CO2 separation}, 
+    pdfsubject={PhD thesis},
+    pdfkeywords={molecular simulation, flexible porous materials, xxx}, %TODO copy from cover when done
+    hyperfootnotes=false,
+]{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    breaklinks=true,
+    urlcolor=CTurl,
+    linkcolor=CTurl,
+    citecolor=CTcitation
+}
+
+% Need to be loaded after hyperref
+\usepackage[noabbrev]{cleveref} 
+% Not capitalized by default, use \Cref to capitalize
+% Interesting options: [noabbrev,capitalize,nameinlink]
+
+% Remove links color
+%\hypersetup{hidelinks}
+
+% Create PDF version 1.7
+\pdfminorversion=7
+
+% Automagically transform "foobar" to ``foobar''
+\MakeOuterQuote{"}
+
+% No Overfull hbox warning for less than 1pt
+\hfuzz=1pt
+
+% Float placement rules, from https://aty.sdsu.edu/bibliog/latex/floats.html
+\renewcommand{\topfraction}{0.9}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}	% max fraction of floats at bottom
+%  Parameters for TEXT pages (not float pages):
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}	% allow minimal text w. figs
+% Parameters for FLOAT pages (not text pages):
+\renewcommand{\floatpagefraction}{0.8}	% require fuller float pages
+% N.B.: floatpagefraction MUST be less than topfraction !!
+\renewcommand{\dblfloatpagefraction}{0.8}	% require fuller float pages
+
+% space left between floats (default is 12.0pt plus 2.0pt minus 2.0pt).
+\setlength{\floatsep}{\parskip}
+% space left on top and bottom of an in-text float (default is 12.0pt plus 2.0pt minus 2.0pt).
+\setlength{\intextsep}{\parskip}
+% space between last top float or first bottom float and the text (default is 20.0pt plus 2.0pt minus 4.0pt).
+\setlength{\textfloatsep}{2\parskip}
+
+% Recompile the figures as needed
+\immediate\write18{cd figures && make}
+
+\graphicspath{{./}{./figures/}}
+
+% Quotations with a markdown style
+\surroundwithmdframed[linewidth=2pt,topline=false,bottomline=false,rightline=false]{quote}
+\AtBeginEnvironment{quote}{\itshape}
+
+\makeatletter
+% Ensure hyperref produce the right links by adding a phantomsection before addcontentsline
+\let\@oldaddcontentsline\addcontentsline
+\renewcommand{\addcontentsline}{\phantomsection\@oldaddcontentsline}
+
+% Prevent line break inside multiple citations like [4-5,7], but allow it
+% before the opening [
+\let\@oldcite\cite
+\renewcommand{\cite}[1]{\penalty1000\mbox{\@oldcite{#1}}}
+
+\let\@oldchapter\chapter
+% Skip at least one page before chapter (OnlyInMainfile), and print toc after
+\newcommand{\@chapterstar}[1]{
+    \OnlyInMainfile{\clearpage\pagestyle{empty}\null}%
+    \@oldchapter*{#1}%
+    \pagestyle{fancy}%
+}
+\newcommand{\@chapternostar}[1]{
+    \OnlyInMainfile{\clearpage\pagestyle{empty}\null}%
+    \@oldchapter{#1}%
+    \pagestyle{fancy}%
+    \startcontents[chapters]\printpartialtoc% only print TOC for numbered chapters
+    \vskip0.5\baselineskip%
+}
+\renewcommand{\chapter}{\@ifstar{\@chapterstar}{\@chapternostar}}
+
+% Use the chapter* style for table of contents, but without adding itself
+% to the TOC ...
+\renewcommand\tableofcontents{%
+    \hrule\relax
+    \vspace*{.9\baselineskip}%
+    \raggedright{\huge\spacedallcaps{\contentsname}}\par%
+    \vspace*{1.1\baselineskip}%
+    \hrule\relax
+    \vspace*{\baselineskip}%
+    \@starttoc{toc}%
+}
+
+% Only expand the argument in a subfile/not in a subfile
+\ifdef{\old@document@subfiles}%
+    {\def\OnlyInSubfile#1{#1}\def\OnlyInMainfile#1{}}%
+    {\def\OnlyInSubfile#1{}\def\OnlyInMainfile#1{#1}}
+
+\newcommand{\printglobalbibliography}{
+    \begingroup
+        % Use initials for author names in the general bibliography
+        \makeatletter\toggletrue{abx@bool@giveninits}\makeatother
+        % Give more leeway to LaTeX when trying to typeset overfull paragraphs
+        \setlength{\emergencystretch}{2em}
+        \printbibliography
+    \endgroup
+}
+\makeatother
+
+% A bibheading using subsections
+\defbibheading{subsectionbibheading}{\subsection*{#1}}
+
+\DeclareCiteCommand{\citejournal}
+    {\usebibmacro{prenote}}
+    {%
+        \usebibmacro{journal}%
+        \setunit{\addspace(}%
+        {\printfield{year})\xspace}%
+    }
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+
+\DeclareFieldFormat{doi}{%
+    \color{CTurl}\small%
+    \mkbibacro{DOI}\addcolon\space%
+    \ifhyperref%
+        {\href{https://doi.org/#1}{\nolinkurl{#1}}}%
+        {\nolinkurl{#1}}%
+}
+
+% An enumerate like environement for the publication list
+\newcounter{pubcount}
+\setcounter{pubcount}{0}
+\defbibenvironment{publist}
+    {
+        \begin{enumerate}
+        \setcounter{enumi}{\thepubcount}
+    }
+    {
+        \setcounter{pubcount}{\theenumi}
+        \end{enumerate}
+    }
+    {\item}
+
+% Use \[ and \] for all equations, and make all equations numbered
+\def\[{\begin{equation}}
+\def\]{\end{equation}}
+
+% Partial TOC formatting for chapters
+\newcommand{\printpartialtoc}{%
+    \begingroup
+        \hypersetup{hidelinks}
+        \printcontents[chapters]{}{1}{\setlength\parskip{0pt}}%
+        \hfill\pgfornament[width=6cm,color=CTsemi]{88}\hfill\hfill
+    \endgroup
+}
+
+% Add hyphenation rule for bibliography
+\hyphenation{Chem-Phys-Chem}
+\hyphenation{Geor-geault}
+
+%TODO Clean what's not needed
+
+% Convenience macros
+%% Math stuff
+%\let\phi\varphi
+%\let\epsilon\varepsilon
+%\let\vec\mathnormalbold
+%\def\d{\text{d}}
+%\let\oldring\r
+%\def\r{\vec{r}}
+%\def\p{\vec{p}}
+%\def\v{\vec{v}}
+%\def\smallo{{\scriptstyle\mathcal{O}}}
+%\def\erfc{{\normalfont\text{erfc}}}
+%\def\erf{{\normalfont\text{erf}}}
+%% Fix formatting of \neq with mathastext
+%\def\neq{\not\kern0.2ex=}
+%% Text stuff
+%\def\AA{\text{\oldring{A}}}
+%\def\ZIF8{\mbox{ZIF-8}}
+%\def\ZIFCH3{\ZIF8(\ce{CH3})\xspace}
+%\def\ZIFCl{\ZIF8(Cl)\xspace}
+%\def\ZIFBr{\ZIF8(Br)\xspace}
+%\def\abinitio{\emph{ab initio}\xspace}
+%\def\Cudhbc{Cu(dhbc)$_\text{2}$(4,4$^\prime$-bpy)\xspace}
+%\def\RPMZn{RPM3-Zn\xspace}
+%\def\smallce#1{\ensuremath{\text{\tiny\ce{#1}}}}
+%\def\ie{\emph{i.e.}\xspace}
+%\def\eg{e.g.\xspace}
+%\def\etc{\emph{etc.}\xspace}
+\def\vdW{van der Waals\xspace}
+%\def\cxx{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.2ex}{\footnotesize ++}}\xspace}
+
+% Added by NC
+%\def\CO2{\ce{CO_2}\xspace}
+%\def\CH4{\ce{CH_4}\xspace}
+%\def\aMOF{\mbox{\lowercase{\textit{a}}MOF}\xspace}
+%\def\aMOFs{\mbox{\lowercase{\textit{a}}MOF\lowercase{s}}\xspace}
+%\def\MOFs{\mbox{MOF\lowercase{s}}\xspace}
+%\def\aZIF{\mbox{\lowercase{\textit{a}}ZIF}\xspace}
+%\def\aZIFs{\mbox{\lowercase{\textit{a}}ZIF\lowercase{s}}\xspace}
+%\def\aZIFn4{\mbox{\lowercase{\textit{a}}ZIF-4}\xspace}
+%% Using \aZIF and \aZIF4 causes an error
+%\def\NVT{\mbox{$(N, V, T)$}\xspace}
+%\def\NPT{\mbox{$(N, P, T)$}\xspace}
+%\def\vbsigma{\boldsymbol{\sigma}\xspace}
+%\def\NsT{\mbox{$(N, \vbsigma, T)$}\xspace}
+%\def\NPTI{\mbox{$(N, P(\vu{h}), T)$}\xspace}
+%\def\NPTF{\mbox{$(N, P(\vbsigma_a), T)$}\xspace}
+%\def\R{\vb{R}}
+%\def\NPTI{\mbox{$(N, P(\vu{h}), T)$}\xspace}
+%\def\Ref{\mbox{Ref.}\xspace}
+%\def\MLPls{\mbox{MLP(liquid|$\vbsigma$)}\xspace}
+%\def\MLPl{\mbox{MLP(liquid)}\xspace}
+%\def\MLPc{\mbox{MLP(crystal)}\xspace}
+
+\newcommand{\todo}[1]{\textcolor{blue}{[#1]}}
+\newcommand{\final}[1]{\textcolor{green}{[#1]}} % final edit
+\newcommand{\bonus}[1]{\textcolor{violet}{[#1]}} % final edit
+
+% Text in subscript and superscript
+\newcommand\e[1]{\ensuremath{_{\text{#1}}}}
+\newcommand\ex[1]{\ensuremath{^{\text{#1}}}}
+
+\newunicodechar{✓}{\ding{51}}
+\newunicodechar{✗}{\ding{55}}
+
+% PSL cover page
+\usepackage{psl-cover}
+\pslassetspath{figures/psl}
+
+\title{Origines microscopiques de la séparation xénon/krypton dans les matériaux nanoporeux}
+\entitle{Microscopic origins of the xenon/krypton separation in nanoporous materials}
+\author{Emmanuel \textsc{Ren}}
+
+\input{cover}
+
+\addsectionbib{publications.bib}
+\bibliography{thesis,publications}
+
+\addto\captionsenglish{\renewcommand{\contentsname}{Table of contents}}
+
+\begin{document}
+    \pagenumbering{roman}
+    \maketitle
+
+    \input{remerciements}
+
+    \begingroup
+        \addtocontents{toc}{\protect\thispagestyle{empty}}
+        \pagestyle{empty}
+        \hypersetup{hidelinks}
+        \tableofcontents
+        % Force a clear page so that the last page of toc use pagestyle{empty}
+        \clearpage
+    \endgroup
+
+    \pagestyle{fancy}
+    \input{0-intro}
+
+    \subfile{0-empty_chapter}
+
+%    \subfile{1-context}
+%    \subfile{2-methods}
+%    \subfile{3-reaxff}
+%    \subfile{4-mlp}
+%    \subfile{5-mechanical}
+
+    \input{9-conclusion}
+
+    \addtocontents{toc}{\protect\contentsline{chapter}{\hfill\hfill%
+                \protect\pgfornament[width=6cm,color=CTsemi]{88}%
+                \hfill}{\protect\relax}{}}
+     
+%    \appendix
+%    \subfile{X-empty_appendix}
+
+    \input{publist}
+
+%    \printglobalbibliography
+
+    \subfile{Z-resume-fr}
+
+\end{document}
