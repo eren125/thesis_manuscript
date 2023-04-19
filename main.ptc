@@ -1,29 +1,92 @@
-\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
-\babel@toc {english}{}
-\babel@toc {french}{}
-\babel@toc {english}{}
+\babel@toc {english}{}\relax 
+\babel@toc {french}{}\relax 
+\babel@toc {english}{}\relax 
 \thispagestyle {empty}
 \contentsline {chapter}{General introduction}{1}{section*.1}%
-\contentsline {chapter}{\numberline {1}{Untitled chapter}}{5}{section*.2}%
+\contentsline {chapter}{\numberline {1}{High-throughput computational screening of nanoporous materials}}{5}{section*.2}%
 \ttl@starttoc {chapters@1}
-\contentsline {section}{\numberline {1.1}{Untitled section}}{5}{section*.3}%
-\contentsline {subsection}{\numberline {1.1.1}{Untitled subsection}}{5}{section*.4}%
-\contentsline {subsubsection}{{Untitled subsubsection}}{5}{section*.6}%
-\contentsline {chapter}{General conclusions}{7}{section*.7}%
-\contentsline {chapter}{\hfill \hfill \pgfornament [width=6cm,color=CTsemi]{88}\hfill }{\relax }{}
-\setcounter {tocdepth}{1}
-\contentsline {chapter}{List of Publications}{9}{section*.8}%
+\contentsline {section}{\numberline {1.1}{Introduction to the main screening tools}}{5}{section*.3}%
+\contentsline {subsection}{\numberline {1.1.1}{Databases}}{5}{section*.4}%
+\contentsline {subsection}{\numberline {1.1.2}{Simulation tools}}{5}{section*.5}%
+\contentsline {subsection}{\numberline {1.1.3}{Machine learning assisted screening}}{5}{section*.6}%
+\contentsline {section}{\numberline {1.2}{A literature overview}}{5}{section*.7}%
+\contentsline {subsection}{\numberline {1.2.1}{Thermodynamic adsorption properties}}{5}{section*.8}%
+\contentsline {subsubsection}{{Gas storage}}{5}{section*.10}%
+\contentsline {subsubsection}{{Gas separation}}{5}{section*.12}%
+\contentsline {subsection}{\numberline {1.2.2}{Transport adsorption properties}}{5}{section*.13}%
+\contentsline {subsubsection}{{Kinetic properties}}{5}{section*.15}%
+\contentsline {subsubsection}{{Membrane materials}}{6}{section*.17}%
+\contentsline {subsection}{\numberline {1.2.3}{Non-adsorption properties}}{6}{section*.18}%
+\contentsline {subsubsection}{{Catalytic activity}}{6}{section*.20}%
+\contentsline {subsubsection}{{Mechanical properties}}{6}{section*.22}%
+\contentsline {subsubsection}{{Thermal properties}}{6}{section*.24}%
+\contentsline {section}{\numberline {1.3}{Consequences for xenon/krypton separation}}{6}{section*.25}%
+\contentsline {subsection}{\numberline {1.3.1}{Status quo}}{6}{section*.26}%
+\contentsline {subsubsection}{{What is done in Xe/Kr separation}}{6}{section*.28}%
+\contentsline {subsubsection}{{What can be learned in the other fields}}{6}{section*.30}%
+\contentsline {subsection}{\numberline {1.3.2}{Future perspectives}}{6}{section*.31}%
+\contentsline {subsubsection}{{Faster energy sampling}}{6}{section*.33}%
+\contentsline {subsubsection}{{Faster diffusion estimation}}{6}{section*.35}%
+\contentsline {subsubsection}{{Flexibility OMS}}{6}{section*.37}%
+\contentsline {chapter}{\numberline {2}{Thermodynamic exploration of xenon/krypton separation}}{9}{section*.38}%
 \ttl@stoptoc {chapters@1}
 \ttl@starttoc {chapters@2}
-\contentsline {section}{Peer-reviewed papers}{9}{section*.9}%
-\contentsline {section}{Preprint}{9}{section*.10}%
-\setcounter {tocdepth}{2}
-\babel@toc {french}{}
-\ttl@change@i {\@ne }{section}{4.8em}{\addvspace {0.1em}}{\contentslabel {2.2em}}{}{\titlerule *[1pc]{.}\contentspage }\relax 
-\ttl@change@v {section}{}{}{}\relax 
-\contentsline {chapter}{Résumé en français}{11}{section*.11}%
+\contentsline {section}{\numberline {2.1}{Preliminary analyses}}{9}{section*.39}%
+\contentsline {subsection}{\numberline {2.1.1}{Structure--selectivity relationships}}{9}{section*.40}%
+\contentsline {subsection}{\numberline {2.1.2}{Thermodynamic quantities correlations}}{9}{section*.41}%
+\contentsline {section}{\numberline {2.2}{Selectivity drop}}{9}{section*.42}%
+\contentsline {subsection}{\numberline {2.2.1}{Thermodynamic analyses}}{9}{section*.43}%
+\contentsline {subsection}{\numberline {2.2.2}{Detailed investigation}}{9}{section*.44}%
+\contentsline {chapter}{\numberline {3}{Adsorption molecular simulations}}{11}{section*.45}%
 \ttl@stoptoc {chapters@2}
 \ttl@starttoc {chapters@3}
-\contentsline {section}{Introduction}{11}{section*.12}%
-\babel@toc {english}{}
+\contentsline {section}{\numberline {3.1}{Standard simulation tools}}{11}{section*.46}%
+\contentsline {subsection}{\numberline {3.1.1}{Grand canonical monte carlo}}{11}{section*.47}%
+\contentsline {subsection}{\numberline {3.1.2}{Widom's insertion}}{11}{section*.48}%
+\contentsline {section}{\numberline {3.2}{New algorithm development}}{11}{section*.49}%
+\contentsline {subsection}{\numberline {3.2.1}{Rapid Adsorption Enthalpy Surface Sampling (RAESS)}}{11}{section*.50}%
+\contentsline {subsection}{\numberline {3.2.2}{Grid Adsorption Energies Sampling (GrAES)}}{11}{section*.51}%
+\contentsline {chapter}{\numberline {4}{Untitled chapter}}{13}{section*.52}%
+\ttl@stoptoc {chapters@3}
+\ttl@starttoc {chapters@4}
+\contentsline {section}{\numberline {4.1}{Machine learning}}{13}{section*.53}%
+\contentsline {subsection}{\numberline {4.1.1}{Introduction}}{13}{section*.54}%
+\contentsline {subsection}{\numberline {4.1.2}{eXtreme Gradient Boosting}}{13}{section*.55}%
+\contentsline {section}{\numberline {4.2}{Ambient-pressure prediction}}{13}{section*.56}%
+\contentsline {subsection}{\numberline {4.2.1}{From infinite dilution to ambient pressure}}{13}{section*.57}%
+\contentsline {subsection}{\numberline {4.2.2}{Interpretation of the ML model}}{13}{section*.58}%
+\contentsline {chapter}{\numberline {5}{Transport properties}}{15}{section*.59}%
+\ttl@stoptoc {chapters@4}
+\ttl@starttoc {chapters@5}
+\contentsline {section}{\numberline {5.1}{Computational simulations}}{15}{section*.60}%
+\contentsline {subsection}{\numberline {5.1.1}{Molecular dynamics}}{15}{section*.61}%
+\contentsline {subsection}{\numberline {5.1.2}{Fast kinetic Monte Carlo}}{15}{section*.62}%
+\contentsline {section}{\numberline {5.2}{ML modeling}}{15}{section*.63}%
+\contentsline {chapter}{\numberline {6}{Towards the next generation of screenings}}{17}{section*.64}%
+\ttl@stoptoc {chapters@5}
+\ttl@starttoc {chapters@6}
+\contentsline {section}{\numberline {6.1}{Flexibility}}{17}{section*.65}%
+\contentsline {subsection}{\numberline {6.1.1}{Problem, literature}}{17}{section*.66}%
+\contentsline {subsection}{\numberline {6.1.2}{Snapshot}}{17}{section*.67}%
+\contentsline {section}{\numberline {6.2}{Open Metal Sites}}{17}{section*.68}%
+\contentsline {subsection}{\numberline {6.2.1}{Problem, literature}}{17}{section*.69}%
+\contentsline {subsection}{\numberline {6.2.2}{Perpectives}}{17}{section*.70}%
+\contentsline {chapter}{General conclusions}{19}{section*.71}%
+\contentsline {chapter}{\hfill \hfill \pgfornament [width=6cm,color=CTsemi]{88}\hfill }{\relax }{}
+\setcounter {tocdepth}{1}
+\contentsline {chapter}{List of Publications}{21}{section*.72}%
+\ttl@stoptoc {chapters@6}
+\ttl@starttoc {chapters@7}
+\contentsline {section}{Peer-reviewed papers}{21}{section*.73}%
+\contentsline {section}{Preprint}{21}{section*.74}%
+\setcounter {tocdepth}{2}
+\contentsline {chapter}{Bibliography}{23}{section*.75}%
+\babel@toc {french}{}\relax 
+\ttl@change@i {\@ne }{section}{4.8em}{\addvspace {0.1em}}{\contentslabel {2.2em}}{}{\titlerule *[1pc]{.}\contentspage }\relax 
+\ttl@change@v {section}{}{}{}\relax 
+\contentsline {chapter}{Résumé en français}{27}{section*.76}%
+\ttl@stoptoc {chapters@7}
+\ttl@starttoc {chapters@8}
+\contentsline {section}{Introduction}{27}{section*.77}%
+\babel@toc {english}{}\relax 
 \contentsfinish 
