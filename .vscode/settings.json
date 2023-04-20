@@ -1,5 +1,6 @@
 {
     "latex-workshop.latex.autoBuild.run": "never",
     "workbench.colorTheme": "Solarized Light",
-    "diffEditor.wordWrap": "on"
+    "diffEditor.wordWrap": "on",
+    "editor.wordWrap": "on"
 }

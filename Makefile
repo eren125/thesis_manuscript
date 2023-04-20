@@ -3,4 +3,4 @@ all:
 1: 
 	latexmk 1-*.tex
 clean:
-	rm *.aux *.bbl *.bcf *.blg *.log *.out *.ptc *.xml *.synctex.gz 
+	rm *.toc *.dvi *.aux *.bbl *.bcf *.blg *.log *.out *.ptc *.xml *.synctex.gz 

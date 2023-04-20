@@ -17,7 +17,6 @@
 \usepackage{amssymb}
 \usepackage[frenchmath]{mathastext}
 \usepackage{dsfont}
-\usepackage{subfiles}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{microtype}
@@ -44,7 +43,11 @@
     sorting=none,
     citestyle=numeric-comp,
 ]{biblatex}
-
+\DeclareCiteCommand{\citenum}
+  {}
+  {\printfield{labelnumber}}
+  {}
+  {}
 \usepackage[version=4]{mhchem}
 
 \usepackage{siunitx}
@@ -89,6 +92,27 @@
 \usepackage[noabbrev]{cleveref} 
 % Not capitalized by default, use \Cref to capitalize
 % Interesting options: [noabbrev,capitalize,nameinlink]
+
+% label subfiles
+
+\makeatletter
+\@ifundefined{@car}{\newcommand\@car{}\long\def\@car#1#2\@nil{#1}}{}%
+\newcommand\setdefinedcounter[2]{%
+  \@ifundefined{c@#1}{\newcounter{#1}}{}%
+  \setcounter{#1}{#2}%
+}%
+
+% Check whether the label in question is available in the current document or whether it
+% needs to be retrieved from the external main.pdf/main.aux:
+\newcommand\localorexternallabel[1]{%
+  \expandafter\ifx\csname r@#1\endcsname\relax
+    \labelprefix
+  \fi#1%
+}%
+\makeatother
+
+\usepackage{subfiles}
+
 
 % Remove links color
 %\hypersetup{hidelinks}
@@ -171,9 +195,14 @@
 }
 
 % Only expand the argument in a subfile/not in a subfile
-\ifdef{\old@document@subfiles}%
-    {\def\OnlyInSubfile#1{#1}\def\OnlyInMainfile#1{}}%
-    {\def\OnlyInSubfile#1{}\def\OnlyInMainfile#1{#1}}
+% \ifdef{\old@document@\newcommand{\onlyinsubfile}[1]{#1}
+% \newcommand{\notinsubfile}[1]{}}%
+%     {\def\OnlyInSubfile#1{#1}\def\OnlyInMainfile#1{}}%
+%     {\def\OnlyInSubfile#1{}\def\OnlyInMainfile#1{#1}}
+\@ifclassloaded{subfiles}{
+    \def\OnlyInSubfile#1{#1}\def\OnlyInMainfile#1{}
+}%
+{\def\OnlyInSubfile#1{}\def\OnlyInMainfile#1{#1}}
 
 \newcommand{\printglobalbibliography}{
     \begingroup
@@ -338,6 +367,14 @@
     \pagestyle{fancy}
     \input{0-intro}
 
+    \begin{equation}\label{eqn:main}
+        1+1=2
+    \end{equation}
+    
+    \begin{center}
+        \pgfornament[width=6cm,color=CTsemi]{88}
+    \end{center}
+    
  %   \subfile{0-empty_chapter}
 
     \subfile{1-screening}
