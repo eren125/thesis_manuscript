@@ -1,0 +1,4 @@
+{"rule":"SENTENCE_WHITESPACE","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\Q[width=6cm,color=CTsemi]75\\E$"}
+{"rule":"POSSESSIVE_APOSTROPHE","sentence":"^\\QIn the past decade, large-scale computational screening studies have become an important part of the materials science innovation pipeline,\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q trying to move beyond the serendipitous model of materials discovery.\\E$"}
+{"rule":"POSSESSIVE_APOSTROPHE","sentence":"^\\QFocusing more on the larger process of digital materials discovery, and the role of large databases in materials research,\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q Boyd et al.\\E$"}
