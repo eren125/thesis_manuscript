@@ -27,3 +27,11 @@ CoRE
 functionals
 polymorphs
 physisorption
+Zeo
+Brunauer
+adsorbable
+aluminosilicate
+hydrothermally
+diazote
+coordinatively
+desorption
