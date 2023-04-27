@@ -21,3 +21,4 @@ sed -i '' 's/{nov}/Nov/g' thesis.bib
 sed -i '' 's/{dec}/Dec/g' thesis.bib
 
 sed -i '' 's/\\'{\\i}/\\'{i}/g' thesis.bib
+sed -i '' 's/ & / \\& /g' thesis.bib
