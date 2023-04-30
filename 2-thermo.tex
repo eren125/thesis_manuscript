@@ -7,29 +7,14 @@
 \chapter{Thermodynamic exploration of xenon/krypton separation}
 \vspace*{-1\baselineskip}
 
-\section{Calculation of thermodynamic quantities}
+\section{Calculation of thermodynamic descriptors}
 
-\subsection{Statistical physics}
+
+\subsection{Thermodynamics of adsorption separation}\label{section:exchange}
 
 From microcanonical to Gibbs ensemble
 
-\subsection{Grand canonical Monte Carlo}
-
-
-
-\subsection{Widom insertion}
-
-\section{Preliminary analyses}
-
-As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
-
-In the present work, our goal is not directly to address the structure--property relationships, but rather to map out the details of the thermodynamic features of Xe/Kr adsorption and separation in nanoporous materials. We used the high-throughput screening methodology as a way to map out the space of thermodynamic properties, going beyond the usual quantities of selectivity and uptake, to focus more specifically on the role of adsorption enthalpy and entropy, the differences between Xe and Kr adsorption thermodynamics, and the differences between selectivity at low and high pressure.
-
-\subsection{Structure--selectivity relationships}
-
-\todo{Put analyses of selectivity relationship with other descriptors: uptake, void fraction, surface area, etc.}
-
-\subsection{Exchange equilibrium and selectivity}\label{section:exchange}
+selectivity, entropy enthalpy
 
 In order to analyze thoroughly the thermodynamics of competitive xenon and krypton adsorption using the results of both pure-component and multi-component GCMC simulations, we use in this work some thermodynamic properties (enthalpy and entropy in various conditions) associated with the following fictitious ``exchange equilibrium'':
 \begin{equation} \label{eqn:exchange}
@@ -43,7 +28,58 @@ The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at a pr
 
 Furthermore, this ``exchange equilibrium'' can be generalized to the zero loading limit. A comparison of the thermodynamic quantities between the low pressure and ambient pressure cases is made possible by considering this equilibrium equation. The equilibrium constant at low pressure similarly corresponds to $s\e{0}$, the enthalpy to $\Delta\e{exc}H\e{0} = \Delta\e{ads}H\e{0}\ex{Xe} - \Delta\e{ads}H\e{0}\ex{Kr}$ and the entropy to $\Delta\e{exc}S\e{0}$ as written in Equation~\ref{eqn:entropy} (with $i = 0$).
 
+
+\subsection{Grand canonical Monte Carlo}
+
+
+
+\subsection{Widom insertion}
+
+
+
+\section{Preliminary analyses}
+
+As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
+
+
+
+\subsection{Structure--selectivity relationships}
+
+\todo{How SA VF and LCD are calculated}
+
+\todo{Put analyses of selectivity relationship with other descriptors: uptake, void fraction, surface area, etc.}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_sa.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_sa_selectivity.jpg}
+  \caption{Selectivity / Xe Uptake / Surface area}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vol_selectivity.jpg}
+  \caption{Selectivity / Xe Uptake / Void Fraction}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/2-thermo/3D_hist_selec_uptake.jpg}
+  \caption{Distribution selec / uptake}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_SA.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_vol.jpg}
+  \caption{Ditributions, selec vs sa vol}
+\end{figure}
+
 \subsection{Thermodynamic quantities correlations}
+
+In the present work, our goal is not directly to address the structure--property relationships, but rather to map out the details of the thermodynamic features of Xe/Kr adsorption and separation in nanoporous materials. We used the high-throughput screening methodology as a way to map out the space of thermodynamic properties, going beyond the usual quantities of selectivity and uptake, to focus more specifically on the role of adsorption enthalpy and entropy, the differences between Xe and Kr adsorption thermodynamics, and the differences between selectivity at low and high pressure.
 
 To evaluate the performance of a given nanoporous material for separation in the low loading (or low pressure) limit, Henry's constants are often calculated from linear fits of low-pressure adsorption isotherm data --- both experimentally and computationally. In this section, we investigate the thermodynamics of Xe and Kr adsorption at low pressure. Here, We have calculated the low-pressure adsorption properties by using the Widom insertion method\cite{Widom1963, frenkel2001widom} on 9,668 structures from the dataset selected. It has higher accuracy than the fitting of isotherms, where it can be difficult to know what the extent of the linear adsorption regime is. With these simulations, we could obtain for each material the Henry's constant $K$ and the adsorption enthalpy $\Delta\e{ads}H\e{0}$ (at the zero loading limit) for both xenon and krypton. The Xe/Kr thermodynamic selectivity $s\e{0}$ in the low-pressure limit is then determined by the ratio $s\e{0} = K\ex{Xe}/K\ex{Kr}$ of the Henry's constants for the two gases. In the following, we look at the statistical relationships between the thermodynamic quantities at low pressure: $s\e{0}$, $K\ex{Xe}$, $K\ex{Kr}$, $\Delta\e{ads}H\e{0}\ex{Xe}$, $\Delta\e{ads}H\e{0}\ex{Kr}$ and $\Delta\e{exc}H\e{0}$ (which is defined in Section~\ref{section:exchange}).
 
