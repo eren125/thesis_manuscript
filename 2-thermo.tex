@@ -8,11 +8,64 @@
 \vspace*{-1\baselineskip}
 
 \section{Calculation of thermodynamic descriptors}
-dqsd
+
+\subsection{Grand Canonical Monte Carlo}
+
+%intro 
+As explained before, we can think of adsorption as a gas--solid or liquid--solide interfacial phenomenon, the adsorbate phase fills the accessible pore volumes depending on the physical conditions the material is put under. No simple model can predict how the adsorbates would interact with the pore surface, how many of them can fit in, what configuration is the most stable, etc. To answer these questions, we can evaluate all possible adsorption configurations that would undeniably have different numbers of adsorbate, and only keep the most thermodynamically plausible ones. To do so, these configurations will have to follow a given probability distribution, the grand canonical ensemble probability for instance, because it allows the variation of the number of molecules (adsorbate molecules) and the total energy. With the help of a Monte Carlo simulation, we can vary the energy and the loading inside the pores so that the distribution of configurations $c$ follows this probability law: 
+\begin{equation}
+  P_c = \dfrac{1}{\Xi}e^{-\beta\left(E_c-\mu N_c\right)} 
+  \label{eqn:gc}
+\end{equation}
+where $E_c$ and $N_c$ are respectively the energy and the number of adsorbate particles in the configuration $c$. Normally the energy and the number of molecules of all particles should be considered, but for now, since the whole system is considered rigid we will only focus on the adsorbate molecules. The chemical potential $\mu$ and the temperature $T$ inside of $\beta$ correspond to the ones of the gas phase in equilibrium with the adsorbent material. And, the pressure and volume $V$ are considered fixed under the rigidity assumption. The grand canonical partition function $\Xi(\mu,V,T)$ will then be the following sum over all possible configurations: 
+\begin{equation}
+  \Xi(\mu,V,T) = \sum_c e^{-\beta\left(E_c-\mu N_c\right)} 
+\end{equation}
+This multiplicative constant does not need to be known in the Monte Carlo simulation we will describe now. 
+
+Beyond these theoretical considerations, the grand canonical Monte Carlo simulation will need several key characteristics in order to fulfill the previous claims on the probability distribution of the configurations. Monte Carlo (MC) refers to the randomness inherent to the gambling games of the eponymous casino on the azure coast of Monaco. The MC simulations are therefore relying on randomly generating atomic configurations; however in order to do it efficiently, we need to stay as much as possible in the physically possible atomic space, while exhaustively exploring all the chemical configurations. 
+In molecular simulations, to do so, only the initial configuration $c_0$ is really randomly generated, but then the algorithm has different rational moves to change the configuration with a controlled amount of randomness. The second key feature (acceptance or rejection condition) was introduced by Metropolis and co-workers that allows to reproduce any distribution with an unknown multiplicative prefactor.\cite{Metropolis1949} The configuration $c_1$ resulting of the random move is evaluated by calculating the transition probability (like in a Markov chain) or acceptance rate $acc(c_0 \rightarrow c_1)$: 
+\begin{equation}
+  acc(c_0 \rightarrow c_1) = \min\left(1, e^{-\beta\left(E_{c_1}-E_{c_0}-\mu \left(N_{c_1}-N_{c_0}\right)\right) }\right)
+\end{equation}
+Any move that has a greater probability of occuring is always accepted, if the probability is lower then the acceptance rate depends on the probability ratio.
+The multiplicative prefactor has no influence on the algorithm, we do not need to know the chemical space to explore before hand, which is a valuable simplification. This sequence of a Morkov-type chain can then be used to approximate the probability distribution of the grand canonical ensemble we seek to describe in the equation \ref{eqn:gc}.
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.99\textwidth]{figures/2-thermo/MC_moves.jpg}
+  \caption{MC moves for monoatomic atoms with multiple components}
+  \label{fgr:mc}
+\end{figure}
+
+To complete the description of the grand canonical Monte Carlo (GCMC) simulation we are interested in, let us now consider the different MC moves used to generate a configuraiton from another. Depending on the parameterization, these moves have different probabilities of occuring. For monoatomic atoms only four moves are relevant (see Figure~/ref{fgr:mc}): (1) the translation of a randomly chosen molecule with a displacement randomly chosen within a given radius, (2) the change of identity of a randomly chosen molecule into another, (3) the insertion of an adsorbate molecule and (4) the deletion of an adsorbate molecule. We deliberately omitted the rotations of the adsorbate because of the spherical symmtry of noble gases and the change of volume since the flexibility of the material framework is neglected. 
+
+By using a GCMC algorithm, we can now generate a set of configurations according to their probability of occurence. Because the probability law is directly taken from equation \ref{eqn:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir of a xenon-krypton mixture at a given composition, pressure and temperature. Different thermdynamic quantities can be derived from ensemble averagings: the averaging loading or uptake at a given pressure (several pressures give the isotherm) and the isosteric heat of adsorption of each adsorbates (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
+\begin{equation}
+  s = \dfrac{q^{Xe}y^{Kr}}{q^{Kr}y^{Xe}}
+\end{equation}
+where $y^{Xe}$ and $y^{Kr}$ designate respectively the mole fractions of Xe and Kr in the gas phase reservoir.
+
+To characterize a separation process, we theoretically only need to perform a GCMC calculation at every pressure conditions that we are interested in. However, this type of simulation requires a lot of time to converge since we need to test out a lot of insertion/deletion moves to accurately estimate the number of adsorbed molecules and the composition of the mixture. Hence, faster methods (machine learning) are developed to estimate the selectivity at any pressure conditions.\cite{Simon_2015,Kang_2023} If we are interested in the infinite dilution case, faster methods are already available, we are now going to introduce the Widom insertion that can estimate the adsorption performances at infinite dilution by estimating the Henry adsorption constant.  
+
+\subsection{Widom insertion}
+
+Widom insertion is not used to do this normally. Solvation enthalpy etc..
+
+0-> 1 molecule can be used to estimate the free energy associated to the adsorption of a molecule at infinite dilution.
+
+
+\section{Preliminary analyses}
+
+As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
 
 \subsection{Thermodynamics of adsorption separation}\label{section:exchange}
 
+Describe the interface. 
+
 \todo{selectivity, entropy enthalpy, Henry coefficients}
+difference between low pressure and higher pressure.
 
 From microcanonical to Gibbs ensemble
 
@@ -30,23 +83,7 @@ The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at a pr
 
 Furthermore, this ``exchange equilibrium'' can be generalized to the zero loading limit. A comparison of the thermodynamic quantities between the low pressure and ambient pressure cases is made possible by considering this equilibrium equation. The equilibrium constant at low pressure similarly corresponds to $s\e{0}$, the enthalpy to $\Delta\e{exc}H\e{0} = \Delta\e{ads}H\e{0}\ex{Xe} - \Delta\e{ads}H\e{0}\ex{Kr}$ and the entropy to $\Delta\e{exc}S\e{0}$ as written in Equation~\ref{eqn:entropy} (with $i = 0$).
 
-
-\subsection{Grand canonical Monte Carlo}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.99\textwidth]{figures/2-thermo/MC_moves.jpg}
-  \caption{MC moves for monoatomic atoms with multiple components}
-\end{figure}
-
-\subsection{Widom insertion}
-
-
-
-\section{Preliminary analyses}
-
-As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
-
+The need of simul to find the optimal configuration. 
 
 
 \subsection{Structure--selectivity relationships}
@@ -102,7 +139,7 @@ To evaluate the performance of a given nanoporous material for separation in the
 
 We display the distribution of thermodynamic properties of materials with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$) in Figure~\ref{fgr:histo_K} --- we restrict these plots to selectivity above 1, because those are the materials of interest for separation, and doing so removes several outliers with specific geometries or binding sites (but does not change the overall conclusions). We can first see that although the logarithm of the Xe Henry's constant $K\ex{Xe}$ is weakly correlated to the logarithm of the selectivity $s\e{0}$, this correlation is stronger for highly selective materials. Therefore, in a multistep screening study to identify the most selective materials, it could be possible to use as a ``first filter'' criterion based purely on Xe adsorption, discarding materials below a certain threshold (e.g., the materials with $s_0\ge30$ are contained in the subset with $K\ex{Xe}\ge2.7\,10^{-1}$~\si{\milli\mol\per\gram\per\pascal}). The correlation between $K\ex{Kr}$ and $s\e{0}$, on the other hand, is weaker.
 
-With regards to Henry's constants, we see a large range of behaviour, with $K\ex{Xe}$ ranging from $2.6\ 10^{-7}$ \SI{}{\milli\mol\per\gram\per\pascal} to $7.9\ 10^{-1}$ \SI{}{\milli\mol\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\ 10^{-7}$ \SI{}{\milli\mol\per\gram\per\pascal} to $5.1\ 10^{-3}$ \SI{}{\milli\mol\per\gram\per\pascal}. We also see that statistically, a high affinity for xenon usually translates into a high (relative) affinity for krypton, which is a general trend for noble gases where the adsorption sites are not strongly specific. In order to look more in detail into the thermodynamics behind this large diversity in behaviour, we plot in Figure~\ref{fgr:histo_H} the enthalpies involved.
+With regard to Henry's constants, we observe a broad selection of behavior, with $K\ex{Xe}$ ranging from $2.6\ 10^{-7}$ \SI{}{\milli\mol\per\gram\per\pascal} to $7.9\ 10^{-1}$ \SI{}{\milli\mol\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\ 10^{-7}$ \SI{}{\milli\mol\per\gram\per\pascal} to $5.1\ 10^{-3}$ \SI{}{\milli\mol\per\gram\per\pascal}. We also see that statistically, a high affinity for xenon usually translates into a high (relative) affinity for krypton, which is a general trend for noble gases where the adsorption sites are not strongly specific. In order to look more in detail into the thermodynamics behind this wide diversity in behavior, we plot in Figure~\ref{fgr:histo_H} the enthalpies involved.
 
 
 \begin{figure}[t]
