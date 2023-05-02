@@ -11,12 +11,12 @@
 \subsection{Grand Canonical Monte Carlo}
 
 %intro 
-As explained before, we can think of adsorption as a gas--solid or liquid--solide interfacial phenomenon, the adsorbate phase fills the accessible pore volumes depending on the physical conditions the material is put under. No simple model can predict how the adsorbates would interact with the pore surface, how many of them can fit in, what configuration is the most stable, etc. To answer these questions, we can evaluate all possible adsorption configurations that would undeniably have different numbers of adsorbate, and only keep the most thermodynamically plausible ones. To do so, these configurations will have to follow a given probability distribution, the grand canonical ensemble probability for instance, because it allows the variation of the number of molecules (adsorbate molecules) and the total energy. With the help of a Monte Carlo simulation, we can vary the energy and the loading inside the pores so that the distribution of configurations $c$ follows this probability law: 
+As explained before, we can think of adsorption as a gas--solid or liquid--solid interfacial phenomenon, the adsorbate phase fills the accessible pore volumes depending on the physical conditions the material is put under. No simple model can predict how the adsorbates would interact with the pore surface, how many of them can fit in, what configuration is the most stable, etc. To answer these questions, we can evaluate all possible adsorption configurations that would undeniably have different numbers of adsorbate, and only keep the most thermodynamically plausible ones. To do so, these configurations will have to follow a given probability distribution, the grand canonical ensemble probability for instance, because it allows the variation of the number of molecules (adsorbate molecules) and the total energy. With the help of a Monte Carlo simulation, we can vary the energy and the loading inside the pores so that the distribution of configurations $c$ follows this probability law: 
 \begin{equation}
   P_c = \dfrac{1}{\Xi}e^{-\beta\left(E_c-\mu N_c\right)} 
   \label{eqn:gc}
 \end{equation}
-where $E_c$ and $N_c$ are respectively the energy and the number of adsorbate particles in the configuration $c$. Normally the energy and the number of molecules of all particles should be considered, but for now, since the whole system is considered rigid we will only focus on the adsorbate molecules. The chemical potential $\mu$ and the temperature $T$ inside of $\beta$ correspond to the ones of the gas phase in equilibrium with the adsorbent material. And, the pressure and volume $V$ are considered fixed under the rigidity assumption. The grand canonical partition function $\Xi(\mu,V,T)$ will then be the following sum over all possible configurations: 
+where $E_c$ and $N_c$ are respectively the energy and the number of adsorbate particles in the configuration $c$. Normally the energy and the number of molecules of all particles should be considered, but for now, since the whole system is considered rigid we will only focus on the adsorbate molecules. The chemical potential $\mu$ and the temperature $T$ inside $\beta$ correspond to the ones of the gas phase in equilibrium with the adsorbent material. And, the pressure and volume $V$ are considered fixed under the rigidity assumption. The grand canonical partition function $\Xi(\mu,V,T)$ will then be the following sum over all possible configurations: 
 \begin{equation}
   \Xi(\mu,V,T) = \sum_c e^{-\beta\left(E_c-\mu N_c\right)} 
 \end{equation}
@@ -27,37 +27,116 @@ In molecular simulations, to do so, only the initial configuration $c_0$ is real
 \begin{equation}
   acc(c_0 \rightarrow c_1) = \min\left(1, e^{-\beta\left(E_{c_1}-E_{c_0}-\mu \left(N_{c_1}-N_{c_0}\right)\right) }\right)
 \end{equation}
-Any move that has a greater probability of occuring is always accepted, if the probability is lower then the acceptance rate depends on the probability ratio.
-The multiplicative prefactor has no influence on the algorithm, we do not need to know the chemical space to explore before hand, which is a valuable simplification. This sequence of a Morkov-type chain can then be used to approximate the probability distribution of the grand canonical ensemble we seek to describe in the equation \ref{eqn:gc}.
+Any move that has a greater probability of occurring is always accepted, if the probability is lower than the acceptance rate depends on the probability ratio.
+The multiplicative prefactor has no influence on the algorithm, we do not need to know the chemical space to explore beforehand, which is a valuable simplification. This sequence of a Markov-type chain can then be used to approximate the probability distribution of the grand canonical ensemble we seek to describe in the equation~\ref{eqn:gc}.
 
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.99\textwidth]{figures/2-thermo/MC_moves.jpg}
-  \caption{MC moves for monoatomic atoms with multiple components}
-  \label{fgr:mc}
+  \caption{MC moves for monoatomic atoms with multiple components}\label{fgr:mc}
 \end{figure}
 
-To complete the description of the grand canonical Monte Carlo (GCMC) simulation we are interested in, let us now consider the different MC moves used to generate a configuraiton from another. Depending on the parameterization, these moves have different probabilities of occuring. For monoatomic atoms only four moves are relevant (see Figure~/ref{fgr:mc}): (1) the translation of a randomly chosen molecule with a displacement randomly chosen within a given radius, (2) the change of identity of a randomly chosen molecule into another, (3) the insertion of an adsorbate molecule and (4) the deletion of an adsorbate molecule. We deliberately omitted the rotations of the adsorbate because of the spherical symmtry of noble gases and the change of volume since the flexibility of the material framework is neglected. 
+To complete the description of the grand canonical Monte Carlo (GCMC) simulation we are interested in, let us now consider the different MC moves used to generate a configuration from another. Depending on the parameterization, these moves have different probabilities of occurring. For monoatomic atoms only four moves are relevant (see Figure~\ref{fgr:mc}): (1) the translation of a randomly chosen molecule with a displacement randomly chosen within a given radius, (2) the change of identity of a randomly chosen molecule into another, (3) the insertion of an adsorbate molecule and (4) the deletion of an adsorbate molecule. We deliberately omitted the rotations of the adsorbate because of the spherical symmetry of noble gases and the change of volume since the flexibility of the material framework is neglected. 
 
-By using a GCMC algorithm, we can now generate a set of configurations according to their probability of occurence. Because the probability law is directly taken from equation \ref{eqn:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir of a xenon-krypton mixture at a given composition, pressure and temperature. Different thermdynamic quantities can be derived from ensemble averagings: the averaging loading or uptake at a given pressure (several pressures give the isotherm) and the isosteric heat of adsorption of each adsorbates (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
+By using a GCMC algorithm, we can now generate a set of configurations according to their probability of occurrence. Because the probability law is directly taken from equation~\ref{eqn:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir of a xenon-krypton mixture at a given composition, pressure and temperature. Different thermodynamic quantities can be derived from ensemble averaging: the averaging loading or uptake at a given pressure (several pressures give the isotherm) and the isosteric heat of adsorption of each adsorbate (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
 \begin{equation}
   s = \dfrac{q^{Xe}y^{Kr}}{q^{Kr}y^{Xe}}
 \end{equation}
 where $y^{Xe}$ and $y^{Kr}$ designate respectively the mole fractions of Xe and Kr in the gas phase reservoir.
 
-To characterize a separation process, we theoretically only need to perform a GCMC calculation at every pressure conditions that we are interested in. However, this type of simulation requires a lot of time to converge since we need to test out a lot of insertion/deletion moves to accurately estimate the number of adsorbed molecules and the composition of the mixture. Hence, faster methods (machine learning) are developed to estimate the selectivity at any pressure conditions.\cite{Simon_2015,Kang_2023} If we are interested in the infinite dilution case, faster methods are already available, we are now going to introduce the Widom insertion that can estimate the adsorption performances at infinite dilution by estimating the Henry adsorption constant.  
+To characterize a separation process, we theoretically only need to perform a GCMC calculation at every pressure conditions that we are interested in. However, this type of simulation requires a lot of time to converge since we need to test out a lot of insertion/deletion moves to accurately estimate the number of adsorbed molecules and the composition of the mixture. Hence, faster methods (machine learning) are developed to estimate the selectivity at any pressure conditions.\cite{Simon_2015,Kang_2023} If we are interested in the infinite dilution case, faster methods are already available, we are now going to introduce the Widom insertion that can estimate the adsorption performances at infinite dilution by estimating the Henry adsorption constant.
+
 
 \subsection{Widom insertion}
 
-Widom insertion is not used to do this normally. Solvation enthalpy etc..
+In 1963, the professor B. Widom introduced a simple method of calculation of thermodynamic properties in a material or fluid mixture.\cite{Widom1963} Generally, this method allows accessing to the difference of internal energy before and after the insertion of a Widom test particle while fixing all other particles, therefore comparing the N-particle and (N+1)-particle states. This difference of energy $\Delta \Phi$ can then be used to deduce the excess free energy associated to it $\Delta F\e{exc} = -k\e{B} T \ln\left(\langle \exp(- \beta\Delta \Phi) \rangle\right)$, which corresponds to the excess chemical potential induced by the addition of a particle. In the domain of fluid phase equilibrium, Widom insertion is the most straightforward method to calculate a chemical potential value; however it has drawbacks in liquid-like phases because the insertable space is very narrow, and no relaxation is implemented to account for reorganization of the surrounding particles.\cite{Nezbeda_1991} In our case, we will be only interested in the insertion from 0 to 1 particle, where no problems of overlapping between adsorbate particles can happen. Widom insertion is in our case only a random insertion of an adsorbate into an empty nanoporous framework. By randomly sampling the void space, we obtain a distribution of interaction energies $\mathcal{E}\e{int}$, the average of the Boltzmann weights associated are directly proportional to the adsorption free energy $\Delta G\e{ads}$ and the Henry adsorption constant $K\e{H}$. By taking the Boltzmann average of the interaction energies we can also compute the adsorption enthalpy $\Delta H\e{ads}$. All these quantities stay only valid at infinite dilution, for higher quantities of adsorbates the previously described GCMC technique should be used.  
 
-0-> 1 molecule can be used to estimate the free energy associated to the adsorption of a molecule at infinite dilution.
+In the infinite dilution case, this test particle insertion technique is similar to a random sampling of the adsorbable space inside a material. If the sampling is thorough enough, we can derive the following definitions of $\Delta G\e{ads}$ (equation~{eqn:gibbs}), $K\e{H}$ (equation~{eqn:henry}) and $\Delta H\e{ads}$ based on a complete sampling of the interaction energies $\mathcal{E}\e{int}$. 
+
+The adsorption Gibbs free energy $\Delta G\e{ads}$ is equal to the excess free energy previously calculated in a Widom insertion since the structure is rigid and $PV$ does not fluctuate ($G = F + PV$). 
+
+\begin{equation}\label{eqn:gibbs}
+  \Delta G\e{ads} = -RT \ln\left(\langle \exp(-\mathcal{E}\e{int}/RT) \rangle\right)
+\end{equation}
+
+To derive the Henry constant $K\e{H}$, we need to consider an ideal gas. The amount of adsorbed molecules $n\e{ads}$ can be expressed using the bulk density of the gas $\rho\e{ads,bulk}$ and the volume of the pores $V\e{pore}$:
+
+\begin{equation}\label{eqn:1}
+    n\e{ads} = \rho\e{ads,bulk} \times V\e{pore}  
+\end{equation}
+
+The pore volume can be seen as the continuous sum of each voxel times the Boltzmann probability of presence, which is represented by the following integral of the Boltzmann factors. This integral can then be changed to the average of the Boltzmann factors:
+
+\begin{equation}\label{eqn:vpore}
+    V\e{pore} = \int_V \exp\left(- \mathcal{E}\e{int}(\textbf{r})/RT\right) d\textbf{r} = V \langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle
+\end{equation}
+
+Let us apply the equation~\ref{eqn:vpore} and the perfect gas equation of state $P = \rho\e{ads,bulk}RT$ on the bulk gas in equilibrium, we can change the equation~\ref{eqn:1} to:
+
+\begin{equation}
+    \dfrac{n\e{ads}}{V} = \dfrac{P}{RT} \langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle
+\end{equation}
+
+If we now consider the gravimetric loading $L\e{ads}$ (in \si{\milli\mole\per\gram}), we need to divide the equation by mass density of the framework $\rho_f$:
+
+\begin{equation}
+  L\e{ads} = \dfrac{n\e{ads}}{V\rho_f} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{\rho_fRT} P
+\end{equation}
+
+Since the Henry's law is described by $L\e{ads}=K\e{H} \times P$, we have the final relation between the Henry adsorption constant and interaction energy distribution.
+
+\begin{equation}\label{eqn:henry}
+    K\e{H} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{\rho_fRT} = \dfrac{1}{\rho_fRT} \exp\left(-\dfrac{\Delta G\e{ads}}{RT}\right)
+\end{equation}
+
+Note that the $\rho_f$ factor comes from the use of a gravimetric loading expressed in \si{\milli\mole\per\gram} and is not always present in the different derivations of the literature.\cite{PoreBlazer} The $RT$ factor comes from the perfect gas assumption we made, which is a good approximation in the noble gas case. 
+
+Finally, if we consider an adsorption equilibrium (e.g. $\text{Xe}\e{(g)} \rightleftharpoons \text{Xe}\e{(ads)}$), we can define an equilibrium constant $K\e{ads} = x\e{ads}/y\e{gas}$ where $x\e{ads}$ is the mole fraction in the adsorbed phase and $y\e{gas}$ the mole fraction in the gas phase for a given compound (e.g. Xe). For a pure gas ($y\e{gas}=1$) at infinite dilution, we can apply the Henry's law to derive the following relation:
+
+\begin{equation}\label{eqn:eq_cst}
+  K\e{ads} = \dfrac{n\e{ads}}{n\e{site}y\e{gas}} = \dfrac{K\e{H}P\rho_fV}{n\e{site}} = PV \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{n\e{site}RT}
+\end{equation}
+where $n\e{site}$ is the number of sites considered constant since it is much higher than $n\e{ads}$ at infinite dilution.
+
+Now by applying the Van't Hoff equation to this infinite-dilution adsorption equilibrium constant $K\e{ads}$, we can derive an expression of the adsorption enthalpy at infinite dilution:
+
+\begin{equation}
+  \Delta H\e{ads} = -R\dfrac{\dd \ln\left(K\e{ads}(T)\right)}{\dd (1/T)}
+\end{equation}
+
+Then by decomposing the logarithm on the fraction of equation~\ref{eqn:eq_cst}, 
+\begin{equation}
+  \Delta H\e{ads} = -\dfrac{\dd \ln\left(PV/n\e{site}\right)}{\dd (1/T)} - R\dfrac{\dd \ln\left(\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle\right)}{\dd (1/T)} - R\dfrac{\dd \ln\left(1/T\right)}{\dd (1/T)}
+\end{equation}
+
+Then, $PV/n\e{site}$ being a constant, we can reduce the expression to two derivatives, the first one being the logarithmic derivative of itself ($1/T$) and the second being the logarithmic derivative of sum of exponential terms. 
+
+\begin{equation}
+  \Delta H\e{ads} = 0 - R\dfrac{\dd \ln\left(\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle\right)}{\dd (1/T)} - RT
+\end{equation}
+
+Knowing that for any function $f$ the logarithmic derivative equals the quotient of its derivative $f'$, $\dfrac{\dd \ln\left(f\right)}{\dd x}=f'/f$, we can calculate the derivative of the average Boltzmann factors $\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle$:
+
+\begin{equation}
+  \Delta H\e{ads} = -R\dfrac{1}{\frac{1}{N}\sum e^{-\frac{\mathcal{E}\e{int}}{RT}}} \frac{1}{N}\sum \dfrac{\dd \exp\left(-\mathcal{E}\e{int}/RT\right)}{\dd (1/T)} - RT
+\end{equation}
+where N corresponds to the number of points where the Widom particle has been inserted.
+The exponential derivative make the energy factors come out, and we have:
+\begin{equation}
+  \Delta H\e{ads} = -R\dfrac{1}{\sum e^{-\frac{\mathcal{E}\e{int}}{RT}}} \sum - \frac{\mathcal{E}\e{int}}{R} e^{-\frac{\mathcal{E}\e{int}}{RT}} - RT
+\end{equation}
+
+With some simplification, we can express the adsorption enthalpy $\Delta H\e{ads}$ as a Boltzmann average of the interaction energies minus a term $RT$ that comes from the ideal gas assumption (perfect gas equation of state).
+
+\begin{equation}
+  \Delta H\e{ads} = \dfrac{\sum \mathcal{E}\e{int}e^{-\frac{\mathcal{E}\e{int}}{RT}}}{\sum e^{-\frac{\mathcal{E}\e{i}}{RT}}} - RT
+\end{equation}
 
 
-\section{Preliminary analyses}
+% entropy from free energy and enthalpy
 
-As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
+%selectivity
 
 \subsection{Thermodynamics of adsorption separation}\label{section:exchange}
 
@@ -75,7 +154,7 @@ In order to analyze thoroughly the thermodynamics of competitive xenon and krypt
     \text{Xe}_{\text{(g)}} + \text{Kr}_{\text{(ads)}}
     \rightleftharpoons \text{Xe}_{\text{(ads)}} + \text{Kr}_{\text{(g)}}
 \end{equation}
-The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at a pressure of 1\,atm for a given composition is simply the selectivity $s\e{1}$, defined above as a function of $y\ex{Xe}$, $y\ex{Kr}$, $q\ex{Xe}$ and $q\ex{Kr}$, respectively the mole fractions in the gas phase and the loadings in the material of xenon and krypton in the GCMC calculation. The enthalpy difference associated with this ``exchange'' equilibrium, $\Delta\e{exc}H\e{1} = \Delta\e{ads}H\e{1}\ex{Xe} - \Delta\e{ads}H\e{1}\ex{Kr}$, is defined as the difference of enthalpy between xenon and krypton within the mixture. Similarly, an entropy difference $\Delta\e{exc}S\e{1}$ can then be calculated as in Equation~\ref{eqn:entropy} (with $i = 1$):
+The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at a pressure of 1\,atm for a given composition is simply the selectivity $s\e{1}$, defined above as a function of $y\ex{Xe}$, $y\ex{Kr}$, $q\ex{Xe}$ and $q\ex{Kr}$, respectively the mole fractions in the gas phase and the loading of xenon and krypton on the material in the GCMC calculation. The enthalpy difference associated with this ``exchange'' equilibrium, $\Delta\e{exc}H\e{1} = \Delta\e{ads}H\e{1}\ex{Xe} - \Delta\e{ads}H\e{1}\ex{Kr}$, is defined as the difference of enthalpy between xenon and krypton within the mixture. Similarly, an entropy difference $\Delta\e{exc}S\e{1}$ can then be calculated as in Equation~\ref{eqn:entropy} (with $i = 1$):
 \begin{equation} \label{eqn:entropy}
     \Delta\e{exc}S\e{i} = R\ln(s\e{i}) + \dfrac{1}{T}\Delta\e{exc}H\e{i}\ \ \ \mathrm{where}\ i\in\{0,1\}
 \end{equation}
@@ -84,6 +163,12 @@ Furthermore, this ``exchange equilibrium'' can be generalized to the zero loadin
 
 The need of simul to find the optimal configuration. 
 
+
+%%%%%%
+
+\section{Preliminary analyses}
+
+As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
 
 \subsection{Structure--selectivity relationships}
 

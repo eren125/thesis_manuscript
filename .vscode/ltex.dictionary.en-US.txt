@@ -35,3 +35,6 @@ hydrothermally
 diazote
 coordinatively
 desorption
+isosteric
+monoatomic
+prefactor
