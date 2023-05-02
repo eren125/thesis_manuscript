@@ -40,10 +40,12 @@ The multiplicative prefactor has no influence on the algorithm, we do not need t
 To complete the description of the grand canonical Monte Carlo (GCMC) simulation we are interested in, let us now consider the different MC moves used to generate a configuration from another. Depending on the parameterization, these moves have different probabilities of occurring. For monoatomic atoms only four moves are relevant (see Figure~\ref{fgr:mc}): (1) the translation of a randomly chosen molecule with a displacement randomly chosen within a given radius, (2) the change of identity of a randomly chosen molecule into another, (3) the insertion of an adsorbate molecule and (4) the deletion of an adsorbate molecule. We deliberately omitted the rotations of the adsorbate because of the spherical symmetry of noble gases and the change of volume since the flexibility of the material framework is neglected. 
 
 By using a GCMC algorithm, we can now generate a set of configurations according to their probability of occurrence. Because the probability law is directly taken from equation~\ref{eqn:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir of a xenon-krypton mixture at a given composition, pressure and temperature. Different thermodynamic quantities can be derived from ensemble averaging: the averaging loading or uptake at a given pressure (several pressures give the isotherm) and the isosteric heat of adsorption of each adsorbate (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
-\begin{equation}
-  s = \dfrac{q^{Xe}y^{Kr}}{q^{Kr}y^{Xe}}
+\begin{equation}\label{eq:selec}
+  \boxed{
+  s = \dfrac{q\ex{Xe}}{q\ex{Kr}}\times\dfrac{y\ex{Kr}}{y\ex{Xe}}
+  }
 \end{equation}
-where $y^{Xe}$ and $y^{Kr}$ designate respectively the mole fractions of Xe and Kr in the gas phase reservoir.
+where $y\ex{Xe}$ and $y\ex{Kr}$ designate respectively the mole fractions of Xe and Kr in the gas phase reservoir.
 
 To characterize a separation process, we theoretically only need to perform a GCMC calculation at every pressure conditions that we are interested in. However, this type of simulation requires a lot of time to converge since we need to test out a lot of insertion/deletion moves to accurately estimate the number of adsorbed molecules and the composition of the mixture. Hence, faster methods (machine learning) are developed to estimate the selectivity at any pressure conditions.\cite{Simon_2015,Kang_2023} If we are interested in the infinite dilution case, faster methods are already available, we are now going to introduce the Widom insertion that can estimate the adsorption performances at infinite dilution by estimating the Henry adsorption constant.
 
@@ -56,8 +58,10 @@ In the infinite dilution case, this test particle insertion technique is similar
 
 The adsorption Gibbs free energy $\Delta G\e{ads}$ is equal to the excess free energy previously calculated in a Widom insertion since the structure is rigid and $PV$ does not fluctuate ($G = F + PV$). 
 
-\begin{equation}\label{eqn:gibbs}
+\begin{equation}\label{eq:ads_gibbs}
+  \boxed{
   \Delta G\e{ads} = -RT \ln\left(\langle \exp(-\mathcal{E}\e{int}/RT) \rangle\right)
+  }
 \end{equation}
 
 To derive the Henry constant $K\e{H}$, we need to consider an ideal gas. The amount of adsorbed molecules $n\e{ads}$ can be expressed using the bulk density of the gas $\rho\e{ads,bulk}$ and the volume of the pores $V\e{pore}$:
@@ -87,7 +91,9 @@ If we now consider the gravimetric loading $L\e{ads}$ (in \si{\milli\mole\per\gr
 Since the Henry's law is described by $L\e{ads}=K\e{H} \times P$, we have the final relation between the Henry adsorption constant and interaction energy distribution.
 
 \begin{equation}\label{eqn:henry}
+    \boxed{
     K\e{H} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{\rho_fRT} = \dfrac{1}{\rho_fRT} \exp\left(-\dfrac{\Delta G\e{ads}}{RT}\right)
+    }
 \end{equation}
 
 Note that the $\rho_f$ factor comes from the use of a gravimetric loading expressed in \si{\milli\mole\per\gram} and is not always present in the different derivations of the literature.\cite{PoreBlazer} The $RT$ factor comes from the perfect gas assumption we made, which is a good approximation in the noble gas case. 
@@ -129,25 +135,35 @@ The exponential derivative make the energy factors come out, and we have:
 
 With some simplification, we can express the adsorption enthalpy $\Delta H\e{ads}$ as a Boltzmann average of the interaction energies minus a term $RT$ that comes from the ideal gas assumption (perfect gas equation of state).
 
-\begin{equation}
+\begin{equation}\label{eq:ads_enthalpy}
+  \boxed{
   \Delta H\e{ads} = \dfrac{\sum \mathcal{E}\e{int}e^{-\frac{\mathcal{E}\e{int}}{RT}}}{\sum e^{-\frac{\mathcal{E}\e{i}}{RT}}} - RT
+  }
 \end{equation}
 
-
 % entropy from free energy and enthalpy
+From the values of the adsorption free energy and enthalpy we can now deduce the adsorption entropy $\Delta S\e{ads}$ using the definition of the Gibbs free energy ($G = H-TS$):
+\begin{equation}\label{eq:ads_entropy}
+  \boxed{
+  \Delta S\e{ads} = \dfrac{1}{T} \left(\Delta H\e{ads} - \Delta G\e{ads} \right)
+  }
+\end{equation}
 
 %selectivity
+We already defined the selectivity as the ratio of the proportion of Xe/Kr in the adsorption phase to the proportion in the gas phase in the equation~\ref{eq:selec}. At infinite dilution, we can rewrite the selectivity using the Henry's law ($q\ex{i}=K\e{H}\ex{i}y\ex{i}P$):
+\begin{equation}
+  \boxed{
+  s = \dfrac{K\e{H}\ex{Xe}y\ex{Xe}P}{K\e{H}\ex{Kr}y\ex{Kr}P}\times\dfrac{y\ex{Kr}}{y\ex{Xe}} = \dfrac{K\e{H}\ex{Xe}}{K\e{H}\ex{Kr}}
+  }
+\end{equation}
+By extrapolating at the zero loading regime, the Xe/Kr selectivity can be simply expressed as the ratio of the Henry adsorption constant of xenon and krypton.
 
-\subsection{Thermodynamics of adsorption separation}\label{section:exchange}
+In this section, we saw that simple thermodynamic quantities such as the adsorption Gibbs free energy, enthalpy and entropy can de derived from the study of a simple adsorption equilibrium equation. In the next one, we will explore a thermodyanmic characterization of the adsorption-based separation process using another equilibrium. 
 
-Describe the interface. 
+\subsection{The thermodynamics behind adsorption-based separation}\label{section:exchange}
 
-\todo{selectivity, entropy enthalpy, Henry coefficients}
-difference between low pressure and higher pressure.
-
-From microcanonical to Gibbs ensemble
-
-\todo{Exchange equilibrium}
+\todo{here}
+Describe the interface. by referring to the first section on GCMC
 
 In order to analyze thoroughly the thermodynamics of competitive xenon and krypton adsorption using the results of both pure-component and multi-component GCMC simulations, we use in this work some thermodynamic properties (enthalpy and entropy in various conditions) associated with the following fictitious ``exchange equilibrium'':
 \begin{equation} \label{eqn:exchange}
@@ -161,9 +177,15 @@ The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at a pr
 
 Furthermore, this ``exchange equilibrium'' can be generalized to the zero loading limit. A comparison of the thermodynamic quantities between the low pressure and ambient pressure cases is made possible by considering this equilibrium equation. The equilibrium constant at low pressure similarly corresponds to $s\e{0}$, the enthalpy to $\Delta\e{exc}H\e{0} = \Delta\e{ads}H\e{0}\ex{Xe} - \Delta\e{ads}H\e{0}\ex{Kr}$ and the entropy to $\Delta\e{exc}S\e{0}$ as written in Equation~\ref{eqn:entropy} (with $i = 0$).
 
-The need of simul to find the optimal configuration. 
+
+difference between low pressure and higher pressure.
+
+\todo{at infinite dilution, easy}
+\todo{else ..} How raspa calculates enthalpy
+\todo{selectivity, entropy enthalpy free energy}
 
 
+Raspa ?
 %%%%%%
 
 \section{Preliminary analyses}
