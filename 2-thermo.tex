@@ -6,9 +6,9 @@
 \chapter{Thermodynamic exploration of xenon/krypton separation}
 \vspace*{-1\baselineskip}
 
-\section{Calculation of thermodynamic descriptors}
+\section{Simulation of adsorption properties}
 
-\subsection{Grand Canonical Monte Carlo}
+\subsection{Mixture adsorption simulations: Grand Canonical Monte Carlo}
 
 %intro 
 As explained before, we can think of adsorption as a gas--solid or liquid--solid interfacial phenomenon, the adsorbate phase fills the accessible pore volumes depending on the physical conditions the material is put under. No simple model can predict how the adsorbates would interact with the pore surface, how many of them can fit in, what configuration is the most stable, etc. To answer these questions, we can evaluate all possible adsorption configurations that would undeniably have different numbers of adsorbate, and only keep the most thermodynamically plausible ones. To do so, these configurations will have to follow a given probability distribution, the grand canonical ensemble probability for instance, because it allows the variation of the number of molecules (adsorbate molecules) and the total energy. With the help of a Monte Carlo simulation, we can vary the energy and the loading inside the pores so that the distribution of configurations $c$ follows this probability law: 
@@ -22,7 +22,7 @@ where $E_c$ and $N_c$ are respectively the energy and the number of adsorbate pa
 \end{equation}
 This multiplicative constant does not need to be known in the Monte Carlo simulation we will describe now. 
 
-Beyond these theoretical considerations, the grand canonical Monte Carlo simulation will need several key characteristics in order to fulfill the previous claims on the probability distribution of the configurations. Monte Carlo (MC) refers to the randomness inherent to the gambling games of the eponymous casino on the azure coast of Monaco. The MC simulations are therefore relying on randomly generating atomic configurations; however in order to do it efficiently, we need to stay as much as possible in the physically possible atomic space, while exhaustively exploring all the chemical configurations. 
+Beyond these theoretical considerations, the grand canonical Monte Carlo simulation, referring to a Metroplis-Hastings Monte Carlo algorithm in the context of the grand canonical thermodynamic ensemble, will need several key characteristics in order to fulfill the previous claims on the probability distribution of the configurations. Monte Carlo (MC) refers to the randomness inherent to the gambling games of the eponymous casino on the azure coast of Monaco. The MC simulations are therefore relying on randomly generating atomic configurations; however in order to do it efficiently, we need to stay as much as possible in the physically possible atomic space, while exhaustively exploring all the chemical configurations. 
 In molecular simulations, to do so, only the initial configuration $c_0$ is really randomly generated, but then the algorithm has different rational moves to change the configuration with a controlled amount of randomness. The second key feature (acceptance or rejection condition) was introduced by Metropolis and co-workers that allows to reproduce any distribution with an unknown multiplicative prefactor.\cite{Metropolis1949} The configuration $c_1$ resulting of the random move is evaluated by calculating the transition probability (like in a Markov chain) or acceptance rate $acc(c_0 \rightarrow c_1)$: 
 \begin{equation}
   acc(c_0 \rightarrow c_1) = \min\left(1, e^{-\beta\left(E_{c_1}-E_{c_0}-\mu \left(N_{c_1}-N_{c_0}\right)\right) }\right)
@@ -50,7 +50,7 @@ where $y\ex{Xe}$ and $y\ex{Kr}$ designate respectively the mole fractions of Xe 
 To characterize a separation process, we theoretically only need to perform a GCMC calculation at every pressure conditions that we are interested in. However, this type of simulation requires a lot of time to converge since we need to test out a lot of insertion/deletion moves to accurately estimate the number of adsorbed molecules and the composition of the mixture. Hence, faster methods (machine learning) are developed to estimate the selectivity at any pressure conditions.\cite{Simon_2015,Kang_2023} If we are interested in the infinite dilution case, faster methods are already available, we are now going to introduce the Widom insertion that can estimate the adsorption performances at infinite dilution by estimating the Henry adsorption constant.
 
 
-\subsection{Widom insertion}
+\subsection{Infinite dilution adsorption: Widom insertion}
 
 In 1963, the professor B. Widom introduced a simple method of calculation of thermodynamic properties in a material or fluid mixture.\cite{Widom1963} Generally, this method allows accessing to the difference of internal energy before and after the insertion of a Widom test particle while fixing all other particles, therefore comparing the N-particle and (N+1)-particle states. This difference of energy $\Delta \Phi$ can then be used to deduce the excess free energy associated to it $\Delta F\e{exc} = -k\e{B} T \ln\left(\langle \exp(- \beta\Delta \Phi) \rangle\right)$, which corresponds to the excess chemical potential induced by the addition of a particle. In the domain of fluid phase equilibrium, Widom insertion is the most straightforward method to calculate a chemical potential value; however it has drawbacks in liquid-like phases because the insertable space is very narrow, and no relaxation is implemented to account for reorganization of the surrounding particles.\cite{Nezbeda_1991} In our case, we will be only interested in the insertion from 0 to 1 particle, where no problems of overlapping between adsorbate particles can happen. Widom insertion is in our case only a random insertion of an adsorbate into an empty nanoporous framework. By randomly sampling the void space, we obtain a distribution of interaction energies $\mathcal{E}\e{int}$, the average of the Boltzmann weights associated are directly proportional to the adsorption free energy $\Delta G\e{ads}$ and the Henry adsorption constant $K\e{H}$. By taking the Boltzmann average of the interaction energies we can also compute the adsorption enthalpy $\Delta H\e{ads}$. All these quantities stay only valid at infinite dilution, for higher quantities of adsorbates the previously described GCMC technique should be used.  
 
@@ -137,7 +137,7 @@ With some simplification, we can express the adsorption enthalpy $\Delta H\e{ads
 
 \begin{equation}\label{eq:ads_enthalpy}
   \boxed{
-  \Delta H\e{ads} = \dfrac{\sum \mathcal{E}\e{int}e^{-\frac{\mathcal{E}\e{int}}{RT}}}{\sum e^{-\frac{\mathcal{E}\e{i}}{RT}}} - RT
+  \Delta H\e{ads} = \dfrac{\sum \mathcal{E}\e{int}e^{-\frac{\mathcal{E}\e{int}}{RT}}}{\sum e^{-\frac{\mathcal{E}\e{int}}{RT}}} - RT
   }
 \end{equation}
 
@@ -150,10 +150,10 @@ From the values of the adsorption free energy and enthalpy we can now deduce the
 \end{equation}
 
 %selectivity
-We already defined the selectivity as the ratio of the proportion of Xe/Kr in the adsorption phase to the proportion in the gas phase in the equation~\ref{eq:selec}. At infinite dilution, we can rewrite the selectivity using the Henry's law ($q\ex{i}=K\e{H}\ex{i}y\ex{i}P$):
-\begin{equation}
+We already defined the selectivity as the ratio of the proportion of Xe/Kr in the adsorption phase to the proportion in the gas phase in the equation~\ref{eq:selec}. At infinite dilution, we can rewrite the selectivity using the Henry's law ($q\ex{i}=V\rho_fK\e{H}\ex{i}y\ex{i}P/n\e{tot}$) and simplifying the constant term $PV\rho_f/n\e{tot}$:
+\begin{equation}\label{eq:selec_0}
   \boxed{
-  s = \dfrac{K\e{H}\ex{Xe}y\ex{Xe}P}{K\e{H}\ex{Kr}y\ex{Kr}P}\times\dfrac{y\ex{Kr}}{y\ex{Xe}} = \dfrac{K\e{H}\ex{Xe}}{K\e{H}\ex{Kr}}
+  s = \dfrac{K\e{H}\ex{Xe}y\ex{Xe}}{K\e{H}\ex{Kr}y\ex{Kr}}\times\dfrac{y\ex{Kr}}{y\ex{Xe}} = \dfrac{K\e{H}\ex{Xe}}{K\e{H}\ex{Kr}}
   }
 \end{equation}
 By extrapolating at the zero loading regime, the Xe/Kr selectivity can be simply expressed as the ratio of the Henry adsorption constant of xenon and krypton.
@@ -161,40 +161,59 @@ By extrapolating at the zero loading regime, the Xe/Kr selectivity can be simply
 In this section, we saw that simple thermodynamic quantities such as the adsorption Gibbs free energy, enthalpy and entropy can de derived from the study of a simple adsorption equilibrium equation. In the next one, we will explore a thermodyanmic characterization of the adsorption-based separation process using another equilibrium. 
 
 \subsection{The thermodynamics behind adsorption-based separation}\label{section:exchange}
+\todo{change the section label to ref to equations}
 
-\todo{here}
-Describe the interface. by referring to the first section on GCMC
-
-In order to analyze thoroughly the thermodynamics of competitive xenon and krypton adsorption using the results of both pure-component and multi-component GCMC simulations, we use in this work some thermodynamic properties (enthalpy and entropy in various conditions) associated with the following fictitious ``exchange equilibrium'':
+Now that the main simulation tools used to describe the concurrent adsorption of Xe/Kr binary mixtures are introduced, let us rationalize the separation process by modeling the process within a theoretical ``exchange'' equilibrium that corresponds to the exchange of gas phase Xe and Kr on a model adsorption site representing all the most attractive sites for a given pressure condition:
 \begin{equation} \label{eqn:exchange}
     \text{Xe}_{\text{(g)}} + \text{Kr}_{\text{(ads)}}
     \rightleftharpoons \text{Xe}_{\text{(ads)}} + \text{Kr}_{\text{(g)}}
 \end{equation}
-The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at a pressure of 1\,atm for a given composition is simply the selectivity $s\e{1}$, defined above as a function of $y\ex{Xe}$, $y\ex{Kr}$, $q\ex{Xe}$ and $q\ex{Kr}$, respectively the mole fractions in the gas phase and the loading of xenon and krypton on the material in the GCMC calculation. The enthalpy difference associated with this ``exchange'' equilibrium, $\Delta\e{exc}H\e{1} = \Delta\e{ads}H\e{1}\ex{Xe} - \Delta\e{ads}H\e{1}\ex{Kr}$, is defined as the difference of enthalpy between xenon and krypton within the mixture. Similarly, an entropy difference $\Delta\e{exc}S\e{1}$ can then be calculated as in Equation~\ref{eqn:entropy} (with $i = 1$):
-\begin{equation} \label{eqn:entropy}
-    \Delta\e{exc}S\e{i} = R\ln(s\e{i}) + \dfrac{1}{T}\Delta\e{exc}H\e{i}\ \ \ \mathrm{where}\ i\in\{0,1\}
+The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at any pressure for a given composition is simply the selectivity $s$, defined in the equation\ref{eq:selec}, because the gas phase activities of $\text{Xe}_{\text{(g)}}$ and $\text{Kr}_{\text{(g)}}$ correspond the partial pressures $y\ex{Xe}$ and $y\ex{Kr}$, and the adsorption phase activities of $\text{Xe}_{\text{(ads)}}$ and $\text{Kr}_{\text{(ads)}}$ correspond the mole fractions $q\ex{Xe}$ and $q\ex{Kr}$. The Gibbs free energy at equilibrium can be directly defined using the equilibrium constant, by applying this relation to the exchange equilibrium we can define an exchange Gibbs free energy $\Delta\e{exc}G$:
+\begin{equation}
+  \boxed{
+  \Delta\e{exc}G = -RT \ln\left(s\right)
+  }
+\end{equation}
+This exchange equilibrium can be see as the substraction between the adsorption equilibria of xenon and krypton. So by applying the Hess's law of constant heat summation, we can derive an expression of the exchange enthalpy as the difference of the adsorption enthalpies between xenon and krypton within the mixture. 
+\begin{equation}
+  \boxed{
+  \Delta\e{exc}H\ex{Xe/Kr} = \Delta\e{ads}H\ex{Xe} - \Delta\e{ads}H\ex{Kr}
+  }
+\end{equation}
+Moreover, the adsorption enthalpies $\Delta\e{ads}H$ can be obtained in a GCMC calculation using a formula derived from the fluctuation theorem in statistical mechanics (see a derivation in this online article \ref{github_simon_gcmc}):
+\begin{equation}\label{eq:ads_heat_gcmc}
+  \Delta\e{ads}H\ex{Xe} = \dfrac{\langle EN \rangle - \langle E \rangle\langle N \rangle}{\langle N^2 \rangle - \langle N \rangle^2} - RT
+\end{equation}
+where $E$ corresponds to the energy of the adsorbates and $N$ the total number of adsorbates at every step of the simulation. Note that this equation remains only valid for $N\gg1$, because the first step of the derivation is based on a first order Taylor expansion $\langle E \rangle(\langle N \rangle+1)-\langle E \rangle(\langle N \rangle) = \frac{\partial \langle E \rangle}{\partial \langle N \rangle}$. This expression of the adsorption enthalpy echoes with the one at infinite dilution (equation~\ref{eq:ads_enthalpy}), where for $N\rightarrow0$ we now have $\Delta H\e{ads} = \langle E \rangle(1)-\langle E \rangle(0) - RT = \langle E \rangle(1) - RT$.
+
+Now that we defined the exchange Gibbs free energy and an exchange enthalpy at any pressure, we can now use the same approach as for the equation~\ref{eq:ads_entropy} to derive the exchange entropy:
+\begin{equation} \label{eqn:exc_entropy}
+  \boxed{
+  \Delta\e{exc}S = \dfrac{1}{T}\left(\Delta\e{exc}H - \Delta\e{exc}G\right)= \dfrac{1}{T}\Delta\e{exc}H + R\ln(s)
+  }
 \end{equation}
 
-Furthermore, this ``exchange equilibrium'' can be generalized to the zero loading limit. A comparison of the thermodynamic quantities between the low pressure and ambient pressure cases is made possible by considering this equilibrium equation. The equilibrium constant at low pressure similarly corresponds to $s\e{0}$, the enthalpy to $\Delta\e{exc}H\e{0} = \Delta\e{ads}H\e{0}\ex{Xe} - \Delta\e{ads}H\e{0}\ex{Kr}$ and the entropy to $\Delta\e{exc}S\e{0}$ as written in Equation~\ref{eqn:entropy} (with $i = 0$).
+Before concluding this methodological section, we need to note that the thermodynamic quantities associated to this newly defined adsorption exchange equilibrium can be defined at different pressures and different methodologies can be used to calculate them. At infinite dilution, we would preferably use Widom insertions and the adsorption free energies and enthalpies to deduce these exchange quantities; at higher pressure, we would use the GCMC calculation to define a free energy (via the loadings) and the isosteric adsorption heat to define them. In the following study, we will focus on only two pressures: the ambient pressure (at \SI{1}{\atm}) and the limit of zero loading (infinite dilution). At \SI{1}{\atm}, the previously defined quantities will have an index $1$ to differentiate them from the infinite dilution case where an index $0$ will be used; for example, $\Delta\e{ads}H\e{1}\ex{Xe/Kr}$, $\Delta\e{exc}G\e{1}\ex{Xe/Kr}$ or $s\e{1}\ex{Xe/Kr}$ at \SI{1}{\atm}, and $\Delta\e{ads}H\e{0}\ex{Xe/Kr}$, $\Delta\e{exc}G\e{0}\ex{Xe/Kr}$ or $s\e{0}\ex{Xe/Kr}$ at the low pressure limit. One final note on the simulation details, to run the GCMC calculations and the Widom insertion, we used the Raspa2 software developed by Dubbeldam et al.\cite{dubbeldam2016} And the intermolecular Van der Waals interactions were described by a Lennard-Jones (LJ) potential with a cutoff distance of \SI{12}{\angstrom}. The LJ parameters of the framework atoms are given by the universal force field (UFF),\cite{rappe1992} and the guest atoms (xenon and krypton) have their LJ parameters taken from a previous screening study.\cite{Ryan_2010} All the MOFs described here are taken from the CoRE MOF 2019 database.\cite{Chung_2019}
 
-
-difference between low pressure and higher pressure.
-
-\todo{at infinite dilution, easy}
-\todo{else ..} How raspa calculates enthalpy
-\todo{selectivity, entropy enthalpy free energy}
-
-
-Raspa ?
 %%%%%%
 
 \section{Preliminary analyses}
 
-As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost).
+As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost). In this initial screening study of the thermodynamic quantities, we performed a screening of around 9,700 tridimensional MOF structures of a preprocessed version of the CoRE MOF 2019-ASR (all solvent removed) database that are publicly available --- only the non-disordered structures and the structures with a cell volume smaller than \SI{20}{\nano\meter\cubed} (to limit the overall calculation time) were considered. We will focus on the different relationships of the Xe/Kr selectivity has with structural descriptors based on geometrical analyses, and then with different thermodynamic descriptors (free energy, enthalpy, entropy). 
 
 \subsection{Structure--selectivity relationships}
 
+An adsorption separation process is primarly characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo** software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three descriptors have been calculated 
+
 \todo{How SA VF and LCD are calculated}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_sa.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_sa_selectivity.pdf}
+  \caption{Selectivity / Xe Uptake / Surface area}
+\end{figure}
+
 
 \todo{Put analyses of selectivity relationship with other descriptors: uptake, void fraction, surface area, etc.}
 
@@ -202,42 +221,43 @@ As we have seen above in the existing literature, the computational screening of
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_sa.jpg}
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_sa_selectivity.jpg}
-  \caption{Selectivity / Xe Uptake / Surface area}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol.jpg}
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vol_selectivity.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vol_selectivity.pdf}
   \caption{Selectivity / Xe Uptake / Void Fraction}
 \end{figure}
 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.7\textwidth]{figures/2-thermo/3D_hist_selec_uptake.jpg}
+  \includegraphics[width=0.7\textwidth]{figures/2-thermo/3D_hist_selec_uptake.pdf}
   \caption{Distribution selec / uptake}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_SA.jpg}
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_vol.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_SA.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_vol.pdf}
   \caption{Ditributions, selec vs sa vol}
 \end{figure}
 
+
+\todo{3D plot void / LCD / selectivity ?}
+
+\todo{Add plots for the 90 10 case ?}
+
+\todo{remove this after}
+\clearpage
 \subsection{Thermodynamic quantities correlations}
+\todo{Deal with figure from SI Figure~S + talk about the 90 10 case > radioactive} 
 
-In the present work, our goal is not directly to address the structure--property relationships, but rather to map out the details of the thermodynamic features of Xe/Kr adsorption and separation in nanoporous materials. We used the high-throughput screening methodology as a way to map out the space of thermodynamic properties, going beyond the usual quantities of selectivity and uptake, to focus more specifically on the role of adsorption enthalpy and entropy, the differences between Xe and Kr adsorption thermodynamics, and the differences between selectivity at low and high pressure.
+In this section, our goal is not directly to address the structure--property relationships, but rather to map out the details of the thermodynamic features of Xe/Kr adsorption and separation in nanoporous materials. We used the high-throughput screening methodology as a way to map out the space of thermodynamic properties, going beyond the usual quantities of selectivity and uptake, to focus more specifically on the role of adsorption enthalpy and entropy, the differences between Xe and Kr adsorption thermodynamics, and the differences between selectivity at low and high pressure.
 
-To evaluate the performance of a given nanoporous material for separation in the low loading (or low pressure) limit, Henry's constants are often calculated from linear fits of low-pressure adsorption isotherm data --- both experimentally and computationally. In this section, we investigate the thermodynamics of Xe and Kr adsorption at low pressure. Here, We have calculated the low-pressure adsorption properties by using the Widom insertion method\cite{Widom1963, frenkel2001widom} on 9,668 structures from the dataset selected. It has higher accuracy than the fitting of isotherms, where it can be difficult to know what the extent of the linear adsorption regime is. With these simulations, we could obtain for each material the Henry's constant $K$ and the adsorption enthalpy $\Delta\e{ads}H\e{0}$ (at the zero loading limit) for both xenon and krypton. The Xe/Kr thermodynamic selectivity $s\e{0}$ in the low-pressure limit is then determined by the ratio $s\e{0} = K\ex{Xe}/K\ex{Kr}$ of the Henry's constants for the two gases. In the following, we look at the statistical relationships between the thermodynamic quantities at low pressure: $s\e{0}$, $K\ex{Xe}$, $K\ex{Kr}$, $\Delta\e{ads}H\e{0}\ex{Xe}$, $\Delta\e{ads}H\e{0}\ex{Kr}$ and $\Delta\e{exc}H\e{0}$ (which is defined in Section~\ref{section:exchange}).
+To evaluate the performance of a given nanoporous material for separation in the low loading (or low pressure) limit, Henry's constants are often calculated from linear fits of low-pressure adsorption isotherm data --- both experimentally and computationally. In this section, we investigate the thermodynamics of Xe and Kr adsorption at low pressure. Here, We have calculated the low-pressure adsorption properties by using the Widom insertion method\cite{Widom1963, frenkel2001widom} on 9,668 structures from the dataset selected. It has higher accuracy than the fitting of isotherms, where it can be difficult to know what the extent of the linear adsorption regime is. With these simulations, we could obtain for each material the Henry's constant $K$ and the adsorption enthalpy $\Delta\e{ads}H\e{0}$ (at the zero loading limit) for both xenon and krypton. The Xe/Kr thermodynamic selectivity $s\e{0}$ in the low-pressure limit is then determined by the ratio $s\e{0} = K\ex{Xe}/K\ex{Kr}$ of the Henry's constants for the two gases. In the following, we look at the statistical relationships between the thermodynamic quantities at low pressure: $s\e{0}$, $K\ex{Xe}$, $K\ex{Kr}$, $\Delta\e{ads}H\e{0}\ex{Xe}$, $\Delta\e{ads}H\e{0}\ex{Kr}$ and $\Delta\e{exc}H\e{0}$.
 
 
 \begin{figure}[t]
 \centering
-  \includegraphics[width=\linewidth]{figures/2-thermo/Henry_0.jpg}
+  \includegraphics[width=0.6\linewidth]{figures/2-thermo/Henry_0.jpg}
   \caption{For 8,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair-plots of $\log\e{10}(s\e{0})$, $\log\e{10}(K\ex{Xe})$ and $\log\e{10}(K\ex{Kr})$ (the Henry's constants are in \si{\milli\mol\per\gram\per\pascal}) in the off-diagonal subplots (note that the y-axis is displayed on the right side) and the distribution of each quantity are on the diagonal (note that the y-axis displayed on the right side corresponds to the count and the x-axis is correctly labeled below each subplot).}
   \label{fgr:histo_K}
 \end{figure}
@@ -250,7 +270,7 @@ With regard to Henry's constants, we observe a broad selection of behavior, with
 
 \begin{figure}[t]
 \centering
-  \includegraphics[width=\linewidth]{figures/2-thermo/Enthalpy_0_log.jpg}
+  \includegraphics[width=0.7\linewidth]{figures/2-thermo/Enthalpy_0_log.jpg}
   \caption{For 8,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair-plots of $\log(s\e{0})$, $\Delta\e{exc}H\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$ and $\Delta\e{ads}H\ex{Kr}\e{0}$ (the enthalpies are in \si{\kilo\joule\per\mol}) in the off-diagonal subplots and the distribution of each quantity are on the diagonal.}
   \label{fgr:histo_H}
 \end{figure}
@@ -263,7 +283,7 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
 
 \begin{figure}[t]
   \centering
-    \includegraphics[width=\linewidth]{figures/2-thermo/s_0_vs_s_2080_overview_log.jpg}
+    \includegraphics[width=0.7\linewidth]{figures/2-thermo/s_0_vs_s_2080_overview_log.jpg}
     \caption{Difference of selectivity between low pressure and at a \SI{1013}{\hecto\pascal} pressure for a 20:80 xenon krypton composition. The relative difference between the low-pressure selectivity and the ambient-pressure is particularly high for the points labeled in purple.}
     \label{fgr:overview}
   \end{figure}
@@ -280,26 +300,19 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
   
   This drop in selectivity mainly concerns the materials with a relatively high selectivity $s\e{0} > 10$ (see Figure~\ref{fgr:overview}), and forewarns that considering solely pure-component Henry's constant (i.e. zero-pressure selectivity) for materials screening could be misleading in some cases. Although it is simpler and faster to calculate, those low-pressure results that can overestimate selectivity by more than {100\%} in a significant number of materials (646 out of 9,668 in our dataset). By using a thermodynamic approach, we now try to explain the reasons behind these shifts in selectivity.
   
-  To evaluate quantitatively the thermodynamic effects at play in the competitive adsorption in different regimes, we consider thermodynamic properties of the following ``exchange equilibrium'':
-  \[
-      \text{Xe}\e{(g)} + \text{Kr}\e{(ads)}
-      \rightleftharpoons \text{Xe}\e{(ads)} + \text{Kr}\e{(g)}
-  \]
-  as described in Section~\ref{section:exchange}. We plot in Figure~\ref{fgr:HSplot_0} the exchange entropy at low pressure (plotted as $T\Delta\e{exc}S\e{0}$) against the 
-  exchange enthalpy $\Delta\e{exc}H\e{0}$. In this scatter plot, the points are color-coded according to the selectivity $s\e{0}$ (with discrete categories for the sake of clarity), which is related to the enthalpy and entropy through Equation~\ref{eqn:entropy} --- meaning iso-selectivity lines are parallel straight lines in this scatter plot.
-  
+To evaluate quantitatively the thermodynamic effects at play in the competitive adsorption in different regimes, we can consider thermodynamic properties of the ``exchange equilibrium'' predefined in equation~\ref{eqn:exchange}. We plot in Figure~\ref{fgr:HSplot_0} the exchange entropy at low pressure (plotted as $T\Delta\e{exc}S\e{0}$) against the exchange enthalpy $\Delta\e{exc}H\e{0}$. In this scatter plot, the points are color-coded according to the selectivity $s\e{0}$ (with discrete categories for the sake of clarity), which is related to the enthalpy and entropy through Equation~\ref{eqn:entropy} --- meaning iso-selectivity lines are parallel straight lines in this scatter plot.
   
   \begin{figure}[t]
   \centering
-    \includegraphics[width=\linewidth]{figures/2-thermo/enthalpy_entropy_0_s_0.jpg}
-    \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{0}$ and enthalpy $\Delta\e{exc}H\e{0}$ at low pressure labeled using the selectivity $s\e{0}$ at low pressure. The limits between labels follows a affine function of slope $1/T$ and of intercept $-R\ln(s\e{0}\ex{lim})$ where $s\e{0}\ex{lim}$ is the limit selectivity value (\emph{cf.} Equation~(\ref{eqn:entropy})). In other words, the iso-selectivity lines are all parallel lines of equation $y=f(x)$ where $f$ is the affine function described previously.}
+    \includegraphics[width=0.7\linewidth]{figures/2-thermo/enthalpy_entropy_0_s_0.jpg}
+    \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{0}$ and enthalpy $\Delta\e{exc}H\e{0}$ at low pressure labeled using the selectivity $s\e{0}$ at low pressure. The limits between labels follows a affine function of slope $1/T$ and of intercept $-R\ln(s\e{0}\ex{lim})$ where $s\e{0}\ex{lim}$ is the limit selectivity value (\emph{cf.} Equation~(\ref{eqn:exc_entropy})). In other words, the iso-selectivity lines are all parallel lines of equation $y=f(x)$ where $f$ is the affine function described previously.}
     \label{fgr:HSplot_0}
   \end{figure}
   
   
   \begin{figure}[t]
   \centering
-    \includegraphics[width=\linewidth]{figures/2-thermo/enthalpy_entropy_2080_s_0.jpg}
+    \includegraphics[width=0.7\linewidth]{figures/2-thermo/enthalpy_entropy_2080_s_0.jpg}
     \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{1}$ and enthalpy $\Delta\e{exc}H\e{1}$ at ambient pressure labeled using the selectivity $s\e{0}$ at low pressure. The points are layered so that the points with higher $s\e{0}$ are always above. To see a split version of this plot, please refer to the Figure~S6 in the supplementary information.}
     \label{fgr:HSplot_1}
   \end{figure}
@@ -309,7 +322,7 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
   
   Figure~\ref{fgr:HSplot_1} represents a scatter plot of the exchange entropy at $P = 1$\,atm $\Delta\e{exc}S\e{1}$ against the exchange enthalpy at ambient pressure $\Delta\e{exc}H\e{1}$. To compare it to the Fig.~\ref{fgr:HSplot_0}, the points are color-coded according to the low-pressure selectivity $s\e{0}$. Compared to the iso-selectivity $s\e{1}$ straight parallel lines (\emph{c.f.} supplementary information Figure~S7), we can see that many materials with high $s\e{0}$ have lower $s\e{1}$ --- seen as a migration of points to the right of the plot, compared to Fig.~\ref{fgr:HSplot_0}. This shift is therefore mainly due to a higher (less favorable) exchange enthalpy, hinting at an important role of enthalpy to determine higher pressure selectivity.
   
-  To quantify this change, we consider the distributions of the exchange enthalpy $\Delta\e{exc}H\e{1}$ and the energetic equivalent of the exchange entropy $T\Delta\e{exc}S\e{1}$ at ambient pressure (Figures~S9). The enthalpy $\Delta\e{exc}H\e{1}$ is now centred on $-11.1$\,\si{\kilo\joule\per\mol} with a standard deviation of $1.9$\,\si{\kilo\joule\per\mol}. Compared to the zero-pressure values, the enthalpy distribution is more dispersed, showing that there are important changes in individual values, and is higher in average --- majority of materials have lower ambient pressure selectivity due to enthalpic effects. This can be explained by the very general increase of adsorption enthalpy upon loading in the gas phase, which is linked to the presence of more adsorbed molecules. In fact, the correlations (Figure \ref{fgr:histo_K}) suggest that highly selective materials have high affinity in xenon, therefore they feature significant uptake at 1\,atm and the large Xe loading means the most favorable adsorption sites can be saturated, and further adsorption involves weaker host--guest interactions and therefore increases the average adsorption enthalpy at nonzero loading.
+  To quantify this change, we consider the distributions of the exchange enthalpy $\Delta\e{exc}H\e{1}$ and the energetic equivalent of the exchange entropy $T\Delta\e{exc}S\e{1}$ at ambient pressure (Figures~S9). The enthalpy $\Delta\e{exc}H\e{1}$ is now centred on $-11.1$\,\si{\kilo\joule\per\mol} with a standard deviation of $1.9$\,\si{\kilo\joule\per\mol}. Compared to the zero-pressure values, the enthalpy distribution is more dispersed, showing that there are important changes in individual values, and is higher in average --- majority of materials have lower ambient pressure selectivity due to enthalpic effects. This can be explained by the very general increase of adsorption enthalpy upon loading in the gas phase, which is linked to the presence of more adsorbed molecules. In fact, the correlations (Figure \ref{fgr:histo_K}) suggest that highly selective materials have high affinity in xenon, therefore they feature significant uptake at \SI{1}{\atm} and the large Xe loading means the most favorable adsorption sites can be saturated, and further adsorption involves weaker host--guest interactions and therefore increases the average adsorption enthalpy at nonzero loading.
   
   The entropic term $T\Delta\e{exc}S\e{1}$ is now centered on $-2.9$\,\si{\kilo\joule\per\mol}, with a standard deviation of $0.8$\,\si{\kilo\joule\per\mol} (almost unchanged from low-pressure). The entropy is on average lower, which means an overall less favorable separation due to entropic effects: this evolution of the entropic term hints at the potential of reorganization of the adsorbed molecules inside each material. The difference in distribution of enthalpy has, overall, more impact on the high-pressure selectivity than that of entropy. This suggests that the overall contribution of enthalpy remains more decisive than the role of entropy in the selectivity change, even at ambient pressure. This is an interesting conclusion for screening studies, because evaluation of adsorption enthalpy can be computationally faster than that of the adsorption free energy (or entropy).
 
@@ -351,7 +364,7 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
     \caption{Enthalpic and entropic contributions to the selectivity change for some archetypal structures selected for their high $s\e{0}$ selectivity. Every structure is identified using a CSD Refcode and the first article that mentions it }
     \label{tbl:effect}
     \renewcommand{\arraystretch}{1.1}
-    \begin{tabular*}{0.48\textwidth}{@{\extracolsep{\fill}}lrrrrrrrrrr}
+    \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}lrrrrrrrrrr}
       \hline
        CSD Refcode & Ref. & $s\e{0}$ &  $s\e{1}$  &  $s\e{1}/s\e{0}$ &  $k\e{H}$ &  $k\e{S}$ \\
       \hline
@@ -398,7 +411,7 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
   
   More extreme cases of selectivity drop can occur when more than one site is available, as is the case for materials BAEDTA01, VIWMOF, LUDLAZ, WOJJOV, and VAPBIZ. The pure-component isotherms and the representation of the materials loaded in xenon and krypton molecules (presented in supporting information Figures~S19-23) confirm the existence of at least two distinct adsorption sites in each material. The most selective sites (i.e., the most favorable for Xe) are filled in priority at low loading, and the less selective sites will then be populated when the pressure increases, leading to a net selectivity drop at ambient pressure for these materials. The different types of adsorption sites, and therefore the potential for a drop in Xe/Kr selectivity (at non-zero pressure) is a factor that could be explicitly included in screening of pure-component isotherms, without the need for explicit multi-component GCMC simulations.
 
-  \subsection{Conclusions and perspectives}
+  \subsection{Main conclusions of the thermodynamic exploration and perspectives}
 
   In the current state of the art on Xe/Kr separation by adsorption in nanoporous materials, many studies have focused on the determination of structure/property relationships, the description of theoretical limits of performance, and the identification of top-performing materials, whether for existing experimental structures or for novel hypothetical structures yet to be synthesized. Here, we provide a study based on a high-throughput screening of the adsorption of Xe, Kr, and Xe/Kr mixtures in 12,020 experimental open-framework materials, in order to provide a better comprehension of the thermodynamics behind Xe/Kr separation in nanoporous materials and the microscopic origins of Xe/Kr selectivity at both low and ambient pressure. 
 
