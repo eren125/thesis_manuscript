@@ -203,17 +203,23 @@ As we have seen above in the existing literature, the computational screening of
 
 \subsection{Structure--selectivity relationships}
 
-An adsorption separation process is primarly characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo** software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three descriptors have been calculated 
+An adsorption separation process is primarly characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo** software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accssible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} probe,\cite{vol_Ongari2017} and the largest cavity diameter using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
 
-\todo{How SA VF and LCD are calculated}
+Before digging deeper in the structure--selectivity relationship, we will look at the relation between the xenon uptake (the number of adsorbed xenon) and the selectivity at \SI{1}{\atm}. For instance, the xenon uptake could also be very important in a separation process, because it defines the working capacity of xenon produced by adsorption/desorption cycles. According to the Figures~\ref{fgr:sa} and \ref{fgr:vol}, first high xenon uptakes are associated with high selectivities, but at some point very high selectivities are associated to lower uptakes. There seem to be an area where materials have selectivity over $100$ and Xe uptake around \SI{3}{\milli\mole\per\gram}, whereas an uptake over \SI{6}{\milli\mole\per\gram} can only be obtained for a sleectivity between $10$ and $20$. One cannot maximize both uptake and selectivity metrics at the same time, a trade-off need to made when designing nanoporous materials for xenon/krypton separation.\cite{Zhang_2022} Different strategies have been implemented to optmize both metrics using mixed metrics such as the adsorbent performance score (APS).\cite{Solanki_2020}
+This trade-off can be rationalized by using the different structural descriptors we presented earlier. 
+
+
+If look at different works on adsorption, one may think that maximizing the surface area is key inachieving > yes but it increases uptake for both xe and kr. Not always good for selectivity
+Surface labelisation maximization (in storage screening see section) is not a good approach
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_sa.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_sa_selectivity.pdf}
-  \caption{Selectivity / Xe Uptake / Surface area}
+  \caption{Selectivity / Xe Uptake / Surface area}\label{fgr:sa}
 \end{figure}
 
+Surface labelisation
 
 \todo{Put analyses of selectivity relationship with other descriptors: uptake, void fraction, surface area, etc.}
 
@@ -223,9 +229,10 @@ An adsorption separation process is primarly characterized by a pivotal performa
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vol_selectivity.pdf}
-  \caption{Selectivity / Xe Uptake / Void Fraction}
+  \caption{Selectivity / Xe Uptake / Void Fraction}\label{fgr:vol}
 \end{figure}
 
+Smaller pores
 
 \begin{figure}[ht]
   \centering
