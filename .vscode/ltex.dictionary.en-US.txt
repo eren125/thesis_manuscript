@@ -38,3 +38,5 @@ desorption
 isosteric
 monoatomic
 prefactor
+tridimensional
+substraction

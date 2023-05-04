@@ -158,10 +158,9 @@ We already defined the selectivity as the ratio of the proportion of Xe/Kr in th
 \end{equation}
 By extrapolating at the zero loading regime, the Xe/Kr selectivity can be simply expressed as the ratio of the Henry adsorption constant of xenon and krypton.
 
-In this section, we saw that simple thermodynamic quantities such as the adsorption Gibbs free energy, enthalpy and entropy can de derived from the study of a simple adsorption equilibrium equation. In the next one, we will explore a thermodyanmic characterization of the adsorption-based separation process using another equilibrium. 
+In this section, we saw that simple thermodynamic quantities such as the adsorption Gibbs free energy, enthalpy and entropy can de derived from the study of a simple adsorption equilibrium equation. In the next one, we will explore a thermodynamic characterization of the adsorption-based separation process using another equilibrium. 
 
-\subsection{The thermodynamics behind adsorption-based separation}\label{section:exchange}
-\todo{change the section label to ref to equations}
+\subsection{The thermodynamics behind adsorption-based separation}
 
 Now that the main simulation tools used to describe the concurrent adsorption of Xe/Kr binary mixtures are introduced, let us rationalize the separation process by modeling the process within a theoretical ``exchange'' equilibrium that corresponds to the exchange of gas phase Xe and Kr on a model adsorption site representing all the most attractive sites for a given pressure condition:
 \begin{equation} \label{eqn:exchange}
@@ -174,7 +173,7 @@ The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at any 
   \Delta\e{exc}G = -RT \ln\left(s\right)
   }
 \end{equation}
-This exchange equilibrium can be see as the substraction between the adsorption equilibria of xenon and krypton. So by applying the Hess's law of constant heat summation, we can derive an expression of the exchange enthalpy as the difference of the adsorption enthalpies between xenon and krypton within the mixture. 
+This exchange equilibrium can be seen as the substraction between the adsorption equilibria of xenon and krypton. So by applying the Hess's law of constant heat summation, we can derive an expression of the exchange enthalpy as the difference of the adsorption enthalpies between xenon and krypton within the mixture. 
 \begin{equation}
   \boxed{
   \Delta\e{exc}H\ex{Xe/Kr} = \Delta\e{ads}H\ex{Xe} - \Delta\e{ads}H\ex{Kr}
@@ -193,24 +192,24 @@ Now that we defined the exchange Gibbs free energy and an exchange enthalpy at a
   }
 \end{equation}
 
-Before concluding this methodological section, we need to note that the thermodynamic quantities associated to this newly defined adsorption exchange equilibrium can be defined at different pressures and different methodologies can be used to calculate them. At infinite dilution, we would preferably use Widom insertions and the adsorption free energies and enthalpies to deduce these exchange quantities; at higher pressure, we would use the GCMC calculation to define a free energy (via the loadings) and the isosteric adsorption heat to define them. In the following study, we will focus on only two pressures: the ambient pressure (at \SI{1}{\atm}) and the limit of zero loading (infinite dilution). At \SI{1}{\atm}, the previously defined quantities will have an index $1$ to differentiate them from the infinite dilution case where an index $0$ will be used; for example, $\Delta\e{ads}H\e{1}\ex{Xe/Kr}$, $\Delta\e{exc}G\e{1}\ex{Xe/Kr}$ or $s\e{1}\ex{Xe/Kr}$ at \SI{1}{\atm}, and $\Delta\e{ads}H\e{0}\ex{Xe/Kr}$, $\Delta\e{exc}G\e{0}\ex{Xe/Kr}$ or $s\e{0}\ex{Xe/Kr}$ at the low pressure limit. One final note on the simulation details, to run the GCMC calculations and the Widom insertion, we used the Raspa2 software developed by Dubbeldam et al.\cite{dubbeldam2016} And the intermolecular Van der Waals interactions were described by a Lennard-Jones (LJ) potential with a cutoff distance of \SI{12}{\angstrom}. The LJ parameters of the framework atoms are given by the universal force field (UFF),\cite{rappe1992} and the guest atoms (xenon and krypton) have their LJ parameters taken from a previous screening study.\cite{Ryan_2010} All the MOFs described here are taken from the CoRE MOF 2019 database.\cite{Chung_2019}
+Before concluding this methodological section, we need to note that the thermodynamic quantities associated to this newly defined adsorption exchange equilibrium can be defined at different pressures and different methodologies can be used to calculate them. At infinite dilution, we would preferably use Widom insertions and the adsorption free energies and enthalpies to deduce these exchange quantities; at higher pressure, we would use the GCMC calculation to define a free energy (via the loading values) and the isosteric adsorption heat to define them. In the following study, we will focus on only two pressures: the ambient pressure (at \SI{1}{\atm}) and the limit of zero loading (infinite dilution). At \SI{1}{\atm}, the previously defined quantities will have an index $1$ to differentiate them from the infinite dilution case where an index $0$ will be used; for example, $\Delta\e{ads}H\e{1}\ex{Xe/Kr}$, $\Delta\e{exc}G\e{1}\ex{Xe/Kr}$ or $s\e{1}\ex{Xe/Kr}$ at \SI{1}{\atm}, and $\Delta\e{ads}H\e{0}\ex{Xe/Kr}$, $\Delta\e{exc}G\e{0}\ex{Xe/Kr}$ or $s\e{0}\ex{Xe/Kr}$ at the low pressure limit. One final note on the simulation details, to run the GCMC calculations and the Widom insertion, we used the Raspa2 software developed by Dubbeldam et al.\cite{dubbeldam2016} And the intermolecular Van der Waals interactions were described by a Lennard-Jones (LJ) potential with a cutoff distance of \SI{12}{\angstrom}. The LJ parameters of the framework atoms are given by the universal force field (UFF),\cite{rappe1992} and the guest atoms (xenon and krypton) have their LJ parameters taken from a previous screening study.\cite{Ryan_2010} All the MOFs described here are taken from the CoRE MOF 2019 database.\cite{Chung_2019}
 
 %%%%%%
 
 \section{Preliminary analyses}
 
-As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost). In this initial screening study of the thermodynamic quantities, we performed a screening of around 9,700 tridimensional MOF structures of a preprocessed version of the CoRE MOF 2019-ASR (all solvent removed) database that are publicly available --- only the non-disordered structures and the structures with a cell volume smaller than \SI{20}{\nano\meter\cubed} (to limit the overall calculation time) were considered. We will focus on the different relationships of the Xe/Kr selectivity has with structural descriptors based on geometrical analyses, and then with different thermodynamic descriptors (free energy, enthalpy, entropy). 
+As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost). In this initial screening study of the thermodynamic quantities, we performed a screening of around 9,700 tridimensional structures of a preprocessed version of the CoRE MOF 2019-ASR (all solvent removed) database that are publicly available --- only the non-disordered structures and the structures with a cell volume smaller than \SI{20}{\nano\meter\cubed} (to limit the overall calculation time) were considered. We will focus on the different relationships of the Xe/Kr selectivity has with structural descriptors based on geometrical analyses, and then with different thermodynamic descriptors (free energy, enthalpy, entropy). 
 
 \subsection{Structure--selectivity relationships}
 
-An adsorption separation process is primarly characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo** software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accssible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} probe,\cite{vol_Ongari2017} and the largest cavity diameter using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
+An adsorption separation process is primarily characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo++ software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accessible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} probe,\cite{vol_Ongari2017} and the largest cavity diameter using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
 
-Before digging deeper in the structure--selectivity relationship, we will look at the relation between the xenon uptake (the number of adsorbed xenon) and the selectivity at \SI{1}{\atm}. For instance, the xenon uptake could also be very important in a separation process, because it defines the working capacity of xenon produced by adsorption/desorption cycles. According to the Figures~\ref{fgr:sa} and \ref{fgr:vol}, first high xenon uptakes are associated with high selectivities, but at some point very high selectivities are associated to lower uptakes. There seem to be an area where materials have selectivity over $100$ and Xe uptake around \SI{3}{\milli\mole\per\gram}, whereas an uptake over \SI{6}{\milli\mole\per\gram} can only be obtained for a sleectivity between $10$ and $20$. One cannot maximize both uptake and selectivity metrics at the same time, a trade-off need to made when designing nanoporous materials for xenon/krypton separation.\cite{Zhang_2022} Different strategies have been implemented to optmize both metrics using mixed metrics such as the adsorbent performance score (APS).\cite{Solanki_2020}
+Before digging deeper in the structure--selectivity relationship, we will look at the relation between the xenon uptake (the number of adsorbed xenon in the GCMC simulation) and the selectivity at \SI{1}{\atm}. For instance, the xenon uptake could also be very important in a separation process, because it defines the working capacity of xenon produced by adsorption/desorption cycles. According to the Figures~\ref{fgr:sa} and \ref{fgr:vol}, first high xenon uptakes are associated with high selectivities, but at some point very high selectivities are associated to lower uptakes. There seem to be an area where materials have selectivity over $100$ and Xe uptake around \SI{3}{\milli\mole\per\gram}, whereas an uptake over \SI{6}{\milli\mole\per\gram} can only be obtained for a selectivity between $10$ and $20$. One cannot maximize both uptake and selectivity metrics at the same time, a trade-off need to made when designing nanoporous materials for xenon/krypton separation.\cite{Zhang_2022} Different strategies have been implemented to optimize both metrics using mixed metrics such as the adsorbent performance score (APS).\cite{Solanki_2020}
 This trade-off can be rationalized by using the different structural descriptors we presented earlier. 
 
+\todo{add analysis of fernandez corr ?}
 
-If look at different works on adsorption, one may think that maximizing the surface area is key inachieving > yes but it increases uptake for both xe and kr. Not always good for selectivity
-Surface labelisation maximization (in storage screening see section) is not a good approach
+As demonstrated by other studies on methane storage applications by Wilmer et al.\cite{Wilmer_2012} and then later by Fernandez et al.\cite{Fernandez_2013}, the methane uptake is maximal for a specific optimal range of surface area values ($2500$-$3000$ \si{\square\meter\cubic\centi\meter}). Higher values of surface area will not yield to higher values of methane uptake. This limitation also occurs for the selectivity as we can see in the right plot of the Figure~\ref{fgr:sa}. Materials with a selectivity around $5$ will have any surface areas from $0$ to $4000$~\si{\square\meter\cubic\centi\meter}, whereas the ones with a selectivity above $40$ will have a surface area below $2500$~\si{\square\meter\cubic\centi\meter}. The optimal surface area for xenon uptake would on the other hand be between $2000$ and $3000$~\si{\square\meter\cubic\centi\meter}. The relationship between selectivity and surface area is quite complex, we cannot clearly state a precise range of surface areas that guarantees a high selectivity. This structural descriptor cannot characterize the selectivity, it needs to be coupled with other descriptors. 
 
 \begin{figure}[ht]
   \centering
@@ -219,36 +218,40 @@ Surface labelisation maximization (in storage screening see section) is not a go
   \caption{Selectivity / Xe Uptake / Surface area}\label{fgr:sa}
 \end{figure}
 
-Surface labelisation
+A similar analysis of the relationship with the void fraction was also carried out by Wilmer et al. (Figure 5 of Ref.~\citenum{Wilmer_2012}), and an optimal value of the void fraction was found at around $0.8$. As we can see on the plots of the Figure~\ref{fgr:vol}, the materials with the highest value of Xe uptake have void fraction values around $0.5$, whereas the ones with the highest value of selectivity have much lower void fractions around $0.1$. The optimal range of void fraction for uptake would be between $0.2$ and $0.6$, whereas the one for selectivity is completely dissociated and is below $0.2$. The relationships are much clearer than for SA.
 
-\todo{Put analyses of selectivity relationship with other descriptors: uptake, void fraction, surface area, etc.}
-
-\todo{Trade-offs etc. }
+\todo{VF + pore size ?}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vol_selectivity.pdf}
-  \caption{Selectivity / Xe Uptake / Void Fraction}\label{fgr:vol}
+  \caption{Selectivity / Xe Uptake / Void Fraction \todo{Sort values by loading value}}\label{fgr:vol}
 \end{figure}
+
+\todo{LCD ??}
 
 Smaller pores
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{figures/2-thermo/3D_hist_selec_uptake.pdf}
-  \caption{Distribution selec / uptake}
+  \caption{Distribution selec / uptake \todo{change label into log10(s)}}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_SA.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_vol.pdf}
-  \caption{Ditributions, selec vs sa vol}
+  \caption{Ditributions, selec vs sa vol \todo{change label into log10(s)} \todo{Zoom in by shortening the range of s}}
 \end{figure}
 
+\todo{3D plot  LCD / selectivity }
 
 \todo{3D plot void / LCD / selectivity ?}
+
+%conclusion
+As presented in the previous chapter, Simon et al.\ found that the most selective materials have a pseudo-spherical shape with a size close to the diameter of a xenon which is rather dense and not very porous. By taking a slightly different approach and including the xenon uptake as a co-metric alongside the selectivity, we have similar results than Simon et al. 
 
 \todo{Add plots for the 90 10 case ?}
 
