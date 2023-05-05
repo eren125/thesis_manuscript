@@ -204,56 +204,105 @@ As we have seen above in the existing literature, the computational screening of
 
 An adsorption separation process is primarily characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo++ software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accessible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} probe,\cite{vol_Ongari2017} and the largest cavity diameter using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
 
+\subsubsection{Xenon uptake}
+
 Before digging deeper in the structure--selectivity relationship, we will look at the relation between the xenon uptake (the number of adsorbed xenon in the GCMC simulation) and the selectivity at \SI{1}{\atm}. For instance, the xenon uptake could also be very important in a separation process, because it defines the working capacity of xenon produced by adsorption/desorption cycles. According to the Figures~\ref{fgr:sa} and \ref{fgr:vol}, first high xenon uptakes are associated with high selectivities, but at some point very high selectivities are associated to lower uptakes. There seem to be an area where materials have selectivity over $100$ and Xe uptake around \SI{3}{\milli\mole\per\gram}, whereas an uptake over \SI{6}{\milli\mole\per\gram} can only be obtained for a selectivity between $10$ and $20$. One cannot maximize both uptake and selectivity metrics at the same time, a trade-off need to made when designing nanoporous materials for xenon/krypton separation.\cite{Zhang_2022} Different strategies have been implemented to optimize both metrics using mixed metrics such as the adsorbent performance score (APS).\cite{Solanki_2020}
-This trade-off can be rationalized by using the different structural descriptors we presented earlier. 
+This trade-off can be rationalized by using the different structural descriptors (pore size, surface area and volume) we presented earlier. 
 
-\todo{add analysis of fernandez corr ?}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_uptake.pdf}
+  \caption{3D histograms of in a bidimensional space formed by the Xe/Kr selectivity and the xenon uptake. The z-axis represents the number of structures with charaxteristics close to the one specified in x and y axis. A base 10 logarithm has been applied to the selectivity values.}\label{fgr:3D_uptake}
+\end{figure}
 
-As demonstrated by other studies on methane storage applications by Wilmer et al.\cite{Wilmer_2012} and then later by Fernandez et al.\cite{Fernandez_2013}, the methane uptake is maximal for a specific optimal range of surface area values ($2500$-$3000$~\si{\square\meter\cubic\centi\meter}). Higher values of surface area will not yield to higher values of methane uptake. This limitation also occurs for the selectivity as we can see in the right plot of the Figure~\ref{fgr:sa}. Materials with a selectivity around $5$ will have any surface areas from $0$ to $4000$~\si{\square\meter\cubic\centi\meter}, whereas the ones with a selectivity above $40$ will have a surface area below $2500$~\si{\square\meter\cubic\centi\meter}. The optimal surface area for xenon uptake would on the other hand be between $2000$ and $3000$~\si{\square\meter\cubic\centi\meter}. The relationship between selectivity and surface area is quite complex, we cannot clearly state a precise range of surface areas that guarantees a high selectivity. This structural descriptor cannot characterize the selectivity, it needs to be coupled with other descriptors. 
+Furthermore, even if we know that it is possible to optimize either the xenon uptake or the Xe/Kr selectivity, these very performant materials are very rare inside a given diverse dataset. In the histogram presented in Figure~\ref{fgr:3D_uptake}, the number of very selective materials are very low, same for the high-capacity materials. The most frequent materials have slectivities between $1$ and $10$ and an uptake below \SI{3}{\mmol\per\gram}. These values can be considered the standard values of nanoporous material for Xe/Kr separation, which sets reference values to compare the various performance metrics and build a chemical intuition. A selectivity above $20$ is therefore considered rather high (even if the top materials have much higher selectivities\cite{Pei_2022}) and a xenon uptake above \SI{4}{\mmol\per\gram} is also a pretty good adsorption capacity. The rarity of these top performing materials gives the impression of searching a needle in a haystack, which has prompted some computational studies to design their algorithm to focus on finding the best materials rather than to describe equally all materials.\cite{Deshwal_2021,Glasby_2021} 
 
-\begin{figure}[ht]
+\subsubsection{Surface areas}
+
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_sa.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_sa_selectivity.pdf}
-  \caption{Selectivity / Xe Uptake / Surface area}\label{fgr:sa}
+  \caption{On the left: scatterplot of the xenon uptake as a function of the selectivity and labeled by the values of the surface area. On the right: scatterplot of the selectivity and the surface area labeled by the quantity of xenon adsorbed. The selectivities and uptakes are all calculated by a GCMC simulation of a 20:80 Xe/Kr mixture.}\label{fgr:sa}
 \end{figure}
 
-A similar analysis of the relationship with the void fraction was also carried out by Wilmer et al. (Figure 5 of Ref.~\citenum{Wilmer_2012}), and an optimal value of the void fraction was found at around $0.8$. As we can see on the plots of the Figure~\ref{fgr:vol}, the materials with the highest value of Xe uptake have void fraction values around $0.5$, whereas the ones with the highest value of selectivity have much lower void fractions around $0.1$. The optimal range of void fraction for uptake would be between $0.2$ and $0.6$, whereas the one for selectivity is completely dissociated and is below $0.2$. The relationships are much clearer than for SA.
+As demonstrated by other studies on methane storage applications by Wilmer et al.\cite{Wilmer_2012} and then later by Fernandez et al.\cite{Fernandez_2013}, the methane uptake is maximal for a specific optimal range of surface area values ($2500$-$3000$~\si{\square\meter\cubic\centi\meter}). Higher values of surface area will not yield to higher values of methane uptake. This limitation also occurs for the selectivity as we can see in the right plot of the Figure~\ref{fgr:sa}. Materials with a selectivity around $5$ will have any surface areas from $0$ to $4000$~\si{\square\meter\cubic\centi\meter}, whereas the ones with a selectivity above $40$ will have a surface area below $2500$~\si{\square\meter\cubic\centi\meter}. The optimal surface area for xenon uptake would on the other hand be between $2000$ and $3000$~\si{\square\meter\cubic\centi\meter}. The relationship between selectivity and surface area is quite complex, we cannot clearly state a precise range of surface areas that guarantees a high selectivity. This structural descriptor cannot characterize the selectivity, it needs to be coupled with other descriptors. 
 
-\todo{VF + pore size ?}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_SA.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_vol.pdf}
+  \caption{3D histograms of in a bidimensional space formed by the Xe/Kr selectivity and the surface areas (on the left) and formed by the Xe/Kr selectivity and the pore void fractions (on the right). A base 10 logarithm has been applied to the selectivity values.}\label{fgr:3D_hist_sa_vol}
+\end{figure}
+
+\todo{} if now look at the 3D histogram Figure~\ref{fgr:3D_hist_sa_vol}, we can distinguish more clearly the different range of surface area values for different values of selectivities
+
+If we now look at the 3D histogram Figure~\ref{fgr:3D_hist_sa_vol},
+
+\subsubsection{Void fraction}
+
+A similar analysis of the relationship with the void fraction was also carried out by Wilmer et al. (Figure 5 of Ref.~\citenum{Wilmer_2012}), and an optimal value of the void fraction was found at around $0.8$. As we can see on the plots of the Figure~\ref{fgr:vol}, the materials with the highest value of Xe uptake have void fraction values around $0.5$, whereas the ones with the highest value of selectivity have much lower void fractions around $0.1$. The optimal range of void fraction for uptake would be between $0.2$ and $0.6$, whereas the one for selectivity is completely dissociated and is below $0.2$. We can characterize a bit more finely the selectivity using the void fraction than using the surface area, even though they both give very similar results. Both descriptors describe a rather dense material with a ``microporosity'', in the sense of the IUPAC\cite{Sing_1985}, which is characterized by medium-low pore volume and surface area.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vol_selectivity.pdf}
-  \caption{Selectivity / Xe Uptake / Void Fraction \todo{Sort values by loading value}}\label{fgr:vol}
+  \caption{On the left: scatterplot of the xenon uptake as a function of the selectivity and labeled by the values of the void fraction. On the right: scatterplot of the selectivity and the void fraction labeled by the quantity of xenon adsorbed. The selectivities and uptakes are all calculated by a GCMC simulation of a 20:80 Xe/Kr mixture.}\label{fgr:vol}
 \end{figure}
 
-\todo{LCD ??}
+\todo{} if now look at the 3D histogram Figure~\ref{fgr:3D_hist_sa_vol}, we can distinguish more clearly the different range of void fraction values for different values of selectivities
 
-Smaller pores
+\subsubsection{Pore size or largest cavity diameter}
 
-\begin{figure}[ht]
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=0.7\textwidth]{figures/2-thermo/3D_hist_selec_uptake.pdf}
-  \caption{Distribution selec / uptake \todo{change label into log10(s)}}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_lcd.pdf}
+  \caption{Selectivity / Xe Uptake / LCD . values sorted by loading value}\label{fgr:vol}
 \end{figure}
 
-\begin{figure}[ht]
+If we now look at the joint effects of the void fraction and the largest Cavity Diameter (LCD) on the selectivity, we can note that the most selective materials are located in a very particular domain of this bidimensional descriptor space. On Figure~\ref{fgr:lcd_vf}, the structures with a selectivity over $10$ are very likely to have a void fraction under $0.4$ with a rather wide range of LCD. However, as we can see on the filtered version of the plot (on the right), the most selective materials (over $40$) exist, on the other hand, in a very narrow range of LCD values between $4.8$ and $6$~\si{\angstrom} approximately. This can be explained by the size of a xenon atom being very close to these LCD values, which allows a maximal stabilization of the xenon that we want to separate from krypton. The krypton being slightly smaller, the interaction with the pores are less favorable, hence explaining the higher selectivity we observe. 
+
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_SA.pdf}
-  \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_vol.pdf}
-  \caption{Ditributions, selec vs sa vol \todo{change label into log10(s)} \todo{Zoom in by shortening the range of s}}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity_zoom.pdf}  
+  \caption{Distribution LCD / VF . $s>10$ puis $s>40$}\label{fgr:lcd_vf}
 \end{figure}
 
-\todo{3D plot  LCD / selectivity }
-
-\todo{3D plot void / LCD / selectivity ?}
 
 %conclusion
 As presented in the previous chapter, Simon et al.\ found that the most selective materials have a pseudo-spherical shape with a size close to the diameter of a xenon which is rather dense and not very porous. By taking a slightly different approach and including the xenon uptake as a co-metric alongside the selectivity, we have similar results than Simon et al. 
 
+\subsubsection{Effect of the composition}
+
+Introduce the case of 9010 as nuclear relevant
+
+Both selectivities are pretty close
+
+\begin{figure*}[h]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/2-thermo/s_2080_vs_s_9010_overview_log.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/2-thermo/s_2080_vs_s_9010_overview.jpg}
+    \caption{Overview at linear and log scale, comparison between $s\e{1}(20:80)$ and $s\e{1}(90:10)$}
+    \label{fgr:SI:overview_2080_9010}
+  \end{figure*}
+
+
 \todo{Add plots for the 90 10 case ?}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity9010.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol_9010.pdf}  
+  \caption{Distribution LCD / VF . $s>10$ puis $s>40$}\label{fgr:compo}
+\end{figure}
+
+
+
+Same region of interesting materials.\ref{fgr:compo}
+
+Much higher capacities than 20:80
+
 
 \todo{remove this after}
 \clearpage
@@ -317,14 +366,6 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
   \end{figure}
   
   In this section we focus on the impact of a change of working pressure on the adsorption selectivity, and analyze its thermodynamic origins. This is key to accurately assess the thermodynamics of adsorption in different working conditions for specific industrial processes, and any insight into the impact of pressure on selectivity may allow for faster screening limited at selected thermodynamic conditions.
-  
-  \begin{figure*}[h]
-    \centering
-      \includegraphics[width=0.45\textwidth]{figures/2-thermo/s_2080_vs_s_9010_overview_log.jpg}
-      \includegraphics[width=0.45\textwidth]{figures/2-thermo/s_2080_vs_s_9010_overview.jpg}
-      \caption{Overview at linear and log scale, comparison between $s\e{1}(20:80)$ and $s\e{1}(90:10)$}
-      \label{fgr:SI:overview_2080_9010}
-    \end{figure*}
 
   We calculated the selectivity $s\e{1}$ at pressure $1$~atm and ambient temperature using GCMC calculations on the entire dataset, with Xe/Kr mixture composition of 20:80 (found in a byproduct stream from air separation\cite{kerry2007industrial}) and 90:10 (found in the off-gas streams from nuclear waste\cite{auerbach2003handbook}). For high-selectivity materials, we find that the impact of composition appears rather marginal (\emph{c.f.} Figure~\ref{fgr:SI:overview_2080_9010}). In the following, we discuss the selectivity for the 20:80 mixture, which is the most commonly studied one in the literature. To measure the difference in selectivity between low and ambient pressures, we consider a relative difference $d_r(s\e{0},s\e{1})$ defined in equation~\ref{eqn:reldiff}.
   
