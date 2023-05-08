@@ -239,7 +239,7 @@ Looking at the 3D histogram on the Figure~\ref{fgr:3D_hist_sa_vol}, we can see t
 
 \subsubsection{Void fraction}
 
-A similar analysis of the relationship with the void fraction was also carried out by Wilmer et al. (Figure 5 of Ref.~\citenum{Wilmer_2012}), and an optimal value of the void fraction was found at around $0.8$. As we can see on the plots of the Figure~\ref{fgr:vol}, the materials with the highest value of Xe uptake have void fraction values around $0.5$, whereas the ones with the highest value of selectivity have much lower void fractions around $0.1$. The optimal range of void fraction for uptake would be between $0.2$ and $0.6$, whereas the one for selectivity is completely dissociated and is below $0.2$. We can characterize a bit more finely the selectivity using the void fraction than using the surface area, even though they both give very similar results. Both descriptors describe a rather dense material with a ``microporosity'', in the sense of the IUPAC\cite{Sing_1985}, which is characterized by medium-low pore volume and surface area.
+A similar analysis of the relationship with the void fraction was also carried out by Wilmer et al. (Figure 5 of Ref.~\cite{Wilmer_2012}), and an optimal value of the void fraction was found at around $0.8$. As we can see on the plots of the Figure~\ref{fgr:vol}, the materials with the highest value of Xe uptake have void fraction values around $0.5$, whereas the ones with the highest value of selectivity have much lower void fractions around $0.1$. The optimal range of void fraction for uptake would be between $0.2$ and $0.6$, whereas the one for selectivity is completely dissociated and is below $0.2$. We can characterize a bit more finely the selectivity using the void fraction than using the surface area, even though they both give very similar results. Both descriptors describe a rather dense material with a ``microporosity'', in the sense of the IUPAC\cite{Sing_1985}, which is characterized by medium-low pore volume and surface area.
 
 \begin{figure}[ht]
   \centering
@@ -255,7 +255,8 @@ By carrying out a similar analysis than for the surface areas bu for the void fr
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_lcd.pdf}
-  \caption{Scatterplot of the xenon uptake as a function of the selectivity and labeled by the values of the LCD. The selectivities and uptakes are calculated by a GCMC simulation of a 20:80 Xe/Kr mixture. The most selective materials are colored in orange-red or yellow corresponding to a pore size adapted for xenon adsorption. The less selective ones are in red, with a pore lower than the size of a xenon hence preventing its adsorption. \todo{change color ?}}\label{fgr:vol}
+  \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_lcd_zoom.pdf}
+  \caption{Scatterplot of the xenon uptake as a function of the selectivity (20:80) and labeled by the values of the LCD (left). The same scatterplot restricted to values of LCD between ($3.6$ and $11.6$~\si{\angstrom}) and labeled using a different color code to distinguish the most selective materials from the least selective ones. The most selective materials are colored in orange corresponding to a pore size adapted for xenon adsorption (around $5$~\si{\angstrom}). The least selective ones are in green, with a pore lower than the size of a xenon hence preventing its adsorption.}\label{fgr:vol}
 \end{figure}
 
 If we now look at the joint effects of the void fraction and the largest Cavity Diameter (LCD) on the selectivity, we can note that the most selective materials are located in a very particular domain of this bidimensional descriptor space. On Figure~\ref{fgr:lcd_vf}, the structures with a selectivity over $10$ are very likely to have a void fraction under $0.4$ with a rather wide range of LCD. However, as we can see on the filtered version of the plot (on the right), the most selective materials (over $40$) exist, on the other hand, in a very narrow range of LCD values between $4.8$ and $6$~\si{\angstrom} approximately. This can be explained by the size of a xenon atom being very close to these LCD values, which allows a maximal stabilization of the xenon that we want to separate from krypton. The krypton being slightly smaller, the interaction with the pores are less favorable, hence explaining the higher selectivity we observe. 
@@ -264,7 +265,7 @@ If we now look at the joint effects of the void fraction and the largest Cavity 
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity_zoom.pdf}  
-  \caption{Scatterplots of the void fraction as a function of the LCD and labeled by the log$_10$ of the selectivity values. On the left, only the materials with a selectivity between $10$ and $40$ are considered; and on the right, selectivities over $40$. }\label{fgr:lcd_vf}
+  \caption{Scatterplots of the void fraction as a function of the LCD and labeled by the log$_10$ of the selectivity values. On the left, only the materials with a selectivity between $10$ and $40$ are considered; and on the right, selectivities over $40$.}\label{fgr:lcd_vf}
 \end{figure}
 
 
@@ -285,8 +286,7 @@ As shown on the Figure~\ref{fgr:SI:overview_2080_9010}, selectivity values of bo
   \end{figure*}
 
 %higher uptakes
-We will now see the effect of the composition on the different analysis we carried out on the different structural descriptors. One of the major changes when considering a mixture with much more xenon, is the values of the xenon uptake. The nanopores of selective materials ($s>1$) are much more saturated in Xe and the maximum amount of xenon is therefore much more higher. By comparing the Figures~\ref{fgr:vol} and \ref{fgr:compo}, the maximum uptake is now \SI{12}{\milli\mole\per\gram} \todo{exact values} instead of \SI{7}{\milli\mole\per\gram} (for the 20:80 composition). We previously stated that the most selective materials could reach up to \SI{4}{\milli\mole\per\gram} of xenon uptake, for a composition with a higher xenon content, it can now reach up to \SI{6}{\milli\mole\per\gram}. These results are consistent with materials that are not yet saturated and will take more xenon as the proportion of xenon in the mixture increases.
-
+We will now see the effect of the composition on the different analysis we carried out on the different structural descriptors. One of the major changes when considering a mixture with much more xenon, is the values of the xenon uptake. The nanopores of selective materials ($1<s_1\leq 50$) are much more saturated in Xe and the maximum amount of xenon is therefore much more higher. By comparing the Figures~\ref{fgr:vol} and \ref{fgr:compo}, the maximum uptake is now \SI{11.7}{\milli\mole\per\gram} instead of \SI{6.6}{\milli\mole\per\gram} (for the 20:80 composition). For moderately selective materials, the nanopores are not yet saturated and will take more xenon as the proportion of xenon in the mixture increases. We previously stated that the most selective ($s_1>50$) materials could reach up to \SI{4.0}{\milli\mole\per\gram} of xenon uptake, for a composition with a higher xenon content, and it reaches up to \SI{4.2}{\milli\mole\per\gram} again, which is not a big change. For the most selective materials, the previous conclusion on the maximum uptake can still stand. Because of the extremely high selectivity, the change in composition does not change the nature of the adsorbed state and about the same quantities of xenon are present in the pores. Finally, we can say that a higher content in xenon does not influence a lot the most selective materials' performance but it could alter the selectivity and increase a lot the xenon uptake for some moderately selective materials.
 
 \begin{figure}[h!]
   \centering
@@ -316,7 +316,7 @@ To evaluate the performance of a given nanoporous material for separation in the
 
 We display the distribution of thermodynamic properties of materials with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$) in Figure~\ref{fgr:histo_K} --- we restrict these plots to selectivity above 1, because those are the materials of interest for separation, and doing so removes several outliers with specific geometries or binding sites (but does not change the overall conclusions). We can first see that although the logarithm of the Xe Henry's constant $K\ex{Xe}$ is weakly correlated to the logarithm of the selectivity $s\e{0}$, this correlation is stronger for highly selective materials. Therefore, in a multistep screening study to identify the most selective materials, it could be possible to use as a ``first filter'' criterion based purely on Xe adsorption, discarding materials below a certain threshold (e.g., the materials with $s_0\ge30$ are contained in the subset with $K\ex{Xe}\ge2.7\,10^{-1}$~\si{\milli\mol\per\gram\per\pascal}). The correlation between $K\ex{Kr}$ and $s\e{0}$, on the other hand, is weaker.
 
-With regard to Henry's constants, we observe a broad selection of behavior, with $K\ex{Xe}$ ranging from $2.6\ 10^{-7}$~\si{\milli\mol\per\gram\per\pascal} to $7.9\ 10^{-1}$~\si{\milli\mol\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\ 10^{-7}$~\si{\milli\mol\per\gram\per\pascal} to $5.1\ 10^{-3}$~\si{\milli\mol\per\gram\per\pascal}. We also see that statistically, a high affinity for xenon usually translates into a high (relative) affinity for krypton, which is a general trend for noble gases where the adsorption sites are not strongly specific. In order to look more in detail into the thermodynamics behind this wide diversity in behavior, we plot in Figure~\ref{fgr:histo_H} the enthalpies involved.
+With regard to Henry's constants, we observe a broad selection of behavior, with $K\ex{Xe}$ ranging from $2.6\,10^{-7}$ to $7.9\,10^{-1}$~\si{\milli\mol\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\,10^{-7}$ to $5.1\,10^{-3}$~\si{\milli\mol\per\gram\per\pascal}. We also see that statistically, a high affinity for xenon usually translates into a high (relative) affinity for krypton, which is a general trend for noble gases where the adsorption sites are not strongly specific. In order to look more in detail into the thermodynamics behind this wide diversity in behavior, we plot in Figure~\ref{fgr:histo_H} the enthalpies involved.
 
 \begin{figure}[t]
 \centering
@@ -346,7 +346,6 @@ We first observe that the low-loading adsorption enthalpy of xenon ($\Delta\e{ad
   \end{figure*}
 
 \section{Selectivity drop}
-
 
 \todo{Conclusion on the enthalpic nature of the separation. Entropy here to explain the disparaities more than a decisive variable}
 
@@ -470,30 +469,57 @@ To evaluate quantitatively the thermodynamic effects at play in the competitive 
   
   \begin{table}
   \small
-    \caption{Enthalpic and entropic contributions to the selectivity change for some archetypal structures selected for their high $s\e{0}$ selectivity. Every structure is identified using a CSD Refcode and the first article that mentions it }
+    \caption{Enthalpic ($k\e{H}$) and entropic ($k\e{S}$) contributions to the selectivity change ($s\e{1}/s\e{0}$) between low and ambien pressures for some archetypal structures selected for their high $s\e{0}$ selectivity at infinite dilution. Every structure is identified using a CSD Refcode and a reference the first article that mentions it. The pore size are also characterized using the largest cavity diameter (LCD) and the pore limiting diameter (PLD) values in \si{\angstrom}.}
     \label{tbl:effect}
     \renewcommand{\arraystretch}{1.1}
-    \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}lrrrrrrrrrr}
+    \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}|lr|rrrrr|rr|}
       \hline
-       CSD Refcode & Ref. & $s\e{0}$ &  $s\e{1}$  &  $s\e{1}/s\e{0}$ &  $k\e{H}$ &  $k\e{S}$ \\
+       CSD Refcode & Ref. & $s\e{0}$ &  $s\e{1}$  &  $s\e{1}/s\e{0}$ &  $k\e{H}$ &  $k\e{S}$ & LCD & PLD\\
       \hline
-     VOKJIQ & \citenum{VOKJIQ} &           $157.17$ &  $242.73$ &        $1.54$ &              $1.46$ &             $1.06$ \\
-     KAXQIL & \citenum{KAXQIL} &           $103.78$ &  $132.57$ &        $1.28$ &              $1.32$ &             $0.96$ \\
-     JUFBIX & \citenum{JUFBIX} &           $106.11$ &  $114.83$ &        $1.08$ &              $1.08$ &             $1.00$ \\
-     FALQOA & \citenum{FALQOA} &           $162.20$ &  $171.10$ &        $1.05$ &              $1.09$ &             $0.96$ \\
-     GOMREG & \citenum{GOMREG_GOMRAC} &    $114.14$ &  $ 73.83$ &        $0.65$ &              $1.01$ &             $0.64$ \\
-     JAVTAC & \citenum{JAVTAC} &           $117.38$ &  $ 66.93$ &        $0.57$ &              $0.77$ &             $0.74$ \\
-     GOMRAC & \citenum{GOMREG_GOMRAC} &    $124.11$ &  $ 47.34$ &        $0.38$ &              $0.58$ &             $0.66$ \\
-     MISQIQ & \citenum{MISQIQ} &           $138.94$ &  $ 37.32$ &        $0.27$ &              $0.51$ &             $0.53$ \\
-   BAEDTA01 & \citenum{BAEDTA01} &         $154.10$ &  $ 37.74$ &        $0.24$ &              $0.12$ &             $1.97$ \\
-     VIWMOF & \citenum{VIWMOF} &           $ 81.13$ &  $ 13.24$ &        $0.16$ &              $0.04$ &             $4.30$ \\
-     LUDLAZ & \citenum{LUDLAZ} &           $165.68$ &  $ 16.42$ &        $0.10$ &              $0.16$ &             $0.63$ \\
-     WOJJOV & \citenum{WOJJOV} &           $146.32$ &  $ 13.94$ &        $0.10$ &              $0.06$ &             $1.68$ \\
-     VAPBIZ & \citenum{VAPBIZ} &           $146.73$ &  $ 12.76$ &        $0.09$ &              $0.06$ &             $1.50$ \\
-      \hline
+     VOKJIQ & \cite{VOKJIQ} &           $157.17$ &  $242.73$ &  $1.54$ &  $1.46$ &  $1.06$  &  $4.8$  &  $4.8$  \\
+     KAXQIL & \cite{KAXQIL} &           $103.78$ &  $132.57$ &  $1.28$ &  $1.32$ &  $0.96$  &  $5.2$  &  $5.2$  \\
+     JUFBIX & \cite{JUFBIX} &           $106.11$ &  $114.83$ &  $1.08$ &  $1.08$ &  $1.00$  &  $5.0$  &  $5.0$  \\
+     FALQOA & \cite{FALQOA} &           $162.20$ &  $171.10$ &  $1.05$ &  $1.09$ &  $0.96$  &  $5.1$  &  $5.1$  \\
+     GOMREG & \cite{GOMREG_GOMRAC} &    $114.14$ &  $ 73.83$ &  $0.65$ &  $1.01$ &  $0.64$  &  $5.4$  &  $5.4$  \\
+     JAVTAC & \cite{JAVTAC} &           $117.38$ &  $ 66.93$ &  $0.57$ &  $0.77$ &  $0.74$  &  $5.1$  &  $5.1$  \\
+     GOMRAC & \cite{GOMREG_GOMRAC} &    $124.11$ &  $ 47.34$ &  $0.38$ &  $0.58$ &  $0.66$  &  $5.3$  &  $5.3$  \\
+     MISQIQ & \cite{MISQIQ} &           $138.94$ &  $ 37.32$ &  $0.27$ &  $0.51$ &  $0.53$  &  $4.2$  &  $4.2$  \\
+   BAEDTA01 & \cite{BAEDTA01} &         $154.10$ &  $ 37.74$ &  $0.24$ &  $0.12$ &  $1.97$  &  $5.3$  &  $5.3$  \\
+     VIWMOF & \cite{VIWMOF} &           $ 81.13$ &  $ 13.24$ &  $0.16$ &  $0.04$ &  $4.30$  &  $9.8$  &  $9.8$  \\
+     LUDLAZ & \cite{LUDLAZ} &           $165.68$ &  $ 16.42$ &  $0.10$ &  $0.16$ &  $0.63$  &  $6.6$  &  $6.6$  \\
+     WOJJOV & \cite{WOJJOV} &           $146.32$ &  $ 13.94$ &  $0.10$ &  $0.06$ &  $1.68$  &  $7.8$  &  $7.8$  \\
+     VAPBIZ & \cite{VAPBIZ} &           $146.73$ &  $ 12.76$ &  $0.09$ &  $0.06$ &  $1.50$  &  $6.3$  &  $6.3$  \\
+      \hline 
     \end{tabular*}
   \end{table}
   
+
+\begin{table*}[h]
+\fontsize{8.5}{10.5}\selectfont
+  \caption{\ Thermodynamic quantities associated for a few archetypal structures. Henry's constant $K\ex{Xe}$, $K\ex{Kr}$ are in \si{\milli\mol\per\gram\per\pascal}, loadings $q\ex{Xe}\e{1}$ and $q\ex{Kr}\e{1}$ are in \si{\milli\mol\per\gram}, enthalpies $\Delta\e{ads}H\ex{Xe}\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{1}$ and $\Delta\e{ads}H\ex{Xe}\e{1}$ are in \si{\kilo\joule\per\mol} }
+  \label{tbl:example}
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|lr|rrrrr|rrrrr|}
+    \hline
+          CSD Refcode & Ref. &  $s\e{0}$ &  $K\ex{Xe}$ &  $K\ex{Kr}$ &  $\Delta\e{ads}H\ex{Xe}\e{0}$ &  $\Delta\e{ads}H\ex{Kr}\e{0}$  &  $s\e{1}$ &  $q\ex{Xe}\e{1}$ &  $q\ex{Kr}\e{1}$ &  $\Delta\e{ads}H\ex{Xe}\e{1}$ &  $\Delta\e{ads}H\ex{Xe}\e{1}$ \\
+    \hline
+        VOKJIQ & \cite{VOKJIQ}        &  $157$  &  $7.92\,10^{-1}$  &  $5.04\,10^{-3}$  &  $-53.9$  &  $-38.2$  &  $243$  &  $2.57$  &  $0.04$  &  $-61.1$  &  $-44.5$  \\
+        KAXQIL & \cite{KAXQIL}        &  $104$  &  $3.01\,10^{-2}$  &  $2.90\,10^{-4}$  &  $-44.6$  &  $-30.5$  &  $133$  &  $1.41$  &  $0.04$  &  $-41.5$  &  $-26.8$  \\
+        JUFBIX & \cite{JUFBIX}        &  $106$  &  $1.59\,10^{-2}$  &  $1.50\,10^{-4}$  &  $-45.6$  &  $-31.4$  &  $115$  &  $0.80$  &  $0.03$  &  $-45.7$  &  $-31.3$  \\
+        FALQOA & \cite{FALQOA}        &  $162$  &  $2.23\,10^{-2}$  &  $1.38\,10^{-4}$  &  $-47.3$  &  $-32.0$  &  $171$  &  $0.68$  &  $0.02$  &  $-48.6$  &  $-33.1$  \\
+        GOMREG & \cite{GOMREG_GOMRAC} &  $114$  &  $9.16\,10^{-2}$  &  $8.03\,10^{-4}$  &  $-44.7$  &  $-31.1$  &  $ 74$  &  $2.59$  &  $0.14$  &  $-47.5$  &  $-33.8$  \\
+        JAVTAC & \cite{JAVTAC}        &  $117$  &  $1.24\,10^{-1}$  &  $1.06\,10^{-3}$  &  $-47.7$  &  $-33.5$  &  $ 67$  &  $1.50$  &  $0.09$  &  $-48.5$  &  $-34.9$  \\
+        GOMRAC & \cite{GOMREG_GOMRAC} &  $124$  &  $1.17\,10^{-1}$  &  $9.45\,10^{-4}$  &  $-45.6$  &  $-31.8$  &  $ 47$  &  $2.51$  &  $0.21$  &  $-47.3$  &  $-34.8$  \\
+        MISQIQ & \cite{MISQIQ}        &  $139$  &  $6.87\,10^{-1}$  &  $4.94\,10^{-3}$  &  $-51.9$  &  $-37.4$  &  $ 37$  &  $2.30$  &  $0.25$  &  $-45.6$  &  $-32.8$  \\
+      BAEDTA01 & \cite{BAEDTA01}      &  $154$  &  $1.39\,10^{-2}$  &  $9.04\,10^{-5}$  &  $-47.7$  &  $-31.7$  &  $ 38$  &  $1.05$  &  $  11$  &  $-34.0$  &  $-23.1$  \\
+        VIWMOF & \cite{VIWMOF}        &  $ 81$  &  $7.87\,10^{-3}$  &  $9.70\,10^{-5}$  &  $-46.3$  &  $-30.1$  &  $ 13$  &  $2.99$  &  $0.90$  &  $-26.0$  &  $-17.8$  \\
+        LUDLAZ & \cite{LUDLAZ}        &  $166$  &  $9.04\,10^{-2}$  &  $5.46\,10^{-4}$  &  $-45.4$  &  $-30.9$  &  $ 16$  &  $1.59$  &  $0.39$  &  $-38.3$  &  $-28.3$  \\
+        WOJJOV & \cite{WOJJOV}        &  $146$  &  $4.19\,10^{-2}$  &  $2.86\,10^{-4}$  &  $-46.4$  &  $-30.7$  &  $ 14$  &  $2.82$  &  $0.81$  &  $-33.0$  &  $-24.4$  \\
+        VAPBIZ & \cite{VAPBIZ}        &  $147$  &  $3.54\,10^{-2}$  &  $2.41\,10^{-4}$  &  $-46.4$  &  $-30.5$  &  $ 13$  &  $2.50$  &  $0.78$  &  $-34.1$  &  $-25.3$  \\
+    \hline
+    \end{tabular}
+\end{table*}
+
   \begin{figure*}[t]
   \centering
     \includegraphics[width=0.48\textwidth]{figures/2-thermo/MISQIQ_clean.jpg}\hfill
@@ -559,7 +585,7 @@ To evaluate quantitatively the thermodynamic effects at play in the competitive 
   
   More extreme cases of selectivity drop can occur when more than one site is available, as is the case for materials BAEDTA01, VIWMOF, LUDLAZ, WOJJOV, and VAPBIZ. The pure-component isotherms and the representation of the materials loaded in xenon and krypton molecules (presented in supporting information Figures~S19-23) confirm the existence of at least two distinct adsorption sites in each material. The most selective sites (i.e., the most favorable for Xe) are filled in priority at low loading, and the less selective sites will then be populated when the pressure increases, leading to a net selectivity drop at ambient pressure for these materials. The different types of adsorption sites, and therefore the potential for a drop in Xe/Kr selectivity (at non-zero pressure) is a factor that could be explicitly included in screening of pure-component isotherms, without the need for explicit multi-component GCMC simulations.
 
-  \subsection{Main conclusions of the thermodynamic exploration and perspectives}
+  \subsection{Conclusion and introduction to the follow-up studies}
 
   In the current state of the art on Xe/Kr separation by adsorption in nanoporous materials, many studies have focused on the determination of structure/property relationships, the description of theoretical limits of performance, and the identification of top-performing materials, whether for existing experimental structures or for novel hypothetical structures yet to be synthesized. Here, we provide a study based on a high-throughput screening of the adsorption of Xe, Kr, and Xe/Kr mixtures in 12,020 experimental open-framework materials, in order to provide a better comprehension of the thermodynamics behind Xe/Kr separation in nanoporous materials and the microscopic origins of Xe/Kr selectivity at both low and ambient pressure. 
 
@@ -568,6 +594,8 @@ The statistical correlation found between Henry's constant for Xe and Xe/Kr sele
 In order to use nanoporous materials to separate xenon from krypton, pressure swing adsorption (PSA) processes have been widely proposed: pressure is therefore a crucial thermodynamic variable in the separation cycle. Here, we studied the difference of selectivity between a system under very low pressure (at the zero loading limit, which is calculated at relatively low computational cost) and a system at ambient pressure (closer to working conditions, but obtained at higher simulation cost). We demonstrated that the selectivity could be highly dependent on the pressure, with high low-pressure selectivity that could be maintained in some materials at ambient-pressure selectivity, while in others there would be a large drop in selectivity: a high ambient-pressure selectivity requires high low-pressure selectivity, but the reverse does not hold.
 
 Using a thermodynamic approach to describe the separation selectivity, we showed that the differences in selectivity between the different pressures (and therefore different loading regimes of the frameworks) are mainly explained by the evolution of the adsorption enthalpies for Xe and Kr. By focusing on specific examples, we uncovered the microscopic origins of these selectivity changes, and related them to the relative roles of host--guest and guest--guest interactions. Population of different adsorption sites, or repacking of the adsorbed phase at higher loading, can lead to drastic changes in the overall selectivity. The mechanisms behind selectivity at high pressure are complex and unique to each framework, requiring a good understanding of the interactions between guest molecules constrained in the nanopores. Nevertheless, our classification of the interactions at play can help in the future to design more efficient high-throughput screening procedures.
+
+\todo{see if it is clear: enthalpy importance, correlation low ambient and divergences}
 
 \todo{transition to raess}
 
