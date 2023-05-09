@@ -8,7 +8,7 @@
 
 \section{Voronoi sampling}
 
-\subsection{Reminder a previous study}
+\subsection{Initial Implementation in a Screening}
 
 The use of the Voronoi decomposition of the pore space of materials for their geometric characterization has been widely employed in computational studies in the last decade,\cite{Willems_2012} in particular since it was made easily available as part of the Zeo++ software package.\cite{Pinheiro2013} Its use was extended recently to implement a novel sampling scheme, in a study proposing the ML-assisted screening of nanoporous materials for xenon/krypton separation. In this article, Simon et al.\cite{Simon_2015} relied on a Voronoi tessellation of the nanoporous materials and assigned the potential adsorption sites (i.e., the sampling points) at the nodes of this decomposition. The Voronoi tessellation identifies the vertices of polygons that correspond to the closest regions of each atom of the structure. These vertices (or \emph{Voronoi nodes}) are the points equidistant to at least four atoms of the structure, and they can be associated with adsorption sites since they are positioned near the center of the pores. It is possible to calculate the host/guest interaction energies at every Voronoi node, and average them to obtain an approximation of the adsorption enthalpy. However, this sampling assumes that the nodes are close to the real, most favorable, adsorption sites. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size.
 
