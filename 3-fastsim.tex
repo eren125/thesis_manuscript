@@ -10,20 +10,33 @@
 
 \subsection{Theoretical considerations}
 
-{In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell that is closer to it than any other seeds.\cite{Rycroft_2009} } 
+In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009}
 
-In a tridimensionnal space, let us consider the positions $(P_k)_{k\in\{1,\ldots,n\}}$ of the $n$ atoms in a main box $B$ that could be periodically propagated in the whole space. For every $k\in\{1,\ldots,n\}$, we can then define a subspace $S_{k}$ (also called Voronoi cell) around the atom $k$ so that any point $x$ inside this subspace is closer to the position $P_k$ than to any other points $P_j$ ($j\ne k$). 
+In a tridimensionnal space, let us consider the positions ${(\vect{x}_k)}_{k\in\{1,\ldots,n\}}$ of the $n$ atoms in a main box $B$ that could be periodically propagated in the whole space. For every $k\in\{1,\ldots,n\}$, we can then define a subspace $S_{k}$ (also called Voronoi cell) around the atom $k$ so that any point $\vect{x}$ inside this subspace is closer to the position $\vect{x}_k$ than to any other points $\vect{x}_j$ ($j\neq k$). 
 
-\begin{equation}
-  S_{k} = \left\{x \in B | \forall j\ne k, \lVert x-P_k \rVert \leq \lVert x-P_k \rVert \right\}
+\begin{equation}\label{eq:voronoi_partition}
+  S_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ j\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert \leq \lVert \vect{x}-\vect{x}_k \rVert \right\}
 \end{equation}
 
-\todo{add equations here}
+The set of all these 3D polygonal subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polygons can then give valuable informations of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ polygonal subspacces $\left\{S_{i_1},\ldots,S_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point of an edge adjacent to a few subspaces, it will be the closest 
 
-How we can easily define accessible
+
+
+In the Zeo++ software,\cite{Zeo++} to store the information on the different Voronoi regions $S_{k}$, only the vertexes and the edges .
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/3-fastsim/Simon_voronoi.jpeg}
+  \caption{Voronoi network model of void space (2D caricature). The unit cell of a toy material is shown. Red circles represent atoms of the material; accessible and inaccessible Voronoi nodes are blue squares and green triangles, respectively. The black lines are the edges in the periodic Voronoi graph that model the void space.. Taken from Ref.~\cite{Simon_2015}}\label{}
+\end{figure}
+
+\todo{How we can easily define accessible}
 
 
 Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). At the vertices of each cell, there are Voronoi nodes that was used in the Voronoi energy calculation presented by Simon et al.\cite{Simon2015} To compare our algorithm to a Voronoi sampling, we used the interaction energy values at the Voronoi nodes to calculate a Boltzmann average. These proxies for the adsorption enthalpy are then indirectly compared to the adsorption enthalpies calculated by our surface sampling.
+
+The energy descriptor of Simon et al. in  is the average potential energy of a xenon atom adsorbed at the accessible Voronoi nodes
+
 
 \subsection{Implementation in a Screening}
 
@@ -90,8 +103,7 @@ In order to validate the accuracy of the approximation made using this sampling,
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.7\linewidth]{figures/3-fastsim/time_rmse.jpeg}
-  \caption{RMSE convergence of our algorithm (left) compared to a 100k-step Widom insertion simulation (right) for xenon adsorption in {all} structures of the CoRE MOF 2019 database.}
-  \label{fgr:convergence}
+  \caption{RMSE convergence of our algorithm (left) compared to a 100k-step Widom insertion simulation (right) for xenon adsorption in {all} structures of the CoRE MOF 2019 database.}\label{fgr:convergence}
 \end{figure}
 
 After proving the good accuracy of the method, we are now exploring the computation time required. We see on Figure~\ref{fgr:convergence} that the method reaches an RMSE below \SI{1.0}{\kilo\joule\per\mole} very quickly for an average CPU time of \SI{1.2}{\second} (Table~S1), corresponding to 2,000 sampling points per atom. This is far less than the \SI{150}{\second} (Table~S2) required for a Widom insertion to reach its plateau value, for an RMSE of \SI{0.10}{\kilo\joule\per\mole} with 12,000 cycles. Moreover, the Widom insertion needs around \SI{14}{\second} to reach a similar RMSE of \SI{1.0}{\kilo\joule\per\mole}, which is still slower than the surface sampling. We can conclude that this initial implementation of the surface sampling is faster than a standard Widom insertion, with a good accuracy.
@@ -170,7 +182,7 @@ where $V$ volume of the cell $a$ atoms of the cell; $N_{accessible}(a)$ accessib
 When we set $\lambda=1$, we are sampling spheres that have a radius $\sigma$ and it is equivalent as considering hard spheres all defined by $\sigma$ (convention used by RASPA2 to calculate surface areas). If we compare simulation with $\lambda=1$, we obtain surface areas that are very close to the one obtained by RASPA2 (see Figure~S11 in SI). However, when we consider $\lambda=1.6$, we lose the perfect accordance previously obtained and the points weakly correlated in log-scale (see Figure~S10 in SI). The difference can be explained by the fact that the sphere size is larger, but the proportion of adsorbable points also changes. The relationship between these two adsorption surface areas is no trivial at all. Since the calculation of surface areas is quite cheap, this implementation would not be very useful, except for having a rough idea of the surface area.
 
 
-\section{Conclusions and perspectives}
+\subsection{Conclusions and perspectives}
 
 In the present article, we described a novel algorithm for the high-speed calculation of adsorption enthalpy in nanoporous materials, that takes a unique approach to reduce the sampling necessary. This new algorithm is based on the core principle of dimensional reduction, from a volume problem to a surface one. The algorithm is proven to be significantly faster than the reference Widom insertion (random sampling of porous space). Moreover, the error associated is found to be of the order of \SI{0.4}{\kilo\joule\per\mole}, tested throughout the entire CoRE MOF 2019 database, for xenon adsorption. Even when comparing to existing very fast sampling techniques such as the Voronoi sampling, this surface sampling technique requires similar CPU time, combined with a better accuracy. 
 
