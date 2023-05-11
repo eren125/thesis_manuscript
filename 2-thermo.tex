@@ -11,7 +11,7 @@
 
 \subsection{Geometrical descriptors}
 
-Before going into the details of the adsorption properties themselves, we will first introduce the different simulation techniques used to characterize the internal pore structure of a material key in interpreting the adsorption properties obtained using more complex molecular simulations. All the geometrical descriptors used in this thesis have been calculated using the Zeo++ software;\cite{Zeo++} other tools exist,\ref{First_2013,PoreBlazer} but the use of Voronoi decomposition of the volume speeds up the calculation making it the preferred tool for this task (efficiency gain mainly on volume calculation).\cite{Rycroft_2009} 
+Before going into the details of the adsorption properties themselves, we will first introduce the different simulation techniques used to characterize the internal pore structure of a material key in interpreting the adsorption properties obtained using more complex molecular simulations. All the geometrical descriptors used in this thesis have been calculated using the Zeo++ software;\cite{Zeo++} other tools exist,\cite{First_2013,PoreBlazer} but the use of Voronoi decomposition of the volume speeds up the calculation making it the preferred tool for this task (efficiency gain mainly on volume calculation).\cite{Rycroft_2009} 
 
 \subsubsection{Pore size}
 
@@ -210,7 +210,7 @@ This exchange equilibrium can be seen as the substraction between the adsorption
   \Delta\e{exc}H\ex{Xe/Kr} = \Delta\e{ads}H\ex{Xe} - \Delta\e{ads}H\ex{Kr}
   }
 \end{equation}
-Moreover, the adsorption enthalpies $\Delta\e{ads}H$ can be obtained in a GCMC calculation using a formula derived from the fluctuation theorem in statistical mechanics (see a derivation in this online article \ref{github_simon_gcmc}):
+Moreover, the adsorption enthalpies $\Delta\e{ads}H$ can be obtained in a GCMC calculation using a formula derived from the fluctuation theorem in statistical mechanics (see a derivation in this online article~\cite{github_simon_gcmc}):
 \begin{equation}\label{eq:ads_heat_gcmc}
   \Delta\e{ads}H\ex{Xe} = \dfrac{\langle EN \rangle - \langle E \rangle\langle N \rangle}{\langle N^2 \rangle - \langle N \rangle^2} - RT
 \end{equation}
@@ -233,7 +233,7 @@ As we have seen above in the existing literature, the computational screening of
 
 \subsection{Structure--selectivity relationships}
 
-An adsorption separation process is primarily characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and \ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo++ software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accessible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} radius probe (roughly the size of a xenon),\cite{vol_Ongari2017} and the largest cavity diameter (LCD) using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
+An adsorption separation process is primarily characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and~\ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo++ software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accessible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} radius probe (roughly the size of a xenon),\cite{vol_Ongari2017} and the largest cavity diameter (LCD) using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
 
 \subsubsection{Xenon uptake}
 
@@ -404,7 +404,7 @@ We calculated the selectivity $s\e{1}$ at pressure $1$~atm and ambient temperatu
 
 In Figure~\ref{fgr:overview}, the selectivity at ambient pressure $s\e{1}$ is plotted against its low-pressure counterpart $s\e{0}$ (for materials where $s\e{0} > 1$, as before). The points are color-coded according to the value of $d_r(s\e{0},s\e{1})$, in 6 discrete categories for the sake of clarity. There is some broad level of correlation, see near the diagonal with {61.5\%} of materials where the difference is below {20\%} (near the $s_0 = s_1$ line). We also see clearly that there are many more points ({74.3\%} among the materials with $d_r(s\e{0},s\e{1})\ge 0.2$) below the first bisector ($s_1 < s_0$) than above: for these materials the selectivity $s\e{1}$ at 1~atm is significantly lower than the one at low pressure $s\e{0}$.
 
-This drop in selectivity mainly concerns the materials with a relatively high selectivity $s\e{0} > 10$ (see Figure~\ref{fgr:overview}), and forewarns that considering solely pure-component Henry's constant (i.e. zero-pressure selectivity) for materials screening could be misleading in some cases. Although it is simpler and faster to calculate, those low-pressure results that can overestimate selectivity by more than {100\%} in a significant number of materials (646 out of 9,668 in our dataset). 
+This drop in selectivity mainly concerns the materials with a relatively high selectivity $s\e{0} > 10$ (see Figure~\ref{fgr:overview}), and forewarns that considering solely pure-component Henry's constant (i.e., zero-pressure selectivity) for materials screening could be misleading in some cases. Although it is simpler and faster to calculate, those low-pressure results that can overestimate selectivity by more than {100\%} in a significant number of materials (646 out of 9,668 in our dataset). 
 By using a thermodynamic approach, we now try to explain the reasons behind these shifts in selectivity.
 
 If we now look at the 90:10 composition, we can note that the drop in selectivity is even more important. The selectivity with a higher proportion of xenon was already found to be higher than the selectivity for 20:80 composition (see Figure~\ref{fgr:compo}); we explained this drop by the presence of more or less favorable adsorption sites. In some materials (labeled in purple), at a low xenon content composition, the xenon and krypton mainly compete in the most favorable sites until these sites are saturated and no xenon is left to compete in the less selective sites. When we increase the Xe/Kr ratio, these less selective nanopores drive the overall selectivity down. Combined with the effect of increasing the pressure, some materials undergo both phenomena and have an exacerbated drop in selectivity compared to the selectivity at low pressure. 
@@ -429,8 +429,7 @@ To evaluate quantitatively the thermodynamic effects at play in the competitive 
 \begin{figure}[t]
 \centering
   \includegraphics[width=0.6\linewidth]{figures/2-thermo/enthalpy_entropy_2080_s_0.jpg}
-  \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{1}$ and enthalpy $\Delta\e{exc}H\e{1}$ at ambient pressure labeled using the selectivity $s\e{0}$ at low pressure. The points are layered so that the points with higher $s\e{0}$ are always above. To see a split version of this plot, please refer to the Figure~\ref{fgr:SI:dist1}.}
-  \label{fgr:HSplot_1}
+  \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{1}$ and enthalpy $\Delta\e{exc}H\e{1}$ at ambient pressure labeled using the selectivity $s\e{0}$ at low pressure. The points are layered so that the points with higher $s\e{0}$ are always above. To see a split version of this plot, please refer to the Figure~\ref{fgr:SI:dist1}.}\label{fgr:HSplot_1}
 \end{figure}
 
 \begin{figure*}[h]
@@ -439,7 +438,7 @@ To evaluate quantitatively the thermodynamic effects at play in the competitive 
     \includegraphics[width=0.45\textwidth]{figures/2-thermo/H_S_1.jpg}
     \includegraphics[width=0.45\textwidth]{figures/2-thermo/H_S_2.jpg}
     \includegraphics[width=0.45\textwidth]{figures/2-thermo/H_S_3.jpg}
-    \caption{Split view of the Figure~\ref{fgr:HSplot_0} and \ref{fgr:HSplot_1}. The iso-selectivity lines for the limit considered are represented with blue and orange lines. We can clearly see the shift in exchange enthalpy for the structures with a selectivity higher than $30$.}
+    \caption{Split view of the Figure~\ref{fgr:HSplot_0} and~\ref{fgr:HSplot_1}. The iso-selectivity lines for the limit considered are represented with blue and orange lines. We can clearly see the shift in exchange enthalpy for the structures with a selectivity higher than $30$.}
     \label{fgr:SI:dist1}
 \end{figure*}
 
@@ -620,7 +619,7 @@ If we look at the case of MISQIQ, we see that the pure-component Xe isotherm in 
     \label{fgr:MISQIQ}
   \end{figure*}
 
-More extreme cases of selectivity drop can occur when more than one site is available, as is the case for materials BAEDTA01, VIWMOF, LUDLAZ, WOJJOV, and VAPBIZ. The pure-component isotherms and the representation of the materials loaded in xenon and krypton molecules (presented in the supporting information of the Ref.~\ref{Ren_2021} Figures~S19-23) confirm the existence of at least two distinct adsorption sites in each material. The most selective sites (i.e., the most favorable for Xe) are filled in priority at low loading, and the less selective sites will then be populated when the pressure increases, leading to a net selectivity drop at ambient pressure for these materials. The different types of adsorption sites, and therefore the potential for a drop in Xe/Kr selectivity (at non-zero pressure) is a factor that could be explicitly included in screening of pure-component isotherms, without the need for explicit multi-component GCMC simulations.
+More extreme cases of selectivity drop can occur when more than one site is available, as is the case for materials BAEDTA01, VIWMOF, LUDLAZ, WOJJOV, and VAPBIZ. The pure-component isotherms and the representation of the materials loaded in xenon and krypton molecules (presented in the supporting information of the Ref.~\cite{Ren_2021} Figures~S19-23) confirm the existence of at least two distinct adsorption sites in each material. The most selective sites (i.e., the most favorable for Xe) are filled in priority at low loading, and the less selective sites will then be populated when the pressure increases, leading to a net selectivity drop at ambient pressure for these materials. The different types of adsorption sites, and therefore the potential for a drop in Xe/Kr selectivity (at non-zero pressure) is a factor that could be explicitly included in screening of pure-component isotherms, without the need for explicit multi-component GCMC simulations.
 
 \subsection{Conclusion and introduction to the follow-up studies}
 

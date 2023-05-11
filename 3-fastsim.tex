@@ -10,65 +10,95 @@
 
 \subsection{Theoretical considerations}
 
-In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009}
+In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009} Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). At the vertices of each cell, there are Voronoi nodes that was used in the Voronoi energy calculation presented by Simon et al.\cite{Simon2015}
 
-In a tridimensionnal space, let us consider the positions ${(\vect{x}_k)}_{k\in\{1,\ldots,n\}}$ of the $n$ atoms in a main box $B$ that could be periodically propagated in the whole space. For every $k\in\{1,\ldots,n\}$, we can then define a subspace $S_{k}$ (also called Voronoi cell) around the atom $k$ so that any point $\vect{x}$ inside this subspace is closer to the position $\vect{x}_k$ than to any other points $\vect{x}_j$ ($j\neq k$). 
+\subsubsection{Equal radii}
+
+In a tridimensionnal space, let us consider the positions ${(\vect{x}_k)}_{k\in\{1,\ldots,n\}}$ of the $n$ points in a box $B$ that could be periodically propagated in the whole space. For every $k\in\{1,\ldots,n\}$, we can then define a subspace $S_{k}$ (also called Voronoi cell) around the atom $k$ so that any point $\vect{x}$ inside this subspace is closer to the position $\vect{x}_k$ than to any other points $\vect{x}_l$ ($l\neq k$). 
 
 \begin{equation}\label{eq:voronoi_partition}
-  S_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ j\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert \leq \lVert \vect{x}-\vect{x}_k \rVert \right\}
+  S_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert \leq \lVert \vect{x}-\vect{x}_l \rVert \right\}
 \end{equation}
 
-The set of all these 3D polygonal subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polygons can then give valuable informations of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ polygonal subspacces $\left\{S_{i_1},\ldots,S_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point of an edge adjacent to a few subspaces, it will be the closest 
+The set of all these 3D polyhedronal subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polyhedra can then give valuable informations of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ subspaces $\left\{V_{i_1},\ldots,V_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point on an edge adjacent to some subspaces, it will be closer to the atoms associated with these subspaces than to any other atoms.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi.jpg}
+    \caption{2D Voronoi. \url{https://www.shadertoy.com/view/MslGD8}}\label{fgr:voronoi_equal}
+  \end{figure}
 
+\subsubsection{Unequal radii}
 
-In the Zeo++ software,\cite{Zeo++} to store the information on the different Voronoi regions $S_{k}$, only the vertexes and the edges .
+The last definition of the Voronoi decomposition works only for equal-sized atoms because the closest region to an atom is also the closest to its center of mass, which does not apply to the complex atomic structures of nanoporous frameworks. To model the atomic radii $\vect{r}_1,\ldots,\vect{r}_n$ of the points $\vect{x}_1,\ldots,\vect{x}_n$ in the same box $B$, we can implement a so-called Apollonian Voronoi diagram.\cite{voronoi_apollonian} For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
+
+\begin{equation}\label{eq:r_voronoi_apollonian}
+  A_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert - r_k \leq \lVert \vect{x}-\vect{x}_l \rVert - r_l \right\}
+\end{equation}
+
+This new definition of the Voronoi diagram has been built on the intuitive property that stipulates that the subspace is the set of points closest to the surface of the sphere around the associated atom. It deals therefore with an unequal distribution of atomic radii, because it is now dependent on the radii. However, as we can see on the Figure~\ref{fgr:voronoi_unequal}, this first implementation has a very convenient definition but the edges of the subspaces are curved, which makes it harder to use computationally. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
+    \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
+    \caption{2D Apollonian Voronoi decomposition. \url{https://www.shadertoy.com/view/4sd3D7} / Radical Voronoi decomposition. \url{https://www.shadertoy.com/view/4tV3z3}}\label{fgr:voronoi_unequal}
+  \end{figure}
+
+For this reason a less intuitive implementation is more commonly used instead, which is called the radical Voronoi tesselation or power diagram or Laguerre-Voronoi diagram.\cite{aurenhammer_1987} As we can see on the Figure~\ref{fgr:voronoi_unequal}, the subspaces obtained using this method are now convex polygons with straight edges instead of curved ones. The condition is way less intuitive because it the condition does not rely on a simple definition. The subspaces $V_k$ are now defined by the following condition:
+
+\begin{equation}\label{eq:r_voronoi_radical}
+    V_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert^2 - r_k^2 \leq \lVert \vect{x}-\vect{x}_l \rVert^2 - r_l^2 \right\}
+  \end{equation}
+
+In addition to the polyhedral form of the Voronoi cells, this new implementation presents interesting properties for porosity calculations in a framework of unequal spheres like in MOFs of zeolites.\cite{voronoi_radical} First, the boundary between two overlapping spheres correspond simply to the intersection place between the spheres. Then, the boundary between non-overlapping spheres is always in the void space between the spheres. This can be simply proven by taking a point $\vect{x}$ in $V_{k}$ and outside the sphere, we have $\lVert \vect{x}-\vect{x}_k \rVert \geq r_k$, which implies $\forall\ l\neq k$, $\lVert \vect{x}-\vect{x}_k \rVert \geq r_k$. The point $\vect{x}$ is therefore also not overlapping with any other atom, which means it is in the void space of the framework. 
+
+If we now consider a point $\vect{v}$ on a boundary between $p$ Voronoi cells $\left\{V_{i_1},\ldots,V_{i_p}\right\}$, this point would verify all the conditions $\lVert \vect{x}-\vect{x}_{i_1} \rVert^2 - r_{i_1}^2 = \cdots = \lVert \vect{x}-\vect{x}_{i_p} \rVert^2 - r_{i_p}^2 = C$. We can know their minimum distance to the center of mass of every nearby atoms to test for possible overlappings. More specifically, in the Zeo++ software,\cite{Zeo++} the Voronoi diagram is characterized by storing the minimum distance to the closest atoms and the index of the atoms for every vertices and edges (for edges that connect two different periodic images a periodic displacement vector is also stored). This information can be used to speed up the void fraction calculation, by skipping the volume calculations in the non-adsorbable Voronoi cells. It is also a fast way of determining the accessible and non-accessible surface areas and volumes.\cite{Zeo++} Note that if the probe has a radius $r\e{probe}$, then the sphere radii considered are $r_k = r\e{atom}+r\e{probe}$.
+
+\subsection{Implementation in a Screening}
+
+The use of the Voronoi decomposition of the pore space of materials for their geometric characterization has been widely employed in computational studies in the last decade,\cite{Willems_2012} in particular since it was made easily available as part of the Zeo++ software package.\cite{Pinheiro2013} Its use was extended recently to implement a novel sampling scheme, in a study proposing the ML-assisted screening of nanoporous materials for xenon/krypton separation. In this article, Simon et al.\cite{Simon_2015} relied on a Voronoi tessellation of the nanoporous materials and assigned the potential adsorption sites (i.e., the sampling points) at the nodes of this decomposition. The Voronoi tessellation identifies the vertices of polyhedra that correspond to the closest regions of each atom of the structure. These vertices (or \emph{Voronoi nodes}) are the points equidistant to at least four atoms of the structure, and they can be associated with adsorption sites since they are positioned near the center of the pores. 
+
+The definition of accessibility defined by the Zeo++ software was used in a screening to find the best materials for Xe/Kr separation.\ref{Simon_2015} The interaction energies of xenon were calculated only on the accessible nodes as schemed on the Figure~\ref{fgr:simon_voro}. The average of the energies at the accessible Voronoi nodes gives an approximation of the adsorption enthalpy. However, this sampling assumes that the nodes are close to the real, most favorable, adsorption sites. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size. This newly defined adsorption energy descriptor was found to be one of the most influencial descriptor for the ML model developed to predict the ambient-pressure selectivity. 
 
 \begin{figure}
   \centering
   \includegraphics[width=0.6\textwidth]{figures/3-fastsim/Simon_voronoi.jpeg}
-  \caption{Voronoi network model of void space (2D caricature). The unit cell of a toy material is shown. Red circles represent atoms of the material; accessible and inaccessible Voronoi nodes are blue squares and green triangles, respectively. The black lines are the edges in the periodic Voronoi graph that model the void space.. Taken from Ref.~\cite{Simon_2015}}\label{}
+  \caption{Voronoi network model of void space (2D caricature). The unit cell of a toy material is shown. Red circles represent atoms of the material; accessible and inaccessible Voronoi nodes are blue squares and green triangles, respectively. The black lines are the edges in the periodic Voronoi graph that model the void space. Taken from Ref.~\cite{Simon_2015}}\label{fgr:simon_voro}
 \end{figure}
 
-\todo{How we can easily define accessible}
+Starting from the initial idea of Voronoi sampling, we want to question the relevance of using a direct average of the interaction energies instead of a Boltzmann averaging in describing the adsorption enethalpy. To better understand the strengths and weaknesses of this methodology, we compared different ways of approximating adsorption enthalpies using the Voronoi sampling with more accurate infinite dilution and ambient-pressure xenon adsorption enthalpies using Widom insertions and GCMC for a 20:80 xe/Kr mixture at \SI{1}{\atm} and \SI{298}{\kelvin}.
 
+\subsection{Comparative study of the Voronoi sampling}
 
-Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). At the vertices of each cell, there are Voronoi nodes that was used in the Voronoi energy calculation presented by Simon et al.\cite{Simon2015} To compare our algorithm to a Voronoi sampling, we used the interaction energy values at the Voronoi nodes to calculate a Boltzmann average. These proxies for the adsorption enthalpy are then indirectly compared to the adsorption enthalpies calculated by our surface sampling.
-
-The energy descriptor of Simon et al. in  is the average potential energy of a xenon atom adsorbed at the accessible Voronoi nodes
-
-
-\subsection{Implementation in a Screening}
-
-The use of the Voronoi decomposition of the pore space of materials for their geometric characterization has been widely employed in computational studies in the last decade,\cite{Willems_2012} in particular since it was made easily available as part of the Zeo++ software package.\cite{Pinheiro2013} Its use was extended recently to implement a novel sampling scheme, in a study proposing the ML-assisted screening of nanoporous materials for xenon/krypton separation. In this article, Simon et al.\cite{Simon_2015} relied on a Voronoi tessellation of the nanoporous materials and assigned the potential adsorption sites (i.e., the sampling points) at the nodes of this decomposition. The Voronoi tessellation identifies the vertices of polygons that correspond to the closest regions of each atom of the structure. These vertices (or \emph{Voronoi nodes}) are the points equidistant to at least four atoms of the structure, and they can be associated with adsorption sites since they are positioned near the center of the pores. It is possible to calculate the host/guest interaction energies at every Voronoi node, and average them to obtain an approximation of the adsorption enthalpy. However, this sampling assumes that the nodes are close to the real, most favorable, adsorption sites. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size.
-
-\todo{Explain how Simon did it and how it increased the performance of the ML model}
-
-Use of an average on the accessible volumes (Voronoi cells)
-
-\subsection{From Widom to Voronoi}
-
-Widom insertion is a standard calculation method that consists in randomly inserting a single molecule inside an existing molecular system {by randomly choosing its center and its rotation angle}.\cite{Widom1963} 
-By measuring the interaction energy of the molecule inserted, one can obtain the excess free energy $\Delta F\e{exc}$ difference associated with its insertion {into the framework}, i.e., the species chemical potential $\mu_i$. In the context of adsorption, this method has been used to randomly insert a molecule in the empty porous framework: after many cycles, the simulation has generated a diverse enough sample of points with different interaction energies $\mathcal{E}\e{int}$, yielding the adsorption free energy $\Delta F\e{ads} = -RT \ln(\langle \exp(- \mathcal{E}\e{int}/RT) \rangle)$, the Henry constant $K\e{H}$, as well as the adsorption enthalpy, $\Delta H\e{ads}$ (equation~\ref{eq:enthalpy}), which is the opposite {sign} of the zero-loading isosteric heat of adsorption $Q\e{st}^0$. The Henry constant\cite{June_1990,KAR2001,Sarkisov_2020} $K\e{H}$ {(in \SI{}{\mole\per\kilo\gram\per\pascal})} associated to the adsorption inside a crystalline framework of mass density $\rho_f$ at temperature $T$ can be derived using the following equation~\ref{eq:henry}:
-
-\begin{equation}
-\label{eq:henry}
-    K\e{H} = \dfrac{\langle \exp(-\mathcal{E}\e{int}/RT) \rangle}{\rho_f RT} = \dfrac{1}{\rho_f RT}\dfrac{1}{N\e{sample}} \sum_{i\in \text{sample}} \exp(-\mathcal{E}_i/RT)
-\end{equation}
-{where $i$ represents the point of a sample used in practice to calculate the integral.}
-
-If the free volume has been thoroughly explored, the Boltzmann average of the host/guest interaction energies converges to the adsorption enthalpy at infinite dilution. The Widom insertion method is very accurate, meaning that it converges to the ``perfect'' value of the adsorption enthalpy --- for a given choice of interaction parameters --- in the limit of infinite sampling. However, it is computationally expensive, and a lot of computational resources are wasted during this sampling in the calculation of interaction energies that have negligible contribution to the overall Boltzmann average (points of high energy). Therefore, we can improve this method if we manage to sample preferentially points with the most negative interaction energies. To achieve this improvement we need to identify the characteristics of the adsorption sites that will have the highest weight (``count the most'') in the final average, while avoiding sampling parts of space where points will have marginal contribution.
+We introduced in the previous chapter, the definition of the xenon adsorption enthalpy at infinite dilution (Widom insertion section 2.1.3) and at ambient pressure (GCMC sections 2.1.2 and 2.1.4). These methods can be considered accurate methods to calculate the adsorption enthalpy which has been prove to be strongly correlated to the logarithm of the selectivity in the our previous study on the thermodynamic exploration of the xenon/krypton separation using a high-throughput screening.
 
 \todo{compare the different methodologies: Averaging / Boltzmann}
 
-\subsection{Best voronoi sampling/ averaging}
+\subsubsection{Low pressure}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_A_overview.jpg}
+    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_M_overview.jpg}
+    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_B_overview.jpg}
+    \caption{Scatter-plot of the enthalpies calculated by a Voronoi sampling comparedto the enthalpies calculated by a 100k step Widom insertion simulation of xenonin structures of CoRE MOF 2019. The points are labeled according to the largestcavity diameter (LCD) belonging to one of the intervals.}\label{fgr:comp_voro_0}
+\end{figure}
+
+
+\subsubsection{Ambient pressure}
 
 \begin{figure}[ht]
     \centering
-        \includegraphics[width=6cm]{figures/3-fastsim/H_Xe_0_vs_E_voro_B_overview.jpeg}
-        \caption{Scatter-plot of the enthalpies calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k step Widom insertion simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD) belonging to one of the intervals.}
-        \label{fgr:voronoi}
-\end{figure}
+      \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_A_overview.jpg}
+      \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_M_overview.jpg}
+      \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_B_overview.jpg}
+      \caption{Scatter-plot of the enthalpies calculated by a Voronoi sampling comparedto the enthalpies calculated by a 100k step Widom insertion simulation of xenonin structures of CoRE MOF 2019. The points are labeled according to the largestcavity diameter (LCD) belonging to one of the intervals.}\label{fgr:comp_voro_2080}
+  \end{figure}
+  
+
+
+\subsection{Efficiency of the method}
 
 To check the accuracy of this sampling technique, we compared it to our reference sampling, the Widom insertion with 100,000 cycles. Figure~\ref{fgr:voronoi} compares the enthalpy computed in the Voronoi sampling with the reference adsorption enthalpy (ground truth) --- showing at the same time the largest cavity diameter for each porous framework. The correlation between the values of enthalpy is very good only for a restricted number of structures with enthalpy around \SI{-50}{\kilo\joule\per\mole}. For structures with higher enthalpy, the correlation starts to degrade, and becomes very poor for small-pore structures. For the points in purple, the largest cavity diameter is lower than the kinetic diameter of a xenon, the sampling of the Voronoi nodes is clearly insufficient. In addition, the accuracy loss on the other points (larger pores) can be explained by the fact that the pores are slightly bigger and the center of the pore is not a good approximation of adsorption site position anymore: the adsorption sites are actually closer to the pore surface than to the center of the pore. This conclusion is what prompted us to propose a new sampling scheme based on the molecular surface of the pore space, which we will detail in the next sections.
 
