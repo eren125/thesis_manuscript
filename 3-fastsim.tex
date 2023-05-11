@@ -10,7 +10,7 @@
 
 \subsection{Theoretical considerations}
 
-In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009} Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). At the vertices of each cell, there are Voronoi nodes that was used in the Voronoi energy calculation presented by Simon et al.\cite{Simon2015}
+In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In thed Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009} Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). At the vertices of each cell, there are Voronoi nodes that was used in the Voronoi energy calculation presented by Simon et al.\cite{Simon2015}
 
 \subsubsection{Equal radii}
 
@@ -25,7 +25,7 @@ The set of all these 3D polyhedronal subspaces $S_{k}$ is then called the Vorono
 \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi.jpg}
-    \caption{2D Voronoi. \url{https://www.shadertoy.com/view/MslGD8}}\label{fgr:voronoi_equal}
+    \caption{2D Voronoi. \url{https://www.shadertoy.com/view/MslGD8} \todo{}}\label{fgr:voronoi_equal}
   \end{figure}
 
 \subsubsection{Unequal radii}
@@ -42,7 +42,7 @@ This new definition of the Voronoi diagram has been built on the intuitive prope
     \centering
     \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
     \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
-    \caption{2D Apollonian Voronoi decomposition. \url{https://www.shadertoy.com/view/4sd3D7} / Radical Voronoi decomposition. \url{https://www.shadertoy.com/view/4tV3z3}}\label{fgr:voronoi_unequal}
+    \caption{2D Apollonian Voronoi decomposition. \url{https://www.shadertoy.com/view/4sd3D7} / Radical Voronoi decomposition. \url{https://www.shadertoy.com/view/4tV3z3} \todo{}}\label{fgr:voronoi_unequal}
   \end{figure}
 
 For this reason a less intuitive implementation is more commonly used instead, which is called the radical Voronoi tesselation or power diagram or Laguerre-Voronoi diagram.\cite{aurenhammer_1987} As we can see on the Figure~\ref{fgr:voronoi_unequal}, the subspaces obtained using this method are now convex polygons with straight edges instead of curved ones. The condition is way less intuitive because it the condition does not rely on a simple definition. The subspaces $V_k$ are now defined by the following condition:
@@ -97,7 +97,6 @@ We introduced in the previous chapter, the definition of the xenon adsorption en
   \end{figure}
   
 
-
 \subsection{Efficiency of the method}
 
 To check the accuracy of this sampling technique, we compared it to our reference sampling, the Widom insertion with 100,000 cycles. Figure~\ref{fgr:voronoi} compares the enthalpy computed in the Voronoi sampling with the reference adsorption enthalpy (ground truth) --- showing at the same time the largest cavity diameter for each porous framework. The correlation between the values of enthalpy is very good only for a restricted number of structures with enthalpy around \SI{-50}{\kilo\joule\per\mole}. For structures with higher enthalpy, the correlation starts to degrade, and becomes very poor for small-pore structures. For the points in purple, the largest cavity diameter is lower than the kinetic diameter of a xenon, the sampling of the Voronoi nodes is clearly insufficient. In addition, the accuracy loss on the other points (larger pores) can be explained by the fact that the pores are slightly bigger and the center of the pore is not a good approximation of adsorption site position anymore: the adsorption sites are actually closer to the pore surface than to the center of the pore. This conclusion is what prompted us to propose a new sampling scheme based on the molecular surface of the pore space, which we will detail in the next sections.
@@ -114,7 +113,7 @@ This preliminary study identified a fast method for adsorption enthalpy calculat
 
 In this section we describe the development of our surface sampling algorithm, with the goal of being more accurate than Voronoi sampling and faster than Widom insertion. Our initial idea is based on a series of theoretical considerations: (1) the strong adsorption sites are near the surface of the material; (2) by changing the problem from 3D to 2D sampling we can reduce the complexity; and (3) the algorithm can scale with the number of unique atoms in the structure (and not with the size of the unit cell), which is efficient because many porous frameworks have high symmetry. The first consideration ensures that this method will be more accurate than a Voronoi sampling, and the last two made us think that a well-optimized code would be fast. To confirm these hypotheses, we will analyze both the accuracy and the speed of this new algorithm and compare them to existing methods.
 
-\subsubsection{Initial implementation}
+\subsection{Initial implementation}
 
 We present here our initial implementation of the surface sampling algorithm, and its basic principles. This first implementation is a relatively basic one and already performs well compared to the other methods. In the next sections, we refine it with two additional features that will improve its accuracy and its speed.
 
@@ -139,6 +138,8 @@ In order to validate the accuracy of the approximation made using this sampling,
 After proving the good accuracy of the method, we are now exploring the computation time required. We see on Figure~\ref{fgr:convergence} that the method reaches an RMSE below \SI{1.0}{\kilo\joule\per\mole} very quickly for an average CPU time of \SI{1.2}{\second} (Table~S1), corresponding to 2,000 sampling points per atom. This is far less than the \SI{150}{\second} (Table~S2) required for a Widom insertion to reach its plateau value, for an RMSE of \SI{0.10}{\kilo\joule\per\mole} with 12,000 cycles. Moreover, the Widom insertion needs around \SI{14}{\second} to reach a similar RMSE of \SI{1.0}{\kilo\joule\per\mole}, which is still slower than the surface sampling. We can conclude that this initial implementation of the surface sampling is faster than a standard Widom insertion, with a good accuracy.
 
 However, this initial implementation of the method is slower than a Voronoi sampling that only needs to sample around 1,600 points on average, instead of 13,000 sampled points on average (if we multiply by the average number of unique atoms). The sampling part would take approximately \SI{0.15}{\second} and the Voronoi nodes generation \SI{0.28}{\second}, so our surface sampling algorithm remains 2 to 3 times slower (implemented in an identical compiled language, in this case C++). In order to improve the accuracy and performance, we have further tweaked the surface sampling method, adjusting the size of the sampling sphere and adopting a fast rejection criterion. The rejection of high-energy points with little contribution to the final enthalpy value can reduce the simulation time, whereas the size of the sampling sphere can improve the accuracy. The initially chosen sphere size is only taking account of the interaction with the closest atom, we therefore chose to set it at the minimum of Lennard-Jones potential. However, the interaction with the neighboring atoms can further stabilize the adsorbate, sampling further from this minimum could in consequence increase the accuracy of our surface sampling method.
+
+\subsection{Performance improvement of the algorithm}
 
 \subsubsection{Size of the sampling sphere}
 
@@ -182,7 +183,7 @@ The values of RMSE and time on Figure~\ref{fgr:rejection} are averaged only on t
 For the simulations considered in Figure~\ref{fgr:rejection}, the use of a rejection condition $\mu = 0.85$ makes the simulation four times faster than the standard algorithm. As we will see in the next section, the combination of optimal values for the $\lambda$ and $\mu$ parameters generates an algorithm with very interesting performance compared to Voronoi sampling or Widom insertion.
 
 
-\subsection{Final surface sampling algorithm}
+\subsection{Final surface sampling implementation}
 
 \subsubsection{Performance comparison}
 
@@ -225,7 +226,17 @@ Finally, although the algorithm in its present form can already be applied in a 
 
 \section{Grid Adsorption Energies Descriptors (GrAED)}
 
-Inspired by our recent work on a faster way of calculating the low-pressure adsorption enthalpy and Henry's constant,\cite{Ren_2023} we designed an approach based on symmetry-respecting grids. These were generated using the Gemmi project's C++ library,\cite{Wojdyr_2022} using an algorithm implemented with the following steps. First, we loop over the framework atoms and the grid points around a sphere of radius $0.8\times\sigma_{g-h}$, where $\sigma_{g-h}$ is the distance at which the LJ potential energy between the guest atom $g$ and the host atom is zero. The LJ potential energy between the guest molecule and the closes host atom is calculated and only the grid points with an energy lower than a predefined threshold (here set to \SI{100}{\kilo\joule\per\mole}) are considered ``unvisited'' and will be recalculated in the following loop, the others are considered blocked by the framework and will be considered already ``visited''. This first loop over the framework atoms aims at filtering out the grid points that are blocked by the framework, and we will refer to this preliminary filtering step as ``blocking'' in the Table~\ref{tab:grid}. Then, a second loop over the ``unvisited'' grid points is performed --- at each increment, if the point is ``unvisited'' we calculate the interaction energy between the guest and all the host atoms within the cutoff, then the symmetric images of this point are filled with the same energy value and are considered ``visited'' by the algorithm. This symmetry-aware grid exploration allows the algorithm to divide the time required by the average number symmetry images --- this module will be referred to as ``symmetry'' in the Table~\ref{tab:grid}. By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS).
+Inspired by our recent work on a faster way of calculating the low-pressure adsorption enthalpy and Henry's constant,\cite{Ren_2023} we designed an approach based on symmetry-respecting grids. These were generated using the Gemmi project's C++ library,\cite{Wojdyr_2022}. 
+
+
+\subsection{Concepts}
+
+\todo{Picture of the principles}
+
+\subsection{Implementation}
+
+algorithm implemented with the following steps:
+First, we loop over the framework atoms and the grid points around a sphere of radius $0.8\times\sigma_{g-h}$, where $\sigma_{g-h}$ is the distance at which the LJ potential energy between the guest atom $g$ and the host atom is zero. The LJ potential energy between the guest molecule and the closes host atom is calculated and only the grid points with an energy lower than a predefined threshold (here set to \SI{100}{\kilo\joule\per\mole}) are considered ``unvisited'' and will be recalculated in the following loop, the others are considered blocked by the framework and will be considered already ``visited''. This first loop over the framework atoms aims at filtering out the grid points that are blocked by the framework, and we will refer to this preliminary filtering step as ``blocking'' in the Table~\ref{tab:grid}. Then, a second loop over the ``unvisited'' grid points is performed --- at each increment, if the point is ``unvisited'' we calculate the interaction energy between the guest and all the host atoms within the cutoff, then the symmetric images of this point are filled with the same energy value and are considered ``visited'' by the algorithm. This symmetry-aware grid exploration allows the algorithm to divide the time required by the average number symmetry images --- this module will be referred to as ``symmetry'' in the Table~\ref{tab:grid}. By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS).
 
 To highlight the improvement in performance in this procedure: the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ on the CoRE MOF 2019 database (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. The ``symmetry'' procedure means only {$\sim$17\%} of points need to be considered, and the combination of both reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation, as shown in Table~\ref{tab:grid}.
 
@@ -248,12 +259,18 @@ To highlight the improvement in performance in this procedure: the average void 
     \caption{Performance comparison of the new grid method to other standard techniques used to calculate the adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz.}\label{tab:grid}
 \end{table}
 
-From the energy values of this grid, we can now calculate many useful descriptors that are used in out final model. A fully detailed description of these descriptors as well as their labeling names are given in the Table~S2 of the SI.
+From the energy values of this grid, we can now calculate many useful descriptors that are used in our final model. A fully detailed description of these descriptors as well as their labeling names are given in the Table~S2 of the SI.
+
+\subsubsection{Comparison to standard methodologies}
+
+\todo{Figure compare widom}
+
+\todo{Figure compare GCMC with averaging at 298K}
+
 
 \subsection{Energy-based descriptors}
 
-
-
+\todo{Statistical building blocks}
 
 \todo{transition into ML models}
 
