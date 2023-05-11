@@ -78,17 +78,19 @@ We introduced in the previous chapter, the definition of the xenon adsorption en
 The Voronoi energy as initially conceptualized by Simon et al.\ is based on the average of the xenon interaction energies at the accessible Voronoi nodes. But because we will compare to thermodynamic simulations without blocking pockets, we will not consider the accessible Voronoi nodes but the adsorbable ones. We define for simplicity, the set of the adsorbable Voronoi nodes $A$ as the Voronoi nodes with a negative energy value. This average on the adsorbable Voronoi nodes $E\e{voro-A}^{Xe}$ can be written:
 
 \begin{equation}
-    E_{voro-A}^{Xe} = \sum_{i \in A} E_i
+    E\e{voro-A}^{Xe} = \sum_{i \in A} E_i
 \end{equation}
 
-Boltzmann
+Minimum $E\e{voro-M}^{Xe}$
 
 \begin{equation}
-    E_{voro-A}^{Xe} = \sum_{i \in A} E_i
+    E\e{voro-M}^{Xe} = \min_{i} E_i
 \end{equation}
 
+Boltzmann $E\e{voro-B}^{Xe}$
+
 \begin{equation}
-    E_{voro-A}^{Xe} = \sum_{i \in A} E_i
+    E\e{voro-B}^{Xe} = \sum_{i} E_i e^{-\beta E_i}
 \end{equation}
 
 \todo{compare the different methodologies: Averaging / Boltzmann}
