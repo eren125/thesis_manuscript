@@ -40,3 +40,5 @@ monoatomic
 prefactor
 tridimensional
 substraction
+bidimensional
+Voronoi
