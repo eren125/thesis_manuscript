@@ -22,11 +22,6 @@ In a tridimensionnal space, let us consider the positions ${(\vect{x}_k)}_{k\in\
 
 The set of all these 3D polyhedronal subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polyhedra can then give valuable information of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ subspaces $\left\{V_{i_1},\ldots,V_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point on an edge adjacent to some subspaces, it will be closer to the atoms associated with these subspaces than to any other atoms.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi.jpg}
-    \caption{2D Voronoi. \url{https://www.shadertoy.com/view/MslGD8} \todo{}}\label{fgr:voronoi_equal}
-  \end{figure}
 
 \subsubsection{Unequal radii}
 
@@ -36,16 +31,17 @@ The last definition of the Voronoi decomposition works only for equal-sized atom
   A_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert - r_k \leq \lVert \vect{x}-\vect{x}_l \rVert - r_l \right\}
 \end{equation}
 
-This new definition of the Voronoi diagram has been built on the intuitive property that stipulates that the subspace is the set of points closest to the surface of the sphere around the associated atom. It deals therefore with an unequal distribution of atomic radii, because it is now dependent on the radii. However, as we can see on the Figure~\ref{fgr:voronoi_unequal}, this first implementation has a very convenient definition, but the edges of the subspaces are curved, which makes it harder to use computationally. 
+This new definition of the Voronoi diagram has been built on the intuitive property that stipulates that the subspace is the set of points closest to the surface of the sphere around the associated atom. It deals therefore with an unequal distribution of atomic radii, because it is now dependent on the radii. However, as we can see on the Figure~\ref{fgr:voronoi_illustration}, this first implementation has a very convenient definition, but the edges of the subspaces are curved, which makes it harder to use computationally. 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
-    \includegraphics[width=0.4\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
-    \caption{2D Apollonian Voronoi decomposition. \url{https://www.shadertoy.com/view/4sd3D7} / Radical Voronoi decomposition. \url{https://www.shadertoy.com/view/4tV3z3} \todo{}}\label{fgr:voronoi_unequal}
+    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi.jpg}
+    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
+    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
+    \caption{Bidimensional illustrations of a Voronoi decomposition using three types of algorithm: (1) for equally sized circles using the equation~\ref{eq:voronoi_partition} (\url{https://www.shadertoy.com/view/MslGD8}) (2) for unequally sized circles using the apollonian Voronoi decomposition condition~\ref{eq:r_voronoi_apollonian} (\url{https://www.shadertoy.com/view/4sd3D7}) and (3) another alforithm for unequally sized circles using the radical Voronoi condition~\ref{eq:r_voronoi_radical} (\url{https://www.shadertoy.com/view/4tV3z3}). Note that the second picture shows the curved boundaries between the Voronoi cells, while the switch to the radical Voronoi decomposition gives straight line boundaries.}\label{fgr:voronoi_illustration}
   \end{figure}
 
-For this reason a less intuitive implementation is more commonly used instead, which is called the radical Voronoi tesselation or power diagram or Laguerre-Voronoi diagram.\cite{aurenhammer_1987} As we can see on the Figure~\ref{fgr:voronoi_unequal}, the subspaces obtained using this method are now convex polygons with straight edges instead of curved ones. The condition is way less intuitive because the condition does not rely on a simple definition. The subspaces $V_k$ are now defined by the following condition:
+For this reason a less intuitive implementation is more commonly used instead, which is called the radical Voronoi tesselation or power diagram or Laguerre-Voronoi diagram.\cite{aurenhammer_1987} As we can see on the Figure~\ref{fgr:voronoi_illustration}, the subspaces obtained using this method are now convex polygons with straight edges instead of curved ones. The condition is way less intuitive because the condition does not rely on a simple definition. The subspaces $V_k$ are now defined by the following condition:
 
 \begin{equation}\label{eq:r_voronoi_radical}
     V_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert^2 - r_k^2 \leq \lVert \vect{x}-\vect{x}_l \rVert^2 - r_l^2 \right\}
@@ -171,7 +167,7 @@ In order to validate the accuracy of the approximation made using this sampling,
   \centering
   \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_overview.jpg}
   \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_zoom.jpg}
-    \caption{\todo{}}\label{fgr:surface_sampling}
+    \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the RAESS algorithm as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
 \end{figure}
 
 After proving the good accuracy of the method, we are now exploring the computation time required. We see on Figure~\ref{fgr:convergence} that the method reaches an RMSE below \SI{1.0}{\kilo\joule\per\mole} very quickly for an average CPU time of \SI{1.2}{\second}, corresponding to 2,000 sampling points per atom. This is far less than the \SI{150}{\second} required for a Widom insertion to be near its plateau value (converges to zero), for an RMSE of \SI{0.10}{\kilo\joule\per\mole} with 12,000 cycles. Moreover, the Widom insertion needs around \SI{14}{\second} to reach a similar RMSE of \SI{1.0}{\kilo\joule\per\mole}, which is still slower than the surface sampling. We can conclude that this initial implementation of the surface sampling is faster than a standard Widom insertion, with a good accuracy.
@@ -379,6 +375,12 @@ Inspired by our recent work on a faster way of calculating the low-pressure adso
 \subsection{Concepts}
 
 \todo{Picture of the principles}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.6\textwidth]{figures/3-fastsim/grid_sampling.pdf}
+    \caption{Principle of the energy sampling on a symmetry-based grid. On the 9 grid points, 4 points are blocked because they are too close to the framework atoms, 2 points are really calculated using the LJ potential and 3 points are propagated using the inner symmetry of the framework.}\label{fgr:principle_grid}
+\end{figure}
 
 \subsection{Implementation}
 
