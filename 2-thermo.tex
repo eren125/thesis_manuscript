@@ -39,13 +39,13 @@ The surface areas are calculated using a random sampling over the surface of the
 
 The pore volume is calculated by random sampling of the accessible and inaccessible Voronoi cells. Similar algorithm, random sampling over a regular mesh. If the probe does not overlap with a framework atom, then it is counted in $N$. The ratio of this final $N$ and the total number of points sampled gives the fraction of the pore volume. This ratio is called the void fraction or the porosity. Using the Voronoi decomposition, we can also define the accessible and non-accessible void fractions.\todo{explain how}
 
-\subsection{Mixture adsorption simulations: Grand Canonical Monte Carlo}
+\subsection{Mixture adsorption simulations: Grand Canonical Monte Carlo}\label{sct:GCMC}
 
 %intro 
 As explained before, we can think of adsorption as a gas--solid or liquid--solid interfacial phenomenon, the adsorbate phase fills the accessible pore volumes depending on the physical conditions the material is put under. No simple model can predict how the adsorbates would interact with the pore surface, how many of them can fit in, what configuration is the most stable, etc. To answer these questions, we can evaluate all possible adsorption configurations that would undeniably have different numbers of adsorbate, and only keep the most thermodynamically plausible ones. To do so, these configurations will have to follow a given probability distribution, the grand canonical ensemble probability for instance, because it allows the variation of the number of molecules (adsorbate molecules) and the total energy. With the help of a Monte Carlo simulation, we can vary the energy and the loading inside the pores so that the distribution of configurations $c$ follows this probability law: 
 \begin{equation}
   P_c = \dfrac{1}{\Xi}e^{-\beta\left(E_c-\mu N_c\right)} 
-  \label{eqn:gc}
+  \label{eq:gc}
 \end{equation}
 where $E_c$ and $N_c$ are respectively the energy and the number of adsorbate particles in the configuration $c$. Normally the energy and the number of molecules of all particles should be considered, but for now, since the whole system is considered rigid we will only focus on the adsorbate molecules. The chemical potential $\mu$ and the temperature $T$ inside $\beta$ correspond to the ones of the gas phase in equilibrium with the adsorbent material. And the pressure and volume $V$ are considered fixed under the rigidity assumption. The grand canonical partition function $\Xi(\mu,V,T)$ will then be the following sum over all possible configurations: 
 \begin{equation}
@@ -59,7 +59,7 @@ In molecular simulations, to do so, only the initial configuration $c_0$ is real
   acc(c_0 \rightarrow c_1) = \min\left(1, e^{-\beta\left(E_{c_1}-E_{c_0}-\mu \left(N_{c_1}-N_{c_0}\right)\right) }\right)
 \end{equation}
 Any move that has a greater probability of occurring is always accepted, if the probability is lower than the acceptance rate depends on the probability ratio.
-The multiplicative prefactor has no influence on the algorithm, we do not need to know the chemical space to explore beforehand, which is a valuable simplification. This sequence of a Markov-type chain can then be used to approximate the probability distribution of the grand canonical ensemble we seek to describe in the equation~\ref{eqn:gc}.
+The multiplicative prefactor has no influence on the algorithm, we do not need to know the chemical space to explore beforehand, which is a valuable simplification. This sequence of a Markov-type chain can then be used to approximate the probability distribution of the grand canonical ensemble we seek to describe in the equation~\ref{eq:gc}.
 
 
 \begin{figure}[ht]
@@ -70,7 +70,7 @@ The multiplicative prefactor has no influence on the algorithm, we do not need t
 
 To complete the description of the grand canonical Monte Carlo (GCMC) simulation we are interested in, let us now consider the different MC moves used to generate a configuration from another. Depending on the parameterization, these moves have different probabilities of occurring. For monoatomic atoms only four moves are relevant (see Figure~\ref{fgr:mc}): (1) the translation of a randomly chosen molecule with a displacement randomly chosen within a given radius, (2) the change of identity of a randomly chosen molecule into another, (3) the insertion of an adsorbate molecule and (4) the deletion of an adsorbate molecule. We deliberately omitted the rotations of the adsorbate because of the spherical symmetry of noble gases and the change of volume since the flexibility of the material framework is neglected. 
 
-By using a GCMC algorithm, we can now generate a set of configurations according to their probability of occurrence. Because the probability law is directly taken from equation~\ref{eqn:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir of a xenon-krypton mixture at a given composition, pressure and temperature. Different thermodynamic quantities can be derived from ensemble averaging: the averaging loading or uptake at a given pressure (several pressures give the isotherm) and the isosteric heat of adsorption of each adsorbate (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
+By using a GCMC algorithm, we can now generate a set of configurations according to their probability of occurrence. Because the probability law is directly taken from equation~\ref{eq:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir of a xenon-krypton mixture at a given composition, pressure and temperature. Different thermodynamic quantities can be derived from ensemble averaging: the averaging loading or uptake at a given pressure (several pressures give the isotherm) and the isosteric heat of adsorption of each adsorbate (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
 \begin{equation}\label{eq:selec}
   \boxed{
   s = \dfrac{q\ex{Xe}}{q\ex{Kr}}\times\dfrac{y\ex{Kr}}{y\ex{Xe}}
@@ -81,11 +81,11 @@ where $y\ex{Xe}$ and $y\ex{Kr}$ designate respectively the mole fractions of Xe 
 To characterize a separation process, we theoretically only need to perform a GCMC calculation at every pressure conditions that we are interested in. However, this type of simulation requires a lot of time to converge since we need to test out a lot of insertion/deletion moves to accurately estimate the number of adsorbed molecules and the composition of the mixture. Hence, faster methods (machine learning) are developed to estimate the selectivity at any pressure conditions.\cite{Simon_2015,Kang_2023} If we are interested in the infinite dilution case, faster methods are already available, we are now going to introduce the Widom insertion that can estimate the adsorption performances at infinite dilution by estimating the Henry adsorption constant.
 
 
-\subsection{Infinite dilution adsorption: Widom insertion}
+\subsection{Infinite dilution adsorption: Widom insertion}\label{sct:widom}
 
 In 1963, the professor B. Widom introduced a simple method of calculation of thermodynamic properties in a material or fluid mixture.\cite{Widom1963} Generally, this method allows accessing to the difference of internal energy before and after the insertion of a Widom test particle while fixing all other particles, therefore comparing the N-particle and (N+1)-particle states. This difference of energy $\Delta \Phi$ can then be used to deduce the excess free energy associated to it $\Delta F\e{exc} = -k\e{B} T \ln\left(\langle \exp(- \beta\Delta \Phi) \rangle\right)$, which corresponds to the excess chemical potential induced by the addition of a particle. In the domain of fluid phase equilibrium, Widom insertion is the most straightforward method to calculate a chemical potential value; however it has drawbacks in liquid-like phases because the insertable space is very narrow, and no relaxation is implemented to account for the reorganization of the surrounding particles.\cite{Nezbeda_1991} In our case, we will be only interested in the insertion from 0 to 1 particle, where no problems of overlapping between adsorbate particles can happen. Widom insertion is in our case only a random insertion of an adsorbate into an empty nanoporous framework. By randomly sampling the void space, we obtain a distribution of interaction energies $\mathcal{E}\e{int}$, the average of the Boltzmann weights associated is directly proportional to the adsorption free energy $\Delta G\e{ads}$ and the Henry adsorption constant $K\e{H}$. By taking the Boltzmann average of the interaction energies, we can also compute the adsorption enthalpy $\Delta H\e{ads}$. All these quantities stay only valid at infinite dilution, for higher quantities of adsorbates the previously described GCMC technique should be used.  
 
-In the infinite dilution case, this test particle insertion technique is similar to a random sampling of the adsorbable space inside a material. If the sampling is thorough enough, we can derive the following definitions of $\Delta G\e{ads}$ (equation~{eqn:gibbs}), $K\e{H}$ (equation~{eqn:henry}) and $\Delta H\e{ads}$ based on a complete sampling of the interaction energies $\mathcal{E}\e{int}$. 
+In the infinite dilution case, this test particle insertion technique is similar to a random sampling of the adsorbable space inside a material. If the sampling is thorough enough, we can derive the following definitions of $\Delta G\e{ads}$ (equation~{eq:gibbs}), $K\e{H}$ (equation~{eq:henry}) and $\Delta H\e{ads}$ based on a complete sampling of the interaction energies $\mathcal{E}\e{int}$. 
 
 The adsorption Gibbs free energy $\Delta G\e{ads}$ is equal to the excess free energy previously calculated in a Widom insertion since the structure is rigid and $PV$ does not fluctuate ($G = F + PV$). 
 
@@ -97,17 +97,17 @@ The adsorption Gibbs free energy $\Delta G\e{ads}$ is equal to the excess free e
 
 To derive the Henry constant $K\e{H}$, we need to consider an ideal gas. The number of adsorbed molecules $n\e{ads}$ can be expressed using the bulk density of the gas $\rho\e{ads,bulk}$ and the volume of the pores $V\e{pore}$:
 
-\begin{equation}\label{eqn:1}
+\begin{equation}\label{eq:1}
     n\e{ads} = \rho\e{ads,bulk} \times V\e{pore}  
 \end{equation}
 
 The pore volume can be seen as the continuous sum of each voxel times the Boltzmann probability of presence, which is represented by the following integral of the Boltzmann factors. This integral can then be changed to the average of the Boltzmann factors:
 
-\begin{equation}\label{eqn:vpore}
+\begin{equation}\label{eq:vpore}
     V\e{pore} = \int_V \exp\left(- \mathcal{E}\e{int}(\textbf{r})/RT\right) d\textbf{r} = V \langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle
 \end{equation}
 
-Let us apply the equation~\ref{eqn:vpore} and the perfect gas equation of state $P = \rho\e{ads,bulk}RT$ on the bulk gas in equilibrium, we can change the equation~\ref{eqn:1} to:
+Let us apply the equation~\ref{eq:vpore} and the perfect gas equation of state $P = \rho\e{ads,bulk}RT$ on the bulk gas in equilibrium, we can change the equation~\ref{eq:1} to:
 
 \begin{equation}
     \dfrac{n\e{ads}}{V} = \dfrac{P}{RT} \langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle
@@ -121,7 +121,7 @@ If we now consider the gravimetric loading $L\e{ads}$ (in~\si{\milli\mole\per\gr
 
 Since the Henry's law is described by $L\e{ads}=K\e{H} \times P$, we have the final relation between the Henry adsorption constant and interaction energy distribution.
 
-\begin{equation}\label{eqn:henry}
+\begin{equation}\label{eq:henry}
     \boxed{
     K\e{H} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{\rho_fRT} = \dfrac{1}{\rho_fRT} \exp\left(-\dfrac{\Delta G\e{ads}}{RT}\right)
     }
@@ -131,7 +131,7 @@ Note that the $\rho_f$ factor comes from the use of a gravimetric loading expres
 
 Finally, if we consider an adsorption equilibrium (e.g., $\text{Xe}\e{(g)} \rightleftharpoons \text{Xe}\e{(ads)}$), we can define an equilibrium constant $K\e{ads} = x\e{ads}/y\e{gas}$ where $x\e{ads}$ is the mole fraction in the adsorbed phase and $y\e{gas}$ the mole fraction in the gas phase for a given compound (e.g., Xe). For a pure gas ($y\e{gas}=1$) at infinite dilution, we can apply the Henry's law to derive the following relation:
 
-\begin{equation}\label{eqn:eq_cst}
+\begin{equation}\label{eq:eq_cst}
   K\e{ads} = \dfrac{n\e{ads}}{n\e{site}y\e{gas}} = \dfrac{K\e{H}P\rho_fV}{n\e{site}} = PV \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{n\e{site}RT}
 \end{equation}
 where $n\e{site}$ is the number of sites considered constant since it is much higher than $n\e{ads}$ at infinite dilution.
@@ -142,7 +142,7 @@ Now by applying the Van't Hoff equation to this infinite-dilution adsorption equ
   \Delta H\e{ads} = -R\dfrac{\dd \ln\left(K\e{ads}(T)\right)}{\dd (1/T)}
 \end{equation}
 
-Then by decomposing the logarithm on the fraction of equation~\ref{eqn:eq_cst}, 
+Then by decomposing the logarithm on the fraction of equation~\ref{eq:eq_cst}, 
 \begin{equation}
   \Delta H\e{ads} = -\dfrac{\dd \ln\left(PV/n\e{site}\right)}{\dd (1/T)} - R\dfrac{\dd \ln\left(\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle\right)}{\dd (1/T)} - R\dfrac{\dd \ln\left(1/T\right)}{\dd (1/T)}
 \end{equation}
@@ -191,14 +191,14 @@ By extrapolating at the zero loading regime, the Xe/Kr selectivity can be simply
 
 In this section, we saw that simple thermodynamic quantities such as the adsorption Gibbs free energy, enthalpy and entropy can  be derived from the study of a simple adsorption equilibrium equation. In the next one, we will explore a thermodynamic characterization of the adsorption-based separation process using another equilibrium. 
 
-\subsection{The thermodynamics behind adsorption-based separation}
+\subsection{The thermodynamics behind adsorption-based separation}\label{sct:thermo}
 
 Now that the main simulation tools used to describe the competing adsorption of Xe/Kr binary mixtures are introduced, let us rationalize the separation process by modeling the process within a theoretical ``exchange'' equilibrium that corresponds to the exchange of gas phase Xe and Kr on a model adsorption site representing all the most attractive sites for a given pressure condition:
-\begin{equation} \label{eqn:exchange}
+\begin{equation} \label{eq:exchange}
     \text{Xe}_{\text{(g)}} + \text{Kr}_{\text{(ads)}}
     \rightleftharpoons \text{Xe}_{\text{(ads)}} + \text{Kr}_{\text{(g)}}
 \end{equation}
-The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at any pressure for a given composition is simply the selectivity $s$, defined in the equation\ref{eq:selec}, because the gas phase activities of $\text{Xe}_{\text{(g)}}$ and $\text{Kr}_{\text{(g)}}$ correspond the partial pressures $y\ex{Xe}$ and $y\ex{Kr}$, and the adsorption phase activities of $\text{Xe}_{\text{(ads)}}$ and $\text{Kr}_{\text{(ads)}}$ correspond the mole fractions $q\ex{Xe}$ and $q\ex{Kr}$. The Gibbs free energy at equilibrium can be directly defined using the equilibrium constant, by applying this relation to the exchange equilibrium we can define an exchange Gibbs free energy $\Delta\e{exc}G$:
+The equilibrium constant associated to the Equation (\ref{eq:exchange}) at any pressure for a given composition is simply the selectivity $s$, defined in the equation\ref{eq:selec}, because the gas phase activities of $\text{Xe}_{\text{(g)}}$ and $\text{Kr}_{\text{(g)}}$ correspond the partial pressures $y\ex{Xe}$ and $y\ex{Kr}$, and the adsorption phase activities of $\text{Xe}_{\text{(ads)}}$ and $\text{Kr}_{\text{(ads)}}$ correspond the mole fractions $q\ex{Xe}$ and $q\ex{Kr}$. The Gibbs free energy at equilibrium can be directly defined using the equilibrium constant, by applying this relation to the exchange equilibrium we can define an exchange Gibbs free energy $\Delta\e{exc}G$:
 \begin{equation}\label{eq:exc_gibbs_free_energy}
   \boxed{
   \Delta\e{exc}G = -RT \ln\left(s\right)
@@ -217,7 +217,7 @@ Moreover, the adsorption enthalpies $\Delta\e{ads}H$ can be obtained in a GCMC c
 where $E$ corresponds to the energy of the adsorbates and $N$ the total number of adsorbates at every step of the simulation. Note that this equation remains only valid for $N\gg1$, because the first step of the derivation is based on a first order Taylor expansion $\langle E \rangle(\langle N \rangle+1)-\langle E \rangle(\langle N \rangle) = \frac{\partial \langle E \rangle}{\partial \langle N \rangle}$. This expression of the adsorption enthalpy echoes with the one at infinite dilution (equation~\ref{eq:ads_enthalpy}), where for $N\rightarrow0$ we now have $\Delta H\e{ads} = \langle E \rangle(1)-\langle E \rangle(0) - RT = \langle E \rangle(1) - RT$.
 
 Now that we defined the exchange Gibbs free energy and an exchange enthalpy at any pressure, we can now use the same approach as for the equation~\ref{eq:ads_entropy} to derive the exchange entropy:
-\begin{equation} \label{eqn:exc_entropy}
+\begin{equation} \label{eq:exc_entropy}
   \boxed{
   \Delta\e{exc}S = \dfrac{1}{T}\left(\Delta\e{exc}H - \Delta\e{exc}G\right)= \dfrac{1}{T}\Delta\e{exc}H + R\ln(s)
   }
@@ -304,7 +304,7 @@ As presented in the previous chapter, Simon et al.\ found that the most selectiv
 
 \subsubsection{Effect of the composition}
 
-Finally, we previously only tackled one type of composition (20:80) associated to the extraction of xenon and krypton from a cryogenic distillation from the air (see section 1.3.1). We are now going to investigate the effects of the composition by looking at the case of xenon/krypton separation in spent nuclear fuel off-gases. In nuclear applications, the mixture has a 90:10 Xe/Kr ratio, which is much richer in xenon in comparison to the previous one. For this reason, the quantity of xenon adsorbed in the materials will mechanically be higher than previously. However, the second quotient in the formula of selectivity in equation~\ref{eq:selec} compensates the first one that will be logically higher. Here, we want to evaluate these two effects to see if they cancel each other out or there are different trends depending on the composition value. 
+Finally, we previously only tackled one type of composition (20:80) associated to the extraction of xenon and krypton from a cryogenic distillation from the air (see section~\ref{sct:industrial}). We are now going to investigate the effects of the composition by looking at the case of xenon/krypton separation in spent nuclear fuel off-gases. In nuclear applications, the mixture has a 90:10 Xe/Kr ratio, which is much richer in xenon in comparison to the previous one. For this reason, the quantity of xenon adsorbed in the materials will mechanically be higher than previously. However, the second quotient in the formula of selectivity in equation~\ref{eq:selec} compensates the first one that will be logically higher. Here, we want to evaluate these two effects to see if they cancel each other out or there are different trends depending on the composition value. 
 
 As shown on the Figure~\ref{fgr:SI:overview_2080_9010}, selectivity values of both compositions are quite close. However, we can note a slight decrease in performance when increasing the proportion of xenon in the mixture for some materials that are moderately selective ($s$ between $2$ and $50$). This loss in performance could be explained by the fact that the materials display pores with different xenon affinities. With a lower proportion of xenon, the Xe adsorbates would access preferentially the most favorable pores and the small quantity of xenon is concentrated there. Whereas when there is a higher content of xenon, these most favorable sites begin to saturate and the xenon need to compete with krypton in much less favorable sites hence decreasing slightly the selectivity. We will see that later, we could use very similar reasoning to explain another variable that could change the selectivity.
 
@@ -404,9 +404,9 @@ The takeaway messages of this section are based on two relations. The first one 
 
 In this section we focus on the impact of a change of working pressure on the adsorption selectivity, and analyze its thermodynamic origins. This is key to accurately assess the thermodynamics of adsorption in different working conditions for specific industrial processes, and any insight into the impact of pressure on selectivity may allow for faster screening limited at selected thermodynamic conditions.
 
-We calculated the selectivity $s\e{1}$ at pressure $1$~atm and ambient temperature using GCMC calculations on the entire dataset, with Xe/Kr mixture composition of 20:80 (found in a byproduct stream from air separation\cite{kerry2007industrial}) and 90:10 (found in the off-gas streams from nuclear waste\cite{auerbach2003handbook}). For high-selectivity materials, we find that the impact of composition appears rather marginal (\emph{c.f.} Figure~\ref{fgr:SI:overview_2080_9010}). In the following, we discuss the selectivity for the 20:80 mixture, which is the most commonly studied one in the literature. To measure the difference in selectivity between low and ambient pressures, we consider a relative difference $d_r(s\e{0},s\e{1})$ defined in equation~\ref{eqn:reldiff}.
+We calculated the selectivity $s\e{1}$ at pressure $1$~atm and ambient temperature using GCMC calculations on the entire dataset, with Xe/Kr mixture composition of 20:80 (found in a byproduct stream from air separation\cite{kerry2007industrial}) and 90:10 (found in the off-gas streams from nuclear waste\cite{auerbach2003handbook}). For high-selectivity materials, we find that the impact of composition appears rather marginal (\emph{c.f.} Figure~\ref{fgr:SI:overview_2080_9010}). In the following, we discuss the selectivity for the 20:80 mixture, which is the most commonly studied one in the literature. To measure the difference in selectivity between low and ambient pressures, we consider a relative difference $d_r(s\e{0},s\e{1})$ defined in equation~\ref{eq:reldiff}.
 
-\begin{equation} \label{eqn:reldiff}
+\begin{equation} \label{eq:reldiff}
     d_r(s\e{0},s\e{1}) = \dfrac{\lvert s\e{0} - s\e{1} \rvert}{\min(s\e{0},s\e{1})}
 \end{equation}
 
@@ -424,12 +424,12 @@ If we now look at the 90:10 composition, we can note that the drop in selectivit
     \label{fgr:overview_9010}
 \end{figure}
   
-To evaluate quantitatively the thermodynamic effects at play in the competitive adsorption in different regimes, we can consider thermodynamic properties of the ``exchange equilibrium'' predefined in equation~\ref{eqn:exchange}. We plot in Figure~\ref{fgr:HSplot_0} the exchange entropy at low pressure (plotted as $T\Delta\e{exc}S\e{0}$) against the exchange enthalpy $\Delta\e{exc}H\e{0}$. In this scatterplot, the points are color-coded according to the selectivity $s\e{0}$ (with discrete categories for the sake of clarity), which is related to the enthalpy and entropy through Equation~\ref{eqn:entropy} --- meaning iso-selectivity lines are parallel straight lines in this scatterplot.
+To evaluate quantitatively the thermodynamic effects at play in the competitive adsorption in different regimes, we can consider thermodynamic properties of the ``exchange equilibrium'' predefined in equation~\ref{eq:exchange}. We plot in Figure~\ref{fgr:HSplot_0} the exchange entropy at low pressure (plotted as $T\Delta\e{exc}S\e{0}$) against the exchange enthalpy $\Delta\e{exc}H\e{0}$. In this scatterplot, the points are color-coded according to the selectivity $s\e{0}$ (with discrete categories for the sake of clarity), which is related to the enthalpy and entropy through Equation~\ref{eq:entropy} --- meaning iso-selectivity lines are parallel straight lines in this scatterplot.
   
 \begin{figure}[t]
 \centering
   \includegraphics[width=0.6\linewidth]{figures/2-thermo/enthalpy_entropy_0_s_0.jpg}
-  \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{0}$ and enthalpy $\Delta\e{exc}H\e{0}$ at low pressure labeled using the selectivity $s\e{0}$ at low pressure. The limits between labels follows an affine function of slope $1/T$ and of intercept $-R\ln(s\e{0}\ex{lim})$ where $s\e{0}\ex{lim}$ is the limit selectivity value (\emph{cf.} Equation~(\ref{eqn:exc_entropy})). In other words, the iso-selectivity lines are all parallel lines of equation $y=f(x)$ where $f$ is the affine function described previously.}
+  \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{0}$ and enthalpy $\Delta\e{exc}H\e{0}$ at low pressure labeled using the selectivity $s\e{0}$ at low pressure. The limits between labels follows an affine function of slope $1/T$ and of intercept $-R\ln(s\e{0}\ex{lim})$ where $s\e{0}\ex{lim}$ is the limit selectivity value (\emph{cf.} Equation~(\ref{eq:exc_entropy})). In other words, the iso-selectivity lines are all parallel lines of equation $y=f(x)$ where $f$ is the affine function described previously.}
   \label{fgr:HSplot_0}
 \end{figure}
 
@@ -487,12 +487,12 @@ The entropic term $T\Delta\e{exc}S\e{1}$ is now centered on $-2.9$\,\si{\kilo\jo
   
 To further investigate the thermodynamics of the selectivity change, we quantify in this section the contributions of enthalpy and entropy. The ratio ${s\e{1}}/{s\e{0}}$ is equal to the product $k\e{H} \times k\e{S}$ where $k\e{H}$ and $k\e{S}$ are the enthalpic and entropic contributions to the selectivity change defined as:
 \begin{equation}
-\label{eqn:effects}
+\label{eq:effects}
     \begin{split}
       k\e{H} & = \exp\left(-\dfrac{\Delta\e{exc}H\e{1}-\Delta\e{exc}H\e{0}}{RT}\right) \\ k\e{S} & = \exp\left(\dfrac{\Delta\e{exc}S\e{1}-\Delta\e{exc}S\e{0}}{R}\right)
     \end{split}
 \end{equation}
-As we can see in Figure~\ref{fgr:distk}, the entropic contribution $k\e{S}$ has a bell-like distribution, with a mean of $0.9$ and a standard deviation of $0.6$. This confirms that $k\e{S}$ is close to $1$, and has therefore only a marginal effect on the selectivity change. On the other hand, the enthalpic contribution $k\e{H}$ has a more uniform distribution ranging from $0.1$ to $1.5$, which means that enthalpy has a crucial role in the selectivity change we observe. There are a significant number of materials with a $k\e{H}$ close to zero, they correspond to the same materials highlighted in Section~\ref{section:pressure}.
+As we can see in Figure~\ref{fgr:distk}, the entropic contribution $k\e{S}$ has a bell-like distribution, with a mean of $0.9$ and a standard deviation of $0.6$. This confirms that $k\e{S}$ is close to $1$, and has therefore only a marginal effect on the selectivity change. On the other hand, the enthalpic contribution $k\e{H}$ has a more uniform distribution ranging from $0.1$ to $1.5$, which means that enthalpy has a crucial role in the selectivity change we observe. There are a significant number of materials with a $k\e{H}$ close to zero, they correspond to the same materials highlighted in the section~\ref{section:pressure}.
 
 Furthermore, the scatterplot of $k\e{H}$ and $k\e{S}$ (shown in Figure~\ref{fgr:scatterk}) confirms a rather moderate effect of entropy. For most of the materials with $0.25 \le k\e{H} \le 1.75$, we see that $k\e{S}$ is close to 1. The most significant entropic contributions are found for materials where $k\e{H}$ is close to zero (typically below 0.25). If we look in more detail at the 29 materials with $k\e{S}>2$, the entropic contribution $k\e{S}$ moderately compensate the enthalpic contribution as the average ratio $s\e{1}/s\e{0}$ is around $0.25$. In such cases, the entropy is non-negligible and it can partially compensate the enthalpic contribution to the selectivity change, but the general trend is still given by enthalpy, since the overall selectivity is decreasing as a result.
   

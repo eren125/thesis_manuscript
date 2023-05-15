@@ -66,7 +66,7 @@ Starting from the initial idea of Voronoi sampling, we want to question the rele
 
 \subsection{Comparative study of the Voronoi sampling}
 
-We introduced in the previous chapter, the definition of the xenon adsorption enthalpy at infinite dilution (Widom insertion section 2.1.3) and at ambient pressure (GCMC sections 2.1.2 and 2.1.4). These methods can be considered accurate methods to calculate the adsorption enthalpy which has been proven to be strongly correlated to the logarithm of the selectivity in our previous study on the thermodynamic exploration of the xenon/krypton separation using a high-throughput screening.
+We introduced in the previous chapter, the definition of the xenon adsorption enthalpy at infinite dilution (Widom insertion section~\ref{{sct:widom}}) and at ambient pressure (GCMC sections~\ref{sct:GCMC} and~\ref{sct:thermo}). These methods can be considered accurate methods to calculate the adsorption enthalpy which has been proven to be strongly correlated to the logarithm of the selectivity in our previous study on the thermodynamic exploration of the xenon/krypton separation using a high-throughput screening.
 
 \subsubsection{Introduction of the main concepts}
 
@@ -407,9 +407,7 @@ Finally, although the algorithm in its present form can already be applied in a 
 
 \section{Grid Adsorption Energies Descriptors (GrAED)}
 
-To build more relevant energy descriptors, \todo{we used the conventional definiton of enthalpy and tries to optimize the sampling}
-
-Inspired by our recent work on a faster way of calculating the low-pressure adsorption enthalpy and Henry's constant,\cite{Ren_2023} we designed an approach based on symmetry-respecting grids. These were generated using the Gemmi project's C++ library,\cite{Wojdyr_2022}. 
+To build more relevant energy descriptors, we will now go back to the definitions of the adsorption enthalpy and the Henry constant (equation~\ref{eq:ads_enthalpy} and~\ref{eqn:henry}) that call for a homogeneous sampling of the adsorption space. The easiest way of sampling consists in laying a grid in the 3D space. This method is however known to be the most time-consuming on in theory. Inspired by our work on surface sampling, we designed an approach based on a symmetry-respecting grid,generated using the algorithms of the Gemmi Project,\cite{Wojdyr_2022} where the points overlapping with framework are discarded. These new features coupled make the grid sampling much less time-consuming than expected.
 
 
 \subsection{Concepts}
@@ -424,6 +422,10 @@ Inspired by our recent work on a faster way of calculating the low-pressure adso
 
 algorithm implemented with the following steps:
 First, we loop over the framework atoms and the grid points around a sphere of radius $0.8\times\sigma_{g-h}$, where $\sigma_{g-h}$ is the distance at which the LJ potential energy between the guest atom $g$ and the host atom is zero. The LJ potential energy between the guest molecule and the closes host atom is calculated and only the grid points with an energy lower than a predefined threshold (here set to \SI{100}{\kilo\joule\per\mole}) are considered ``unvisited'' and will be recalculated in the following loop, the others are considered blocked by the framework and will be considered already ``visited''. This first loop over the framework atoms aims at filtering out the grid points that are blocked by the framework, and we will refer to this preliminary filtering step as ``blocking'' in the Table~\ref{tab:grid}. Then, a second loop over the ``unvisited'' grid points is performed --- at each increment, if the point is ``unvisited'' we calculate the interaction energy between the guest and all the host atoms within the cutoff, then the symmetric images of this point are filled with the same energy value and are considered ``visited'' by the algorithm. This symmetry-aware grid exploration allows the algorithm to divide the time required by the average number symmetry images --- this module will be referred to as ``symmetry'' in the Table~\ref{tab:grid}. By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS).
+
+\todo{spacing}
+
+\todo{explain the parameters behind the blocking: mu paramater similar to surface + energy threshhold $E\e{th}$}
 
 \subsubsection{Comparison to standard methodologies}
 
