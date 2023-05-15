@@ -20,8 +20,15 @@ In a tridimensionnal space, let us consider the positions ${(\vect{x}_k)}_{k\in\
   S_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert \leq \lVert \vect{x}-\vect{x}_l \rVert \right\}
 \end{equation}
 
-The set of all these 3D polyhedronal subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polyhedra can then give valuable information of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ subspaces $\left\{V_{i_1},\ldots,V_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point on an edge adjacent to some subspaces, it will be closer to the atoms associated with these subspaces than to any other atoms.
+The set of all these 3D polyhedral subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polyhedra can then give valuable information of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ subspaces $\left\{V_{i_1},\ldots,V_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point on an edge adjacent to some subspaces, it will be closer to the atoms associated with these subspaces than to any other atoms.
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi.jpg}
+  \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
+  \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
+  \caption{Bidimensional illustrations of a Voronoi decomposition using three types of algorithm: (1) for equally sized circles using the equation~\ref{eq:voronoi_partition} (\url{www.shadertoy.com/view/MslGD8}) (2) for unequally sized circles using the Apollonian Voronoi decomposition condition~\ref{eq:r_voronoi_apollonian} (\url{www.shadertoy.com/view/4sd3D7}) and (3) another alforithm for unequally sized circles using the radical Voronoi condition~\ref{eq:r_voronoi_radical} (\url{www.shadertoy.com/view/4tV3z3}). Note that the second picture shows the curved boundaries between the Voronoi cells, while the switch to the radical Voronoi decomposition gives straight line boundaries.}\label{fgr:voronoi_illustration}
+\end{figure}
 
 \subsubsection{Unequal radii}
 
@@ -32,14 +39,6 @@ The last definition of the Voronoi decomposition works only for equal-sized atom
 \end{equation}
 
 This new definition of the Voronoi diagram has been built on the intuitive property that stipulates that the subspace is the set of points closest to the surface of the sphere around the associated atom. It deals therefore with an unequal distribution of atomic radii, because it is now dependent on the radii. However, as we can see on the Figure~\ref{fgr:voronoi_illustration}, this first implementation has a very convenient definition, but the edges of the subspaces are curved, which makes it harder to use computationally. 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi.jpg}
-    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
-    \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
-    \caption{Bidimensional illustrations of a Voronoi decomposition using three types of algorithm: (1) for equally sized circles using the equation~\ref{eq:voronoi_partition} (\url{https://www.shadertoy.com/view/MslGD8}) (2) for unequally sized circles using the apollonian Voronoi decomposition condition~\ref{eq:r_voronoi_apollonian} (\url{https://www.shadertoy.com/view/4sd3D7}) and (3) another alforithm for unequally sized circles using the radical Voronoi condition~\ref{eq:r_voronoi_radical} (\url{https://www.shadertoy.com/view/4tV3z3}). Note that the second picture shows the curved boundaries between the Voronoi cells, while the switch to the radical Voronoi decomposition gives straight line boundaries.}\label{fgr:voronoi_illustration}
-  \end{figure}
 
 For this reason a less intuitive implementation is more commonly used instead, which is called the radical Voronoi tesselation or power diagram or Laguerre-Voronoi diagram.\cite{aurenhammer_1987} As we can see on the Figure~\ref{fgr:voronoi_illustration}, the subspaces obtained using this method are now convex polygons with straight edges instead of curved ones. The condition is way less intuitive because the condition does not rely on a simple definition. The subspaces $V_k$ are now defined by the following condition:
 
@@ -57,13 +56,13 @@ The use of the Voronoi decomposition of the pore space of materials for their ge
 
 The definition of accessibility defined by the Zeo++ software was used in a screening to find the best materials for Xe/Kr separation.\cite{Simon_2015} The interaction energies of xenon were calculated only on the accessible nodes as schemed on the Figure~\ref{fgr:simon_voro}. The average of the energies at the accessible Voronoi nodes gives an approximation of the adsorption enthalpy. However, this sampling assumes that the nodes are close to the real, most favorable, adsorption sites. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size. This newly defined adsorption energy descriptor was found to be one of the most influential descriptor for the ML model developed to predict the ambient-pressure selectivity. 
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/3-fastsim/Simon_voronoi.jpeg}
   \caption{Voronoi network model of void space (2D caricature). The unit cell of a toy material is shown. Red circles represent atoms of the material; accessible and inaccessible Voronoi nodes are blue squares and green triangles, respectively. The black lines are the edges in the periodic Voronoi graph that model the void space. Taken from Ref.~\cite{Simon_2015}}\label{fgr:simon_voro}
 \end{figure}
 
-Starting from the initial idea of Voronoi sampling, we want to question the relevance of using a direct average of the interaction energies instead of a Boltzmann averaging in describing the adsorption enethalpy. To better understand the strengths and weaknesses of this methodology, we compared different ways of approximating adsorption enthalpies using the Voronoi sampling with more accurate infinite dilution and ambient-pressure xenon adsorption enthalpies using Widom insertions and GCMC for a 20:80 Xe/Kr mixture at \SI{1}{\atm} and \SI{298}{\kelvin}.
+Starting from the initial idea of Voronoi sampling, we want to question the relevance of using a direct average of the interaction energies instead of a Boltzmann averaging in describing the adsorption enthalpy. To better understand the strengths and weaknesses of this methodology, we compared different ways of approximating adsorption enthalpies using the Voronoi sampling with more accurate infinite dilution and ambient-pressure xenon adsorption enthalpies using Widom insertions and GCMC for a 20:80 Xe/Kr mixture at \SI{1}{\atm} and \SI{298}{\kelvin}.
 
 \subsection{Comparative study of the Voronoi sampling}
 
@@ -126,12 +125,12 @@ If we look at the Figure~\ref{fgr:compa_voro_2080}, it is not so clear which des
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_A_overview.jpg}
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_M_overview.jpg}
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_B_overview.jpg}
-      \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step GCMC simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD) belonging to one of the intervals.}\label{fgr:compa_voro_2080}
+      \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step GCMC simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD or $D_i$) belonging to one of the intervals.}\label{fgr:compa_voro_2080}
   \end{figure}
   
 At higher pressure, the adsorption enthalpy has higher values, which degrades the correlation with the Boltzmann average and the minimum of the interaction energies evaluated at the Voronoi nodes. For the averaging, the over-evaluation of the energy values make it closer to the values at higher pressure. Following this idea, we later come up with another idea of averaging with bigger weights on the higher values, a Boltzmann average with a higher temperature value that will be tested in the next chapter. 
 
-\subsection{Efficiency of the method}
+\subsection{Performance of a Voronoi Energy Sampling}
 
 We will now focus on some performance metrics associated to the Boltzmann average at the Voronoi nodes and compare it to our reference sampling, the Widom insertion with 100,000 cycles. The right plot of the Figure~\ref{fgr:compa_voro_0} compares the enthalpy computed in the Voronoi sampling with the reference adsorption enthalpy (ground truth) --- showing at the same time the largest cavity diameter for each porous framework. The correlation between the values of enthalpy is very good only for a restricted number of structures with enthalpy around \SI{-50}{\kilo\joule\per\mole}. For structures with higher enthalpy, the correlation starts to degrade, and becomes very poor for small-pore structures. For the points in purple, the largest cavity diameter is lower than the kinetic diameter of a xenon, the sampling of the Voronoi nodes is clearly insufficient. In addition, the accuracy loss on the other points (larger pores) can be explained by the fact that the pores are slightly bigger and the center of the pore is not a good approximation of adsorption site position anymore: the adsorption sites are actually closer to the pore surface than to the center of the pore. This conclusion is what prompted us to propose a new sampling scheme based on the molecular surface of the pore space, which we will detail in the next sections.
 
@@ -139,15 +138,13 @@ The root mean square error (RMSE) {and the mean absolute error (MAE) for Voronoi
 
 This is reinforced by the very low computational cost of the method. The Voronoi tessellation done by the Zeo++ software is extremely quick and can output the positions of the Voronoi nodes in \SI{0.28}{\second} (measured as an average over all the structures of the CoRE MOF 2019 database), on a typical workstation (a single Intel Xeon Platinum 8168 core at 2.7~\si{\giga\hertz}). While a simple Python for the energy calculation took around \SI{27}{\second} per structure, we benchmarked that a C++ optimized implementation can perform the Voronoi sampling in around \SI{0.4}{\second}. We only need to remember that this method takes a few hundred milliseconds per structure, while a Widom insertion needs approximately hundreds of seconds per structure. A Voronoi sampling is therefore 2 to 3 orders of magnitude quicker than a full sampling of the pore space.
 
-This preliminary study identified a fast method for adsorption enthalpy calculation that can be widely used in screening procedures, but has limited accuracy for quantitative prediction. This sampling technique assumes that the nodes are close to the real, most favorable, adsorption sites. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size. It raised important questions on the importance of selecting sampling points within the pore space of materials, and we wanted to develop an intermediate technique that is both fast and accurate for the prediction of adsorption enthalpy. For this purpose, we developed and optimized a new sampling technique that focuses the sampling on the surface of the material, which is expected to make up for the main flaws of the Voronoi sampling.
+This preliminary study identified a fast method for adsorption enthalpy calculation that can be widely used in screening procedures, but has limited accuracy for quantitative prediction --- this sampling technique assumes that the nodes are close to the real, most favorable, adsorption sites, which is not always true. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size. It raised important questions on the importance of selecting sampling points within the pore space of materials, and we wanted to develop an intermediate technique that is both fast and accurate for the prediction of adsorption enthalpy. For this purpose, we developed and optimized a new sampling technique that focuses the sampling on the surface of the material, which is expected to make up for the main flaws of the Voronoi sampling.
 
 \section{Rapid Adsorption Enthalpy Surface Sampling (RAESS)}
 
-\todo{add plots from SI}
+In this section, we describe the development of our surface sampling algorithm, with the goal of being more accurate than Voronoi sampling and faster than Widom insertion. Our initial idea is based on a series of theoretical considerations: (1) the strong adsorption sites are near the surface of the material; (2) by changing the problem from 3D to 2D sampling we can reduce the complexity; and (3) the algorithm can scale with the number of unique atoms in the structure (and not with the size of the unit cell), which is efficient because many porous frameworks have high symmetry. The first consideration ensures that this method will be more accurate than a Voronoi sampling, and the last two made us think that a well-optimized code would be fast. To confirm these hypotheses, we will analyze both the accuracy and the speed of this new algorithm and compare them to existing methods.
 
-In this section we describe the development of our surface sampling algorithm, with the goal of being more accurate than Voronoi sampling and faster than Widom insertion. Our initial idea is based on a series of theoretical considerations: (1) the strong adsorption sites are near the surface of the material; (2) by changing the problem from 3D to 2D sampling we can reduce the complexity; and (3) the algorithm can scale with the number of unique atoms in the structure (and not with the size of the unit cell), which is efficient because many porous frameworks have high symmetry. The first consideration ensures that this method will be more accurate than a Voronoi sampling, and the last two made us think that a well-optimized code would be fast. To confirm these hypotheses, we will analyze both the accuracy and the speed of this new algorithm and compare them to existing methods.
-
-\subsection{Initial implementation}
+\subsection{Initial Implementation}
 
 We present here our initial implementation of the surface sampling algorithm, and its basic principles. This first implementation is a relatively basic one and already performs well compared to the other methods. In the next sections, we refine it with two additional features that will improve its accuracy and its speed.
 
@@ -157,8 +154,7 @@ This initial implementation speeds up the calculation of adsorption enthalpy in 
 \centering
 
   \includegraphics[clip, trim=0.6cm 0.74cm 0.78cm 0.6cm,width=0.95\linewidth]{figures/3-fastsim/Principe_screening.pdf}
-  \caption{Schematic description of our surface sampling based on the three main steps of the algorithm: the loop over the unique atoms, the {spiral} sampling around each atom, and the energy averaging. {The adsorbate is represented by the point $i$ and is moved across all the points around the unique atoms of the structure. } }
-  \label{fgr:principle}
+  \caption{Schematic description of our surface sampling based on the three main steps of the algorithm: the loop over the unique atoms, the spiral sampling around each atom, and the energy averaging. The adsorbate is represented by the point $i$ and is moved across all the points around the unique atoms of the structure.}\label{fgr:principle}
 \end{figure}
 
 In order to validate the accuracy of the approximation made using this sampling, we applied this algorithm with 300,000 sampling points per unique atom. The results are illustrated by the Figure~\ref{fgr:surface_sampling}. There is a good numerical agreement with the reference calculations, {the RMSE and MAE are only around \SI{0.90}{\kilo\joule\per\mole} and \SI{0.66}{\kilo\joule\per\mole}} considering all the structures from the database. Moreover, there is no noticeable difference of RMSE when considering the structures with a pore size above \SI{3.7}{\angstrom} (as determined by the largest cavity diameter, or LCD). Unlike Voronoi sampling, this method gives a consistent accuracy across all the structures of the database with a lower error. The fact that the {RMSE} error is below \SI{1}{\kilo\joule\per\mole} is quite promising, and validates our intuition that this new sampling technique can be an intermediate between to the two previous methods (Voronoi and Widom).
@@ -167,15 +163,17 @@ In order to validate the accuracy of the approximation made using this sampling,
   \centering
   \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_overview.jpg}
   \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_zoom.jpg}
-    \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the RAESS algorithm as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
+    \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by an initial implementation of the RAESS algorithm as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling_init}
 \end{figure}
 
 After proving the good accuracy of the method, we are now exploring the computation time required. We see on Figure~\ref{fgr:convergence} that the method reaches an RMSE below \SI{1.0}{\kilo\joule\per\mole} very quickly for an average CPU time of \SI{1.2}{\second}, corresponding to 2,000 sampling points per atom. This is far less than the \SI{150}{\second} required for a Widom insertion to be near its plateau value (converges to zero), for an RMSE of \SI{0.10}{\kilo\joule\per\mole} with 12,000 cycles. Moreover, the Widom insertion needs around \SI{14}{\second} to reach a similar RMSE of \SI{1.0}{\kilo\joule\per\mole}, which is still slower than the surface sampling. We can conclude that this initial implementation of the surface sampling is faster than a standard Widom insertion, with a good accuracy.
 
+These results on the convergence speed and the limit values of the error can be simply rationalized by the nature of each sampling. In a surface sampling, the sampled points are biased toward the most attractive points of adsorption for the xenon, which explains the fact that the values converges very quickly because the most influential terms of the Boltzmann average are quickly gathered. However, in a Widom insertion every point of the space have equal chances of being sampled, which is extremely close to the definition of the enthalpy but requires much more time to randomly sample a very attractive adsorption site. The surface sampling by its biased nature however will inherently be less accurate since not all points are considered equally and sometimes the most optimal adsorption site could be missed, because it could in some cases be further from the sampled surface. 
+
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.7\linewidth]{figures/3-fastsim/time_rmse.jpeg}
-    \caption{RMSE convergence of our algorithm (left) compared to a 100k-step Widom insertion simulation (right) for xenon adsorption in {all} structures of the CoRE MOF 2019 database.}\label{fgr:convergence}
+    \caption{Convergence plot of the RMSE on the adsorption enthalpy for our algorithm (blue) compared to a 100k-step Widom insertion simulation (red) for xenon adsorption in {all} structures of the CoRE MOF 2019 database.}\label{fgr:convergence}
   \end{figure}
   
 
@@ -190,8 +188,7 @@ The validity of the initial algorithm is based on the assumption that the adsorp
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.7\linewidth]{figures/3-fastsim/sphere_size_optimisation.png}
-  \caption{Influence of the sampling sphere radius $R_{\lambda}$ on the average CPU time required for a simulation of 100k sampling points and the RMSE, compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD) higher than \SI{3.7}{\angstrom}.}
-  \label{fgr:radius}
+  \caption{Influence of the sampling sphere radius $R_{\lambda}$ on the average CPU time required for a simulation of 100k sampling points and the RMSE, compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD) higher than \SI{3.7}{\angstrom}.}\label{fgr:radius}
 \end{figure}
 
 Because we have no physical model that would predict the optimal value of the sampling sphere, we followed a statistical approach. We studied the influence of the $\lambda$ parameter on both the accuracy and the computation time, and the results are represented on Figure~\ref{fgr:radius}. The RMSE turns out to be relatively high around \SI{0.90}{\kilo\joule\per\mole} for radius sphere lower than the $r\e{min}$, it then decreases for larger values of radius to reach a plateau around \SI{0.35}{\kilo\joule\per\mole}. We confirm that by increasing the sampling sphere radius we can improve the accuracy of our algorithm, and find that for values of $\lambda$ higher than $1.6$, the accuracy is stabilized. We also find that increasing the sphere radius negatively impacts the computational efficiency, since it increases the number of neighbors considered in the energy calculation.
@@ -205,176 +202,217 @@ As shown above, our algorithm has better accuracy than Voronoi sampling, but its
 \begin{figure}[ht]
 \centering
   \includegraphics[width=\linewidth]{figures/3-fastsim/rejection_sampling_sphere.png}
-  \caption{Simplified representation of the principle of rejection condition and the concept of sampling sphere inside 2D channels of a nanoporous material.}
-  \label{fgr:feature}
+  \caption{Simplified representation of the principle of rejection condition and the concept of sampling sphere inside 2D channels of a nanoporous material.}\label{fgr:feature}
 \end{figure}
 
-Inspired by typical methods for accessible surface calculation, we implemented a hard sphere rejection condition based on the distance to neighbors. If the adsorbate is too close to another atom of the structure, the sampling point is rejected, i.e., its energy is not calculated (or considered to be infinite). We based this distance threshold on the $\sigma_{ij}$ parameter of the Lennard-Jones potential. To determine the optimal threshold, we introduced a factor $\mu$ with real values between 0 and 1, that changes the size of the hard sphere rejection condition. If the guest--host distance is lower than $d_{\mu} = \mu \times \sigma$, then the point is rejected. If $\mu = 0$, then there is no rejection condition. And if $\mu = 1$, we reject all points with a positive energy interaction to at least one atom of the structure. This condition could be a bit strong and points with non negligible contribution would end up rejected. This rejection condition is schematically represented on Figure~\ref{fgr:feature}.
+Inspired by typical methods for accessible surface calculation, we implemented a hard sphere rejection condition based on the distance to neighbors. If the adsorbate is too close to another atom of the structure, the sampling point is rejected, i.e., its energy is not calculated (or considered to be infinite). We based this distance threshold on the $\sigma_{ij}$ parameter of the Lennard-Jones potential. To determine the optimal threshold, we introduced a factor $\mu$ with real values between 0 and 1, that changes the size of the hard sphere rejection condition. If the guest--host distance is lower than $d_{\mu} = \mu \times \sigma$, then the point is rejected. If $\mu = 0$, then there is no rejection condition. And if $\mu = 1$, we reject all points with a positive energy interaction to at least one atom of the structure. This condition could be a bit strong and points with non-negligible contribution would end up rejected. This rejection condition is schematically represented on Figure~\ref{fgr:feature}.
 
 This rejection condition is expected to speed up the calculation, since the energy calculation is avoided for the rejected sampling points. The energy calculation accounts for the largest portion of the CPU time spent in the surface sampling. For the structure \texttt{KAXQIL}\cite{Banerjee_2012}, the Lennard-Jones potential calculation represents up to $90\%$ of the calculation time for 100,000 sampling points per sphere (with the initial algorithm). The higher the factor $\mu$, the more rejections there would be. But, if too many points are rejected, the accuracy would drop. Here again, we used a statistical analysis to determine the optimal value of $\mu$, making our sampling faster without compromising the accuracy of the enthalpy calculation. The results are displayed on Figure~\ref{fgr:rejection}.
 
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.7\linewidth]{figures/3-fastsim/rejection_coeff_optimisation.png}
-  \caption{Influence of the rejection coefficient $\mu$ on the average CPU time required for a simulation of 100k sampling points and the RMSE compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD) superior to \SI{3.7}{\angstrom}. }
-  \label{fgr:rejection}
+  \caption{Influence of the rejection coefficient $\mu$ on the average CPU time required for a simulation of 100k sampling points and the RMSE compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD) superior to \SI{3.7}{\angstrom}. }\label{fgr:rejection}
 \end{figure}
 
-The values of RMSE and time on Figure~\ref{fgr:rejection} are averaged only on the most interesting structures for xenon adsorption (LCD $\geq$ \SI{3.7}{\angstrom}). For $\mu\leq 0.85$, increasing the value of $\mu$ improves the speed of the calculation without changing the RMSE.\footnote{In fact, what we observe is a deterioration of the accuracy for structures with small pores because the probability of rejection in a confined space is really high and all sampled points end up rejected. But these points are not considered, if we apply the condition on the cavity size (LCD $\geq$ \SI{3.7}{\angstrom}).} For high values of $\mu$, the rejection condition is too strong and we reject points with non-negligible contribution to the overall enthalpy. The RMSE increases as a consequence. If we want to keep the accuracy unchanged, the optimal value is therefore $\mu \simeq 0.85$, because it give the lowest computation time with a similar RMSE. We note that it would be possible, in specific cases, to explore higher values of $\mu$ that trade a bit more accuracy in exchange of further speed gains.
+The values of RMSE and time on Figure~\ref{fgr:rejection} are averaged only on the most interesting structures for xenon adsorption (LCD $\geq$ \SI{3.7}{\angstrom}). For $\mu\leq 0.85$, increasing the value of $\mu$ improves the speed of the calculation without changing the RMSE.\footnote{In fact, what we observe is a deterioration of the accuracy for structures with small pores because the probability of rejection in a confined space is really high and all sampled points end up rejected. But these points are not considered, if we apply the condition on the cavity size (LCD $\geq$ \SI{3.7}{\angstrom}).} For high values of $\mu$, the rejection condition is too strong and we reject points with non-negligible contribution to the overall enthalpy. The RMSE increases as a consequence. If we want to keep the accuracy unchanged, the optimal value is therefore $\mu \simeq 0.85$, because it give the lowest computation time with a similar RMSE. We note that it would be possible, in specific cases, to explore higher values of $\mu$ that trade a bit more accuracy in exchange for further speed gains.
 
 For the simulations considered in Figure~\ref{fgr:rejection}, the use of a rejection condition $\mu = 0.85$ makes the simulation four times faster than the standard algorithm. As we will see in the next section, the combination of optimal values for the $\lambda$ and $\mu$ parameters generates an algorithm with very interesting performance compared to Voronoi sampling or Widom insertion.
 
 
-\subsection{Final surface sampling implementation}
+\subsection{Final surface sampling implementation}\label{sct:final_sampling}
 
 \subsubsection{Performance comparison}
 
 For the calculation of adsorption enthalpy, our proposed surface sampling method is a good compromise between the accuracy of Widom insertion (full sampling of the porous space) and the speed of a less accurate method such as Voronoi sampling. The performance of our algorithm, including the two new features (sampling sphere scaling and rejection criterion) is illustrated in Figure~\ref{fgr:sumup}, where we can see the improvement brought by each feature and how it compares to reference simulations. All CPU times are calculated using the smallest possible number of sampling points so that the respective algorithms reach convergence. With the implementation of a rejection condition, we find that surface sampling is even quicker than Voronoi sampling. Moreover, the increase of the size of the sampling sphere makes the surface sampling much more accurate, reaching an RMSE of \SI{0.33}{\kilo\joule\per\mole} {and an MAE of \SI{0.21}{\kilo\joule\per\mole}}. The ideal set of parameters, determined for porous materials from the CoRE MOF 2019 database, is $(\lambda = 1.6, \mu = 0.85)$ in order to combine the lowest error and smallest computational cost. By combining both of these new features to the algorithm, we have a final surface sampling method with an RMSE of \SI{0.33}{\kilo\joule\per\mole} and an average computation time of \SI{0.34}{\second} per structure. According to the data of the Table~\ref{tab:sumup}, it is about 6 times more accurate and {$26$\%} faster than Voronoi sampling, and it is also about 430 times faster than a Widom insertion with 12k cycles.
 
-\begin{table}[ht]
-  \begin{tabular}{|l|r|r|}
-  \hline
-                Method &  RMSE (kJ/mol) &   Time (s) \\
-  \hline
-   surface\_standard\_2k &       0.903953 &   1.045269 \\
-     surface\_radius\_2k &       0.331715 &   1.145985 \\
-  surface\_rejection\_2k &       0.870635 &   0.234415 \\
-      surface\_final\_2k &       0.330454 &   0.339397 \\
-               voronoi &       2.114351 &   0.400000 \\
-             widom\_12k &       0.037631 & 145.058516 \\
-  \hline
-  \end{tabular}
-  \caption{Raw data of the performance of each sampling method}\label{tab:sumup}
-\end{table}
-  
 \begin{figure}[ht]
-\centering
-  \includegraphics[width=\linewidth]{figures/3-fastsim/methods_comparison.png}
-  \caption{Comparison of the RMSE to the reference Widom insertion and the average computation time for different types of enthalpy calculation methods. The surface sampling calculation were all done with 2k sampling points on each sphere and the Widom simulations were done using 12k cycles. These values correspond to the value at the convergence identified using Figure~\ref{fgr:convergence}. }\label{fgr:sumup}
+  \centering
+  \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_overview.jpg}
+  \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom.jpg}
+    \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the final RAESS algorithm ($\lambda = 1.6$ and $\mu=0.85$) as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows, in structures of CoRE MOF 2019 with LCD $\geq$ \SI{3.7}{\angstrom} at \SI{298}{\kelvin}. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
 \end{figure}
 
+% \begin{table}[ht]
+%   \centering
+%   \begin{tabular}{|l|r|r|}
+%   \hline
+%                 Method &  RMSE (kJ/mol) &   Time (s) \\
+%   \hline
+%    surface\_standard\_2k &       0.903953 &   1.045269 \\
+%      surface\_radius\_2k &       0.331715 &   1.145985 \\
+%   surface\_rejection\_2k &       0.870635 &   0.234415 \\
+%       surface\_final\_2k &       0.330454 &   0.339397 \\
+%                voronoi &       2.114351 &   0.400000 \\
+%              widom\_12k &       0.037631 & 145.058516 \\
+%   \hline
+%   \end{tabular}
+%   \caption{Raw data of the performance of each sampling method}\label{tab:sumup}
+% \end{table}
 
-Finally, we suggest that the values of the parameters optimized in this work might need adjustment when applied to other adsorption systems. The optimal $\mu$ parameter depends on the size of the adsorbent, and it should be tweaked differently when considering another adsorbent. For instance, the set of structures used for the optimization of $\mu$ depends on the size of their cavities, and the \SI{3.7}{\angstrom} threshold chosen here would need to be changed according to the kinetic diameter of the adsorbate. Furthermore, as aforementioned in the section on the rejection condition, it is possible to trade-off a bit of accuracy for faster simulations especially in high-throughput screenings where speed is extremely important. Similarly, in the case of xenon, the cost of increasing the sphere size is around $10$ to {$20$\%}. On very large databases, one could consider that this increase on the required computational time is not worth the accuracy improvement, and one could decide to keep a smaller sampling sphere. If this method is transposed to different molecular systems, its parameters should be tested on the specific database and adsorbate of interest.
+Finally, we suggest that the values of the parameters optimized in this work might need adjustment when applied to other adsorption systems. The optimal $\mu$ parameter depends on the size of the adsorbent, and it should be tweaked differently when considering another adsorbent. For instance, the set of structures used for the optimization of $\mu$ depends on the size of their cavities, and the \SI{3.7}{\angstrom} threshold chosen here would need to be changed according to the kinetic diameter of the adsorbate. Furthermore, as aforementioned in the section on the rejection condition, it is possible to trade off a bit of accuracy for faster simulations especially in high-throughput screenings where speed is extremely important. Similarly, in the case of xenon, the cost of increasing the sphere size is around $10$ to {$20$\%}. On very large databases, one could consider that this increase on the required computational time is not worth the accuracy improvement, and one could decide to keep a smaller sampling sphere. If this method is transposed to different molecular systems, its parameters should be tested on the specific database and adsorbate of interest.
 
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=\linewidth]{figures/3-fastsim/methods_comparison.png}
+    \caption{Comparison of the RMSE to the reference Widom insertion and the average computation time for different types of enthalpy calculation methods. The surface sampling calculation were all done with 2k sampling points on each sphere and the Widom simulations were done using 12k cycles. These values correspond to the value at the convergence identified using Figure~\ref{fgr:convergence}. }\label{fgr:sumup}
+  \end{figure}
 
 \subsubsection{Calculation of Henry constant and surface area}
 
-The main goal of our sampling algorithm is to calculate adsorption enthalpy in the zero-loading limit. But the method can also calculate at the same time the Henry constant and surface area of the materials, without significant additional computational cost. The Henry constant is a key metric for assessing the affinity of an adsorbate to a nanoporous structure. The A/B gas selectivity at low pressure is defined as a ratio of Henry constants of components A and B. This important property can be calculated using Equation~\ref{eqn:eq_cst} in a Widom insertion calculation. Instead of using the interaction energies at the Widom inserted points, we can now use the surface sampled points to get an approximate value for the Henry constant.
+The main goal of our sampling algorithm is to calculate adsorption enthalpy in the zero-loading limit. But the method can also calculate at the same time the Henry constant and surface area of the materials, without significant additional computational cost. The Henry constant is a key metric for assessing the affinity of an adsorbate to a nanoporous structure. The Xe/Kr gas selectivity at low pressure is defined as a ratio of Henry constants of Xe and Kr. This important property can be calculated using Equation~\ref{eqn:eq_cst} in a Widom insertion calculation. Instead of using the interaction energies at the Widom inserted points, we can now use the surface sampled points to get an approximate value for the Henry constant.
 
-Using the optimized set of parameters for surface sampling, we assessed the performance of our algorithm on the values of Henry constant by comparing them to ground truth obtained by 100,000 cycles of Widom insertion. Since the Henry constant corresponds to the exponential of an adsorption free energy and we are more interested in the precision on the free energy, we are using a log-scale evaluation metric. For surface sampling, the log-RMSE of $K\e{H}$ is equal to $0.2$, which means that the order of magnitude of the values are well predicted (Table~\ref{tab:conv_henry}). If we consider the derived free energy $\Delta F_{ads} = -RT \log(\rho_fRT K_H)$, the RMSE is of the order of \SI{1.1}{\kilo\joule\per\mole} reached in about \SI{1}{\second}(\todo{fig}). Whereas for Widom insertion, this level of error is also reached in a similar amount of time and \SI{0.1}{\kilo\joule\per\mole} of RMSE is reached in about \SI{86}{\second}(\todo{fig}). For free energy calculation, surface sampling is still 86 times faster to converge. If consider that the main target is the adsorption enthalpy, the Henry constant is calculated with little additional computational cost and with reasonable accuracy: we get two thermodynamic properties of interest for the price of one.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.6\linewidth]{figures/3-fastsim/K_Xe_widom_vs_K_Xe_surface_final_zoom.jpg}
+    \caption{Scatterplots of the xenon Henry constants calculated by the RAESS algorithm compared to the ones calculated by a 100k-step Widom insertion simulation using two value windows.}\label{fgr:henry_scatter}
+\end{figure}
 
-\begin{table}[ht]
-  \begin{tabular}{|l|r|r|}
-  \hline
-   log-RMSE\_to\_widom\_100k &  CPU\_time (s) &   step \\
-  \hline
-             1.024479 &      0.228990 &    100 \\
-             0.699895 &      0.507070 &    150 \\
-             0.689041 &      0.268637 &    200 \\
-             0.270145 &      0.418563 &    500 \\
-             0.254611 &      0.676902 &   1000 \\
-             0.192593 &      1.208826 &   2000 \\
-             0.190035 &      2.786422 &   5000 \\
-             0.188364 &      5.440001 &  10000 \\
-             0.188067 &     10.599231 &  20000 \\
-             0.188177 &     26.543961 &  50000 \\
-             0.188178 &     53.637419 & 100000 \\
-             0.188178 &    104.863919 & 200000 \\
-             0.188178 &    154.805544 & 300000 \\
-  \hline
-  \end{tabular}
-  \caption{Convergence plot log-RMSE raw data for \textbf{surface sampling} on \textbf{Henry constants}. \todo{figure for S4 S6 S7}}\label{tab:conv_henry}
-\end{table}
+Using the optimized set of parameters for surface sampling, we assessed the performance of our algorithm on the values of Henry constant by comparing them to ground truth obtained by 100,000 cycles of Widom insertion. Since the Henry constant corresponds to the exponential of an adsorption free energy, and we are more interested in the precision on the free energy, we are using a log-scale evaluation metric. For surface sampling, the log-RMSE of $K\e{H}$ is equal to $0.2$, which means that the order of magnitude of the values are well predicted as we can see on the Figure~\ref{fgr:convergence_free_energy}. If we consider the derived free energy $\Delta F_{ads} = -RT \log(\rho_fRT K_H)$, the RMSE is of the order of \SI{1.1}{\kilo\joule\per\mole} reached in about \SI{1}{\second} (Figure~\ref{fgr:convergence_free_energy}). Whereas for Widom insertion, this level of error is also reached in a similar amount of time and \SI{0.1}{\kilo\joule\per\mole} of RMSE is reached in about \SI{86}{\second} (Figure~\ref{fgr:convergence_free_energy}). For free energy calculation, surface sampling is still 86 times faster to converge. If consider that the main target is the adsorption enthalpy, the Henry constant is calculated with little additional computational cost and with reasonable accuracy: we get two thermodynamic properties of interest for the price of one.
 
-\todo{add plot for xe kr widom and also free enthalpies}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/log_henry_convergence.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/gibbs_free_energy_convergence.jpg}
+  \caption{ Left: convergence plot of the log-RMSE on the xenon Henry constants for both the surface sampling and the Widom insertion. Right: convergence plot of the RMSE on the xenon adsorption Gibbs free energy for the final implementation of the surface sampling and the Widom insertion. }\label{fgr:convergence_free_energy}
+\end{figure}
 
 The same goes for the determination of the surface area. We can adapt our algorithm to count the number of points of the sampling spheres that have a negative energy. These represent the points were a guest molecule can favorably interact, therefore when dividing it by the number of sampled points, we obtain a proportion of adsorbable area of the sphere. Summing this over all atoms, we obtain a total surface area. This implementation is summed up in Equation~\ref{eq:sa}:
 \begin{equation}
 \label{eq:sa}
-    \textrm{SA} = \dfrac{1}{V}\sum_{a\in \textrm{cell}} \dfrac{N\e{accessible}(a)}{N\e{total}}4\pi r(a)^2
+    \textrm{SA} = \dfrac{1}{V}\sum_{a\in \textrm{cell}} \dfrac{N\e{accessible}(a)}{N\e{total}}4\pi {r(a)}^2
 \end{equation}
 where $V$ volume of the cell $a$ atoms of the cell; $N_{accessible}(a)$ accessible points around the atom $a$; $N_{total}$ sampling points; $r(a)$ radius of the sampling sphere around the atom $a$.
-When we set $\lambda=1$, we are sampling spheres that have a radius $\sigma$ and it is equivalent as considering hard spheres all defined by $\sigma$ (convention used by RASPA2 to calculate surface areas). If we compare simulation with $\lambda=1$, we obtain surface areas that are very close to the one obtained by RASPA2 (see Figure~S11 in SI). However, when we consider $\lambda=1.6$, we lose the perfect accordance previously obtained and the points weakly correlated in log-scale (see Figure~S10 in SI). The difference can be explained by the fact that the sphere size is larger, but the proportion of adsorbable points also changes. The relationship between these two adsorption surface areas is no trivial at all. Since the calculation of surface areas is quite cheap, this implementation would not be very useful, except for having a rough idea of the surface area.
+When we set $\lambda=1$, we are sampling spheres that have a radius $\sigma$, and it is equivalent as considering hard spheres all defined by $\sigma$ (convention used by RASPA2 to calculate surface areas). If we compare simulation with $\lambda=1$, we obtain surface areas that are very close to the one obtained by RASPA2 (see Figure~\ref{fgr:surface_area} in SI). However, when we consider $\lambda=1.6$, we lose the perfect accordance previously obtained and the points weakly correlated in log-scale (see Figure~\ref{fgr:surface_area} in SI). The difference can be explained by the fact that the sphere size is larger, but the proportion of adsorbable points also changes. The relationship between these two adsorption surface areas is not trivial at all. Since the calculation of surface areas is quite cheap, this implementation would not be very useful, except for having a rough idea of the surface area.
 
-\todo{add plot for surface}
-
-
-\subsection{Conclusions and perspectives}
-
-In the present article, we described a novel algorithm for the high-speed calculation of adsorption enthalpy in nanoporous materials, that takes a unique approach to reduce the sampling necessary. This new algorithm is based on the core principle of dimensional reduction, from a volume problem to a surface one. The algorithm is proven to be significantly faster than the reference Widom insertion (random sampling of porous space). Moreover, the error associated is found to be of the order of \SI{0.4}{\kilo\joule\per\mole}, tested throughout the entire CoRE MOF 2019 database, for xenon adsorption. Even when comparing to existing very fast sampling techniques such as the Voronoi sampling, this surface sampling technique requires similar CPU time, combined with a better accuracy. 
-
-Based on these results, this algorithm has important potential for applications in the current computational analysis workflows of material databases, such as high-throughput screening studies. For instance, this algorithm can be used to get a fast approximation of the low-loading adsorption enthalpy of a molecule inside nanoporous materials. This cheap evaluation of the enthalpy can be used to screen out the structures with little affinity with the targeted adsorbate molecule. It can also be used as a thermodynamic descriptor for selectivity prediction in a machine learning model, as done by Simon et al.\cite{Simon_2015} The computational speed-up brought by this novel methodology can also enable the screening of materials databases at larger scale in the future.
-
-We note, moreover, that the speed of our method resides in the sampling technique itself, rather than in the actual energy calculation. While we have benchmarked it in this work for a simple Lennard-Jones interaction potential, this sampling technique could equally be used to speed up samplings of space based on more expensive modeling strategies, including polarizable force fields or density functional theory (DFT) calculations. In the literature, the need for cheap \emph{ab initio} grade thermodynamic properties is usually fulfilled by using an importance sampling method based on a classical force field.\cite{Vandenbrande2018} In our method, the description of surface sampling is independent of any force field, and the sampling spheres can be defined according to kinetic radius, van der Waals radius or any other physically relevant distance. {Consequently, given a definition of atomic radii, it is possible to define a surface on which to carry out other types of simulation such as neural network potential, DFT or any other force fields. Although the accuracy or relevance of such a sampling remains an open question, the approach will undeniably speed up the simulations.} This could even be applied to calculate adsorption enthalpies while considering intrinsic structure flexibility,\cite{Witman_2017} a task whose main drawback is the high computation time required. Since surface sampling is hundred of time faster than standard methodologies, we could use hundreds of snapshots in a flexibility-aware calculation.
-
-Finally, although the algorithm in its present form can already be applied in a wide range of applications, additional development work could allow us to generalize it to polyatomic adsorbates. For instance, we would need to {work on a definition of the molecular radius for non-spherical adsorbates as well as working} all the orientation conformation of the adsorbent. {We could imagine making the distance to the surface depend on the orientation of the adsorbate or sample a band volume on the surface. Although the best implementation of the surface sampling for polyatomic adsorbates remains an open question, in theory it should be possible to apply it to more complex adsorbates than the spherical noble gas. } This would add more complexity to the algorithm but would not change the fundamental speedup due to surface sampling, since these orientation moves are also performed in other standard methodologies. To improve even more the accuracy, we could test hybrid samplings with multiple sampling spheres, or a combination of Voronoi nodes and sampling spheres. Another idea could be to have fractions of sphere that are oriented toward the center of pore given by the Voronoi node. In theory, having a wider variety of sampling points can only improve the sampling. There are therefore multiple possible sampling techniques that could be built around the method introduced herein. {The code is made freely available on the group's GitHub, where further development will be released.}
-
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.6_overview.jpg}
+  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.0_overview.jpg}
+  \caption{Scatterplots of the surface areas calculated by our algorithm with two different parametrizations compared to the surface area given by a Raspa surface area calculation. The left plot corresponds to the surface sampling described in the section~\ref{sct:final_sampling} with $\lambda=1.6$ and $\mu=0.85$, while the right plot uses a sampling sphere near $\sigma$ with $\lambda=1.0$. The second parametrization is much closer to what a Raspa sampling based on the $\sigma$ parameter of a LJ potential does, hence explaining the much better accordance. }\label{fgr:surface_area}
+\end{figure}
 
 \subsection{Test in different configurations}
-\todo{SI}
 
-\subsubsection{On selectivity calculations}
-\todo{remise en forme}
+After introducing the performance of our surface energy sampling algorithm for xenon and on specific materials from CoRE MOF 2019 at \SI{298}{\kelvin}, we will explore other conditions to test the transferability of the methodology. First, we will use the algorithm to estimate the xenon/krypton selectivity at infinite dilution by comparing to the standard Widom insertion. Then, we want to compare the influence of the temperature on the performance since it most likely would be much less ideal since the Boltzmann weights are less concentrated on the less attractive points. Finally, we tested our algorithm on databases of different materials. 
 
-To calculate a selectivity, the rejection condition on xenon can be high since we are interested in the most favorable materials for xenon adsorption. But for krypton, we want to accurately describe very low Henry constants, because a selective material would also be a material unfavorable to krypton. For these reasons, the $\mu$ parameter needs to be chosen wisely and needs to be low enough to have accurate selectivities. 
+\subsubsection{Selectivity Calculations}
 
-Here, we give some values of the error on the selectivity depending on the rejection condition we chose. 
+The selectivity value is the most important metric in evaluating the Xe/Kr separation performance of a nanoporous material. We want to see if a surface sampling technique can accurately evaluate this metric while being limited by all the approximations inherent to the technique.
+
+A few precautions should be considered before blindly using the algorithm for selectivity prediction. When investigating the calculation of the selectivity, we noted that the rejection condition on xenon can be high since we are interested in the most favorable materials for xenon adsorption. But for krypton, we want to accurately describe very low Henry constants, because a selective material would also be a material unfavorable to krypton. For these reasons, the $\mu$ parameter needs to be chosen wisely and needs to be low enough to have accurate Kr Henry constant and then selectivity values. 
+
+As we can see on the Table~\ref{tab:selec_prob}, the error on the selectivity highly depends on the $\mu$ value that excludes the points at $\mu\sigma$ of a framework atom center. Logically, the lower this parameter the higher the sampled energy values can be in the Boltzmann averaging. Another reason is that when dividing by small values any small error on the values can be amplified in the quotient, and this effect can be reduced as we increase the number of points actually sampled. 
 
 \begin{table}[ht]
-\begin{tabular}{|l|r|r|}
-\hline
-  rejection parameter $\mu$ &  log10-RMSE to widom 100k &   log10-MAE to widom 100k \\
-\hline
-    0.85 &      0.107 &   0.077 \\
-    \textcolor{red}{0.50} &      \textcolor{red}{0.0635} &   \textcolor{red}{0.0402} \\
-    0.20 &      0.0637 &   0.0403 \\
-\hline
-\end{tabular}
-\caption{Effect of the rejection condition of the krypton surface simulation on the accuracy of the Xe/Kr selectivity. }
+  \centering
+  \begin{tabular}{|l|r|r|}
+  \hline
+    rejection parameter $\mu$ &  log10-RMSE to widom 100k &   log10-MAE to widom 100k \\
+  \hline
+      0.85 &      0.107 &   0.077 \\
+      \textcolor{red}{0.50} &      \textcolor{red}{0.0635} &   \textcolor{red}{0.0402} \\
+      0.20 &      0.0637 &   0.0403 \\
+  \hline
+  \end{tabular}
+  \caption{Influence of the rejection condition in the krypton surface simulation on the accuracy of the Xe/Kr selectivity calculation. The lower the $\mu$ parameter the more accurate the simulations are for the final selectivity calculation.}\label{tab:selec_prob}
 \end{table}
 
-According to the quick study here, the optimal value is $\mu=0.5$ since it gives the best accuracy in a minimal amount of time. 
-
-\subsection{Correlation analysis for $\mu=0.5$}
+According to the quick study here, the optimal value is $\mu=0.5$ since it gives the best accuracy for a minimal amount of time. This value will be used for krypton to make a comprehensive study of the performance on the Xe/Kr selectivity for materials from CoRE MOF 2019. To sum-up, in the following study, we will use the RAESS algorithm with $\lambda=1.6$ and $\mu=0.85$ for xenon and $\lambda=1.6$ and $\mu=0.5$ for krypton.
 
 The selectivity can be compared directly using a log-scale plot and log-scale metrics. If we apply the log10 to the selectivities, we obtain RMSE of 0.064 and MAE of 0.04. This means that we have an error of about 0.06 when we compare orders of magnitude of the selectivity. For example, if a selectivity is predicted to be $s = 10^{-7}$, then $s$ would be in the interval $[10^{-7.06},10^{-6.94}]$.
 
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.5\linewidth]{figures/3-fastsim/s_0_widom_vs_s_0_surface_zoom.jpg}
-  \caption{Scatter plot comparison of the selectivity calculated by the Widom insertion compared to the final implementation of RAESS (in log scale). log10-RMSE = 0.064 and log10-MAE = 0.040}
-  \label{fgr:s_0}
+  \caption{Scatterplot comparison of the Xe/Kr selectivity calculated by RAESS algorithm and the one calculated by the Widom insertion (in log scale) and labeled by the cavity size. }\label{fgr:s_0}
 \end{figure}
 
-To be able to give a thermodynamic interpretation, we can define an exchange Gibbs free energy associated to this selectivity:
-
-\begin{equation}
-    \Delta\e{exch}G\e{0}\ex{Xe/Kr} = - RT \ln(s_0\ex{Xe/Kr})
-\end{equation}
-
-Using this exchange Gibbs free energy, we can assess much more easily the performance of the approach. The RMSE is about \SI{0.36}{\kilo\joule\per\mole}. We cannot compare it to the adsorption enthalpy errors, since the ranges and interpretation are very different. Here, the selective materials have a negative $\Delta\e{exch}G\e{0}\ex{Xe/Kr}$ and it goes to a maximum value of about \SI{-12.7}{\kilo\joule\per\mole}. The relative error is of course higher on the Gibbs free energy. This is due to a higher uncertainty on the Henry constant and to the denominator term brought by the krypton.
+To be able to give a thermodynamic interpretation, we can use the exchange Gibbs free energy associated $\Delta\e{exch}G\e{0}\ex{Xe/Kr}$ to this selectivity defined in the previous chapter (equation~\ref{eq:exc_gibbs_free_energy}). Using this exchange Gibbs free energy, we can assess much more easily the performance of the approach. The RMSE is about \SI{0.36}{\kilo\joule\per\mole}. We cannot compare it to the adsorption enthalpy errors, since the ranges and interpretation are very different. Here, the selective materials have a negative $\Delta\e{exch}G\e{0}\ex{Xe/Kr}$, and it goes to a maximum value of about \SI{-12.7}{\kilo\joule\per\mole}. The relative error is of course higher on the Gibbs free energy. This is due to a higher uncertainty on the Henry constant and to the denominator term brought by the krypton.
 
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.5\linewidth]{figures/3-fastsim/G_XeKr_widom_vs_G_XeKr_surface_zoom.jpg}
-  \caption{Scatter plot comparison of the exchange Gibbs free energy $\Delta\e{exch}G\e{0}\ex{Xe/Kr}$ calculated by the Widom insertion compared to the final implementation of RAESS (RMSE=\SI{0.36}{\kilo\joule\per\mole} and MAE=\SI{0.23}{\kilo\joule\per\mole}).}
-  \label{fgr:exch_free_energy}
+  \caption{Scatterplot comparison of the exchange Gibbs free energy $\Delta\e{exch}G\e{0}\ex{Xe/Kr}$ calculated by the Widom insertion compared to the final implementation of RAESS (RMSE=\SI{0.36}{\kilo\joule\per\mole} and MAE=\SI{0.23}{\kilo\joule\per\mole}).}\label{fgr:exch_free_energy}
 \end{figure}
 
-If we want to know how well the RAESS algorithm would work in real situations, we tried to compare the top 100 most selective materials given by RAESS and a Widom simulation (RASPA2). We found that 83 structures of the top 100 given by RAESS are in the top 100 given by Widom insertion. As the correlation is not perfect, it is inevitable that there is a change in the order of the top 100 given by these two methods. This number of 83\% proves that the difference is quite narrow. If we enlarge to the top 150 of the Widom simulation, 94 are present in the top 100 of the surface simulation. A vast majority of the best candidates given by the Widom insertion simulation are found by the RAESS algorithm.
+To know how well the RAESS algorithm would work in real situations, we tried to compare the top 100 most selective materials given by RAESS and a Widom simulation (RASPA2). We found that 83 structures of the top 100 given by RAESS are in the top 100 given by Widom insertion. As the correlation is not perfect, it is inevitable that there is a change in the order of the top 100 given by these two methods. This number of {83\%} proves that the difference is quite narrow. If we enlarge to the top 150 of the Widom simulation, 94 are present in the top 100 of the surface simulation. We can therefore say that a vast majority of the best candidates given by the Widom insertion simulation are found by the RAESS algorithm.
 
-\subsubsection{Different temperatures}
+
+\subsubsection{A Higher Temperature}
+
+The RAESS method relies on the higher weight of the strong sites close to the surface of the pores. If we increase the temperature, the less attractive sites would play an increasing role and the accuracy of the method would drop. To grasp this limitation of the RAESS algorithm at higher temperature, we compared the results of a screening over the CoREMOF 2019 database.  
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=0.5\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom_600K.jpeg}
+  \caption{Scatterplot of the enthalpies calculated by our final algorithm ($\lambda=1.6$ and $\mu=0.85$) compared to the enthalpies calculated by a 12k step Widom insertion simulation of xenon in structures of CoRE MOF 2019 with LCD $\geq$ \SI{3.7}{\angstrom} at \SI{600}{\kelvin}. }
+\end{figure}
+
+The method is as expected less accurate, but it still gives a reasonable correlation on the performance, with an RMSE of \SI{0.70}{\kilo\joule\per\mole} and an MAE of \SI{0.41}{\kilo\joule\per\mole}. The errors have almost doubled when going from \SI{298}{\kelvin} to \SI{600}{\kelvin}. However, these limitations of the method are not crippling since adsorption processes are usually not performed at very high temperature. High temperatures are commonly used in temperature swing adsorption (TSA) to desorb the adsorbates rather than to adsorb them.
 
 \subsubsection{Other databases}
 
+\textbf{ToBaCCo}
+
+We randomly selected 1,000 structures from the 13,511 porous frameworks of the ToBaCCo database to test the robustness of the RAESS method on a database other than CoreMOF. Since ToBaCCo contains structures with larger pores as suggested by a Moosavi et al., these materials are more unfavorable for adsorption of small molecules (such as Xe). The correlation is therefore found to be weaker than in the CoRE MOF 2019 database. This lower accuracy should be nuanced by the lack of suitability of these materials for Xe/Kr separation. Moreover, we can note that the points with weaker correlations correspond to the ones with an LCD greater than \SI{10}{\angstrom}, which is not ideal to separate Xe from Kr.
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=0.5\linewidth]{figures/3-fastsim/H_Xe_0_widom_vs_Enthalpy_surface_kjmol_overview_tobacco.jpeg}
+  \caption{Scatterplot comparison of the xenon adsorption enthalpy calculated by the RAESS algorithm and the Widom insertion (RASPA2) on the ToBaCCo database. RMSE = \SI{1.79}{\kilo\joule\per\mole} and MAE = \SI{1.48}{\kilo\joule\per\mole}. 915 structures have an LCD greater than \SI{10}{\angstrom}.}\label{fgr:tobacco}
+\end{figure}
+
+The algorithm performs very well on the most adsorptive materials with xenon adsorption enthalpy values lower than \SI{-30}{\kilo\joule\per\mole}, because for these materials the adsorption sites are located near the surface. For broader pore sizes, it is interesting to note some limitations of the methodology we should be aware of. For determining the most attractive materials this shortcoming does not influence the final conclusions. Moreover, this limitation is not that damaging since the correlation although weaker still remains.
+
+
+\textbf{Amorphous materials}
+
+To further extend the possible uses cases of the RAESS algorithm, we tested our algorithm on the amorphous database~\cite{Thyagarajan_2020}. The algorithm found results for 176 structures out of 196. The RASPA2 software was not able to run on these amorphous structures with our computers, running out of memory due to the large system size: therefore, there is no comparison point with a Widom simulation. However, we used another simulation that is closer to the ground truth since it samples a homogeneously distributed grid using an optimized algorithm we will present in the next section. This grid sampling managed to compute the adsorption energies of 175 structures. 
+
+The Table~\ref{tab:amorphous} gives the values of the adsorption enthalpies and the Henry constants of a few amorphous materials as well as the time they took to be computed. The sheer amount of atoms in each structure makes the CPU time required much higher than for the crystalline structures of CoRE MOF 2019. The time required are however quite manageable in a hypothetical screening procedure. If we consider all the 175 structures that could be calculated by our methods, the average time required is about \SI{75}{\second} per structure. 
+
+\begin{table}[hb]
+\begin{tabular}{|l|r|r|r|}
+\hline
+ Structure Name & $\Delta\e{ads}H\e{0}\ex{Xe}$ (\SI{}{\kilo\joule\per\mole}) & $K\e{H}\ex{Xe}$ (\SI{}{\mole\per\kilo\gram\per\pascal}) & CPU time (s) \\
+\hline
+aCarbon-Marks-id035 &                 -63.55 &            6.98e-01 & 285.45 \\
+HCP-Colina-id016 &                 -30.61 &            8.85e-05 & 3.88 \\
+Kerogen-Coasne-id010 &                 -44.38 &            8.02e-03 & 61.2 \\
+PIM-Colina-id012 &                 -26.39 &            7.00e-05 & 8.86 \\
+\hline
+\end{tabular}
+\caption{Some amorphous materials' performance according to the RAESS algorithm. The results on the whole amorphous database is given in CSV format on the Github: \url{github.com/fxcoudert/citable-data/tree/master/154-Ren_ChemSci_2023}.}\label{tab:amorphous}
+\end{table}
+
+As we can see on the Figure~\ref{fgr:amorphous}, the accuracy of the surface sampling is rather high since by comparing it to an unbiased grid-based sampling, we obtain very similar results. The RMSE is about \SI{0.83}{\kJ\per\mol}, which is higher than the one for CoRE MOF structures. This method could very likely be used to evaluate amorphous materials as a fast screening tool especially since the computation time required by the optimized grid sampling is about \SI{623}{\second}. The dimension reduction inherent to the surface sampling makes it one order of magnitude faster than conventional techniques.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.5\linewidth]{figures/3-fastsim/amorphous_enthalpy.pdf}
+    \caption{Scatterplot comparison of the xenon adsorption enthalpy calculated by the RAESS algorithm and the one calculated by a grid sampling (presented in the next section) on a database of porous rigid amorphous materials~\cite{Thyagarajan_2020}. Raspa simulations could not be run on this database. Only the 175 structures computed by both methods are presented here. }\label{fgr:amorphous}
+\end{figure}
+
+\subsection{Perspectives of surface sampling}
+
+We described a novel algorithm for the high-speed calculation of adsorption enthalpy in nanoporous materials, that takes a unique approach to reduce the sampling necessary. This new algorithm is based on the core principle of dimensional reduction, from a volume problem to a surface one. The algorithm is proven to be significantly faster than the reference Widom insertion (random sampling of porous space). Moreover, the error associated is found to be of the order of \SI{0.4}{\kilo\joule\per\mole}, tested throughout the entire CoRE MOF 2019 database, for xenon adsorption. Even when comparing to existing very fast sampling techniques such as the Voronoi sampling, this surface sampling technique requires similar CPU time, combined with a better accuracy. 
+
+Based on these results, this algorithm has important potential for applications in the current computational analysis workflows of material databases, such as high-throughput screening studies. For instance, this algorithm can be used to get a fast approximation of the low-loading adsorption enthalpy of a molecule inside nanoporous materials. This cheap evaluation of the enthalpy can be used to screen out the structures with little affinity with the targeted adsorbate molecule. It can also be used as a thermodynamic descriptor for selectivity prediction in a machine learning model, as done by Simon et al.\cite{Simon_2015} The computational speed-up brought by this novel methodology can also enable the screening of materials databases at larger scale in the future.
+
+We note, moreover, that the speed of our method resides in the sampling technique itself, rather than in the actual energy calculation. While we have benchmarked it in this work for a simple Lennard-Jones interaction potential, this sampling technique could equally be used to speed up samplings of space based on more expensive modeling strategies, including polarizable force fields or density functional theory (DFT) calculations. In the literature, the need for cheap \emph{ab initio} grade thermodynamic properties is usually fulfilled by using an importance sampling method based on a classical force field.\cite{Vandenbrande2018} In our method, the description of surface sampling is independent of any force field, and the sampling spheres can be defined according to kinetic radius, van der Waals radius or any other physically relevant distance. {Consequently, given a definition of atomic radii, it is possible to define a surface on which to carry out other types of simulation such as neural network potential, DFT or any other force fields. Although the accuracy or relevance of such a sampling remains an open question, the approach will undeniably speed up the simulations.} This could even be applied to calculate adsorption enthalpies while considering intrinsic structure flexibility,\cite{Witman_2017} a task whose main drawback is the high computation time required. Since surface sampling is hundreds of time faster than standard methodologies, we could use hundreds of snapshots in a flexibility-aware calculation.
+
+Finally, although the algorithm in its present form can already be applied in a wide range of applications, additional development work could allow us to generalize it to polyatomic adsorbates. For instance, we would need to {work on a definition of the molecular radius for non-spherical adsorbates as well as working} all the orientation conformation of the adsorbent. {We could imagine making the distance to the surface depend on the orientation of the adsorbate or sample a band volume on the surface. Although the best implementation of the surface sampling for polyatomic adsorbates remains an open question, in theory it should be possible to apply it to more complex adsorbates than the spherical noble gas. } This would add more complexity to the algorithm but would not change the fundamental speedup due to surface sampling, since these orientation moves are also performed in other standard methodologies. To improve even more the accuracy, we could test hybrid samplings with multiple sampling spheres, or a combination of Voronoi nodes and sampling spheres. Another idea could be to have fractions of sphere that are oriented toward the center of pore given by the Voronoi node. In theory, having a wider variety of sampling points can only improve the sampling. There are therefore multiple possible sampling techniques that could be built around the method introduced herein. {The code is made freely available on the group's GitHub (\url{github.com/coudertlab/RAESS}), where further development will be released.}
+
+
 \section{Grid Adsorption Energies Descriptors (GrAED)}
+
+To build more relevant energy descriptors, \todo{we used the conventional definiton of enthalpy and tries to optimize the sampling}
 
 Inspired by our recent work on a faster way of calculating the low-pressure adsorption enthalpy and Henry's constant,\cite{Ren_2023} we designed an approach based on symmetry-respecting grids. These were generated using the Gemmi project's C++ library,\cite{Wojdyr_2022}. 
 
 
 \subsection{Concepts}
-
-\todo{Picture of the principles}
 
 \begin{figure}[ht]
   \centering
@@ -393,30 +431,31 @@ To highlight the improvement in performance in this procedure: the average void 
 
 \setlength{\extrarowheight}{0.1cm}
 \begin{table}[ht]
-    \begin{tabular}{|l|r|r|}
-        \hline
-        Energy sampling  &  Average CPU & RMSE on adsorption  \\
-        method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
-        \hline
-        Grid -- naive -- \SI{0.1}{\angstrom} &  71.3 & 0.025  \\[0.5mm]
-        Grid -- blocking -- \SI{0.1}{\angstrom} &  18.8 & 0.026  \\
-        Grid -- symmetry -- \SI{0.1}{\angstrom} &  16.8 & 0.024  \\
-        Grid -- fast -- \SI{0.1}{\angstrom} &  4.8 & 0.023  \\
-        Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.22  \\
-        RAESS\cite{Ren_2023}  &  0.34 & 0.34  \\
-        Widom\cite{Widom1963} (12k cycles) &  150 & 0.01  \\
-        \hline
-    \end{tabular}
-    \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz.}\label{tab:grid}
+  \centering
+  \begin{tabular}{|l|r|r|}
+    \hline
+    Energy sampling  &  Average CPU & RMSE on adsorption  \\
+    method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
+    \hline
+    Grid -- naive -- \SI{0.1}{\angstrom} &  71.3 & 0.025  \\[0.5mm]
+    Grid -- blocking -- \SI{0.1}{\angstrom} &  18.8 & 0.026  \\
+    Grid -- symmetry -- \SI{0.1}{\angstrom} &  16.8 & 0.024  \\
+    Grid -- fast -- \SI{0.1}{\angstrom} &  4.8 & 0.023  \\
+    Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.22  \\
+    RAESS\cite{Ren_2023}  &  0.34 & 0.34  \\
+    Widom\cite{Widom1963} (12k cycles) &  150 & 0.01  \\
+    \hline
+  \end{tabular}
+  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz.}\label{tab:grid}
 \end{table}
 
 From the energy values of this grid, we can now calculate many useful descriptors that are used in our final model. 
 
-\todo{Figure compare widom}
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.6\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
-    \caption{perfect accordance except for issues of small difference of structure du to symmetry conversion}\label{fgr:grid_widom}
+    \caption{Comparison of the adsorption enthalpies calculated by the optimized grid energy sampling for a \SI{0.12}{\angstrom} spacing and an energy threshold of \SI{100}{\kilo\joule\per\mole}
+      Perfect accordance except for issues of small difference of structure due to symmetry conversion}\label{fgr:grid_widom}
 \end{figure}
 
 \todo{time evaluation with $1/v$}
@@ -431,9 +470,16 @@ From the energy values of this grid, we can now calculate many useful descriptor
 
 \subsection{Energy-based descriptors}
 
+\subsubsection{Thermodynamic quantities}
+
 \todo{SI from ml article}
 
-\todo{Statistical building blocks}
+\subsubsection{Statistical characterization}
+
+
+\subsection{Conclusion and perspectives}
+
+\url{github.com/coudertlab/GrAED}
 
 \todo{transition into ML models}
 

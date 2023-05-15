@@ -15,7 +15,7 @@ Before going into the details of the adsorption properties themselves, we will f
 
 \subsubsection{Pore size}
 
-There are a multitude of pore sizes depending on the point where we measure it, all these pore sizes  compose what we call a pore size distribution. Some specific values are, however, uniquely defined and used to put a single value to characterize pore sized. The pore limiting diameter (PLD) is the diameter of the largest sphere that can diffuse freely in the structure, it is also noted $D_f$. The LCD corresponds to the diameter of the largest included sphere along a free diffusion path also denoted $D_if$; the global cavity diameter (GCD) is the diameter of the largest included sphere (not necessarily in a free diffusion path) also denoted $D_i$. The Figure~\ref{fgr:pore_size} illustrates the difference between these pore sizes. 
+There are a multitude of pore sizes depending on the point where we measure it, all these pore sizes  compose what we call a pore size distribution. Some specific values are, however, uniquely defined and used to put a single value to characterize pore sized. The pore limiting diameter (PLD) is the diameter of the largest sphere that can diffuse freely in the structure, it is also noted $D_f$. The diameter $D_if$ corresponds to the diameter of the largest included sphere along a free diffusion path also denoted LCD; the global cavity diameter (GCD) is the diameter of the largest included sphere (not necessarily in a free diffusion path) also denoted $D_i$. The Figure~\ref{fgr:pore_size} illustrates the difference between these pore sizes. In thermodynamic studies we will use the term LCD for the largest included sphere $D_i$, because we did not consider the effect of hard sphere blocking in adsorption processes (the model is way too simplistic) --- therefore, there is no distinction between $D_i$ and $D_if$ in characterizing adsorption simulations results. The term LCD will be used instead of GCD since the distinction is not relevant in our studies.
 
 \begin{figure}[ht]
   \centering
@@ -23,7 +23,7 @@ There are a multitude of pore sizes depending on the point where we measure it, 
   \caption{Illustration of the different pore sizes PLD, LCD and GCD. }\label{fgr:pore_size}
 \end{figure}
 
-To define theses pore sizes, we need to first set the radii of the framework atoms that will shape the surrounding pores. These radii can be defined using different methods, the default mode uses the Cambridge database radii. We used a similar approach than the one developed by Hung et al. instead of the default definition.\cite{Hung_2021} All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$. This type of definition can be more easily compared to the molecular simulations.
+To define these pore sizes, we need to first set the radii of the framework atoms that will shape the surrounding pores. These radii can be defined using different methods, the default mode uses the Cambridge database radii. We used a similar approach than the one developed by Hung et al.\ instead of the default definition.\cite{Hung_2021} All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$. This type of definition can be more easily compared to the molecular simulations.
 
 \subsubsection{Surface Area}
 
@@ -37,7 +37,7 @@ The surface areas are calculated using a random sampling over the surface of the
 
 \subsubsection{Pore volume and porosity}
 
-The pore volume is calculated by random sampling of the accessible and inaccessible Voronoi cells. Similar algorithm, random sampling over a regular mesh. If the probe does not overlap with a framework atom, then it is counted in $N$. The ratio of this final $N$ and the total number of points sampled gives the fraction of the pore volume. This ratio is called the void fraction or the porosity. Using the Voronoi decomposition, we can also define the accessible and non-accessible void fractions.\todo{}
+The pore volume is calculated by random sampling of the accessible and inaccessible Voronoi cells. Similar algorithm, random sampling over a regular mesh. If the probe does not overlap with a framework atom, then it is counted in $N$. The ratio of this final $N$ and the total number of points sampled gives the fraction of the pore volume. This ratio is called the void fraction or the porosity. Using the Voronoi decomposition, we can also define the accessible and non-accessible void fractions.\todo{explain how}
 
 \subsection{Mixture adsorption simulations: Grand Canonical Monte Carlo}
 
@@ -193,13 +193,13 @@ In this section, we saw that simple thermodynamic quantities such as the adsorpt
 
 \subsection{The thermodynamics behind adsorption-based separation}
 
-Now that the main simulation tools used to describe the  competing adsorption of Xe/Kr binary mixtures are introduced, let us rationalize the separation process by modeling the process within a theoretical ``exchange'' equilibrium that corresponds to the exchange of gas phase Xe and Kr on a model adsorption site representing all the most attractive sites for a given pressure condition:
+Now that the main simulation tools used to describe the competing adsorption of Xe/Kr binary mixtures are introduced, let us rationalize the separation process by modeling the process within a theoretical ``exchange'' equilibrium that corresponds to the exchange of gas phase Xe and Kr on a model adsorption site representing all the most attractive sites for a given pressure condition:
 \begin{equation} \label{eqn:exchange}
     \text{Xe}_{\text{(g)}} + \text{Kr}_{\text{(ads)}}
     \rightleftharpoons \text{Xe}_{\text{(ads)}} + \text{Kr}_{\text{(g)}}
 \end{equation}
 The equilibrium constant associated to the Equation (\ref{eqn:exchange}) at any pressure for a given composition is simply the selectivity $s$, defined in the equation\ref{eq:selec}, because the gas phase activities of $\text{Xe}_{\text{(g)}}$ and $\text{Kr}_{\text{(g)}}$ correspond the partial pressures $y\ex{Xe}$ and $y\ex{Kr}$, and the adsorption phase activities of $\text{Xe}_{\text{(ads)}}$ and $\text{Kr}_{\text{(ads)}}$ correspond the mole fractions $q\ex{Xe}$ and $q\ex{Kr}$. The Gibbs free energy at equilibrium can be directly defined using the equilibrium constant, by applying this relation to the exchange equilibrium we can define an exchange Gibbs free energy $\Delta\e{exc}G$:
-\begin{equation}
+\begin{equation}\label{eq:exc_gibbs_free_energy}
   \boxed{
   \Delta\e{exc}G = -RT \ln\left(s\right)
   }
@@ -231,9 +231,9 @@ Before concluding this methodological section, we need to note that the thermody
 
 As we have seen above in the existing literature, the computational screening of the nanoporous materials --- both existing frameworks and hypothetical structures --- for targeted adsorption properties has been the object of many studies, and several of those high-throughput screening studies have focused on noble gas separation, and Xe/Kr separation, in particular. For large-scale studies we have found that, in addition to the testing and validation of methodological developments, the screening aimed in most cases at one of three objectives: (i) to identify top performing materials for synthesis and/or characterization; (ii) to better understand the limits of possible performance, and the relationships and trade-offs between various metrics of performance (selectivity, uptake, etc); (iii) identify structure--property relationships, correlating separation performance with structural properties of the materials that can be more easily determined (i.e., at low computational cost). In this initial screening study of the thermodynamic quantities, we performed a screening of around 9,700 tridimensional structures of a preprocessed version of the CoRE MOF 2019-ASR (all solvent removed) database that are publicly available --- only the non-disordered structures and the structures with a cell volume smaller than \SI{20}{\nano\meter\cubed} (to limit the overall calculation time) were considered. We will focus on the different relationships of the Xe/Kr selectivity has with structural descriptors based on geometrical analyses, and then with different thermodynamic descriptors (free energy, enthalpy, entropy). 
 
-\subsection{Structure--selectivity relationships}
+\subsection{Structure--Selectivity Relationships}
 
-An adsorption separation process is primarily characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and~\ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo++ software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20-80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accessible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} radius probe (roughly the size of a xenon),\cite{vol_Ongari2017} and the largest cavity diameter (LCD) using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
+An adsorption separation process is primarily characterized by a pivotal performance metric called the selectivity we defined in equations~\ref{eq:selec} and~\ref{eq:selec_0}. By comparing this selectivity to geometrical descriptors calculated by the Zeo++ software,\cite{Zeo++} we want to characterize the materials that will most likely be selective for a separation of a 20:80 Xe/Kr mixture (to compare with most literature screenings on a mixture extracted from the air). Three structural descriptors have been calculated: the accessible surface area of a \ce{N2}-sized probe of \SI{1.2}{\angstrom}, the void fraction occupiable by a \SI{2.0}{\angstrom} radius probe (roughly the size of a xenon),\cite{vol_Ongari2017} and the diameter of the largest included sphere ($D_i$) using specially designed atom radii. Inspired by a recent work on the comparison of pore limiting diameters and self-diffusion coefficients,\cite{Hung_2021} we defined a list of Van der Waals radii to be read by the Zeo++ software (more details in \url{https://github.com/eren125/zeopp_radtable}). All Zeo++ calculations use an atomic radius that corresponds to the distance where the LJ potential reaches $3 k_\text{B} T/2$, for $T = \SI{298}{\kelvin}$.
 
 \subsubsection{Xenon uptake}
 
@@ -243,10 +243,10 @@ This trade-off can be rationalized by using the different structural descriptors
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/3D_hist_selec_uptake.pdf}
-  \caption{3D histograms of in a bidimensional space formed by the Xe/Kr selectivity and the xenon uptake. The z-axis represents the number of structures with characteristics close to the one specified in x and y-axis. A base 10 logarithm has been applied to the selectivity values.}\label{fgr:3D_uptake}
+  \caption{3D histograms of in a bidimensional space formed by the Xe/Kr selectivity and the xenon uptake. The z-axis represents the number of structures with characteristics close to the one specified in x and y-axis. A base-10 logarithm has been applied to the selectivity values.}\label{fgr:3D_uptake}
 \end{figure}
 
-Furthermore, even if we know that it is possible to optimize either the xenon uptake or the Xe/Kr selectivity, these very successful materials are very rare inside a given diverse dataset. In the histogram presented in Figure~\ref{fgr:3D_uptake}, the number of very selective materials is very low, same for the high-capacity materials. The most frequent materials have a selectivity between $1$ and $10$ and an uptake below \SI{3}{\mmol\per\gram}. These values can be considered the standard values of nanoporous material for Xe/Kr separation, which sets reference values to compare the various performance metrics and build a chemical intuition. A selectivity above $20$ is therefore considered rather high (even if the top materials have a much higher selectivity\cite{Pei_2022}) and a xenon uptake above \SI{4}{\mmol\per\gram} is also a pretty good adsorption capacity. The rarity of these top-performing materials gives the impression of searching a needle in a haystack, which has prompted some computational studies to design their algorithm to focus on finding the best materials rather than to describe equally all materials.\cite{Deshwal_2021,Glasby_2021} 
+Furthermore, even if we know that it is possible to optimize either the xenon uptake or the Xe/Kr selectivity, these very successful materials are very rare inside a given diverse dataset. In the histogram presented in Figure~\ref{fgr:3D_uptake}, the number of very selective materials is very low, same for the high-capacity materials. The most frequent materials have a selectivity between $1$ and $10$ and an uptake below \SI{3}{\milli\mole\per\gram}. These values can be considered the standard values of nanoporous material for Xe/Kr separation, which sets reference values to compare the various performance metrics and build a chemical intuition. A selectivity above $20$ is therefore considered rather high (even if the top materials have a much higher selectivity\cite{Pei_2022}) and a xenon uptake above \SI{4}{\milli\mole\per\gram} is also a pretty good adsorption capacity. The rarity of these top-performing materials gives the impression of searching a needle in a haystack, which has prompted some computational studies to design their algorithm to focus on finding the best materials rather than to describe equally all materials.\cite{Deshwal_2021,Glasby_2021} 
 
 \subsubsection{Surface areas}
 
@@ -287,16 +287,16 @@ By carrying out a similar analysis than for the surface areas bu for the void fr
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_lcd.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_lcd_zoom.pdf}
-  \caption{Scatterplot of the xenon uptake as a function of the selectivity (20:80) and labeled by the values of the LCD (left). The same scatterplot restricted to values of LCD between ($3.6$ and $11.6$~\si{\angstrom}) and labeled using a different color code to distinguish the most selective materials from the least selective ones. The most selective materials are colored in orange corresponding to a pore size adapted for xenon adsorption (around $5$~\si{\angstrom}). The least selective ones are in green, with a pore lower than the size of a xenon hence preventing its adsorption. \todo{change D\_i to D\_if}}\label{fgr:vol}
+  \caption{Scatterplot of the xenon uptake as a function of the selectivity (20:80) and labeled by the values of $D_i$ (left). The same scatterplot restricted to values of $D_i$ between ($3.6$ and $11.6$~\si{\angstrom}) and labeled using a different color code to distinguish the most selective materials from the least selective ones. The most selective materials are colored in orange corresponding to a pore size adapted for xenon adsorption (around $5$~\si{\angstrom}). The least selective ones are in green, with a pore lower than the size of a xenon hence preventing its adsorption.}\label{fgr:vol}
 \end{figure}
 
-If we now look at the joint effects of the void fraction and the largest cavity diameter (LCD) on the selectivity, we can note that the most selective materials are located in a very particular domain of this bidimensional descriptor space. On Figure~\ref{fgr:lcd_vf}, the structures with a selectivity over $10$ are very likely to have a void fraction under $0.4$ with a rather wide range of LCD. However, as we can see on the filtered version of the plot (on the right), the most selective materials (over $40$) exist, on the other hand, in a very narrow range of LCD values between $4.8$ and $6$~\si{\angstrom} approximately. This can be explained by the size of a xenon atom being very close to these LCD values, which allows a maximal stabilization of the xenon that we want to separate from krypton. The krypton being slightly smaller, the interaction with the pores are less favorable, hence explaining the higher selectivity we observe. 
+If we now look at the joint effects of the void fraction and the largest cavity diameter ($D_i$) on the selectivity, we can note that the most selective materials are located in a very particular domain of this bidimensional descriptor space. On Figure~\ref{fgr:lcd_vf}, the structures with a selectivity over $10$ are very likely to have a void fraction under $0.4$ with a rather wide range of $D_i$. However, as we can see on the filtered version of the plot (on the right), the most selective materials (over $40$) exist, on the other hand, in a very narrow range of $D_i$ values between $4.8$ and $6$~\si{\angstrom} approximately. This can be explained by the size of a xenon atom being very close to these $D_i$ values, which allows a maximal stabilization of the xenon that we want to separate from krypton. The krypton being slightly smaller, the interaction with the pores are less favorable, hence explaining the higher selectivity we observe. 
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity.pdf}
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity_zoom.pdf}  
-  \caption{Scatterplots of the void fraction as a function of the LCD and labeled by the log$_10$ of the selectivity values. On the left, only the materials with a selectivity between $10$ and $40$ are considered; and on the right, selectivity values over $40$. \todo{change D\_i to D\_if}}\label{fgr:lcd_vf}
+  \caption{Scatterplots of the void fraction as a function of the $D_i$ and labeled by the log$_10$ of the selectivity values. On the left, only the materials with a selectivity between $10$ and $40$ are considered; and on the right, selectivity values over $40$.}\label{fgr:lcd_vf}
 \end{figure}
 
 
@@ -323,7 +323,7 @@ We will now see the effect of the composition on the different analysis we carri
   \centering
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_uptake_selectivity_vol_9010.pdf}  
   \includegraphics[width=0.48\textwidth]{figures/2-thermo/Scatterplot_vf_lcd_selectivity9010.pdf}
-  \caption{Illustration of the effect of the composition by representing the same figures as in~\ref{fgr:vol} and~\ref{fgr:compo} but for a 90:10 composition. On the left: scatterplot of the xenon uptake as a function of the selectivity ($s\e{1}(90:10)$) and labeled by the values of the void fraction. On the right: scatterplots of the void fraction as a function of the LCD and labeled by the selectivity ($s\e{1}(90:10)$) values superior to $10$ in log-scale. \todo{change D\_i to D\_if}}\label{fgr:compo}
+  \caption{Illustration of the effect of the composition by representing the same figures as in~\ref{fgr:vol} and~\ref{fgr:compo} but for a 90:10 composition. On the left: scatterplot of the xenon uptake as a function of the selectivity ($s\e{1}(90:10)$) and labeled by the values of the void fraction. On the right: scatterplots of the void fraction as a function of the $D_i$ and labeled by the selectivity ($s\e{1}(90:10)$) values superior to $10$ in log-scale.}\label{fgr:compo}
 \end{figure}
 
 Finally, the composition does not affect the previously determined structural characteristics that a material needs to be very selective. As we can see on the right plot of the Figure~\ref{fgr:compo} (right), the most selective materials still have pore size around \SI{5}{\angstrom} and porosity under {$40$\%}. This structural domain constitutes a necessary condition a selective material should have but being in this domain is not enough since less selective materials can also display these characteristics. Now that we described the geometrical conditions needed to have a good selectivity, we will focus on the thermodynamic origins of the selectivity by focusing on energy-based quantities and the different correlations between them.
@@ -344,7 +344,7 @@ To evaluate the performance of a given nanoporous material for separation in the
 
 We display the distribution of thermodynamic properties of materials with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$) in Figure~\ref{fgr:histo_K} --- we restrict these plots to selectivity above 1, because those are the materials of interest for separation, and doing so removes several outliers with specific geometries or binding sites (but does not change the overall conclusions). We can first see that although the logarithm of the Xe Henry's constant $K\ex{Xe}$ is weakly correlated to the logarithm of the selectivity $s\e{0}$, this correlation is stronger for highly selective materials. Therefore, in a multistep screening study to identify the most selective materials, it could be possible to use as a ``first filter'' criterion based purely on Xe adsorption, discarding materials below a certain threshold (e.g., the materials with $s_0\ge30$ are contained in the subset with $K\ex{Xe}\ge2.7\,10^{-1}$~\si{\milli\mol\per\gram\per\pascal}). The correlation between $K\ex{Kr}$ and $s\e{0}$, on the other hand, is weaker.
 
-With regard to Henry's constants, we observe a broad selection of behavior, with $K\ex{Xe}$ ranging from $2.6\,10^{-7}$ to $7.9\,10^{-1}$~\si{\milli\mol\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\,10^{-7}$ to $5.1\,10^{-3}$~\si{\milli\mol\per\gram\per\pascal}. We also see that statistically, a high affinity for xenon usually translates into a high (relative) affinity for krypton, which is a general trend for noble gases where the adsorption sites are not strongly specific. In order to look more in detail into the thermodynamics behind this wide diversity in behavior, we plot in Figure~\ref{fgr:histo_H} the enthalpies involved.
+With regard to Henry's constants, we observe a broad selection of behavior, with $K\ex{Xe}$ ranging from $2.6\,10^{-7}$ to $7.9\,10^{-1}$~\si{\milli\mole\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\,10^{-7}$ to $5.1\,10^{-3}$~\si{\milli\mole\per\gram\per\pascal}. We also see that statistically, a high affinity for xenon usually translates into a high (relative) affinity for krypton, which is a general trend for noble gases where the adsorption sites are not strongly specific. In order to look more in detail into the thermodynamics behind this wide diversity in behavior, we plot in Figure~\ref{fgr:histo_H} the enthalpies involved.
 
 \begin{figure}[t]
 \centering
@@ -380,6 +380,14 @@ To emphasize one more time on the enthalpic nature of the separation by comparin
 \end{figure*}
 
 The takeaway messages of this section are based on two relations. The first one is between the Henry constant of xenon and the selectivity: knowing the performance of xenon we can infer the Xe/Kr selectivity --- the most selective materials have very high xenon affinity. The second one concerns the relation between enthalpy and selectivity --- the separation process has an enthalpic nature as a first-order approximation, which is even more true for the most selective materials. By studying the energy interactions within the material, we can understand most of the performance of it. We only looked at the thermodynamic properties at infinite dilution, in the next section we will focus on the effect of the pressure in the selectivity by focusing on a 20:80 Xe/Kr mixture at \SI{1}{\atm} and \SI{298}{\kelvin}. 
+
+
+\todo{plot on entropy as a function of pore size, the entropic effect occurs mainly on the larger pore sizes}
+
+\begin{figure}
+  \includegraphics[width=0.6\textwidth]{figures/2-thermo/H_Xe_widom_vs_K_Xe_widom_overview.jpg}
+  \caption{title}
+\end{figure}
 
 %%%%
 
@@ -493,12 +501,12 @@ Furthermore, the scatterplot of $k\e{H}$ and $k\e{S}$ (shown in Figure~\ref{fgr:
 
 \begin{table}[hb]
   \small
-    \caption{Enthalpic ($k\e{H}$) and entropic ($k\e{S}$) contributions to the selectivity change ($s\e{1}/s\e{0}$) between low and ambient pressures for some archetypal structures selected for their high $s\e{0}$ selectivity at infinite dilution. Every structure is identified using a CSD Refcode and a reference the first article that mentions it. The pore size is also characterized using the LCD and the pore limiting diameter (PLD) values in \si{\angstrom}.}
+    \caption{Enthalpic ($k\e{H}$) and entropic ($k\e{S}$) contributions to the selectivity change ($s\e{1}/s\e{0}$) between low and ambient pressures for some archetypal structures selected for their high $s\e{0}$ selectivity at infinite dilution. Every structure is identified using a CSD Refcode and a reference the first article that mentions it. The pore size is also characterized using the diameters $D_i$ and $D_f$ in \si{\angstrom}.}
     \label{tbl:effect}
     \renewcommand{\arraystretch}{1.1}
     \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}|lr|rrrrr|rr|}
       \hline
-        CSD Refcode & Ref. & $s\e{0}$ &  $s\e{1}$  &  $s\e{1}/s\e{0}$ &  $k\e{H}$ &  $k\e{S}$ & LCD & PLD\\
+        CSD Refcode & Ref. & $s\e{0}$ &  $s\e{1}$  &  $s\e{1}/s\e{0}$ &  $k\e{H}$ &  $k\e{S}$ & $D_i$ & $D_f$ \\
       \hline
       VOKJIQ & \cite{VOKJIQ} &           $157.17$ &  $242.73$ &  $1.54$ &  $1.46$ &  $1.06$  &  $5.2$  &  $3.2$  \\
       KAXQIL & \cite{KAXQIL} &           $103.78$ &  $132.57$ &  $1.28$ &  $1.32$ &  $0.96$  &  $5.2$  &  $4.1$  \\
@@ -599,7 +607,7 @@ Since krypton is smaller and less strongly tied on its adsorption site than xeno
 The remaining materials discussed here form a third category, with a strong decrease in selectivity from low to ambient pressure. We look at several phenomena that can be at the root of this decrease, which is important for screening studies as it can limit the working performance of a material that appears to be a ``top performer'' based on zero-pressure screening.
 
 
-For example, GOMRAC has a similar structure compared to GOMREG (see Figure~\ref{fgr:SI:examples:GOMRAC}), except for the fact that the pores and channels are smaller (see the values of the LCD, and the PLD, in Table~\ref{tbl:effect}). The distances between the adsorbed molecules --- in their ideal sites --- are then consequently smaller. At such distances, we can assume that the interactions between adsorbates become more stabilizing for krypton than for xenon molecules in GOMRAC (see LJ potentials at distance lower than \SI{4.2}{\angstrom} in the Figure~\ref{fgr:LJ}), which translates into an enthalpic contribution $k\e{H}$ of $0.58$. Moreover, this is compatible with the equivalent guest--guest interactions in GOMREG, as previously discussed. It explains why the difference between the adsorption enthalpies becomes smaller for GOMRAC, whereas it stays the same for GOMREG (between low and ambient pressure). This further validates the crucial role of the interactions between adsorbed molecules, and their relationship with the guest-guest distances when considering a high loading condition.
+For example, GOMRAC has a similar structure compared to GOMREG (see Figure~\ref{fgr:SI:examples:GOMRAC}), except for the fact that the pores and channels are smaller (see the values of the $D_i$, and the $D_f$, in Table~\ref{tbl:effect}). The distances between the adsorbed molecules --- in their ideal sites --- are then consequently smaller. At such distances, we can assume that the interactions between adsorbates become more stabilizing for krypton than for xenon molecules in GOMRAC (see LJ potentials at distance lower than \SI{4.2}{\angstrom} in the Figure~\ref{fgr:LJ}), which translates into an enthalpic contribution $k\e{H}$ of $0.58$. Moreover, this is compatible with the equivalent guest--guest interactions in GOMREG, as previously discussed. It explains why the difference between the adsorption enthalpies becomes smaller for GOMRAC, whereas it stays the same for GOMREG (between low and ambient pressure). This further validates the crucial role of the interactions between adsorbed molecules, and their relationship with the guest-guest distances when considering a high loading condition.
 
 \begin{figure*}[h]
   \centering
