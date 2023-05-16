@@ -32,7 +32,7 @@ The set of all these 3D polyhedral subspaces $S_{k}$ is then called the Voronoi 
 
 \subsubsection{Unequal radii}
 
-The last definition of the Voronoi decomposition works only for equal-sized atoms because the closest region to an atom is also the closest to its center of mass, which does not apply to the complex atomic structures of nanoporous frameworks. To model the atomic radii $\vect{r}_1,\ldots,\vect{r}_n$ of the points $\vect{x}_1,\ldots,\vect{x}_n$ in the same box $B$, we can implement a so-called Apollonian Voronoi diagram.\cite{voronoi_apollonian} For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
+The last definition of the Voronoi decomposition works only for equal-sized atoms because the closest region to an atom is also the closest to its center of mass, which does not apply to the complex atomic structures of nanoporous frameworks. To model the atomic radii $r_1,\ldots,r_n$ of the points $\vect{x}_1,\ldots,\vect{x}_n$ in the same box $B$, we can implement a so-called Apollonian Voronoi diagram.\cite{voronoi_apollonian} For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
 
 \begin{equation}\label{eq:r_voronoi_apollonian}
   A_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert - r_k \leq \lVert \vect{x}-\vect{x}_l \rVert - r_l \right\}
@@ -413,7 +413,7 @@ To build more relevant energy descriptors, we will now go back to the definition
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.6\textwidth]{figures/3-fastsim/grid_sampling.pdf}
+    \includegraphics[width=0.5\textwidth]{figures/3-fastsim/grid_sampling.pdf}
     \caption{Principle of the energy sampling on a symmetry-based grid. On the 9 grid points, 4 points are blocked because they are too close to the framework atoms, 2 points are really calculated using the LJ potential and 3 points are propagated using the inner symmetry of the framework.}\label{fgr:principle_grid}
 \end{figure}
 
@@ -458,28 +458,47 @@ As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage t
     \caption{Comparison of the adsorption enthalpies (left) and the Henry constants calculated by the optimized grid energy sampling (for a \SI{0.1}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. \todo{add henry}}\label{fgr:grid_widom}
 \end{figure}
 
-
 From the energy values of this grid, we can now calculate many useful descriptors of the adsorption process. We have seen the performance on the Xe adsorption enthalpy and the Xe Henry constant. But as mentioned in the section~\ref{sct:thermo}, we can also derive the Xe adsorption Gibbs free energy and the Xe adsorption entropy. If we now consider the krypton in addition to the xenon, we can naturally evaluate the Kr adsorption thermodynamic quantites but also the exchange thermodynamic quantities and especially the Xe/Kr selectivity (the key metric in evaluating the separation process we are interested in).
+
 
 \subsection{Performance on the Exchange Equilibrium}
 
-\todo{PErformance on exchange metics}
+Selectivity well predicted > 
+
+\todo{Performance on exchange metics}
 
 \todo{Figure compare GCMC with averaging at 298K}
-
 
 \subsection{Characterization of the Ambient-pressure Selectivity}
 
 \subsubsection{Thermodynamic quantities}
 
-\todo{SI from ml article}
+comparison with ambient-pressure quantities
 
 \subsubsection{High temperature quantities}
+
+In this section we show figures that support the use of higher temperature averaging to better understand the ambient-pressure case. We chose to use \SI{900}{\kelvin} to improve the correlation of key metrics like the adsorption enthalpy of xenon. This improvement impacts the exchange free energy metrics as well as the adsorption enthalpy associated with the separation of xenon from krypton. The exchange Gibbs free energy and the adsorption enthalpy of xenon at ambient pressure are better correlated to the equivalent values at lower pressure and higher temperature (\SI{900}{\kelvin}) than to the \SI{298}{\kelvin} case. These observation supports the use of higher temperature averaging in the final ML model we present in the main paper.
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H0.pdf}
+  \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H900K.pdf}
+  \caption{Scatter plots }
+  \label{fgr:H_900K}
+  \caption{Scatterplots of the low-pressure xenon adsorption enthalpy at \SI{298}{\kelvin} and at \SI{298}{\kelvin} against the ambient-pressure xenon adsorption enthalpy at \SI{298}{\kelvin}. Using a higher temperature Boltzmann averaging, the correlation with the ambient-pressure case we are interested in is much higher, the R2 coefficient improves from $0.80$ to $0.92$ for instance. The RMSE also decreased from \SI{2.87}{\kilo\joule\per\mole} to \SI{1.76}{\kilo\joule\per\mole}. }
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+  \includegraphics[width=0.70\linewidth]{figures/4-ml/SI_figure/Scatterplot_G1_G900K.pdf}
+  \caption{Scatter plots }
+  \label{fgr:G_900K}
+\end{figure}
 
 \subsubsection{Statistical characterization}
 
 
-\subsection{Conclusion and perspectives}
+\subsection{Perspectives}
 
 \url{github.com/coudertlab/GrAED}
 
