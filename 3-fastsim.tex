@@ -195,7 +195,7 @@ Because we have no physical model that would predict the optimal value of the sa
 
 By choosing an optimal sampling sphere, we can more than halve the error, while increasing the computation time by around 20 percent, when comparing the case $\lambda=1.6$ with $\lambda=1.1$ (close to $r\e{min}$). In most cases, it will be an acceptable trade-off. However, in a case where the computation time is crucial, like in a rapid screening, the optimal choice might not be to increase the sampling sphere at $\lambda=1.6$ but to have it lower at $\lambda=1.4$ or $\lambda=1.2$, and have an RMSE around \SI{0.5}{\kilo\joule\per\mole} --- still quite acceptable. The new scale parameter introduced in this section can therefore be tweaked to serve the users' purpose, whether it is to focus on the accuracy or to optimize the computation speed. {If one wants to use it on a completely different database in very different conditions, then one can either choose a default value that works fine (\emph{e.g.} $\lambda=1.4$) or one can optimize the parameter on a small diverse sample of the unseen data. }
 
-\subsubsection{Rejection condition}
+\subsubsection{Rejection condition}\label{sct:rejection_condition}
 
 As shown above, our algorithm has better accuracy than Voronoi sampling, but its initial implementation was several times slower, which could be unsuitable for screening applications in high-throughput workflows, where the number of structures to be screened can reach one million or more. To reduce the computational expense, we thought of rejecting the points with little contribution to the final enthalpy, i.e., the largely positive interaction energies that would vanish in the exponential of the  Boltzmann average.
 
@@ -407,10 +407,9 @@ Finally, although the algorithm in its present form can already be applied in a 
 
 \section{Grid Adsorption Energies Descriptors (GrAED)}
 
-To build more relevant energy descriptors, we will now go back to the definitions of the adsorption enthalpy and the Henry constant (equation~\ref{eq:ads_enthalpy} and~\ref{eqn:henry}) that call for a homogeneous sampling of the adsorption space. The easiest way of sampling consists in laying a grid in the 3D space. This method is however known to be the most time-consuming on in theory. Inspired by our work on surface sampling, we designed an approach based on a symmetry-respecting grid,generated using the algorithms of the Gemmi Project,\cite{Wojdyr_2022} where the points overlapping with framework are discarded. These new features coupled make the grid sampling much less time-consuming than expected.
+\subsection{Implementation of the Algorithm}
 
-
-\subsection{Concepts}
+To build more relevant energy descriptors, we will now go back to the definitions of the adsorption enthalpy and the Henry constant (equation~\ref{eq:ads_enthalpy} and~\ref{eqn:henry}) that call for a homogeneous sampling of the adsorption space. The easiest way of sampling consists in laying a grid in the 3D space. This method is however known to be the most time-consuming on in theory. Inspired by our work on surface sampling, we designed an approach based on a symmetry-respecting grid,generated using the algorithms of the Gemmi Project,\cite{Wojdyr_2022} where the points overlapping with framework are discarded. These new features coupled with a grid sampling makes the calculation of adsorption energies much less time-consuming while being very accurate.
 
 \begin{figure}[ht]
   \centering
@@ -418,18 +417,18 @@ To build more relevant energy descriptors, we will now go back to the definition
     \caption{Principle of the energy sampling on a symmetry-based grid. On the 9 grid points, 4 points are blocked because they are too close to the framework atoms, 2 points are really calculated using the LJ potential and 3 points are propagated using the inner symmetry of the framework.}\label{fgr:principle_grid}
 \end{figure}
 
-\subsection{Implementation}
+The corresponding algorithm has a core structure of a grid algorithm, where we need to evaluate the interaction energy at each point of the preset grid over the structure's unitcell. A naive approach would call for an expensive energy calculation at each grid point. To improve this approach, our algorithm is based on two main simplification --- a quick evaluation of the framework occupied grid points and the exploitation of symmetry. The grid points that overlap with the framework's atoms have highly positive energy mainly due to the interaction with the overlapping atom. High values of energy does not contribute much to any thermodynamic quantities displayed in the section~\ref{sct:thermo}. For this reason by using a rejection parameter similar to the one developed for surface sampling introduced in the section~\ref{sct:rejection_condition}, we can precalculate the interaction energy of the grid points within the sphere of radius $\mu\times\sigma_{g-h}$. If the value of this interaction energy is higher than a preset energy threshold $E\e{th}$, then the associated grid point takes this values as the interaction energy and no further calculation will be performed for it. The symmetry of the grid is based on the symmetry of the structure determined using the Grid definition of the Gemmi Project. By using the symmetry operations on a grid point value, we can propagate it to the other symmetry-equivalent grid points as illustrated in the Figure~\ref{fgr:principle_grid}, which reduces the number of time we need to calculate the interaction energy of a guest molecule at a given grid node with all the surrounding framework atoms within a given cutoff. Now that we presented the main building blocks of our optimized grid calculation, we will show how it integrates in the implementation of the algorithm.
 
-algorithm implemented with the following steps:
-First, we loop over the framework atoms and the grid points around a sphere of radius $0.8\times\sigma_{g-h}$, where $\sigma_{g-h}$ is the distance at which the LJ potential energy between the guest atom $g$ and the host atom is zero. The LJ potential energy between the guest molecule and the closes host atom is calculated and only the grid points with an energy lower than a predefined threshold (here set to \SI{100}{\kilo\joule\per\mole}) are considered ``unvisited'' and will be recalculated in the following loop, the others are considered blocked by the framework and will be considered already ``visited''. This first loop over the framework atoms aims at filtering out the grid points that are blocked by the framework, and we will refer to this preliminary filtering step as ``blocking'' in the Table~\ref{tab:grid}. Then, a second loop over the ``unvisited'' grid points is performed --- at each increment, if the point is ``unvisited'' we calculate the interaction energy between the guest and all the host atoms within the cutoff, then the symmetric images of this point are filled with the same energy value and are considered ``visited'' by the algorithm. This symmetry-aware grid exploration allows the algorithm to divide the time required by the average number symmetry images --- this module will be referred to as ``symmetry'' in the Table~\ref{tab:grid}. By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS).
+\begin{enumerate}
+  \item We loop over the framework atoms and the grid points around a sphere of radius $\mu\times\sigma_{g-h}$, where $\sigma_{g-h}$ is the distance at which the LJ potential energy between the guest atom $g$ and the host atom is zero. The LJ potential energy between the guest molecule and the closes host atom is calculated and only the grid points with an energy lower than a predefined threshold $E\e{th}$ are considered ``unvisited'' and will be recalculated in the following loop, the others are considered blocked by the framework and will be considered already ``visited''. This first loop over the framework atoms aims at filtering out the grid points that are blocked by the framework, and we will refer to this preliminary filtering step as ``blocking'' in the Table~\ref{tab:grid}.
+  \item A second loop over the ``unvisited'' grid points is performed --- at each increment, if the point is ``unvisited'' we calculate the interaction energy between the guest and all the host atoms within the cutoff, then the symmetric images of this point are filled with the same energy value and are considered ``visited'' by the algorithm. This symmetry-aware grid exploration allows the algorithm to divide the time required by the average number symmetry images --- this module will be referred to as ``symmetry'' in the Table~\ref{tab:grid}.
+\end{enumerate}
 
-\todo{spacing}
+By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS). To control the trade-off between accuracy and computation time, we can vary the spacing between the grid points --- the computation time is theoretically inversely proportional to the cube of the spacing.And, for some values of this spacing, this algorithm can even be faster than the surface sampling on the CoRE MOF database where the symmetry plays an important role (see Table~\ref{tab:grid}). 
 
-\todo{explain the parameters behind the blocking: mu paramater similar to surface + energy threshhold $E\e{th}$}
+\subsection{Performance on the Adsorption Equilibrium}
 
-\subsubsection{Comparison to standard methodologies}
-
-To highlight the improvement in performance in this procedure: the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ on the CoRE MOF 2019 database (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. The ``symmetry'' procedure means only {$\sim$17\%} of points need to be considered, and the combination of both reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation, as shown in Table~\ref{tab:grid}.
+The good performance of the grid sampling on the structures of CoRE MOF 2019 database can be explained by their rather small pores and their high order of symmetry. For instance, the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. And, the ``symmetry'' procedure implies that only {$\sim$17\%} of points need to be considered, and the combination of both theoretical reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation while keeping the accruracy level compared to the naive grid approach, as shown in Table~\ref{tab:grid}.
 
 \setlength{\extrarowheight}{0.1cm}
 \begin{table}[ht]
@@ -451,30 +450,31 @@ To highlight the improvement in performance in this procedure: the average void 
   \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz.}\label{tab:grid}
 \end{table}
 
-From the energy values of this grid, we can now calculate many useful descriptors that are used in our final model. 
+As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is a perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.1}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. If we really want to nit-pick, we can note that a small difference between both methods can be detected for 2 structures. This difference is probably due to the small changes induced by the symmetrization of the structures (using a small Python script based of \texttt{Spglib} \url{github.com/eren125/material-screening/blob/main/Home_screening_templates/run_findsym.py}).\todo{check those structures}.
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.6\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
-    \caption{Comparison of the adsorption enthalpies calculated by the optimized grid energy sampling for a \SI{0.12}{\angstrom} spacing and an energy threshold of \SI{100}{\kilo\joule\per\mole}
-      Perfect accordance except for issues of small difference of structure due to symmetry conversion}\label{fgr:grid_widom}
+    \caption{Comparison of the adsorption enthalpies (left) and the Henry constants calculated by the optimized grid energy sampling (for a \SI{0.1}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. \todo{add henry}}\label{fgr:grid_widom}
 \end{figure}
 
-\todo{time evaluation with $1/v$}
 
-\subsubsection{Henry constant}
+From the energy values of this grid, we can now calculate many useful descriptors of the adsorption process. We have seen the performance on the Xe adsorption enthalpy and the Xe Henry constant. But as mentioned in the section~\ref{sct:thermo}, we can also derive the Xe adsorption Gibbs free energy and the Xe adsorption entropy. If we now consider the krypton in addition to the xenon, we can naturally evaluate the Kr adsorption thermodynamic quantites but also the exchange thermodynamic quantities and especially the Xe/Kr selectivity (the key metric in evaluating the separation process we are interested in).
 
+\subsection{Performance on the Exchange Equilibrium}
 
-\subsubsection{selectivity}
+\todo{PErformance on exchange metics}
 
 \todo{Figure compare GCMC with averaging at 298K}
 
 
-\subsection{Energy-based descriptors}
+\subsection{Characterization of the Ambient-pressure Selectivity}
 
 \subsubsection{Thermodynamic quantities}
 
 \todo{SI from ml article}
+
+\subsubsection{High temperature quantities}
 
 \subsubsection{Statistical characterization}
 
