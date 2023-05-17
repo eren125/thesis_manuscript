@@ -55,6 +55,7 @@ If we now consider a point $\vect{v}$ on a boundary between $p$ Voronoi cells $\
 
 \subsection{Implementation in a Screening}
 
+
 The use of the Voronoi decomposition of the pore space of materials for their geometric characterization has been widely employed in computational studies in the last decade,\cite{Willems_2012} in particular since it was made easily available as part of the Zeo++ software package.\cite{Pinheiro2013} Its use was extended recently to implement a novel sampling scheme, in a study proposing the ML-assisted screening of nanoporous materials for xenon/krypton separation. In this article, Simon et al.\cite{Simon_2015} relied on a Voronoi tessellation of the nanoporous materials and assigned the potential adsorption sites (i.e., the sampling points) at the nodes of this decomposition. The Voronoi tessellation identifies the vertices of polyhedra that correspond to the closest regions of each atom of the structure. These vertices (or \emph{Voronoi nodes}) are the points equidistant to at least four atoms of the structure, and they can be associated with adsorption sites since they are positioned near the center of the pores. 
 
 The definition of accessibility defined by the Zeo++ software was used in a screening to find the best materials for Xe/Kr separation.\cite{Simon_2015} The interaction energies of xenon were calculated only on the accessible nodes as schemed on the Figure~\ref{fgr:simon_voro}. The average of the energies at the accessible Voronoi nodes gives an approximation of the adsorption enthalpy. However, this sampling assumes that the nodes are close to the real, most favorable, adsorption sites. Or to put it differently, the adsorption sites need to be at the center of the pores, which is only true for structures with pore sizes close to adsorbate size. This newly defined adsorption energy descriptor was found to be one of the most influential descriptor for the ML model developed to predict the ambient-pressure selectivity. 
@@ -98,6 +99,9 @@ We can intuitively say that the Boltzmann averaging being closer to the definiti
 
 The Widom insertion is typically used to calculate the infinite dilution adsorption properties such as the adsorption enthalpy, the Henry constant and the selectivity. The evaluation of the interaction energies of xenon at the different Voronoi nodes correspond to a low-pressure averaging and is more comparable to a Widom insertion method. It is however biased by the inhomogeneous sampling of the space, which can explain some discrepancies we could observe.
 
+Note that in this chapter we will mainly use the standard pore size definition we find in the literature that is based on the atom radii defined by the Cambridge Crystallographic Data Centre (CCDC). The LCD that denotes to simplify the $D_i$  
+
+
 As we can see on the Figure~\ref{fgr:compa_voro_0}, the average of the energies is not performing very well and is clearly less correlated to the adsorption enthalpy than the minimum interaction energy or the Boltzmann average of the interaction energies. This is because in a normal average, the high energy values have a much higher weight than in a Boltzmann average, which makes the average much more important than expected. The Voronoi average descriptor $E\e{voro-A}^{Xe}$ is always higher than the infinite dilution adsorption enthalpy $\Delta\e{ads} H_{0}\ex{Xe}$. 
 
 \begin{figure}[ht]
@@ -105,7 +109,7 @@ As we can see on the Figure~\ref{fgr:compa_voro_0}, the average of the energies 
     \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_A_overview.jpg}
     \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_M_overview.jpg}
     \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_B_overview.jpg}
-    \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step Widom insertion simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD) belonging to one of the intervals.}\label{fgr:compa_voro_0}
+    \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step Widom insertion simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD\e{CCDC}) belonging to one of the intervals.}\label{fgr:compa_voro_0}
 \end{figure}
 
 The Pearson correlation coefficients corroborate our initial observation. The correlation coefficient between $E\e{voro-A}^{Xe}$ and $\Delta\e{ads} H_{0}\ex{Xe}$ is equal to $0.81$, whereas for the minimum $E\e{voro-M}^{Xe}$ it is $0.95$ and for the Boltzmann average $E\e{voro-B}^{Xe}$ it is $0.97$. For this reason, to evaluate the relevance of a Voronoi energy sampling we should consider a Boltzmann average. As we have shown in the previous chapter, the selectivity is correlated to the difference of adsorption enthalpies of xenon and krypton. Better describing the enthalpy is a first step toward a better description of the selectivity. However, we only looked at the selectivity values at low pressure. What would happen for selectivity at higher pressure?
@@ -128,7 +132,7 @@ If we look at the Figure~\ref{fgr:compa_voro_2080}, it is not so clear which des
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_A_overview.jpg}
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_M_overview.jpg}
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_B_overview.jpg}
-      \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step GCMC simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD or $D_i$) belonging to one of the intervals.}\label{fgr:compa_voro_2080}
+      \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step GCMC simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD\e{CCDC} or $D_i$) belonging to one of the intervals.}\label{fgr:compa_voro_2080}
   \end{figure}
   
 At higher pressure, the adsorption enthalpy has higher values, which degrades the correlation with the Boltzmann average and the minimum of the interaction energies evaluated at the Voronoi nodes. For the averaging, the over-evaluation of the energy values make it closer to the values at higher pressure. Following this idea, we later come up with another idea of averaging with bigger weights on the higher values, a Boltzmann average with a higher temperature value that will be tested in the next chapter. 
@@ -160,7 +164,7 @@ This initial implementation speeds up the calculation of adsorption enthalpy in 
   \caption{Schematic description of our surface sampling based on the three main steps of the algorithm: the loop over the unique atoms, the spiral sampling around each atom, and the energy averaging. The adsorbate is represented by the point $i$ and is moved across all the points around the unique atoms of the structure.}\label{fgr:principle}
 \end{figure}
 
-In order to validate the accuracy of the approximation made using this sampling, we applied this algorithm with 300,000 sampling points per unique atom. The results are illustrated by the Figure~\ref{fgr:surface_sampling}. There is a good numerical agreement with the reference calculations, {the RMSE and MAE are only around \SI{0.90}{\kilo\joule\per\mole} and \SI{0.66}{\kilo\joule\per\mole}} considering all the structures from the database. Moreover, there is no noticeable difference of RMSE when considering the structures with a pore size above \SI{3.7}{\angstrom} (as determined by the largest cavity diameter, or LCD). Unlike Voronoi sampling, this method gives a consistent accuracy across all the structures of the database with a lower error. The fact that the {RMSE} error is below \SI{1}{\kilo\joule\per\mole} is quite promising, and validates our intuition that this new sampling technique can be an intermediate between to the two previous methods (Voronoi and Widom).
+In order to validate the accuracy of the approximation made using this sampling, we applied this algorithm with 300,000 sampling points per unique atom. The results are illustrated by the Figure~\ref{fgr:surface_sampling}. There is a good numerical agreement with the reference calculations, {the RMSE and MAE are only around \SI{0.90}{\kilo\joule\per\mole} and \SI{0.66}{\kilo\joule\per\mole}} considering all the structures from the database. Moreover, there is no noticeable difference of RMSE when considering the structures with a pore size above \SI{3.7}{\angstrom} (as determined by the LCD\e{CCDC}). Unlike Voronoi sampling, this method gives a consistent accuracy across all the structures of the database with a lower error. The fact that the {RMSE} error is below \SI{1}{\kilo\joule\per\mole} is quite promising, and validates our intuition that this new sampling technique can be an intermediate between to the two previous methods (Voronoi and Widom).
 
 \begin{figure}[ht]
   \centering
@@ -191,7 +195,7 @@ The validity of the initial algorithm is based on the assumption that the adsorp
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.7\linewidth]{figures/3-fastsim/sphere_size_optimisation.png}
-  \caption{Influence of the sampling sphere radius $R_{\lambda}$ on the average CPU time required for a simulation of 100k sampling points and the RMSE, compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD) higher than \SI{3.7}{\angstrom}.}\label{fgr:radius}
+  \caption{Influence of the sampling sphere radius $R_{\lambda}$ on the average CPU time required for a simulation of 100k sampling points and the RMSE, compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD\e{CCDC}) higher than \SI{3.7}{\angstrom}.}\label{fgr:radius}
 \end{figure}
 
 Because we have no physical model that would predict the optimal value of the sampling sphere, we followed a statistical approach. We studied the influence of the $\lambda$ parameter on both the accuracy and the computation time, and the results are represented on Figure~\ref{fgr:radius}. The RMSE turns out to be relatively high around \SI{0.90}{\kilo\joule\per\mole} for radius sphere lower than the $r\e{min}$, it then decreases for larger values of radius to reach a plateau around \SI{0.35}{\kilo\joule\per\mole}. We confirm that by increasing the sampling sphere radius we can improve the accuracy of our algorithm, and find that for values of $\lambda$ higher than $1.6$, the accuracy is stabilized. We also find that increasing the sphere radius negatively impacts the computational efficiency, since it increases the number of neighbors considered in the energy calculation.
@@ -215,10 +219,10 @@ This rejection condition is expected to speed up the calculation, since the ener
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.7\linewidth]{figures/3-fastsim/rejection_coeff_optimisation.png}
-  \caption{Influence of the rejection coefficient $\mu$ on the average CPU time required for a simulation of 100k sampling points and the RMSE compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD) superior to \SI{3.7}{\angstrom}. }\label{fgr:rejection}
+  \caption{Influence of the rejection coefficient $\mu$ on the average CPU time required for a simulation of 100k sampling points and the RMSE compared to the reference adsorption enthalpy. The averaging is done only on the structures with a largest cavity diameter (LCD\e{CCDC}) superior to \SI{3.7}{\angstrom}. }\label{fgr:rejection}
 \end{figure}
 
-The values of RMSE and time on Figure~\ref{fgr:rejection} are averaged only on the most interesting structures for xenon adsorption (LCD $\geq$ \SI{3.7}{\angstrom}). For $\mu\leq 0.85$, increasing the value of $\mu$ improves the speed of the calculation without changing the RMSE.\footnote{In fact, what we observe is a deterioration of the accuracy for structures with small pores because the probability of rejection in a confined space is really high and all sampled points end up rejected. But these points are not considered, if we apply the condition on the cavity size (LCD $\geq$ \SI{3.7}{\angstrom}).} For high values of $\mu$, the rejection condition is too strong and we reject points with non-negligible contribution to the overall enthalpy. The RMSE increases as a consequence. If we want to keep the accuracy unchanged, the optimal value is therefore $\mu \simeq 0.85$, because it give the lowest computation time with a similar RMSE. We note that it would be possible, in specific cases, to explore higher values of $\mu$ that trade a bit more accuracy in exchange for further speed gains.
+The values of RMSE and time on Figure~\ref{fgr:rejection} are averaged only on the most interesting structures for xenon adsorption (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}). For $\mu\leq 0.85$, increasing the value of $\mu$ improves the speed of the calculation without changing the RMSE.\footnote{In fact, what we observe is a deterioration of the accuracy for structures with small pores because the probability of rejection in a confined space is really high and all sampled points end up rejected. But these points are not considered, if we apply the condition on the cavity size (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}).} For high values of $\mu$, the rejection condition is too strong and we reject points with non-negligible contribution to the overall enthalpy. The RMSE increases as a consequence. If we want to keep the accuracy unchanged, the optimal value is therefore $\mu \simeq 0.85$, because it give the lowest computation time with a similar RMSE. We note that it would be possible, in specific cases, to explore higher values of $\mu$ that trade a bit more accuracy in exchange for further speed gains.
 
 For the simulations considered in Figure~\ref{fgr:rejection}, the use of a rejection condition $\mu = 0.85$ makes the simulation four times faster than the standard algorithm. As we will see in the next section, the combination of optimal values for the $\lambda$ and $\mu$ parameters generates an algorithm with very interesting performance compared to Voronoi sampling or Widom insertion.
 
@@ -233,7 +237,7 @@ For the calculation of adsorption enthalpy, our proposed surface sampling method
   \centering
   \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_overview.jpg}
   \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom.jpg}
-    \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the final RAESS algorithm ($\lambda = 1.6$ and $\mu=0.85$) as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows, in structures of CoRE MOF 2019 with LCD $\geq$ \SI{3.7}{\angstrom} at \SI{298}{\kelvin}. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
+    \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the final RAESS algorithm ($\lambda = 1.6$ and $\mu=0.85$) as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows, in structures of CoRE MOF 2019 with LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom} at \SI{298}{\kelvin}. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
 \end{figure}
 
 % \begin{table}[ht]
@@ -349,7 +353,7 @@ The RAESS method relies on the higher weight of the strong sites close to the su
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.5\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom_600K.jpeg}
-  \caption{Scatterplot of the enthalpies calculated by our final algorithm ($\lambda=1.6$ and $\mu=0.85$) compared to the enthalpies calculated by a 12k step Widom insertion simulation of xenon in structures of CoRE MOF 2019 with LCD $\geq$ \SI{3.7}{\angstrom} at \SI{600}{\kelvin}. }
+  \caption{Scatterplot of the enthalpies calculated by our final algorithm ($\lambda=1.6$ and $\mu=0.85$) compared to the enthalpies calculated by a 12k step Widom insertion simulation of xenon in structures of CoRE MOF 2019 with LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom} at \SI{600}{\kelvin}. }
 \end{figure}
 
 The method is as expected less accurate, but it still gives a reasonable correlation on the performance, with an RMSE of \SI{0.70}{\kilo\joule\per\mole} and an MAE of \SI{0.41}{\kilo\joule\per\mole}. The errors have almost doubled when going from \SI{298}{\kelvin} to \SI{600}{\kelvin}. However, these limitations of the method are not crippling since adsorption processes are usually not performed at very high temperature. High temperatures are commonly used in temperature swing adsorption (TSA) to desorb the adsorbates rather than to adsorb them.
@@ -358,12 +362,12 @@ The method is as expected less accurate, but it still gives a reasonable correla
 
 \textbf{ToBaCCo}
 
-We randomly selected 1,000 structures from the 13,511 porous frameworks of the ToBaCCo database to test the robustness of the RAESS method on a database other than CoreMOF. Since ToBaCCo contains structures with larger pores as suggested by a Moosavi et al., these materials are more unfavorable for adsorption of small molecules (such as Xe). The correlation is therefore found to be weaker than in the CoRE MOF 2019 database. This lower accuracy should be nuanced by the lack of suitability of these materials for Xe/Kr separation. Moreover, we can note that the points with weaker correlations correspond to the ones with an LCD greater than \SI{10}{\angstrom}, which is not ideal to separate Xe from Kr.
+We randomly selected 1,000 structures from the 13,511 porous frameworks of the ToBaCCo database to test the robustness of the RAESS method on a database other than CoreMOF. Since ToBaCCo contains structures with larger pores as suggested by a Moosavi et al., these materials are more unfavorable for adsorption of small molecules (such as Xe). The correlation is therefore found to be weaker than in the CoRE MOF 2019 database. This lower accuracy should be nuanced by the lack of suitability of these materials for Xe/Kr separation. Moreover, we can note that the points with weaker correlations correspond to the ones with an LCD\e{CCDC} greater than \SI{10}{\angstrom}, which is not ideal to separate Xe from Kr.
 
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.5\linewidth]{figures/3-fastsim/H_Xe_0_widom_vs_Enthalpy_surface_kjmol_overview_tobacco.jpeg}
-  \caption{Scatterplot comparison of the xenon adsorption enthalpy calculated by the RAESS algorithm and the Widom insertion (RASPA2) on the ToBaCCo database. RMSE = \SI{1.79}{\kilo\joule\per\mole} and MAE = \SI{1.48}{\kilo\joule\per\mole}. 915 structures have an LCD greater than \SI{10}{\angstrom}.}\label{fgr:tobacco}
+  \caption{Scatterplot comparison of the xenon adsorption enthalpy calculated by the RAESS algorithm and the Widom insertion (RASPA2) on the ToBaCCo database. RMSE = \SI{1.79}{\kilo\joule\per\mole} and MAE = \SI{1.48}{\kilo\joule\per\mole}. 915 structures have an LCD\e{CCDC} greater than \SI{10}{\angstrom}.}\label{fgr:tobacco}
 \end{figure}
 
 The algorithm performs very well on the most adsorptive materials with xenon adsorption enthalpy values lower than \SI{-30}{\kilo\joule\per\mole}, because for these materials the adsorption sites are located near the surface. For broader pore sizes, it is interesting to note some limitations of the methodology we should be aware of. For determining the most attractive materials this shortcoming does not influence the final conclusions. Moreover, this limitation is not that damaging since the correlation although weaker still remains.
@@ -444,22 +448,24 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
     Grid -- naive -- \SI{0.1}{\angstrom} &  71.3 & 0.025  \\[0.5mm]
     Grid -- blocking -- \SI{0.1}{\angstrom} &  18.8 & 0.026  \\
     Grid -- symmetry -- \SI{0.1}{\angstrom} &  16.8 & 0.024  \\
-    Grid -- fast -- \SI{0.1}{\angstrom} &  4.8 & 0.023  \\
-    Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.22  \\
+    Grid -- fast -- \SI{0.1}{\angstrom} &  4.9 & 0.023  \\
+    Grid -- fast -- \SI{0.12}{\angstrom} &  2.9 & 0.017  \\
+    Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.23  \\
     RAESS\cite{Ren_2023}  &  0.34 & 0.34  \\
     Widom\cite{Widom1963} (12k cycles) &  150 & 0.01  \\
     \hline
   \end{tabular}
-  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz.}\label{tab:grid}
+  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{incohérence sur les rmse et sur la definiton du LCD\e{CCDC}, refaire/}}\label{tab:grid}
 \end{table}
 
-As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is a perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.1}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. If we really want to nit-pick, we can note that a small difference between both methods can be detected for 2 structures. This difference is probably due to the small changes induced by the symmetrization of the structures (using a small Python script based of \texttt{Spglib} \url{github.com/eren125/material-screening/blob/main/Home_screening_templates/run_findsym.py}).\todo{check those structures}.
+As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. If we really want to nit-pick, we can note that very small differences between both methods can be detected for a few structures.
+
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.48\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
     \includegraphics[width=0.48\textwidth]{figures/3-fastsim/K_Xe_widom_vs_K_Xe_grid_overview.jpg}
-    \caption{Comparison of the adsorption enthalpies (left) and the Henry constants calculated by the optimized grid energy sampling (for a \SI{0.1}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. \todo{add henry}}\label{fgr:grid_widom}
+    \caption{Comparison of the adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.1}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. }\label{fgr:grid_widom}
 \end{figure}
 
 From the energy values of this grid, we can now calculate many useful descriptors of the adsorption process. We have seen the performance on the Xe adsorption enthalpy and the Xe Henry constant. But as mentioned in the section~\ref{sct:thermo}, we can also derive the Xe adsorption Gibbs free energy and the Xe adsorption entropy. If we now consider the krypton in addition to the xenon, we can naturally evaluate the Kr adsorption thermodynamic quantites but also the exchange thermodynamic quantities and especially the Xe/Kr selectivity (the key metric in evaluating the separation process we are interested in).
