@@ -15,6 +15,7 @@
 *.ptc
 !main.pdf
 !figures/*/*.pdf
+!figures/*/*/*.pdf
 
 ## Intermediate documents:
 *.dvi
