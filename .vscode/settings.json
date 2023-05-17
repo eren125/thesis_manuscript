@@ -1,6 +1,6 @@
 {
     "latex-workshop.latex.autoBuild.run": "never",
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Default Light+",
     "diffEditor.wordWrap": "on",
     "editor.wordWrap": "on",
     "files.autoSave": "onWindowChange"

@@ -16,7 +16,7 @@
 !main.pdf
 !figures/*/*.pdf
 !figures/*/*/*.pdf
-.vscode/*
+.vscode/settings.json
 
 ## Intermediate documents:
 *.dvi
