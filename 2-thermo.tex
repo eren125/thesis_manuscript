@@ -14,7 +14,7 @@ Before going into the details of the adsorption properties themselves, we will f
 
 \subsubsection{Pore size}
 
-There are a multitude of pore sizes depending on the point where we measure it, all these pore sizes  compose what we call a pore size distribution. Some specific values are, however, uniquely defined and used to put a single value to characterize pore sized. The pore limiting diameter (PLD) is the diameter of the largest sphere that can diffuse freely in the structure, it is also noted $D_f$. The diameter $D_if$ corresponds to the diameter of the largest included sphere along a free diffusion path also denoted LCD; the global cavity diameter (GCD) is the diameter of the largest included sphere (not necessarily in a free diffusion path) also denoted $D_i$. The Figure~\ref{fgr:pore_size} illustrates the difference between these pore sizes. In thermodynamic studies we will use the term LCD for the largest included sphere $D_i$, because we did not consider the effect of hard sphere blocking in adsorption processes (the model is way too simplistic) --- therefore, there is no distinction between $D_i$ and $D_if$ in characterizing adsorption simulations results. The term LCD will be used instead of GCD since the distinction is not relevant in our studies.
+There are a multitude of pore sizes depending on the point where we measure it, all these pore sizes  compose what we call a pore size distribution. Some specific values are, however, uniquely defined and used to put a single value to characterize pore sized. The pore limiting diameter (PLD) is the diameter of the largest sphere that can diffuse freely in the structure, it is also noted $D_f$. The diameter $D_{if}$ corresponds to the diameter of the largest included sphere along a free diffusion path also denoted LCD; the global cavity diameter (GCD) is the diameter of the largest included sphere (not necessarily in a free diffusion path) also denoted $D_i$. The Figure~\ref{fgr:pore_size} illustrates the difference between these pore sizes. In thermodynamic studies we will use the term LCD for the largest included sphere $D_i$, because we did not consider the effect of hard sphere blocking in adsorption processes (the model is way too simplistic) --- therefore, there is no distinction between $D_i$ and $D_{if}$ in characterizing adsorption simulations results. The term LCD will be used instead of GCD since the distinction is not relevant in our studies.
 
 \begin{figure}[ht]
   \centering
@@ -36,7 +36,7 @@ The surface areas are calculated using a random sampling over the surface of the
 
 \subsubsection{Pore volume and porosity}
 
-The pore volume is calculated by random sampling of the accessible and inaccessible Voronoi cells. Similar algorithm, random sampling over a regular mesh. If the probe does not overlap with a framework atom, then it is counted in $N$. The ratio of this final $N$ and the total number of points sampled gives the fraction of the pore volume. This ratio is called the void fraction or the porosity. Using the Voronoi decomposition, we can also define the accessible and non-accessible void fractions.\todo{explain how}
+The pore volume is calculated by random sampling of the accessible and inaccessible Voronoi cells. Similar algorithm, random sampling over a regular mesh. If the probe does not overlap with a framework atom, then it is counted in $N$. The ratio of this final $N$ and the total number of points sampled gives the fraction of the pore volume. This ratio is called the void fraction or the porosity. Using the Voronoi decomposition, we can also define the accessible and non-accessible Voronoi cells to reduce the space the Monte Carlo simulation need to sample for the surface area and the void fraction calculations.
 
 \subsection{Mixture adsorption simulations: Grand Canonical Monte Carlo}\label{sct:GCMC}
 
@@ -60,11 +60,10 @@ In molecular simulations, to do so, only the initial configuration $c_0$ is real
 Any move that has a greater probability of occurring is always accepted, if the probability is lower than the acceptance rate depends on the probability ratio.
 The multiplicative prefactor has no influence on the algorithm, we do not need to know the chemical space to explore beforehand, which is a valuable simplification. This sequence of a Markov-type chain can then be used to approximate the probability distribution of the grand canonical ensemble we seek to describe in the equation~\ref{eq:gc}.
 
-
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.99\textwidth]{figures/2-thermo/MC_moves.jpg}
-  \caption{MC moves for monoatomic atoms with multiple components}\label{fgr:mc}
+  \caption{MC moves in a system of two types of monoatomic atoms (green and orange). The modification on the first box is highlighted by the yellow circle and the translation drag is represented by a set of dashed circles. The moves 2 to 4 }\label{fgr:mc}
 \end{figure}
 
 To complete the description of the grand canonical Monte Carlo (GCMC) simulation we are interested in, let us now consider the different MC moves used to generate a configuration from another. Depending on the parameterization, these moves have different probabilities of occurring. For monoatomic atoms only four moves are relevant (see Figure~\ref{fgr:mc}): (1) the translation of a randomly chosen molecule with a displacement randomly chosen within a given radius, (2) the change of identity of a randomly chosen molecule into another, (3) the insertion of an adsorbate molecule and (4) the deletion of an adsorbate molecule. We deliberately omitted the rotations of the adsorbate because of the spherical symmetry of noble gases and the change of volume since the flexibility of the material framework is neglected. 

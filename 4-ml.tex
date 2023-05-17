@@ -12,7 +12,11 @@ Machine learning (ML) models have been widely used to characterize adsorption, t
 
 \subsection{What is machine learning}
 
+Up until now, the computer algorithms we introduced have a predefined sequence of commands that the program executes to give the desired property. In machine learning, instead of encoding a series of instructions, the approach consists in learning a the relation between a set of target variables by using other characteristics we call descriptors or features. For example, if we want to predict the weather of tomorrow, the model could use the past weather of similar dates to infer if it will rain tomorrow; the history of the weather are the features of the ML model and the future weather is the target variable.
 
+Supervised learning (what we presented earlier)
+
+Unsupervised learning
 
 \subsection{How to learn accurately}
 
@@ -25,7 +29,6 @@ We used the training data to perform a random search of hyperparameters, with 5-
 \subsubsection{Explainable AI}
 
 
-
 The final model is trained on the predefined training set using XGBoost with the fine-tuned hyperparameters. By testing it on the test set, we measure the accuracy of our approach, however, it is interesting to extract chemical insight into the hidden relationship between the predicted value and the descriptors, to better understand the thermodynamic origins of the performance. In this work, we used the Shapley values,\cite{shapley1953value} a game theory concept developed by Shapley in 1953, to measure the contribution of each descriptor in the predicted value. This tool is used locally to understand for a given structure how their characteristics had contributed to the prediction. To draw structure-property relationships, we would need to use a global interpretation methods such as the SHapley Additive exPlanations (SHAP) method thoroughly detailed in the online book \emph{Interpretable Machine Learning} of Christoph Molnar.\cite{molnar2020interpretable} The SHAP tool developed by Lundberg and Lee~\cite{SHAP} is based on a faster algorithm adapted to tree-based ML models like gradient boosting, TreeSHAP, and integrates useful global interpretation modules like SHAP feature importance and dependence plot.
 
 \subsection{Tree-based models}
@@ -33,8 +36,6 @@ The final model is trained on the predefined training set using XGBoost with the
 random forest 
 boosting
 eXtreme Gradient Boosting
-
-
 
 \section{Prediction of the selectivity}
 

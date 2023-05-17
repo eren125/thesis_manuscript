@@ -10,7 +10,7 @@
 
 \subsection{Theoretical considerations}
 
-In mathematics, a tessellation of a given space corresponds to a partition into non overlapping sub-spaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009} Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). At the vertices of each cell, there are Voronoi nodes that was used in the Voronoi energy calculation presented by Simon et al.\cite{Simon_2015}
+In mathematics, a tessellation of a given space corresponds to a partition into non overlapping subspaces. In the Voronoi tessellation, named after Georgy Feodosevich Voronoy, a set of points (seeds) are associated to a tessellation of regions (Voronoi cells) so that each seed has a cell whose points are closer to this seed than any other seeds.\cite{Rycroft_2009} Applied in materials science, the Voronoi cells associated to each atom of the framework can be used to determine key geometrical descriptors (void volume, accessible surface area, pore sizes). This decomposition can also be used to sample adsorption energies as introduced by Simon et al. --- an average of the interaction energies was calculates on the accessible vertices of each Voronoi cell.\cite{Simon_2015}
 
 \subsubsection{Equal radii}
 
@@ -20,7 +20,8 @@ In a tridimensionnal space, let us consider the positions ${(\vect{x}_k)}_{k\in\
   S_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ \lVert \vect{x}-\vect{x}_k \rVert \leq \lVert \vect{x}-\vect{x}_l \rVert \right\}
 \end{equation}
 
-The set of all these 3D polyhedral subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polyhedra can then give valuable information of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ subspaces $\left\{V_{i_1},\ldots,V_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proved by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point on an edge adjacent to some subspaces, it will be closer to the atoms associated with these subspaces than to any other atoms.
+The set of all these 3D polyhedral subspaces $S_{k}$ is then called the Voronoi partition of the space $B$. The edges and vertices of these polyhedra can then give valuable information of the void space between the adjacent Voronoi cells associated to them. We can quickly use them to determine the accessible and inaccessible points of the void space. For instance, a vertex $\vect{v}$ of $p$ subspaces $\left\{V_{i_1},\ldots,V_{i_p}\right\}$ is the closest point to the atomic positions $\vect{x}_{i_1},\ldots,\vect{x}_{i_p}$ --- this can simply be proven by combining the different conditions of equation~\ref{eq:voronoi_partition}. The same assessment can be done for any point on an edge adjacent to some subspaces, it will be closer to the atoms associated with these subspaces than to any other atoms. 
+
 
 \begin{figure}[ht]
   \centering
@@ -29,6 +30,8 @@ The set of all these 3D polyhedral subspaces $S_{k}$ is then called the Voronoi 
   \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
   \caption{Bidimensional illustrations of a Voronoi decomposition using three types of algorithm: (1) for equally sized circles using the equation~\ref{eq:voronoi_partition} (\url{www.shadertoy.com/view/MslGD8}) (2) for unequally sized circles using the Apollonian Voronoi decomposition condition~\ref{eq:r_voronoi_apollonian} (\url{www.shadertoy.com/view/4sd3D7}) and (3) another alforithm for unequally sized circles using the radical Voronoi condition~\ref{eq:r_voronoi_radical} (\url{www.shadertoy.com/view/4tV3z3}). Note that the second picture shows the curved boundaries between the Voronoi cells, while the switch to the radical Voronoi decomposition gives straight line boundaries.}\label{fgr:voronoi_illustration}
 \end{figure}
+
+This regular Voronoi tessellation can only be used to separate the space for equally sized atoms because it sets the boundaries at equidistance of all the surrounding atoms, as we can see on the Figure~\ref{fgr:voronoi_illustration}. For unequally sized atoms, this type of definition could be undesired since the boundary can be closer to the surface of an atom than of another. The initial thought behind using a Voronoi decomposition is based on delimiting a region for each atom that is closer to this atom than any other one. The ambiguity of this definition relies on the definition of ``closeness''. In this regular Voronoi decompostion, we define the closeness using the distance between the center of mass of the different atoms, which is problematic for unequally distributed radii.
 
 \subsubsection{Unequal radii}
 
@@ -58,7 +61,7 @@ The definition of accessibility defined by the Zeo++ software was used in a scre
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.6\textwidth]{figures/3-fastsim/Simon_voronoi.jpeg}
+  \includegraphics[width=0.5\textwidth]{figures/3-fastsim/Simon_voronoi.jpeg}
   \caption{Voronoi network model of void space (2D caricature). The unit cell of a toy material is shown. Red circles represent atoms of the material; accessible and inaccessible Voronoi nodes are blue squares and green triangles, respectively. The black lines are the edges in the periodic Voronoi graph that model the void space. Taken from Ref.~\cite{Simon_2015}}\label{fgr:simon_voro}
 \end{figure}
 
@@ -454,7 +457,8 @@ As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage t
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.6\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
     \caption{Comparison of the adsorption enthalpies (left) and the Henry constants calculated by the optimized grid energy sampling (for a \SI{0.1}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. \todo{add henry}}\label{fgr:grid_widom}
 \end{figure}
 
@@ -462,6 +466,10 @@ From the energy values of this grid, we can now calculate many useful descriptor
 
 
 \subsection{Performance on the Exchange Equilibrium}
+
+To characterize the concurrent adsorption of the binary mixture of xenon and krypton we usually use the selectivity. But the uncertainty will mechanically increase the uncertainty since the selectivity is a quotient of the Henry constants of the concurrent adsorbates. In this section, we want to measure this error and see if it is usable to characterize the separation.
+
+\todo{Figure compare widom}
 
 Selectivity well predicted > 
 
@@ -496,6 +504,7 @@ In this section we show figures that support the use of higher temperature avera
 \end{figure}
 
 \subsubsection{Statistical characterization}
+
 
 
 \subsection{Perspectives}
