@@ -445,20 +445,20 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
     Energy sampling  &  Average CPU & RMSE on adsorption  \\
     method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
     \hline
-    Grid -- naive -- \SI{0.1}{\angstrom} &  71.3 & 0.025  \\[0.5mm]
-    Grid -- blocking -- \SI{0.1}{\angstrom} &  18.8 & 0.026  \\
-    Grid -- symmetry -- \SI{0.1}{\angstrom} &  16.8 & 0.024  \\
-    Grid -- fast -- \SI{0.1}{\angstrom} &  4.9 & 0.023  \\
-    Grid -- fast -- \SI{0.12}{\angstrom} &  2.9 & 0.017  \\
+    Grid -- naive -- \SI{0.1}{\angstrom} &  71.3 & 0.03  \\[0.5mm]
+    Grid -- blocking -- \SI{0.1}{\angstrom} &  18.8 & 0.03  \\
+    Grid -- symmetry -- \SI{0.1}{\angstrom} &  16.8 & 0.02  \\
+    Grid -- fast -- \SI{0.1}{\angstrom} &  4.8 & 0.02  \\
+    % Grid -- fast -- \SI{0.12}{\angstrom} &  2.9 & 0.02  \\
     Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.23  \\
     RAESS\cite{Ren_2023}  &  0.34 & 0.34  \\
     Widom\cite{Widom1963} (12k cycles) &  150 & 0.01  \\
     \hline
   \end{tabular}
-  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{incohérence sur les rmse et sur la definiton du LCD\e{CCDC}, refaire/}}\label{tab:grid}
+  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} of CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{incohérence sur les rmse refaire avec LCD\e{CCDC}}}\label{tab:grid}
 \end{table}
 
-As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. If we really want to nit-pick, we can note that very small differences between both methods can be detected for a few structures.
+As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. If we really want to nit-pick, we can note that very small differences between both methods can be detected for a few structures. \todo{give rmse for enthalpy and henry}
 
 
 \begin{figure}[ht]
@@ -477,6 +477,7 @@ To characterize the concurrent adsorption of the binary mixture of xenon and kry
 
 \todo{Figure compare widom}
 
+
 Selectivity well predicted > 
 
 \todo{Performance on exchange metics}
@@ -491,7 +492,10 @@ comparison with ambient-pressure quantities
 
 \subsubsection{High temperature quantities}
 
-In this section we show figures that support the use of higher temperature averaging to better understand the ambient-pressure case. We chose to use \SI{900}{\kelvin} to improve the correlation of key metrics like the adsorption enthalpy of xenon. This improvement impacts the exchange free energy metrics as well as the adsorption enthalpy associated with the separation of xenon from krypton. The exchange Gibbs free energy and the adsorption enthalpy of xenon at ambient pressure are better correlated to the equivalent values at lower pressure and higher temperature (\SI{900}{\kelvin}) than to the \SI{298}{\kelvin} case. These observation supports the use of higher temperature averaging in the final ML model we present in the main paper.
+In this section we show figures that support the use of higher temperature averaging to better understand the ambient-pressure case. 
+
+\todo{}
+We chose to use \SI{900}{\kelvin} to improve the correlation of key metrics like the adsorption enthalpy of xenon. This improvement impacts the exchange free energy metrics as well as the adsorption enthalpy associated with the separation of xenon from krypton. The exchange Gibbs free energy and the adsorption enthalpy of xenon at ambient pressure are better correlated to the equivalent values at lower pressure and higher temperature (\SI{900}{\kelvin}) than to the \SI{298}{\kelvin} case. These observation supports the use of higher temperature averaging in the final ML model we present in the main paper.
 
 \begin{figure}[ht]
 \centering
@@ -508,9 +512,9 @@ In this section we show figures that support the use of higher temperature avera
 
 \subsubsection{Statistical characterization}
 
+Average / Std / skew / kurtosis
 
-
-\subsection{Perspectives}
+\subsubsection{Perspectives of these energy descriptors}
 
 \url{github.com/coudertlab/GrAED}
 

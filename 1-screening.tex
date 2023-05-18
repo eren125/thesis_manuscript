@@ -8,9 +8,9 @@
 
 \section{Nanoporous Materials}
 
-\subsection{Introduction and Concepts}
+\subsection{Definition of the concept}
 
-\subsubsection{Adsorption Isotherms and Geometrical Descriptors}
+\subsubsection{Adsorption isotherms and geometrical descriptors}
 
 %General introduction
 Nanoporous materials are defined as materials with a nanoscale structure constituted by pores and cavities, which some are connected by a network of channels. These pores can be empty or filled with a variety of substances called adsorbates. By adhering molecules from a liquid or gas phase into the internal surfaces of the material, we can use it in diverse applications such as gas separation and purification,\cite{Li_2009,Lagorsse_2007} energy storage and conversion,\cite{Morris_2008,Qiu_2020} heterogeneous catalysis\cite{Bell_2003,Singh_2019,Pascanu_2019} drug delivery,\cite{Della_Rocca_2011,Bernini_2014} or sensing.\cite{Breslin_1976} By designing the chemical nature, size, shape and distribution of the pores, we can tailor the physicochemical properties to the targeted application.\cite{Yan_2020}
@@ -32,7 +32,7 @@ The cavities of the nanoporous material lay out an incredibly large adsorbable s
 
 Beyond the experimental techniques, some software like Zeo++ or PoreBlazer focus on computing pore size distributions, surface areas and void fractions using well-defined structure files.\cite{Zeo++,PoreBlazer} The definition of these values also depends on the probe size chosen to model a given adsorbate, the size of the framework atoms and the quality of the input structure. The computational values do not rely on adsorption models or on isotherm data as in the BET area, they are now relying on more comprehensive structural data. They, however, very much rely on a well-designed definition of the volume, the surface and the pore size we want to evaluate. Moreover, these values also highly depend on the radii of the framework atoms and the adsorbate we consider.\cite{Hung_2021}. In this thesis, we will rely on these computational methods to define these geometrical descriptors of nanoporous materials.
 
-\subsubsection{Classes of Nanoporous Materials}
+\subsubsection{Classes of nanoporous materials}
 
 \begin{figure}[ht]
   \centering
@@ -52,7 +52,7 @@ Porous polymer networks (PPNs) are porous materials based on the already very de
 Metal--organic frameworks (MOFs) are a class of nanoporous materials formed by metallic centers connected with organic linkers to form a stable crystalline solid. Even if the first synthesis of such a material was done since the early 90s,\cite{Abrahams_1991} and brought about a sparking interest in the scientific community a couple of decades later.\cite{Kuppler_2009,Furukawa_2013} Because plenty of combinations of linkers and metals are imaginable, an infinite amount of MOFs could theoretically be designed. Their structure can be tuned to our needs to enhance their performance in the targeted application.\cite{Ejsmont_2021} This diversity of nanoporous materials offer a wide range of potential candidates that could be evaluated for any targeted applications. 
 
 
-\subsection{Computational Databases}
+\subsection{Computational databases}
 
 All the previously described materials have been either synthesized and resolved using X-ray crystallography or computationally constructed. By combining almost all possible nanoporous materials, almost a million structures have been considered for separation or storage applications.\cite{Simon_2015,Simon_2015_EES,Thornton_2017} This extended database can be broken down into the synthesized materials and hypothetical ones for all the above-mentioned classes of material.
 
@@ -68,7 +68,7 @@ The fast development of this nanoporous materials genome motivated Boyd et al.\ 
 Yet, the sole increase in size of the databases is not enough. One needs to add diversity to have more general knowledge on the maximum performance and the explanatory features of such performance. Moreover, the diversity of structures ensure the quality of the predicted best materials for a given application. To qualitatively or quantitatively assess the diversity of a database, inventive methodologies have been developed. For instance, Martin, Smit and Haranczyk proposed a Voronoi hologram representation as a way of measuring similarities between structures to generate geometrically diverse subsets of a database.\cite{Martin_2011} Moosavi et al.\ made a comparative study of the diversity of three well-known databases CoRE MOF 2019,\cite{Chung_2019} BW-DB\cite{Boyd_2016} and ToBaCCo\cite{Gomez_Gualdron_2016, Colon_2017}  using geometrical and chemical descriptors to design a theoretical strategy for generating the most diverse set of materials.\cite{Moosavi_2020} Another approach consists in searching for similarities instead of differences in the materials by studying topological patterns in the data.\cite{Lee_2017} These investigations on the data structures give a solid ground to develop novel materials by objectively defining similarity, diversity and novelty. From the analysis gathered so far, one would need to radically change the approach by proposing materials with new chemistry, topology or mechanism (e.g.\ flexibility) in order to significantly improve the diversity of the current databases.
 
 
-\subsection{Exploring the Chemical and Structural Space}
+\subsection{Exploring the chemical and structural space}
 
 
 With the development of ever-increasing nanoporous material databases, computational chemists proposed more and more inventive methods to evaluate or screen thousands of structures. Other challenges arose, such as the design of more efficient methods than the brute force screening or the analysis of big data. Two research groups in Northwestern University led by R. Snurr and J. Hupp began to address those questions, they used a ``funnel-like'' approach to efficiently screen about 130,000 hypothetical MOF structures.\cite{Wilmer_2012} To do so, they performed a first screening involving fewer steps of simulation on the whole dataset, then they extracted a subset of top-performing structures to perform a second round with more simulation steps. This procedure is repeated until a few materials are selected by a final round of simulations with reasonable accuracy. Similar ``funnel-like'' procedures have then been used in other fields of applications as described in the Figure~\ref{fgr:screening}. This type of screening saves precious computation time by balancing the complexity of the calculation with the amount of data to be screened. The most demanding simulations or experiments are only applied to the few most promising structures. This method can rather efficiently identify top candidates, but it can't draw quantitative structure-property relationships (QSPR), beside facing scalability issues above a critical dataset size.
@@ -85,13 +85,13 @@ To overcome these new challenges, people are looking increasingly towards transf
 \section{Review of Screening Methodologies}
 
 
-\subsection{Non-adsorption Properties}
+\subsection{Non-adsorption properties}
 
 Due to their high internal surface area, adsorption applications were a natural outlet for nanoporous materials. However, these materials can be used in many other applications. This section is dedicated to the physical and chemical properties not directly related to the adsorption process inside nanoporous materials such as catalytic activity,\cite{Singh_2015, Greeley_2006, Back_2020}
 mechanical properties,\cite{Chibani_2019, Gaillac_2020}
 or thermal properties.\cite{Toher_2014, Sarikurt_2020, Ducamp_2021} These properties require a more refined description of the atomic interactions within the material. DFT simulations are usually performed to accurately retrieve these properties. However, the computational cost required is multiplied by several orders of magnitude compared to classical simulations. The size of the datasets screened is therefore much smaller (a few hundreds maximum), and the use of ML can potentially speed up the whole process. ML is based on lower-cost descriptors,\cite{Evans_2017, Ducamp_2022} or it can be used in ML potentials for molecular simulations\cite{Eckhoff_2019,Friederich_2021}.
 
-\subsubsection{Catalytic Activity}
+\subsubsection{Catalytic activity}
 
 Beyond adsorption properties, screening procedures have been applied to chemical properties such as catalytic activities. Heterogeneous catalysis is generally performed using metallic nonporous structures, the use of nanoporous materials can increase dramatically the active surface area and the catalytic activity. Consequently, MOFs have been demonstrated to show catalytic properties for several chemical reactions. Just to cite a few, one can think of hydrogenation, hydrolysis, oxidation, among others explicitly covered by McCarver et al.\ in their review.\cite{McCarver_2021}
 Considering the sheer number of possible materials, computational studies are potentially more effective than experimental ones. Therefore, computational screenings evolved in the last decade aiming at studying more sizable datasets.
@@ -115,7 +115,7 @@ Several descriptors have been developed for high-throughput screenings: Butler e
 
 The development of ML methods are also critical in the field,\cite{Rosen_2021} but the lack of centralized database with high precision descriptors is a challenge for the future of these methods. The influence of defects, the different ways of modeling MOFs as periodic structures or clusters, the diversity of structures and the stability of such structures remain open problems. Yet, it does not threaten the major role of high-throughput screenings in the early design process of any nanoporous materials for catalysis. To conclude this brief overview, we point the readers to a more exhaustive presentation of the matter.\cite{Rosen_2022}
 
-\subsubsection{Mechanical Properties}
+\subsubsection{Mechanical properties}
 
 In the past decade, there has been a growing interest in the systematic study of physical properties of various classes of materials, including inorganic materials and framework materials. Among these physical properties, mechanical properties have been a topic of particular interest, as they are crucial for many applications, and at the same time can be computed by relatively standard methodologies. In particular, is it possible to calculate linear elastic constants (the second-order elastic tensor) in the zero-Kelvin limit by strain/stress or strain/energy approaches, performing a series of DFT calculations of strained structures and calculating the elastic constants. From these constants, all other mechanical properties can be evaluated by tensorial analysis,\cite{Marmier_2010} including the bulk modulus, Young's modulus, shear modulus, Poisson's ratio, etc. This type of calculation can be coupled with any available quantum chemistry code,\cite{Golesorkhtabar_2013} and is even integrated in some packages, like CRYSTAL17.\cite{Dovesi_2018}
 
@@ -134,16 +134,16 @@ Firstly, the exploration of the database of elastic properties by tensorial anal
 
 Secondly, the datasets of mechanical properties were used as a basis to accelerate the discovery of novel materials with targeted behavior. Dagdelen et al.\ used search algorithms to identify 38 candidate materials exhibiting features correlating with auxetic behavior, from more than 67,000 materials in the Materials Project database.\cite{Dagdelen_2017} Performing DFT calculations on these 38 structures, they could identify 7 new auxetic compounds. In a more complex setup, Gaillac et al.~\cite{Gaillac_2020} have used a multiscale modeling strategy for the fast exploration and identification of novel auxetic materials. They combined classical force fields MD simulations with DFT calculations on candidate materials, and then used this reference DFT data to train an ML algorithm. They found that the accuracy of this multiscale method exceeds the current low-computational-cost approaches for screening. In a similar work, Moghadam et al.\ used molecular simulation to train an artificial neural network (ANN) for the prediction of the bulk modulus of metal--organic frameworks.\cite{Moghadam_2019} This shows the potential of such methodologies to treat very different (chemically as well as structurally) classes of materials.
 
-\subsubsection{Thermal Properties}
+\subsubsection{Thermal properties}
 
 While mechanical properties (in the elastic regime) have been by far the most studied physical property in nanoporous materials, others have also been occasionally screened. We can cite, in particular, the systematic study of piezoelectric tensors by de Jong et al., on almost a thousand crystalline compounds, by first-principle calculations based on density functional perturbation theory.\cite{deJong2015_piezo} We can also cite efforts to calculate thermal properties in a high-throughput setup, using the quasi-harmonic approximation (QHA).\cite{Togo_2010} This method requires the calculation of each structure's phonon modes at various volumes, and can be coupled to any electronic structure program.\cite{Togo_2015} It is, however, quite computationally intensive, and sensitive to the parameters of the QHA methodology (range of volume, range of temperature, precision of the frequency calculation, etc.). Therefore, it has been limited so far to modest numbers of structures: a dataset of 75 inorganic structures by Toher et al.,\cite{Toher_2014} and more recently a dataset of 134 pure Si\ce{O2} zeolites by Ducamp et al.\cite{Ducamp_2021} Very recent work in our group on the prediction of thermal properties through machine learning based on structural features alone indicates that thermal behavior is more difficult than mechanical behavior to predict, and might require the use of a wider set of structural descriptors or more advanced ML models.\cite{Ducamp_2022}
 
 
-\subsection{Transport Adsorption Properties}
+\subsection{Transport adsorption properties}
 
 The thermodynamic properties, we will be presenting in the next section, only describes the state of equilibrium of the adsorption process. But sometimes the transient state can last long before reaching the equilibrium, which makes the process more time-consuming. Thus, the transport properties complete the thermodynamic description of the adsorption process inside a nanoporous material. For example, a low diffusion rate would mean for storage applications more time and energy needed to fill-up the tanks, or for separation applications a less selective process than expected. In more extreme cases of molecular sieves for fluid separation, the transport properties become predominant to assess the performance. One can leverage the difference of the molecules' diffusion coefficients to selectively filter gas mixtures through a nanoporous membrane.\cite{Miandoab_2021} Here, the main subject becomes the transient state and not the equilibrium. This section is thus dedicated to the kinetics of the adsorption process to better model the time required to reach the equilibrium or to study out-of-equilibrium processes such as molecular sieving by nanoporous membranes.
 
-\subsubsection{Kinetic Properties}
+\subsubsection{Kinetic properties}
 
 In most computational screenings, the diffusion coefficient considered is the self-diffusion coefficient that describes an infinite-dilution case. Other multi-component diffusion coefficients could be considered, but for simplicity and clarity they won't be mentioned in this review. The calculation of the self-diffusion coefficient gives a first estimation of the kinetics in a storage or a separation process in the limit of low adsorption loading.
 
@@ -167,7 +167,7 @@ A comparison with the MD method on the IZA zeolite structures shows good agreeme
 
 Very recently a massively parallel GPU-accelerated string method has been implemented and shared publicly to compute very efficiently diffusion coefficients {based on the transition state theory}.\cite{Zhou_2021} The recent developments in the prediction of diffusion coefficients in nanoporous materials point towards a promising future for the screening of transport properties applied to even larger databases. Going further, Bukowski et al.\ reviewed thoroughly diffusion in nanoporous solids as an attempt to connect theory to experiments.\cite{Bukowski_2021}
 
-\subsubsection{Membrane Materials}
+\subsubsection{Membrane materials}
 
 In separation application, the study of the transport properties can evaluate the feasibility of the thermodynamic equilibrium, crucial for any bed separation process. If this separation is not feasible, kinetic separation or partial molecular sieving are to be considered. Some notable examples are air separation in zeolites using pressure swing adsorption,\cite{ruthven1990air} \ce{N2}/\ce{O2} separation in carbon molecular sieves,\cite{Reid_1999} or \ce{N2} removal from natural gas.\cite{Wang_2019} In kinetic separation, the valuable metric is not the selectivity anymore, but the permselectivity, i.e.\ the product of the selectivity and the permeability (ratio of diffusion coefficients). Therefore, the screening of diffusion coefficients gives complementary information to the thermodynamic selectivity screenings. Here, we give some examples of such screening and the main descriptors that partially explain the computed figures of merit.
 
@@ -187,11 +187,11 @@ Altintas and Keskin later performed a screening on the same database for \ce{CO2
 
 The transport properties screening is based on the calculation of diffusion coefficients at infinite dilution and in rigid molecules. There are different methods to calculate them (mainly MD and TS-based methods). Flexibility and pressure dependence are very hard to incorporate directly in the screening procedures. Researchers usually consider these factors at the end of the screening on the most promising structures because of the computational complexity of the corresponding simulations. {To take account of} pressure dependence, {we need} an MD simulation of several adsorbates { that takes much more time than running single component simulations},\cite{Keskin_2007, Keskin_2009} which {makes it harder to include in a} high-throughput screening. Flexibility could be taken account by calculating snapshots and running multiple MD simulations, or by using flexible force fields, which means in both cases an increase in computational run-time. Some faster methods of quantitatively predicting the impact of flexibility on diffusion are being investigated in ZIFs and could give an interesting alternative to these expensive methodologies.\cite{Han_2020}
 
-\subsection{Thermodynamic Adsorption Properties}
+\subsection{Thermodynamic adsorption properties}
 
 In its early development, computational screening was mainly used to predict thermodynamic properties in adsorption processes. Three main applications have been identified in the associated literature: gas storage (for energy or medical applications), gas separation (noble gas, hydrocarbons, carbon dioxide, etc.) and post-combustion \ce{CO2} capture. These applications are closely linked to urgent environmental and energy issues that are yet to be solved. Screening can guide the development of better performing materials by shedding light upon unknown structure-property relationship, probes possible theoretical limitations (unreachable targets) and identifies potential candidates that need to be experimentally tested.
 
-\subsubsection{Gas Storage}
+\subsubsection{Gas storage}
 
 One can leverage the high surface density of the nanoporous materials, especially the MOFs, to stock in very low-density gas. In the field of energy storage or transportation, natural gas (mainly methane) or hydrogen are considered plausible alternative fuels to replace conventional ones for transport. The US Department of Energy (US DOE) recently financed research programs and set targets for methane and hydrogen storage. Nanoporous materials could reduce energy, infrastructure and security cost due to the required compression and cooling. In this section, we are focusing on high-throughput screening for methane storage in nanoporous materials, before broadening the scope hydrogen and other perspectives.
 
@@ -212,11 +212,11 @@ More recently, a dataset containing trillions of hypothetical MOFs have been scr
 
 Similarly, computational high-throughput screenings have been applied to other storage applications such as hydrogen storage. Computational screenings showed that cryogenic storage of hydrogen can meet the DOE target of \SI{50}{\gram\per\liter}.\cite{Gomez_Gualdron_2016, Bobbitt_2016, Thornton_2017} Anderson et al.\ performed a large-scale screening based on neural networks to test out multiple pressure/temperature swing conditions to find that the maximal deliverable capacity cannot exceed \SI{62}{\gram\per\liter}.\cite{Anderson_2018} Compared to the density of liquid hydrogen (\SI{72}{\gram\per\liter}), this upper limit seems reasonable since the adsorbent material takes at least {10-20\%} of the tank. Here, we only showed some flagship results of the field. For a more detailed meta-analysis, Bobbitt and Snurr wrote a very complete review on computational high-throughput screening of MOFs for hydrogen storage.\cite{Bobbitt_2019}
 
-\subsection{Gas Separation}
+\subsection{Gas separation}
 
 As a representative example of what could be done in the field of gas separation, we are going to focus on Xe/Kr separation. Nanoporous materials can be used as a safer, cheaper and less energy-intensive option for this gas separation. However, experimental design of top-performing materials can be cumbersome. Computational screenings is an ideal tool to kick-start the development of this new technology by identifying rapidly the best candidates.
 
-\subsubsection{Small-scale Screenings}
+\subsubsection{Small-scale screenings}
 
 Metal--organic frameworks, and later other supramolecular porous materials like covalent organic frameworks (COFs), have been proposed for applications in separation of noble gases for a decade. With no aim of being exhaustive, we highlight some milestones in that area, both from experimental and computational point of view.
 
@@ -232,7 +232,7 @@ In a different family of materials, Tong et al.\cite{Tong_2017} have surveyed th
 
 One area that has been particularly explored is the tuning and improvement of separation properties through the presence and nature of coordinatively unsaturated sites (or open metal sites) in MOFs. In 2016, Vazhappilly et al.\cite{Vazhappilly_2016} used density functional theory (DFT) calculations of host--guest binding energies to probe the impact of the metal atoms in a specific framework (MOF-74) on Xe and Kr adsorption. Later, Zarabadi-Poor et al.\cite{ZarabadiPoor_2018} investigated --- again through computational methods --- a series of metal--BTC MOFs for recovering xenon from exhaled anesthetic gas, i.e., mixtures of \ce{CO2}, \ce{O2}, and \ce{N2}.
 
-\subsubsection{Large-scale Computational Screening}
+\subsubsection{Large-scale computational screening}
 
 In its early stage, computational screening has been used on a small series of nanoporous materials to generate specific knowledge on some subclasses of materials. These small-scale screenings combined with experiments helped faster identification of good performing candidates, but they failed to establish general rules of design or to explore the unknown. Larger-scale screenings overcame these limitations by trying to exhaustively cover the whole spectrum of nanoporous materials.
 
@@ -259,7 +259,7 @@ After this quick overview of the different screening studies in the field of xen
 
 In this section, we will try to see how we can apply the above-mentioned screening methodologies to help us understand the origins of the Xe/Kr separation and identify promising materials for industrial applications. 
 
-\subsection{Industrial Applications}\label{sct:industrial}
+\subsection{Industrial applications}\label{sct:industrial}
 
 
 The industrial interest for noble gases lies first in the many applications attached to them. For instance, xenon has multiple applications in the medical (e.g.\ anesthesia, painkiller, imaging),\cite{cullen1951anesthetic, holstrater2011intranasal,Mammarappallil_2019} aeronautical\cite{Patterson_2002,Coxhill_2005}, lithographic\cite{Abramov_2018}, microelectronic\cite{Chang_1995} or lighting sectors,\cite{Jarman_1974,Tanaka_2019} just to cite a few. To meet the demand for these noble gases, one should consider all available sources, the most obvious one being the air we breathe. Xenon and krypton have both very low atmospheric concentrations; out of a thousand liters of air, we would extract at most one tenth of a milliliter of xenon and one of krypton.\cite{kerry2007industrial} Nevertheless, direct extraction from the air remains the main production mean for xenon and krypton along with chemical plant off-gases that contains a higher concentration of inert gas (e.g., amonia purge gas). In these cases, the industry more commonly uses cryogenic distillation to extract xenon and krypton, which requires a compression and cooling of the gas mixture at very low temperatures. The separation process can be broken down into three steps: first the condensation of all gas with a boiling point higher than the oxygen, then the purification of oxygen resulting in a 20-80 xenon/krypton mixture, and finally the separation of xenon from krypton. In 1997, several cases of explosion of separation units were caused by the reaction of non-filtered dangerous hydrocarbons with purified liquid oxygen produced in the second step of this long process.\cite{distill_accident,distill_accident2} The extreme chemical and physical conditions required for cryogenic distillation support the need for less energy-intensive and safer alternatives. 
@@ -291,7 +291,7 @@ The role of a dispatchable source of low-carbon energy can only be fulfilled by 
 Banerjee et al.\ proposed a two-bed system with a first bed filled with MOFs designed for xenon separation and then a second one for radioactive krypton capture.\cite{Banerjee_2014} The authors proposed some examples of material that could be used for this separation unit; more research is needed to find out what the best materials for these separations are. In the following section, we will review the most promising materials for this separation and the structural explaining their high performance. 
 
 
-\subsection{Promising Materials for the Separation}
+\subsection{Promising materials for the separation}
 
 Several experimental reports used the strategy outlined by computational screenings to improve separation properties, as well as tuning the chemical nature of the organic linkers. The main criteria outlined by the different studies on xenon/krypton separation call for pore size tailor-made for xenon and also for maximized interactions with the framework atoms obtained either through the chemical nature or the shape of the cavities. 
 
@@ -299,7 +299,7 @@ In the early phase of the experimental design of materials for the xenon/krypton
 
 More recently, Li et al. proposed a rigid squarate-based MOF with ``perfect pore size'' (comparable with the kinetic diameter of Xe), and an internal pore surface decorated with very polar hydroxyl groups. This material experimentally demonstrated record-high Xe/Kr selectivity of $60.6$ at low pressure (\SI{0.2}{\bar}) and ambient temperature.\cite{Li_2019} Later, Pei et al. discovered even better performing materials with Xe/Kr selectivity of $74.1$ and $103.4$ in the same conditions \SI{0.2}{\bar} and \SI{298}{\kelvin}. In addition to the perfectly tailored pore size, the structure features two oppositely adjacent open metal sites that strongly clamp the adsorbed xenon molecule.\cite{Pei_2022} These studies clearly show the potential of polar sites that preferentially interact with the more polarizable xenon over the krypton, hence explaining these record-breaking separation performances. 
 
-\subsection{From the Computer to the Test Tube}
+\subsection{From the computer to the test tube}
 
 To connect back our study to computational screenings, we are now going to present one of the rare cases of direct contribution of high-throughput screenings to the lab testing of a material. In 2015, Simon et al.\cite{Simon_2015} analyzed the Nanoporous Materials Genome,\cite{Simon_2015_EES, Boyd_2017} a database of about 670,000 experimental and hypothetical porous material structures, including MOFs, zeolites, PPNs, ZIFs, and COFs, for candidate adsorbents for xenon/krypton separations. This study led to the rediscovery of SBMOF-1, a promising nanoporous material that was presented one year later.\cite{Banerjee_2016}
 
@@ -317,7 +317,7 @@ By looking at the distribution of the most selective materials ($s\geq 14$) comp
 The chemical nature of the cavities was best described using the Voronoi energy descriptor they developed. This descriptor gives an idea of the xenon adsorption isosteric heat of the material. Given these results, more studies should focus on describing the adsorption thermodynamic quantities such as the adsorption enthalpy but also the Henry adsorption constants. This study finally leads to the synthesis and testing of one of the top performing materials in the field. However, we cannot stop but wondering why there is a discrepancy between the theoretical selectivity of around $70$ of SBMOF-1 and its actual experimental selectivity of $16$. In the final chapter of this thesis, we will try to give an explanation for this. In the future, such close collaboration between experimental and computational teams are crucial even if they are still too rare. A recent paper suggests that these collaborations are rare across all nanoporous fields and a lot of improvements are needed to foster cooperation between the labs.\cite{Li_2022}
 
 
-\subsection{The Future of Screening}
+\subsection{The future of screening}
 
 %flexibility
 Despite the progress made, important drawbacks of the current methodologies remain. High-throughput screenings rely too much on oversimplified assumptions such as the rigidity of the framework, the absence of defects, the use of Lennard-Jones potentials and inaccurate charges. For instance, the rigidity of the framework only takes into account one conformation of the framework. Yet, thermal agitation induces a ``breathing'' movement of the framework with an amplitude dependent on its intrinsic flexibility. The pores of the framework can change depending on the number of adsorbates to interact more optimally with them, which can be induced by a change in pressure. The issue of flexibility is rarely tackled, and when considered, it is only on the few most selective structures given by an inaccurate screening based on the rigid crystal approximation. One can wonder about the results obtained if it is applied to larger sets of structures. Witman et al.\ found that flexibility applied to top performing materials can decrease the selectivity, because the pore does not have an optimal size anymore.\cite{Witman_2017} In some cases, the selectivity of a well-performing material can even increase to become a top performing one. Computational screenings can be closer to predict experimental values of selectivity, diffusivity, and other key performance metrics.
