@@ -40,7 +40,7 @@ The surface areas are calculated using a random sampling over the surface of the
 The pore volume is calculated by random sampling of the accessible and inaccessible Voronoi cells. Similar algorithm, random sampling over a regular mesh. If the probe does not overlap with a framework atom, then it is counted in $N$. The ratio of this final $N$ and the total number of points sampled gives the fraction of the pore volume. This ratio is called the void fraction or the porosity. Using the Voronoi decomposition, we can also define the accessible and non-accessible Voronoi cells to reduce the space the Monte Carlo simulation need to sample for the surface area and the void fraction calculations.
 
 
-\subsection{Intermolecular interaction energies}
+\subsection{Intermolecular interaction energies}\label{sct:interaction}
 
 In most of the studies in this thesis, we will consider rigid structures interacting with guest adsorbates; the intramolecular interactions will not play any role in the simulations since the ionic, chemical or metallic  bonds between the atoms of a same molecule are predefined at a given set of distances and remain the same. As discussed in the final chapter, this approximation can generate discrepancies between the theoretical model and the experiments. However, since the goal is to achieve screening approaches like the ones introduced in the first chapter, adding flexibility in the intramolecular interactions would reduce considerably the size of the database that could be screened. For these reasons, the term ``interaction energy'' will designate the guest--host and guest--guest intermolecular interactions mainly --- host--host interactions would compromise the assumption on the rigidity of the framework.
 
