@@ -99,8 +99,7 @@ We can intuitively say that the Boltzmann averaging being closer to the definiti
 
 The Widom insertion is typically used to calculate the infinite dilution adsorption properties such as the adsorption enthalpy, the Henry constant and the selectivity. The evaluation of the interaction energies of xenon at the different Voronoi nodes correspond to a low-pressure averaging and is more comparable to a Widom insertion method. It is however biased by the inhomogeneous sampling of the space, which can explain some discrepancies we could observe.
 
-Note that in this chapter we will mainly use the standard pore size definition we find in the literature that is based on the atom radii defined by the Cambridge Crystallographic Data Centre (CCDC). The LCD that denotes to simplify the $D_i$  
-
+Note that in this chapter we will mainly use the standard pore size definition we find in the literature that is based on the atom radii defined by the Cambridge Crystallographic Data Centre (CCDC). This pore size will only serve a labelization purpose and will help us classify the structures according to their relative size. It has qualitative role mainly, which justifies the fact that we are not using a much more accurate definition based on the forcefield like in the previous chapter. 
 
 As we can see on the Figure~\ref{fgr:compa_voro_0}, the average of the energies is not performing very well and is clearly less correlated to the adsorption enthalpy than the minimum interaction energy or the Boltzmann average of the interaction energies. This is because in a normal average, the high energy values have a much higher weight than in a Boltzmann average, which makes the average much more important than expected. The Voronoi average descriptor $E\e{voro-A}^{Xe}$ is always higher than the infinite dilution adsorption enthalpy $\Delta\e{ads} H_{0}\ex{Xe}$. 
 
@@ -358,7 +357,7 @@ The RAESS method relies on the higher weight of the strong sites close to the su
 
 The method is as expected less accurate, but it still gives a reasonable correlation on the performance, with an RMSE of \SI{0.70}{\kilo\joule\per\mole} and an MAE of \SI{0.41}{\kilo\joule\per\mole}. The errors have almost doubled when going from \SI{298}{\kelvin} to \SI{600}{\kelvin}. However, these limitations of the method are not crippling since adsorption processes are usually not performed at very high temperature. High temperatures are commonly used in temperature swing adsorption (TSA) to desorb the adsorbates rather than to adsorb them.
 
-\subsubsection{Other databases}
+\subsubsection{Other databases}\label{sct:other_database}
 
 \textbf{ToBaCCo}
 
@@ -416,7 +415,7 @@ Finally, although the algorithm in its present form can already be applied in a 
 
 \subsection{Implementation of the Algorithm}
 
-To build more relevant energy descriptors, we will now go back to the definitions of the adsorption enthalpy and the Henry constant (equation~\ref{eq:ads_enthalpy} and~\ref{eq:henry}) that call for a homogeneous sampling of the adsorption space. The easiest way of sampling consists in laying a grid in the 3D space. This method is however known to be the most time-consuming on in theory. Inspired by our work on surface sampling, we designed an approach based on a symmetry-respecting grid,generated using the algorithms of the Gemmi Project,\cite{Wojdyr_2022} where the points overlapping with framework are discarded. These new features coupled with a grid sampling makes the calculation of adsorption energies much less time-consuming while being very accurate.
+To build more relevant energy descriptors, we will now go back to the definitions of the adsorption enthalpy and the Henry constant (equation~\ref{eq:ads_enthalpy} and~\ref{eq:henry}) that call for a homogeneous sampling of the adsorption space. The easiest way of sampling consists in laying a grid in the 3D space. This method is however known to be the most time-consuming on in theory. Inspired by our work on surface sampling, we designed an approach based on a symmetry-respecting grid,generated using the algorithms of the Gemmi Project,\cite{Wojdyr_2022} where the points overlapping with framework are discarded. In our grid adsorption energy descriptor (GrAED) calculation algorithm, these new features coupled with a grid sampling makes the calculation of adsorption energies much less time-consuming while being very accurate.
 
 \begin{figure}[ht]
   \centering
@@ -435,7 +434,7 @@ By combining both the ``blocking'' of the high energy grid points and the ``symm
 
 \subsection{Performance on the Adsorption Equilibrium}
 
-The good performance of the grid sampling on the structures of CoRE MOF 2019 database can be explained by their rather small pores and their high order of symmetry. For instance, the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. And, the ``symmetry'' procedure implies that only {$\sim$17\%} of points need to be considered, and the combination of both theoretical reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation while keeping the accruracy level compared to the naive grid approach, as shown in Table~\ref{tab:grid}.
+The good performance of the grid sampling on the structures of CoRE MOF 2019 database can be explained by their rather small pores and their high order of symmetry. For instance, the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. And, the ``symmetry'' procedure implies that only {$\sim$17\%} of points need to be considered, and the combination of both theoretical reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation while keeping the accuracy level compared to the naive grid approach, as shown in Table~\ref{tab:grid}. \todo{compare naive blocking etc.}
 
 \setlength{\extrarowheight}{0.1cm}
 \begin{table}[ht]
@@ -445,46 +444,76 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
     Energy sampling  &  Average CPU & RMSE on adsorption  \\
     method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
     \hline
-    Grid -- naive -- \SI{0.1}{\angstrom} &  71.3 & 0.03  \\[0.5mm]
-    Grid -- blocking -- \SI{0.1}{\angstrom} &  18.8 & 0.03  \\
-    Grid -- symmetry -- \SI{0.1}{\angstrom} &  16.8 & 0.02  \\
-    Grid -- fast -- \SI{0.1}{\angstrom} &  4.8 & 0.02  \\
-    % Grid -- fast -- \SI{0.12}{\angstrom} &  2.9 & 0.02  \\
-    Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.23  \\
-    RAESS\cite{Ren_2023}  &  0.34 & 0.34  \\
+    Grid -- naive -- \SI{0.12}{\angstrom} &  71.3 & 0.01  \\[0.5mm] %refaire
+    Grid -- blocking -- \SI{0.12}{\angstrom} &  18.8 & 0.01  \\ %refaire
+    Grid -- symmetry -- \SI{0.12}{\angstrom} &  16.8 & 0.01  \\ %refaire
+    Grid -- fast -- \SI{0.12}{\angstrom} &  2.96 & 0.01  \\
+    Grid -- fast -- \SI{0.2}{\angstrom} &  0.41 & 0.05  \\
+    Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.22  \\
+    RAESS\cite{Ren_2023}  &  0.34 & 0.33  \\
     Widom\cite{Widom1963} (12k cycles) &  150 & 0.01  \\
     \hline
   \end{tabular}
   \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} of CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{incohérence sur les rmse refaire avec LCD\e{CCDC}}}\label{tab:grid}
 \end{table}
 
-As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. If we really want to nit-pick, we can note that very small differences between both methods can be detected for a few structures. \todo{give rmse for enthalpy and henry}
-
+\todo{make a figure that sums up this table like for previous section}
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.48\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
     \includegraphics[width=0.48\textwidth]{figures/3-fastsim/K_Xe_widom_vs_K_Xe_grid_overview.jpg}
-    \caption{Comparison of the adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.1}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. }\label{fgr:grid_widom}
+    \caption{Comparison of the xenon adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. }\label{fgr:grid_widom}
 \end{figure}
+
+As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. Almost no error can be detected if looking at the figure for both adsorption enthalpy and Henry constant. The RMSE on the adsorption enthalpy is only about \SI{0.01}{\kilo\joule\per\mole}, while the RMSE on the log10 of the Henry constants (in \si{\milli\mole\per\gram\per\pascal}) is also very low at $0.01$. This method goes back to the initial definition of these quantities at infinite dilution, the perfect correspondance is therefore not very surprising. 
+
+The little computation time required to achieve such an accuracy is however much more interesting. If we look at the Table~\ref{tab:grid}, the very accurate grid sampling reaches a similar accuracy than a 12k-cycle Widom insertion calculated using the Raspa software, while being 50 times faster. On the CoRE MOF 2019 database, by using a looser grid spacing of \SI{0.3}{\angstrom}, the GrAED algorithm can even be more interesting than the RAESS algorithm since it halves the computation time while being slightly more accurate. This very comparable performance compared to a dimensionally reduced sampling technique can be explained by two factors of the CoRE MOF database: first, the structures have smaller pores which means a greater surface to volume ratio, which increase the RAESS computation time; second, the highly symmetric structures of CoRE MOF reduces considerably the computation time required for GrAED, and the same cannot be said for other databases such as ToBaCCo or the amorphous database we studied at the end of the previous chapter. For instance, the computation time required is found to be 750 times higher for a grid sampling than a surface sampling on the amorphous database (see section~\ref{sct:other_database}).
+\todo{tobacco graed results}
 
 From the energy values of this grid, we can now calculate many useful descriptors of the adsorption process. We have seen the performance on the Xe adsorption enthalpy and the Xe Henry constant. But as mentioned in the section~\ref{sct:thermo}, we can also derive the Xe adsorption Gibbs free energy and the Xe adsorption entropy. If we now consider the krypton in addition to the xenon, we can naturally evaluate the Kr adsorption thermodynamic quantites but also the exchange thermodynamic quantities and especially the Xe/Kr selectivity (the key metric in evaluating the separation process we are interested in).
 
 
 \subsection{Performance on the Exchange Equilibrium}
 
-To characterize the concurrent adsorption of the binary mixture of xenon and krypton we usually use the selectivity. But the uncertainty will mechanically increase the uncertainty since the selectivity is a quotient of the Henry constants of the concurrent adsorbates. In this section, we want to measure this error and see if it is usable to characterize the separation.
+To characterize the concurrent adsorption of the binary mixture of xenon and krypton we commonly use the Xe/Kr selectivity. Compared to a single component metric like the Henry constant, the relative uncertainty will mechanically increase since the selectivity is a quotient of the Henry constants of the concurrent adsorbates. In this section, we want to measure this error and see if it is relevant to characterize the separation with this optimized grid sampling method.
 
-\todo{Figure compare widom}
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/H_Kr_0_widom_vs_H_Kr_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/K_Kr_widom_vs_K_Kr_grid_overview.jpg}
+    \caption{Comparison of the krypton adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. }\label{fgr:grid_widom_kr}
+\end{figure}
+
+First, we can start by looking at the adsorption properties of krypton calculated using the same grid spacing of \SI{0.12}{\angstrom}. The accuracy is more or less equivalent with an RMSE and an MAE on the krypton adsorption enthalpy of about \SI{0.09}{\kilo\joule\per\mole} and \SI{0.01}{\kilo\joule\per\mole}. As we can see on the Figure~\ref{fgr:grid_widom_kr}, the correlation is very strong for both the adsorption enthalpy (linear scale) and the Henry constant (log scale). The base 10 logarithm of the Henry constant (in \si{\milli\mole\per\gram\per\pascal}) has typically an RMSE of $0.01$, which is very similar to xenon. The relative errors on the adsorption enthalpies of xenon and krypton does not go beyond {0.1\%} (values of the enthalpy have order of magnitude of dozens of \si{\kilo\joule\per\mole}), and the error on the xenon/krypton exchange enthalpy would therefore be very close to it. There is no reason for a huge impact on the exchange enthalpy. For the selectivity, we need to consider the relative error on the adsorption free energy which is a logartihmic transform of the Henry constant. We can estimate this relative error to around {0.2\%}, which also corresponds more or less to the rellative error expected on the exchange Gibbs free energy or the log of the selectivity.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview_log.jpg}
+    \caption{Comparison of the Xe/Kr selectivity calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. On the left, the axes are in linear scale, whereas on the right the log scale has been used. }\label{fgr:grid_widom_selectivity}
+\end{figure}
+
+If we now look at the Figure~\ref{fgr:grid_widom_selectivity}, the selectivity is as expected very well represented by the new grid sampling, especially for the logartihmic tranform. The RMSE and the MAE on the selectivity values are actually of around $0.097$ and $0.035$, which is very low compared to the values of selectivity we are interested in (over $10$). For these selective structures, the relative error is actually below {0.1\%}. For base 10 logarithm of the selectivity or the exchange Gibbs free energy, the RMSE is around $0.014$, which means that we have a very good knowledge on the order of magnitude of the selectivity; if the selectivity were written in powers of ten, the exponent would be known at a precision of $\pm 0.014$.
 
 
-Selectivity well predicted > 
+The computation time required to compute the selectivity value of a structure of the CoRE MOF 2019 database is in average \SI{6.5}{\second}, since the krypton takes about \SI{3.5}{\second} to compute. If an algorithm computes both selectivities at the same time, we can at least save the time required for initializing the software, which can marginally improve this time. This computation time required is still much lower than what we would need to compute two Widom insertions.
 
-\todo{Performance on exchange metics}
-
-\todo{Figure compare GCMC with averaging at 298K}
+Now that we have proven the high accuracy and the efficiency of the GrAED algorithm for low-pressure selectivity evaluation, we will try to find relations between descriptors obtained using the grid-based algorithm and the selectivity at ambient pressure.
 
 \subsection{Characterization of the Ambient-pressure Selectivity}
+
+\todo{Figure compare GCMC with averaging at 298K}
+At first sight, if we look at the left plot of the Figure~\ref{fgr:grid_widom_selectivity_ambient}, the selectivity at ambient pressure seems completely decorrelated to the selectivity at infinite dilution, which would mean that this smapling we have done is completely useless in determining the higher pressure selectivity values. However, the right plot suggests otherwise, the correlation between the logartihm of the selectivity does exist, the complete decorrelation we see at linear scale is actually a phenomenon that only occurs on highly selective materials. This phenomenon is described in detail in the Chapter 2 and correspondds to a selectivity drop experienced by some highly (at infinite dilution) selective materials. To say it simply, the saturation of the most selective sites make the remaining sites way less selective for the xenon/krypton separation for these materials.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview_log.jpg}
+    \caption{Comparison of the low-pressure Xe/Kr selectivity calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and the ambient-pressure selectivity calculated by GCMC simulations of RASPA with 100,000 cycles. On the left, the axes are in linear scale, whereas on the right the log scale has been used. }\label{fgr:grid_widom_selectivity_ambient}
+\end{figure}
+
+\todo{The goal is to distinguish them.. distribution/ 900K}
 
 \subsubsection{Thermodynamic quantities}
 
