@@ -430,7 +430,7 @@ The corresponding algorithm has a core structure of a grid algorithm, where we n
   \item A second loop over the ``unvisited'' grid points is performed --- at each increment, if the point is ``unvisited'' we calculate the interaction energy between the guest and all the host atoms within the cutoff, then the symmetric images of this point are filled with the same energy value and are considered ``visited'' by the algorithm. This symmetry-aware grid exploration allows the algorithm to divide the time required by the average number symmetry images --- this module will be referred to as ``symmetry'' in the Table~\ref{tab:grid}.
 \end{enumerate}
 
-By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS). To control the trade-off between accuracy and computation time, we can vary the spacing between the grid points --- the computation time is theoretically inversely proportional to the cube of the spacing.And, for some values of this spacing, this algorithm can even be faster than the surface sampling on the CoRE MOF database where the symmetry plays an important role (see Table~\ref{tab:grid}). 
+By combining both the ``blocking'' of the high energy grid points and the ``symmetry'' based calculation of the interaction energies, we built a ``fast'' version of the grid calculation algorithm that can compete with our previously developed rapid surface sampling method (RAESS). To control the trade-off between accuracy and computation time, we can vary the spacing between the grid points, whose computation time is theoretically inversely proportional to the cube of the spacing. And, for some values of this spacing, this algorithm can even be faster than the surface sampling on the CoRE MOF database where the symmetry plays an important role (see Table~\ref{tab:grid}). The full implementation of the GrAED algorithm can be found at the following Github url: \url{github.com/coudertlab/GrAED.git}.
 
 \subsection{Performance on the Adsorption Equilibrium}
 
@@ -444,7 +444,7 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
     Energy sampling  &  Average CPU & RMSE on adsorption  \\
     method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
     \hline
-    Grid -- naive -- \SI{0.12}{\angstrom} &  71.3 & 0.01  \\[0.5mm] %refaire
+    Grid -- naive -- \SI{0.12}{\angstrom} &  35 & 0.01  \\[0.5mm] %refaire
     Grid -- blocking -- \SI{0.12}{\angstrom} &  18.8 & 0.01  \\ %refaire
     Grid -- symmetry -- \SI{0.12}{\angstrom} &  16.8 & 0.01  \\ %refaire
     Grid -- fast -- \SI{0.12}{\angstrom} &  2.96 & 0.01  \\
@@ -485,7 +485,7 @@ To characterize the concurrent adsorption of the binary mixture of xenon and kry
     \caption{Comparison of the krypton adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. }\label{fgr:grid_widom_kr}
 \end{figure}
 
-First, we can start by looking at the adsorption properties of krypton calculated using the same grid spacing of \SI{0.12}{\angstrom}. The accuracy is more or less equivalent with an RMSE and an MAE on the krypton adsorption enthalpy of about \SI{0.09}{\kilo\joule\per\mole} and \SI{0.01}{\kilo\joule\per\mole}. As we can see on the Figure~\ref{fgr:grid_widom_kr}, the correlation is very strong for both the adsorption enthalpy (linear scale) and the Henry constant (log scale). The base 10 logarithm of the Henry constant (in \si{\milli\mole\per\gram\per\pascal}) has typically an RMSE of $0.01$, which is very similar to xenon. The relative errors on the adsorption enthalpies of xenon and krypton does not go beyond {0.1\%} (values of the enthalpy have order of magnitude of dozens of \si{\kilo\joule\per\mole}), and the error on the xenon/krypton exchange enthalpy would therefore be very close to it. There is no reason for a huge impact on the exchange enthalpy. For the selectivity, we need to consider the relative error on the adsorption free energy which is a logartihmic transform of the Henry constant. We can estimate this relative error to around {0.2\%}, which also corresponds more or less to the rellative error expected on the exchange Gibbs free energy or the log of the selectivity.
+First, we can start by looking at the adsorption properties of krypton calculated using the same grid spacing of \SI{0.12}{\angstrom}. The accuracy is more or less equivalent with an RMSE and an MAE on the krypton adsorption enthalpy of about \SI{0.02}{\kilo\joule\per\mole} and \SI{0.01}{\kilo\joule\per\mole}. As we can see on the Figure~\ref{fgr:grid_widom_kr}, the correlation is very strong for both the adsorption enthalpy (linear scale) and the Henry constant (log scale). The base 10 logarithm of the Henry constant (in \si{\milli\mole\per\gram\per\pascal}) has typically an RMSE of $0.002$, which is very similar to xenon. The relative errors on the adsorption enthalpies of xenon and krypton does not go beyond {0.1\%} (values of the enthalpy have order of magnitude of dozens of \si{\kilo\joule\per\mole}), and the error on the xenon/krypton exchange enthalpy would therefore be very close to it. There is no reason for a huge impact on the exchange enthalpy. For the selectivity, we need to consider the relative error on the adsorption free energy which is a logartihmic transform of the Henry constant. We can estimate this relative error to around {0.2\%} (for a Henry constant of $10{-4}$~\si{\milli\mole\per\gram\per\pascal}), which also corresponds more or less to the rellative error expected on the exchange Gibbs free energy or the log of the selectivity.
 
 \begin{figure}[ht]
   \centering
@@ -503,8 +503,7 @@ Now that we have proven the high accuracy and the efficiency of the GrAED algori
 
 \subsection{Characterization of the Ambient-pressure Selectivity}
 
-\todo{Figure compare GCMC with averaging at 298K}
-At first sight, if we look at the left plot of the Figure~\ref{fgr:grid_widom_selectivity_ambient}, the selectivity at ambient pressure seems completely decorrelated to the selectivity at infinite dilution, which would mean that this smapling we have done is completely useless in determining the higher pressure selectivity values. However, the right plot suggests otherwise, the correlation between the logartihm of the selectivity does exist, the complete decorrelation we see at linear scale is actually a phenomenon that only occurs on highly selective materials. This phenomenon is described in detail in the Chapter 2 and correspondds to a selectivity drop experienced by some highly (at infinite dilution) selective materials. To say it simply, the saturation of the most selective sites make the remaining sites way less selective for the xenon/krypton separation for these materials.
+At first sight, if we look at the left plot of the Figure~\ref{fgr:grid_widom_selectivity_ambient}, the selectivity at ambient pressure seems completely decorrelated to the selectivity at infinite dilution, which would mean that the sampling we have done is completely useless in determining the higher pressure selectivity values. However, the right plot suggests otherwise, the correlation between the logartihm of the selectivity does exist, the complete decorrelation we see at linear scale is actually a phenomenon that only occurs on highly selective materials. This phenomenon is described in detail in the Chapter 2 and correspondds to a selectivity drop experienced by some highly (at infinite dilution) selective materials. To say it simply, the saturation of the most selective sites make the remaining sites way less selective for the xenon/krypton separation for these materials.
 
 \begin{figure}[ht]
   \centering
@@ -513,15 +512,22 @@ At first sight, if we look at the left plot of the Figure~\ref{fgr:grid_widom_se
     \caption{Comparison of the low-pressure Xe/Kr selectivity calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and the ambient-pressure selectivity calculated by GCMC simulations of RASPA with 100,000 cycles. On the left, the axes are in linear scale, whereas on the right the log scale has been used. }\label{fgr:grid_widom_selectivity_ambient}
 \end{figure}
 
-\todo{The goal is to distinguish them.. distribution/ 900K}
+The goal is then to be able to design descriptors that could help distinguish these selectivity dropping materials with the materials keeping their high selectivity at higher pressure. We propose three concepts that could help better understand the origin of this drop of selectivity at higher pressure: (1) other adsorption thermodynamic quantities, (2) higher temperature averaging can also be a good prowy to understand higher pressure adsorption, and (3) statistical quantities derived from the energy distributions. All of these descriptors can be obtained through a grid sampling; however, one should note that the guest--guest interactions that occurs at higher pressure can not be captured by this method.
+
 
 \subsubsection{Thermodynamic quantities}
 
-comparison with ambient-pressure quantities
+\todo{comparison with enthalpy, entropy, Gibbs free energy}
+
+As we saw in the previous chapter, many thermodynamic quantities can be calculated at infinite dilution --- the adsorption and exchange Gibbs free energies, enthalpies and entropies. If we consider xenon and krypton separation, we can generate 9 different descriptors. We will look at the relation between these quantities and the high-pressure selectivity values. In the introduction, we already tackled the relation between the exchange Gibss free energy, since it is the logarithmic transform of the infinite dilution selectivity plotted on Figure~\ref{fgr:grid_widom_selectivity_ambient}. This quantity is the most important descriptor as it sets an initial reference value to understand the problem. The selectivity at high pressure can be seen as the selectivity at infinite dilution plus or minus a shift due to the specificity of the adsorption at higher pressure in a given material.
+
+\todo{Figure of comparison plot}
 
 \subsubsection{High temperature quantities}
 
-In this section we show figures that support the use of higher temperature averaging to better understand the ambient-pressure case. 
+\todo{Neglecting the guest--guest interactions}
+
+In this section, we show figures that support the use of higher temperature averaging to better understand the ambient-pressure case. 
 
 \todo{}
 We chose to use \SI{900}{\kelvin} to improve the correlation of key metrics like the adsorption enthalpy of xenon. This improvement impacts the exchange free energy metrics as well as the adsorption enthalpy associated with the separation of xenon from krypton. The exchange Gibbs free energy and the adsorption enthalpy of xenon at ambient pressure are better correlated to the equivalent values at lower pressure and higher temperature (\SI{900}{\kelvin}) than to the \SI{298}{\kelvin} case. These observation supports the use of higher temperature averaging in the final ML model we present in the main paper.
