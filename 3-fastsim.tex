@@ -167,8 +167,8 @@ In order to validate the accuracy of the approximation made using this sampling,
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_overview.jpg}
-  \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_zoom.jpg}
+  \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_overview.jpg}
+  \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_zoom.jpg}
     \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by an initial implementation of the RAESS algorithm as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling_init}
 \end{figure}
 
@@ -234,8 +234,8 @@ For the calculation of adsorption enthalpy, our proposed surface sampling method
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_overview.jpg}
-  \includegraphics[width=0.48\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom.jpg}
+  \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_overview.jpg}
+  \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom.jpg}
     \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the final RAESS algorithm ($\lambda = 1.6$ and $\mu=0.85$) as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows, in structures of CoRE MOF 2019 with LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom} at \SI{298}{\kelvin}. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
 \end{figure}
 
@@ -278,8 +278,8 @@ Using the optimized set of parameters for surface sampling, we assessed the perf
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/log_henry_convergence.jpg}
-  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/gibbs_free_energy_convergence.jpg}
+  \includegraphics[width=0.45\textwidth]{figures/3-fastsim/log_henry_convergence.jpg}
+  \includegraphics[width=0.45\textwidth]{figures/3-fastsim/gibbs_free_energy_convergence.jpg}
   \caption{ Left: convergence plot of the log-RMSE on the xenon Henry constants for both the surface sampling and the Widom insertion. Right: convergence plot of the RMSE on the xenon adsorption Gibbs free energy for the final implementation of the surface sampling and the Widom insertion. }\label{fgr:convergence_free_energy}
 \end{figure}
 
@@ -293,8 +293,8 @@ When we set $\lambda=1$, we are sampling spheres that have a radius $\sigma$, an
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.6_overview.jpg}
-  \includegraphics[width=0.48\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.0_overview.jpg}
+  \includegraphics[width=0.45\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.6_overview.jpg}
+  \includegraphics[width=0.45\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.0_overview.jpg}
   \caption{Scatterplots of the surface areas calculated by our algorithm with two different parametrizations compared to the surface area given by a Raspa surface area calculation. The left plot corresponds to the surface sampling described in the section~\ref{sct:final_sampling} with $\lambda=1.6$ and $\mu=0.85$, while the right plot uses a sampling sphere near $\sigma$ with $\lambda=1.0$. The second parametrization is much closer to what a Raspa sampling based on the $\sigma$ parameter of a LJ potential does, hence explaining the much better accordance. }\label{fgr:surface_area}
 \end{figure}
 
@@ -461,8 +461,8 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/K_Xe_widom_vs_K_Xe_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/K_Xe_widom_vs_K_Xe_grid_overview.jpg}
     \caption{Comparison of the xenon adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. }\label{fgr:grid_widom}
 \end{figure}
 
@@ -489,8 +489,8 @@ First, we can start by looking at the adsorption properties of krypton calculate
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview_log.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview_log.jpg}
     \caption{Comparison of the Xe/Kr selectivity calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA with 100,000 cycles. On the left, the axes are in linear scale, whereas on the right the log scale has been used. }\label{fgr:grid_widom_selectivity}
 \end{figure}
 
@@ -501,15 +501,15 @@ The computation time required to compute the selectivity value of a structure of
 
 Now that we have proven the high accuracy and the efficiency of the GrAED algorithm for low-pressure selectivity evaluation, we will try to find relations between descriptors obtained using the grid-based algorithm and the selectivity at ambient pressure.
 
-\subsection{Characterization of the Ambient-pressure Selectivity}
+\subsection{From Grid Descriptor to the Ambient-pressure Selectivity}
 
 At first sight, if we look at the left plot of the Figure~\ref{fgr:grid_widom_selectivity_ambient}, the selectivity at ambient pressure seems completely decorrelated to the selectivity at infinite dilution, which would mean that the sampling we have done is completely useless in determining the higher pressure selectivity values. However, the right plot suggests otherwise, the correlation between the logartihm of the selectivity does exist, the complete decorrelation we see at linear scale is actually a phenomenon that only occurs on highly selective materials. This phenomenon is described in detail in the Chapter 2 and correspondds to a selectivity drop experienced by some highly (at infinite dilution) selective materials. To say it simply, the saturation of the most selective sites make the remaining sites way less selective for the xenon/krypton separation for these materials.
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview_log.jpg}
-    \caption{Comparison of the low-pressure Xe/Kr selectivity calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and the ambient-pressure selectivity calculated by GCMC simulations of RASPA with 100,000 cycles. On the left, the axes are in linear scale, whereas on the right the log scale has been used. }\label{fgr:grid_ambient_selectivity}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview_log.jpg}
+    \caption{Comparison of the low-pressure Xe/Kr selectivity calculated by the GrAED algorithm (same parameters) and the ambient-pressure selectivity calculated by GCMC simulations of RASPA with 100,000 cycles. On the left, the axes are in linear scale, whereas on the right the log scale has been used. }\label{fgr:grid_ambient_selectivity}
 \end{figure}
 
 The goal is then to be able to design descriptors that could help distinguish these selectivity dropping materials with the materials keeping their high selectivity at higher pressure. We propose three concepts that could help better understand the origin of this drop of selectivity at higher pressure: (1) other adsorption thermodynamic quantities, (2) higher temperature averaging can also be a good prowy to understand higher pressure adsorption, and (3) statistical quantities derived from the energy distributions. All of these descriptors can be obtained through a grid sampling; however, one should note that the guest--guest interactions that occurs at higher pressure can not be captured by this method.
@@ -519,39 +519,46 @@ The goal is then to be able to design descriptors that could help distinguish th
 
 \todo{comparison with enthalpy, entropy, Gibbs free energy}
 
-As we saw in the previous chapter, many thermodynamic quantities can be calculated at infinite dilution --- the adsorption and exchange Gibbs free energies, enthalpies and entropies. If we consider xenon and krypton separation, we can generate 9 different descriptors. We will look at the relation between these quantities and the high-pressure selectivity values. In the introduction, we already tackled the relation between the exchange Gibss free energy, since it is the logarithmic transform of the infinite dilution selectivity plotted on Figure~\ref{fgr:grid_ambient_selectivity}. This quantity is the most important descriptor as it sets an initial reference value to understand the problem. The selectivity at high pressure can be seen as the selectivity at infinite dilution plus or minus a shift due to the specificity of the adsorption at higher pressure in a given material.
+As we saw in the previous chapter, many thermodynamic quantities can be calculated at infinite dilution: adsorption and exchange Gibbs free energies, enthalpies and entropies. If we consider the xenon and krypton separation, we can generate 9 different descriptors. We will look at the relation between these quantities and the high-pressure selectivity values. In the introduction, we already tackled the relation between the exchange Gibbs free energy, since it is the logarithmic transform of the infinite dilution selectivity plotted on the Figure~\ref{fgr:grid_ambient_selectivity}. This quantity is the most important descriptor as it sets an initial reference value to understand the problem. The selectivity at high pressure can be seen as the selectivity at infinite dilution plus or minus a shift due to the specificity of the adsorption at higher pressure in a given material.
 
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_G_Xe_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_G_Kr_grid_overview.jpg}
-    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure adsorption free energies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole} calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) at \SI{298}{\kelvin}.}\label{fgr:grid_comp_gibbs}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_G_Xe_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_G_Kr_grid_overview.jpg}
+    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure adsorption free energies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole} calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_gibbs}
 \end{figure}
+
+Without any surprise, the Figure\ref{fgr:grid_comp_gibbs} confirms that a good adsorption of xenon is a good indication for the efficiency of the separation from krypton since we have a very strong correlation between the Xe/Kr exchange Gibbs free energy and the xenon adsorption Gibbs free energy. The correlation with the xenon adsorption Gibbs free energy is very weak and still positive, this means that a good material for the Xe/Kr separation would not be very bad for krypton adsorption but rather pretty average. Put differently, it is not possible to find a material very good for xenon adsorption and very bad for krypton, which explains an apparent theoretical limitation to the selectivity theoretically capped under $200$ (in our level of theory for materials of CoRE MOF 2019, of course, see Figure~\ref{fgr:grid_widom_selectivity} and~\ref{fgr:grid_ambient_selectivity}). Experimentally, no material have exceeded a selectivity value of $100$.
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_H_Xe_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_H_Kr_grid_overview.jpg}
-    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure adsorption enthalpies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole} calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) at \SI{298}{\kelvin}.}\label{fgr:grid_comp_enthalpy}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_H_Xe_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_H_Kr_grid_overview.jpg}
+    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure adsorption enthalpies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole} calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_enthalpy}
 \end{figure}
+
+The same statement on the importance of the adsorption attractivity of xenon holds true when looking at the adsorption enthalpies from the Figure~\ref{fgr:grid_comp_enthalpy}. The correlation is very strong for the most selective materials; however, for less selective materials, the xenon adsorption enthalpy is not enough in predicting the exchange Gibbs free energy at ambient pressure. The solution would of course be to include the krypton into account first, the difference of both adsorption enthalpies give the exchange enthalpy which is  better quantity for comparison. The comparison to the krypton adsorption enthalpy alone is not sufficient either, the very loose correalation suggests that it is not the main explanatory factor in the separation process.
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_S_Xe_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_S_Kr_grid_overview.jpg}
-    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure adsorption entropies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole\per\kelvin} calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) at \SI{298}{\kelvin}.}\label{fgr:grid_comp_entropy}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_S_Xe_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_S_Kr_grid_overview.jpg}
+    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure adsorption entropies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole\per\kelvin} calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_entropy}
 \end{figure}
+
+The entropy values can explain why the adsorption free energy of xenon is well correlated to the Xe/Kr exchange free energy at ambient pressure and the adsorption enthalpy of xenon is weakly correlated. The difference between enthalpy and free energy being the entropic term ($G=H-TS$), this entropic term has small influence on the correlation as we can see on the Figure~\ref{fgr:grid_comp_entropy}. The values of the entropy are rather stable (between $-0.15$ and $-0.11$~\si{\kilo\joule\per\mole\per\kelvin}), but for some structures with an ambient-pressure exchange free energy between $-10$ and $0$~\si{\kilo\joule\per\mole}, there is a swing in entropy values going from $-0.11$ and $-0.07$~\si{\kilo\joule\per\mole\per\kelvin} for structures with very similar values of enthalpy. This means difference between Gibbs free energy and enthalpy that could reach a span of $12$~\si{\kilo\joule\per\mole}, which explains the points that go off the diagonal in the left plot of the Figure~\ref{fgr:grid_comp_enthalpy}.
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_H_grid_overview.jpg}
-    \includegraphics[width=0.48\textwidth]{figures/3-fastsim/G_2080_vs_S_grid_overview.jpg}
-    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure exchange enthalpy (left, in \si{\kilo\joule\per\mole}) and entropy (right, in \si{\kilo\joule\per\mole\per\kelvin}) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) at \SI{298}{\kelvin}.}\label{fgr:grid_comp_exc}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_H_grid_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_S_grid_overview.jpg}
+    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure exchange enthalpy (left, in \si{\kilo\joule\per\mole}) and entropy (right, in \si{\kilo\joule\per\mole\per\kelvin}) calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_exc}
 \end{figure}
 
+Now, if we go back to the exchange thermodynamic quantities that are more relevant to our context, we can see a good correlation between the exchange enthalpy at low pressure calculated with GrAED and the exchange Gibbs free energy at ambient pressure calculated by GCMC on Figure~\ref{fgr:grid_comp_exc}. Some discrepancies can be detected around $-10$ and $0$~\si{\kilo\joule\per\mole} of the ambient-pressure exchange free energy, which can also be explained using the exchange entropy that is stable $-0.01$~\si{\kilo\joule\per\mole\per\kelvin} and experiences a peak for structures near the previously mentioned range of ambient-pressure exchange free energy.
+This good correlation can be explained using the previously identified enthalpic nature of the separation process of xenon from krypton (see Chapter 2). 
 
-\todo{Figure of comparison plot (8 ready)}
 
 \subsubsection{High temperature quantities}
 
@@ -561,32 +568,65 @@ In this section, we propose a descriptor that better describes the energy distri
 
 A temperature of \SI{900}{\kelvin} was found to be the optimal temperature to describe an ambient-pressure adsorption enthalpy of xenon across the structures of CoRE MOF 2019, and gives a minimal error (RMSE) of \SI{1.76}{\kilo\joule\per\mole} instead of \SI{2.87}{\kilo\joule\per\mole} for the \SI{298}{\kelvin} case. This improvement impacts the exchange free energy metrics as well as the adsorption enthalpy associated with the separation of xenon from krypton. The exchange Gibbs free energy and the adsorption enthalpy of xenon at ambient pressure are better correlated to the equivalent values at lower pressure and higher temperature (\SI{900}{\kelvin}) than to the \SI{298}{\kelvin} case. These observation supports the use of higher temperature averaging to describe the ambient-pressure selectivity.
 
-This new type of descriptor is very interesting since it better performs around the high selectivity region, where the standard Boltzmann average at \SI{298}{\kelvin} loses its accuracy (see Figure~S1). As we can see in the Figure~S7, the exchange free energy at \SI{900}{\kelvin} and the excess of free energy compared to the \SI{298}{\kelvin} case are the second and third most influential descriptors of our ML model. They are complementary to the exchange free energy at \SI{298}{\kelvin} to predict selectivities at higher pressures.
+This new type of descriptor is very interesting since it performs better around the high selectivity region, where the standard Boltzmann average at \SI{298}{\kelvin} loses its accuracy (see Figure~\ref{fgr:grid_ambient_selectivity}). As we can see in the Figures~\ref{fgr:H_900K} and~\ref{fgr:G_900K}, the averaging at higher temperature performs better on the most selective materials, while degrading the description of the less selective materials.
 
-On the Figure~ref{fgr:H_900K}
-\todo{Dispersion of the correlation can be dued to the guest--guest interactions}
+On the Figure~\ref{fgr:H_900K}, we can clearly see what an increase in the averaging temperature does: the low-temperature averaging gives a better description of the xenon adsorption enthalpy, the points are more centered around the $y=x$ axis, but the correlation is not perfect. We now also have a bigger uncertainty on the points that were initially very well predicted as badly performing materials. The high dispersion around the correlation is probably due to the guest--guest interactions that are not described in the high temperature averaging and plays a non negligible role in the ambient pressure case.
 
 \begin{figure}[ht]
 \centering
-  \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H0.pdf}
-  \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H900K.pdf}
+  \includegraphics[width=0.45\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H0.pdf}
+  \includegraphics[width=0.45\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H900K.pdf}
   \caption{Scatterplots of the low-pressure xenon adsorption enthalpy at \SI{298}{\kelvin} (left) and at \SI{900}{\kelvin} (right) calculated by the GrAED algorithm against the ambient-pressure xenon adsorption enthalpy at \SI{298}{\kelvin}. Using a higher temperature Boltzmann averaging, the correlation with the ambient-pressure case of interest is much higher, the R2 coefficient improves from $0.80$ to $0.92$ for instance. The RMSE also decreased from \SI{2.87}{\kilo\joule\per\mole} to \SI{1.76}{\kilo\joule\per\mole}. }\label{fgr:H_900K}
 \end{figure}
 
-On the Figure~ref{fgr:G_900K}
+On the Figure~\ref{fgr:G_900K}, we can see that this improvement in the adsdorption enthalpy of xenon is not directly translated into the performance on the exchange Gibbs free energy. The correlation is better overall between the exchange free energy at \SI{298}{\kelvin} and infinite dilution and the one at ambient pressure (\SI{298}{\kelvin}). However, we can argue that the exchange free energy at \SI{900}{\kelvin} is however slightly better describing the materials that experience a selectivity drop as showed in Figure~\ref{fgr:grid_ambient_selectivity}. 
 
 \begin{figure}[ht]
 \centering
-  \includegraphics[width=0.70\linewidth]{figures/4-ml/SI_figure/Scatterplot_G1_G900K.pdf}
-  \caption{Comparison plot between the low-pressure exchange free energy at \SI{900}{\kelvin} calculated by the GrAED algorithm and the ambient-pressure exchange free energy at \SI{298}{\kelvin} calculated by Widom insertion. }\label{fgr:G_900K}
+  \includegraphics[width=0.38\linewidth]{figures/3-fastsim/Scatterplot_G1_G0.pdf}
+  \includegraphics[width=0.27\linewidth]{figures/3-fastsim/Scatterplot_G1_G900K.pdf}
+  \includegraphics[width=0.23\linewidth]{figures/3-fastsim/Scatterplot_G1_G_Xe_900K.pdf}
+  \caption{Comparison plot between the low-pressure exchange free energy at \SI{298}{\kelvin} (left) and \SI{900}{\kelvin} (right) calculated by the GrAED algorithm and the ambient-pressure exchange free energy at \SI{298}{\kelvin} calculated by Widom insertion. }\label{fgr:G_900K}
 \end{figure}
+
+This high-temperature averaging can be used to better model the selectivity of the selective materials that loses selectivity between low and ambient-pressure. Without spoiling the incoming chapter on how we can exploit these descriptors to quantitatively predict the selectivity at ambient pressure, we can qualitatively see how a case disjunction between the problematic structures and the other and an exploitation of the values obtained can help us identify these problematic structures.
 
 \subsubsection{Statistical characterization}
 
-%cp
-To better quantify the change of selectivity, it could be interesting to give statistics on the distribution of interaction energies for xenon and krypton calculated by our grid algorithm. These statistics include moments of different orders (up to 4) of the energy distribution, which informs on the adsorbate--adsorbent interaction energies in the nanopores at higher loading. The shape of the energy distribution can help assess quantitatively the change in selectivity. We can consider this as a way of compressing the whole energy distribution into a few statistical values, which is a standard method used in the field of data science to tackle distribution data. The same approach has also been applied to the Boltzmann weighted distributions to generate temperature specific descriptors for the energy distributions.
+To better quantify the change of selectivity, it could be interesting to give statistics on the distribution of interaction energies for xenon and krypton calculated by our grid algorithm. A statistical analysis can let us glimpse the complexity of the pore adsorption process at higher pressure by showing the diversity of the energy values and how they are distributed (the quantity of the higher energies in comparison to the lower ones, for example). The grid sampling we present here can use all the energy values from the sampled point to draw a histogram that can be used as an energy distribution and studied to retrieve interesting statistical information.
 
-Average / Std / skew / kurtosis
+These statistics include the moments of different orders (up to 4) of the energy distribution, which informs on the adsorbate--adsorbent interaction energies in the nanopores at higher loading. The shape of the energy distribution can help assess quantitatively the change in selectivity. We can consider this as a way of compressing the whole energy distribution into a few statistical values, which is a standard method used in the field of data science to tackle distribution data. The energy distribution can be weighted uniformely or with the Boltzmann weights, both methods are explored here. The average of the Boltzmann weighted distribution is typically the definition of the adsorption enthalpy and it won't be tackled in this subsection.
+
+\textbf{Boltzmann weighted distribution}
+
+The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta E)$ according to the energy $E$ of each point sampled by the GrAED algorithm. By doing so, we put a much higher weight on the most negative values of the energy (the most favorable adsorption sites) than the others. The unfavorable adsorption sites can be considered negligible since the exponential scaling crushed the importance of these points in the Boltzmann weighted distribution. This distribution has already be used to calculate the adsorption enthalpy (first-order moment or average) and also indirectly the Henry constant (sum of the weights used in the normalization of the distribution).
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_std_x_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_std_y_overview.jpg}
+        \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the standard deviations of the Boltzmann weighted energy distribution of xenon (left) and krypton (right) calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:enthalpy_std}\label{fgr:enthalpy_std}
+\end{figure}
+
+\todo{describe, surtout sur les matériaux qui sont potentiellement touché par le drop, info > }
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_skew_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_kurt_overview.jpg}
+    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the skewness (left) and the kurtosis (right) of the Boltzmann weighted energy distribution of xenon calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:enthalpy_skew_kurt}
+\end{figure}
+
+\todo{permet de sitinguer entre les différentes structures avec un grande diversité de pores et connaitre ce qui favorise le drop ou pas}
+
+\textbf{Uniformely weighted distribution}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_mean_grid_x_overview.jpg}
+    \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_std_grid_x_overview.jpg}
+    \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the mean values (left) and the standard deviation (right) of the uniformely weighted energy distribution of xenon calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:energy_dist_mean_std}
+\end{figure}
 
 \subsubsection{Perspectives of these energy descriptors}
 
