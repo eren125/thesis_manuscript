@@ -444,9 +444,9 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
     Energy sampling  &  Average CPU & RMSE on adsorption  \\
     method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
     \hline
-    Grid -- naive -- \SI{0.12}{\angstrom} &  35 & 0.01  \\[0.5mm] %refaire
-    Grid -- blocking -- \SI{0.12}{\angstrom} &  18.8 & 0.01  \\ %refaire
-    Grid -- symmetry -- \SI{0.12}{\angstrom} &  16.8 & 0.01  \\ %refaire
+    Grid -- naive -- \SI{0.12}{\angstrom} &  35 & 0.01  \\[0.5mm] 
+    Grid -- blocking -- \SI{0.12}{\angstrom} &  18.8 & 0.01  \\ % déjà lancé
+    Grid -- symmetry -- \SI{0.12}{\angstrom} &  16.8 & 0.01  \\ % à analyser
     Grid -- fast -- \SI{0.12}{\angstrom} &  2.96 & 0.01  \\
     Grid -- fast -- \SI{0.2}{\angstrom} &  0.41 & 0.05  \\
     Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.22  \\
@@ -454,7 +454,7 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
     Widom\cite{Widom1963} (12k cycles) &  150 & 0.01  \\
     \hline
   \end{tabular}
-  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} of CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{incohérence sur les rmse refaire avec LCD\e{CCDC}}}\label{tab:grid}
+  \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-steps Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} of CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{refaire les RMSE et tout manque blcking et symmetry}}\label{tab:grid}
 \end{table}
 
 \todo{make a figure that sums up this table like for previous section}
@@ -469,7 +469,7 @@ The good performance of the grid sampling on the structures of CoRE MOF 2019 dat
 As we can see of the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. Almost no error can be detected if looking at the figure for both adsorption enthalpy and Henry constant. The RMSE on the adsorption enthalpy is only about \SI{0.01}{\kilo\joule\per\mole}, while the RMSE on the log10 of the Henry constants (in \si{\milli\mole\per\gram\per\pascal}) is also very low at $0.01$. This method goes back to the initial definition of these quantities at infinite dilution, the perfect correspondance is therefore not very surprising. 
 
 The little computation time required to achieve such an accuracy is however much more interesting. If we look at the Table~\ref{tab:grid}, the very accurate grid sampling reaches a similar accuracy than a 12k-cycle Widom insertion calculated using the Raspa software, while being 50 times faster. On the CoRE MOF 2019 database, by using a looser grid spacing of \SI{0.3}{\angstrom}, the GrAED algorithm can even be more interesting than the RAESS algorithm since it halves the computation time while being slightly more accurate. This very comparable performance compared to a dimensionally reduced sampling technique can be explained by two factors of the CoRE MOF database: first, the structures have smaller pores which means a greater surface to volume ratio, which increase the RAESS computation time; second, the highly symmetric structures of CoRE MOF reduces considerably the computation time required for GrAED, and the same cannot be said for other databases such as ToBaCCo or the amorphous database we studied at the end of the previous chapter. For instance, the computation time required is found to be 750 times higher for a grid sampling than a surface sampling on the amorphous database (see section~\ref{sct:other_database}).
-\todo{tobacco graed results}
+\todo{tobacco graed results LANCE}
 
 From the energy values of this grid, we can now calculate many useful descriptors of the adsorption process. We have seen the performance on the Xe adsorption enthalpy and the Xe Henry constant. But as mentioned in the section~\ref{sct:thermo}, we can also derive the Xe adsorption Gibbs free energy and the Xe adsorption entropy. If we now consider the krypton in addition to the xenon, we can naturally evaluate the Kr adsorption thermodynamic quantites but also the exchange thermodynamic quantities and especially the Xe/Kr selectivity (the key metric in evaluating the separation process we are interested in).
 
@@ -517,8 +517,6 @@ The goal is then to be able to design descriptors that could help distinguish th
 
 \subsubsection{Thermodynamic quantities}
 
-\todo{comparison with enthalpy, entropy, Gibbs free energy}
-
 As we saw in the previous chapter, many thermodynamic quantities can be calculated at infinite dilution: adsorption and exchange Gibbs free energies, enthalpies and entropies. If we consider the xenon and krypton separation, we can generate 9 different descriptors. We will look at the relation between these quantities and the high-pressure selectivity values. In the introduction, we already tackled the relation between the exchange Gibbs free energy, since it is the logarithmic transform of the infinite dilution selectivity plotted on the Figure~\ref{fgr:grid_ambient_selectivity}. This quantity is the most important descriptor as it sets an initial reference value to understand the problem. The selectivity at high pressure can be seen as the selectivity at infinite dilution plus or minus a shift due to the specificity of the adsorption at higher pressure in a given material.
 
 
@@ -556,8 +554,7 @@ The entropy values can explain why the adsorption free energy of xenon is well c
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the low-pressure exchange enthalpy (left, in \si{\kilo\joule\per\mole}) and entropy (right, in \si{\kilo\joule\per\mole\per\kelvin}) calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_exc}
 \end{figure}
 
-Now, if we go back to the exchange thermodynamic quantities that are more relevant to our context, we can see a good correlation between the exchange enthalpy at low pressure calculated with GrAED and the exchange Gibbs free energy at ambient pressure calculated by GCMC on Figure~\ref{fgr:grid_comp_exc}. Some discrepancies can be detected around $-10$ and $0$~\si{\kilo\joule\per\mole} of the ambient-pressure exchange free energy, which can also be explained using the exchange entropy that is stable $-0.01$~\si{\kilo\joule\per\mole\per\kelvin} and experiences a peak for structures near the previously mentioned range of ambient-pressure exchange free energy.
-This good correlation can be explained using the previously identified enthalpic nature of the separation process of xenon from krypton (see Chapter 2). 
+Now, if we go back to the exchange thermodynamic quantities that are more relevant to our context, we can see a good correlation between the exchange enthalpy at low pressure calculated with GrAED and the exchange Gibbs free energy at ambient pressure calculated by GCMC on Figure~\ref{fgr:grid_comp_exc}. Some discrepancies can be detected around $-10$ and $0$~\si{\kilo\joule\per\mole} of the ambient-pressure exchange free energy, which can also be explained using the exchange entropy that is stable $-0.01$~\si{\kilo\joule\per\mole\per\kelvin} and experiences a peak for structures near the previously mentioned range of ambient-pressure exchange free energy. The overall strong correlation can be explained using the previously identified enthalpic nature of the separation process of xenon from krypton (see Chapter 2). And, the problematic range, where the correlation is weaker, also corresponds to the one associated with a selectivity drop in the Figure~\ref{fgr:G_900K}. These exchange thermodynamic quantities can help distinguish the materials to better model the drop phenomenon, a more quantitative approach will be developed in the next chapter.
 
 
 \subsubsection{High temperature quantities}
@@ -599,7 +596,7 @@ These statistics include the moments of different orders (up to 4) of the energy
 
 \textbf{Boltzmann weighted distribution}
 
-The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta E)$ according to the energy $E$ of each point sampled by the GrAED algorithm. By doing so, we put a much higher weight on the most negative values of the energy (the most favorable adsorption sites) than the others. The unfavorable adsorption sites can be considered negligible since the exponential scaling crushed the importance of these points in the Boltzmann weighted distribution. This distribution has already be used to calculate the adsorption enthalpy (first-order moment or average) and also indirectly the Henry constant (sum of the weights used in the normalization of the distribution).
+The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta E)$ according to the energy $E$ of each point sampled by the GrAED algorithm. By doing so, we put a much higher weight on the most negative values of the energy (the most favorable adsorption sites) than the others. The unfavorable adsorption sites can be considered negligible since the exponential scaling crushed the importance of these points in the Boltzmann weighted distribution. This distribution has already been used to calculate the adsorption enthalpy (first-order moment or average) and also indirectly the Henry constant (sum of the weights used in the normalization of the distribution). And in this section, we will focus on other statistical quantities that could be derived from the distribution and are not commonly used in describing the thermodynamics of the system.
 
 \begin{figure}[ht]
   \centering
@@ -608,7 +605,7 @@ The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta 
         \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the standard deviations of the Boltzmann weighted energy distribution of xenon (left) and krypton (right) calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:enthalpy_std}\label{fgr:enthalpy_std}
 \end{figure}
 
-\todo{describe, surtout sur les matériaux qui sont potentiellement touché par le drop, info > }
+For instance, the standard deviation of the boltzmann weighted energy distribution is one of the statistical quantities that could be interesting in evaluating the drop of selectivity. In the previous chapter, we identified the diversity of site attractivity as one of the main factor that could explain the drop in selectivity. The standard deviation of the energies can therefore be useful characterization of the diversity of nature between the different adsorption sites. On the Figure~\ref{fgr:enthalpy_std}, this standard deviation is calculated for both xenon and krypton, and the higher variation of its values is concentrated in a range of values corresponding to the one we identified for the entropy change on one hand but more importantly to the range where the selectivity drop is observed on the Figure~\ref{fgr:G_900K} (between $-10$ and $0$~\si{\kilo\joule\per\mole}). Qualititatively, it is understandable that the standard deviation informs us on the pore diversity which could help characterizing the origins of the selectivity drop; and, the higher the diversity the higher chance of experiencing a selectivity drop. The challenge is then to quantify this chance through a model, a simple theoretical model would never be accurate enough, this is the reason we will be looking into machine learning models in the next chapter.
 
 \begin{figure}[ht]
   \centering
@@ -617,9 +614,21 @@ The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta 
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the skewness (left) and the kurtosis (right) of the Boltzmann weighted energy distribution of xenon calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:enthalpy_skew_kurt}
 \end{figure}
 
-\todo{permet de sitinguer entre les différentes structures avec un grande diversité de pores et connaitre ce qui favorise le drop ou pas}
+We introduced two other statistical quantities that could be interesting in describing the distribution: the skewness that characterizes the asymmetry of the distribution and the kurtosis that quantifies the ``tailedness'' (the amount of values in the tail of the distribution). The first one is a standardized third moment while the second is a standardized fourth moment of the distribution. For a random variable $X$, whose mean value is $m$ and standard deviation $\sigma$ a n-th order moment $\text{M}_{n}(X)$ is defined as:
+\begin{equation}
+  \text{M}_n(X) = \mathbb{E}\left[\left(\dfrac{X-m}{\sigma}\right)^n\right]
+\end{equation}
+These quantities bring in another information on the distribution. For instance, if the distribution is skewed towards the most negative pore energies it would favorize the adsorption at higher pressure, while the opposite would explain a bigger drop in selectivity. The overall shape of the distribution needs to be defined by more than the standard deviation and the mean value in order to capture the origins of the drop in selectivity. Ideally it would be better to have the whole information on the distribution, but visually speaking, it would be far to complex to compare the structures according to this multidimensional descriptor and the statistical quantities compress in a way the complex data on the energy distribution.
+
+The Figure~\ref{fgr:enthalpy_skew_kurt} further highlights the range of selectivity value we discussed across this section. The materials within this range can be sorted out using the different statistical quantities we introduced throughout this discussion. Depending on these skewness or kurtosis values it could be theoretically possible to identify a link with the selectivity drop previously identified, but without a model or a framework it is impossible to find the right relationship using our bare eyes.
+
+\todo{Negative skewness > bigger difference in selectivity value ?? Plot something skewness vs diff s1 s0}
 
 \textbf{Uniformely weighted distribution}
+
+To finish this overview on the thermodynamic/energetic descriptors we can deduce from the grid sampling we developed, we will study a more uniformely weighted energy distribution, and since the very higher energy values corresponding to the overlap with a framework atom does not interest us, these values are removed naturally by our sampling. Since a threshold value of $100$~\si{\kilo\joule\per\mole} has been used for the grid sampling here, the overlapping is defined very largely and for an energy below this value the energy point is taken into account. This distribution corresponds to the adsorbable sites (no overlap) that are weighted according to their sole occupancy of the void volume. 
+
+We studied the mean value and the standard deviation of this distribution. For the mean value, we can observe a weak correlation with the exchange Gibbs energy at ambient pressure, but the correlation stops for the materials with larger pores and therefore a more diverse set of energy values, the mean value is lower since the void fraction is larger and the weight on the more negative values increase, but it does not mean that very attractive sites are present since there is no Boltzmann weight --- the exchange free energy is not continuing the trend and comes back to more positive values. We can note that the values are very high, this is because an energy threshold value of $100$~\si{\kilo\joule\per\mole} is used and a lot of points have values within zero and this threshold value, which shifts the mean towards these values. For this reason, we did not continue further than the standard deviation the statistical study of this distribution, and a better design of the distribution needs to be considered to focus more on the negative values --- it could be through lowering the threshold or by using a less skewing Boltzmann average (averaging at higher temperature for instance).
 
 \begin{figure}[ht]
   \centering
@@ -628,11 +637,14 @@ The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta 
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA with 100,000 cycles and the mean values (left) and the standard deviation (right) of the uniformely weighted energy distribution of xenon calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:energy_dist_mean_std}
 \end{figure}
 
-\subsubsection{Perspectives of these energy descriptors}
+The standard deviation of this distribution has a lower value for materials with larger pores, see Figure~\ref{fgr:energy_dist_mean_std}. This could be explained by a high amount of points near the average value of the energy (around $0$ and $10$~\si{\kilo\joule\per\mole}) according to the left plot of the figure. For the materials with a standard deviation between $20$ and $40$~\si{\kilo\joule\per\mole}, we can very confidently say that they have an exchange free energy that could not exceed $-8$~\si{\kilo\joule\per\mole}, which mean they are not in the top selective materials. The standard deviation presented here can help us identify materials that could be promising at low pressure but are not really promising in reality. 
 
-\url{github.com/coudertlab/GrAED}
+To improve this approach, we can explore the use of a higher temperature Boltzmann average for the weights of the ditribution, not necessarily using a temperature of \SI{900}{\kelvin}. We can also test out an average on a distribution with a lower energy threshold (zero or the mean kinetic energy of a gas $1.5k\e{B}T$). The idea being we want to characterize a higher energy state like the one happening at ambient pressure. And of course, higher orders of moments can also be tested to give a more complete picture of the distribution.
 
-\todo{transition into ML models}
+\\
+\\
+
+In this section, we tried to single out each of the thermodynamic descriptor we can derive from the grid sampling; but the approach is limited by the visualization dimension limitation (bidimensional). Although we can see some examples, how it can help sorting the materials according to some properties that could at the end predict the selectivity (for instance, a given range of standard deviation of the uniformely weighted energy distribution can give a range of possible selectivity), it is still difficult to mix the different descriptors together and to give a prediction. To achieve just this, many modern approaches use statistical learning to learn this relationship from a large enough set of structures with some computed properties, and this approach will be tested in the next chapter. Finally, every computation detail on the GrAED sampling technique is available online at \url{github.com/coudertlab/GrAED}.
 
 \OnlyInSubfile{\printglobalbibliography}
 
