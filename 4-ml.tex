@@ -24,27 +24,96 @@ In this example, we can see how the machine learned the value of each moves by c
 
 In this thesis, we will focus on the most common way of statistically learning from data, which is the supervised learning. As previously introduced, supervised learning corresponds to the extraction of a relationship between the labels of a set of data points and some of their known characteristics or features. This relationship can be called the model or the predictor and should ideally generalize to similar but unseen data. In this section, we will formalize the goal of the learning algorithm when given a set of labeled data in order to introduce more complex notions in machine learning like the bias--variance trade-off and also more specific models that will be used in this chapter like the tree-based models.
 
+\todo{Specify the sources}
+Adaptation from several sources The Elements of Statistial Learning\autocite{Hastie_2009} and an Introduction to machine learning (in French) from Azencott\autocite{azencott2022introduction}
+
 \subsubsection{Mathematical considerations}
 
-\todo{HERE}
-Le ML appliqué à l'apprentissage supervisé, c'est donc avant tout l'art d'exploiter des données: on note $\mathcal{D}_{n}:=((X_{1},Y_{1}),...,(X_{n},Y_{n}))$ un {jeu de données} comportant $n$ observations indépendantes et identiquement distribuées d'une loi $\mathcal{P}$, où $X_{i}$ est un vecteur de $\mathbb{R}^{p}$ ($p$ étant un entier naturel non nul) et $Y_{i}$ appartient à un ensemble $\mathcal{Y}$ de données (numériques ou non). On note $\textbf{X}:=(X_1,\ldots,X_n)$ et $\textbf{Y}:=(Y_1,\ldots,Y_n)$. Un \emph{prédicteur} est alors une fonction $f$ définie de $\left(\mathbb{R}^{p}\right)^n$ dans $\mathcal{Y}^n$. On définit ensuite une \emph{fonction de perte} $\mathcal L$ de $\left(\mathcal{Y}^n\right)^2$ dans $\mathbb{R}_{+}$: $\mathcal L(\textbf{Y}',\textbf{Y})$ représente alors le coût d'avoir prédit $\textbf{Y}'$ au lieu de $\textbf{Y}$. En particulier, le \emph{risque d'un prédicteur}, à savoir ${R(f(\textbf{X}),\textbf{Y}) = \E{\mathcal L(f(\textbf{X}),\textbf{Y})|((X_{1},Y_{1}),...,(X_{n},Y_{n}))\sim\mathcal P}}$ représente le coût d'avoir prédit $f(\textbf{X})$ au lieu de la valeur observée $\textbf{Y}$. Notons $(Y_1',\ldots,Y_n'):=f(\textbf{X})$ les valeurs de $(Y_1,\ldots,Y_n)$ prédites par le programme de ML à partir des données $\textbf{X}$. L'objectif de l'apprentissage supervisé est alors de choisir le prédicteur $f^*$ rendant ce risque minimal: autrement dit, on doit avoir ${f^*=\underset{f\in\mathcal F\left({(\mathbb{R}^p)}^n;\mathcal Y^n\right)}{\text{arg min}} R(f(\textbf{X}),\textbf{Y})}$. \vspace{-13pt}En particulier, lorsque $(Y_1,\ldots,Y_n)$ est un jeu de données binaires (lorsqu'on a $\mathcal Y=\{0,1\}$), la fonction de perte est définie par $\ell(\textbf{Y}',\textbf{Y})=\dfrac{\mathds 1_{Y_1\ne Y'_1}+\cdots+\mathds 1_{Y_n\ne Y'_n}}{n}$ en général: on calcule la fréquence des mauvaises prédictions au sein du jeu de $n$ données. On peut alors prouver que l'estimateur optimal $f^*$ vérifie $f^*(\textbf{X})=\mathds 1_{\E{\textbf{Y}|\textbf{X}}\geq 1/2}$. Mais comme on ne connaît généralement pas avec précision la loi de $\mathcal D_n$, il conviendra de proposer un estimateur $\widehat{\gamma}(\textbf{X})$ de $\E{\textbf{Y}|\textbf{X}}$. 
+In supervised learning, the algorithm learns from a set of data noted $\mathcal{D}_{n}=\left\{(\mathbf{x}_{1},y_{1}),...,(\mathbf{x}_{n},y_{n})\right\}$ with $n$ observed data points, where $\mathbf{x}_{i}$ represents an input observable which is a vector of $\mathbb{R}^{p}$ ($p=1$ for scalars) and $y_{i}$ is the label of the data point $i$ that belongs to a set $\mathcal{Y}$ (numerical, categorical or vectorial). 
+We can model the statistical observables by a random variable $X$ and the label by another random variable $Y$. The dataset only gives a parcelar view of the joint probability (see equation~\ref{eq:joint_proba}) and the goal will be to extrapolate the relation to unseen data. $(X,Y)$ represents all possible combinations of data points seen an unseen.
+\begin{equation}\label{eq:joint_proba}
+  \forall\ \mathbf{x}\in\mathbb{R}^{p},\ y\in\mathcal{Y},\ \mathbb{P}\left(X=\mathbf{x}, Y=y\right) = \mathbb{P}(X=\mathbf{x})\mathbb{P}(Y=y|X=\mathbf{x})
+\end{equation}
+The challenge of supervised learning lies in the fact that the data at our disposal does not give a complete picture of the probability law. And the goal is to give the most probable label $y$ for a data point characterized by $\mathbf{x}$, which is determining the conditional expectation $\E{Y|X=\mathbf{x}}$ of $Y$ given the observable $\mathbf{x}$, which depends on the conditional probabilities $\mathbb{P}(Y=y_i|X=\mathbf{x}_j)$ seen across all data points $i,j\in\{1,\ldots,n\}$.
 
-\todo{compare to the optimization of molecular structure in an \emph{ab intio} simulation. Find a minimum, gradient descent}
+\todo{Picture of machine learning}
 
-The Elements of Statistial Learning\autocite{Hastie_2009}
+To do so, the learning algorithm uses a ``predictor'' $f$ that can be defined as the function that associates values (features) from $\mathcal{X}=\mathbb{R}^{p}$ to values of $\mathcal{Y}$. By changing the learning model (subsection~\ref{sct:model}) or by changing the feature space $\mathcal{X}$ we can define different domains $\mathcal{F}\subseteq{\mathcal{Y}}^{\mathcal{X}}$ where we search for the prediction function $f$. The domain $\mathcal{F}$ can either be too restrictive and the optimum function found is too far from the theoretical one, or be too large and the optimization problem is nearly impossible to solve or the solution is way too close to the data, which raises question of fitting that will be discussed later.
 
-\todo{introduce what it means for linear regression}
+This predictor can be interpreted as the function that gives the most probable outcome $y$ for a given input $\mathbf{x}$. To evaluate the quality of the predictor, we can introduce a loss function $\mathcal{L}:\mathcal{Y}\times\mathcal{Y} \rightarrow \mathbb{R}^{p}$ that compares the predicted value $f(\mathbf{x})$ to the true value $y$ on the dataset at our disposal $\mathcal{D}_{n}$. This loss function needs to increase when $f(\mathbf{x})$ moves away from $y$. To extend the definition of the loss to the entire possible space, we can introduce the theoretical risk $\mathcal{R}$ of a predictor $h$ using the random variables $X$ and $Y$ so that $\mathcal{R}(h) = \E{\mathcal{L}(h(X),Y)}$. However, since we do not know the exact mapping of the random variables, we will rather evaluate empirically the risk $\mathcal{R}_n$ on the known dataset $\mathcal{D}_{n}$:
+\begin{equation}
+  \mathcal{R}_n(h) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(h(\mathbf{x}_i),y_i)
+\end{equation}
 
+The goal is therefore to find a function that minimizes the risk function across the known data, and this optimal predictor $f^*$ can be defined as:
+\begin{equation}
+  f_n^* = \underset{f\in\mathcal{F}}{\text{arg min}} \mathcal{R}_n(f)
+\end{equation}
+
+\todo{balayer les classifications}
+Many loss funcitons can be used and depending on the definition, we enphasize more or less on the larges errors. For instance a quadratic cost funciton will penalize a lot the outlier so that a few medium errors are better than one great error, which is not the case for an absolute cost..
+Give examples of cost for regression > Quadratic/etc. (element of statistics)
+
+Through these theoretical considerations, we demystified the process of a machine learning from data by simply formulating this leaning process as an optimization of a cost function, which is a common tool in any scientific field. However, this optimization problem is challenging in the sense that the variable is a function that lies in a high dimension space and approximations are needed to reduce the space. This is why most of the engineering breakthroughs happens in the conception of the architecture of the ML model that defines the form of the prediction function $f$. Another difficulty of machine learning is to deal with an ill-posed problem, which means that one of the three conditions of Hadamard is not verified. These conditions being the existence of a solution, its unicity and the continuity of the solution with regards to the initial conditions. This issue is usually tackled using regularization techniques such as the one introduced by Tikhonov in the second half of the 20\e{th} century. Furthermore, the minization of the empiric risk is not always consistant with the minization of the more global risk (considering all possible observations), since minimizing $\mathcal{R}_n$ does not always give the same solution as the minimization of $\mathcal{R}$. Therefore, the complexity of the risk optimization problem depends on the loss function chosen but also the domain $\mathcal{F}$ defined by the model and different techniques can be used to construct a solution without anything that guarantees the optimality of it. One of the biggest challenge of ML is to overcome the problem of generalizability, which will be the topic of the next discussion.
+
+
+\subsubsection{Generalization and overfitting}
+
+As previously discussed, the optimization problem is ill-defined and we have no guarantee for the model to work on other data points as $n$ goes toward infinite. The generalizability of model consists in ensuring the predictability of unseen data so that the solution does not simply correspond to the minimal risk for the data $\mathcal{D}_{n}$ but also for other $m$ data points $\left\{(\mathbf{x}_{n+1},y_{n+1}),\ldots,(\mathbf{x}_{n+m},y_{n+m})\right\}$ all different from the previous set. One of the main phenomenon that explains this discrepancy between the solution $f_n^*$ and the ideal solution $f^*$ (considering an infinite amount of data) is the noise in the dataset. The data is not perfectly measured, and the uncertainty attached to each $\mathbf{x}_i$ and $y_i$ values can create a residual noise that needs to be ignored in the learning process. Moreover, sometimes, the $p$ explanatory variables considered are not enough to model the target phenomenon. To train a generalizable model, we would need to learn enough to capture the inner relation between $X$ and $Y$, but it should not fit the data too closely and capture the noise along the way, otherwise we say that the model overfits the data. If the model is very inaccurate even on the training data, we say that the model underfits, and generally it means that the model is too simplistic (not enough features or too low-level architecture). 
+
+This problem of overfitting can be summarized in the fundamental notion of bias--variance tradeoff in machine learning and more generally in statistics. The error can be broken down in two types: the bias error measures the error made on the available data $\mathcal{D}_n$, while the variance error measures the sensibility to small variations in the input values. A high bias error corresponds to an underfitting, we did not learn enough from the data; and a high variance error means an overfitting, we learned too much even superfluous relations. To formalize these errors, we can go back to the empiric risk function $\mathcal{R}_n(f)$ that models the error of our predictor $f\in\mathcal{F}$; to know if we reach the ideal optimum we would need to compare it to the minimal risk that a predictor with infinite knowledge would get $\mathcal{R}^* = \underset{\scriptscriptstyle h\in\mathcal{Y}^{\mathcal{X}}} {\text{min}}\mathcal{R}(h)$. This excess error $\mathcal{R}_n(f)-\mathcal{R}^*$ can then be broken down in two errors that could be interpreted as the bias and the variance errors:
+\begin{equation}
+  \mathcal{R}_n(f)-\mathcal{R}^* = \left[\mathcal{R}_n(f) - \underset{\scriptstyle h\in\mathcal{F}} {\text{min}}\mathcal{R}_n(h)\right] + \left[\underset{\scriptstyle h\in\mathcal{F}} {\text{min}}\mathcal{R}_n(h) -\mathcal{R}^*\right]
+\end{equation}
+The first term of the above-written sum corresponds to a bias error, because it measures how far the current predictor $f$ is off of a minimum (there can be several in an ill-posed problem) risk predictor $f_n^*$ determined using the $n$ data points. The second term, on the other hand, is the residual error associated with the choice of the predictor domain $\mathcal{F}$ and the fact that only a finite amount of data is accessible to the prediciton model. With an infinite amount of data, the model $f^*$ associated with the risk $\mathcal{R}^*$ would not be influenced by the noise since several data points with similar features but with small noises would give a similar prediction. The difference of loss between this ideal function $f^*$ and the current function we are testing $f$ would correspond to an overfitting of the noise that could not be distinguished in the finite case, if we consider the domain $\mathcal{F}$ defined by the model suitable. On the contrary, if there is a problem of model, this error also measures the approximation error due to the choice of a given set of features with a given model architecture.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/4-ml/Bias_and_variance_contributing_to_total_error.svg.png}
+    \includegraphics[width=0.45\textwidth]{figures/4-ml/Overfitted_Data.png}
+    \caption{On the left, theoretical relation between the bias, variance and total errors and the model complexity. This is an illustration of what happens for instance on the left, when considering different degrees of polynomials. The lower degree linear function is more generalizable that the biased high degree polynomial that fits perfectly the data.}\label{fgr:bias_variance}
+\end{figure}
+
+In general, if the model is very complex in comparison to the amount of data we have, we would fit too closely to the data and have a very high change to overfit. The opposite is also true, a simplistic model would yield to a poor bias error and the model would be underfit. This principle is represented on the Figure~\ref{fgr:bias_variance} and should guide us in the design of a new ML model.
+The complex art of fitting a model to a dataset consists in finding the right balance between the bias and the variance. Fortunately, some optimization tools can help us reduce the variance error by changing the loss function itself, and we are going to look into them in the next part of our discussion.
+
+\subsubsection{Regularization to fight against overfitting}
+
+Regularization consists generally in adding implicit or explicit constraints on the optimization problem to find not only the most accurate solution (minimal loss) but also the simplest. This criterion of simplicity is crucial in the generalization of the problem. We typically don't need a high degree polynomial when a linear function is a more suitable solution as shown on Figure~\ref{fgr:bias_variance}. 
+
+The explicit regularization technique consists in penalizing the complexity of a model by adding to the global loss function an error term that scales with the complexity of the model. The error associated to a predictor $f$ can be expressed with an additional regularization term $\mathcal{r}_n(f)$:
+\begin{equation}
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f(\mathbf{x}_i),y_i) + \lambda\mathcal{r}_n(f)
+\end{equation}
+where $\lambda$ controls the importance of the regularization term on the optimization process. 
+Some examples of regularization 
 \todo{L1 and L2 regularization lasso ridge / elastic net}
 Tikhonov
+For a linear regression, f(\mathbf{x}) = \mathbf{w}\ex{T}\mathbf{x}  \todo{talk about polynomials as a particular case}
+\begin{equation}\label{eq:L2_reg}
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f(\mathbf{x}_i),y_i) + \lambda {\lVert \mathbf{w} \rVert}_2^2
+\end{equation}
 
-\todo{cross validation, overfitting, hyperparameter optimization}
+\begin{equation}\label{eq:L1_reg}
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f(\mathbf{x}_i),y_i) + \alpha{\lVert \mathbf{w} \rVert}_1
+\end{equation}
 
+\todo{ the norm of the function in its reproducing kernel Hilbert space}
 
+Implicit regularization corresponds to other forms of control of the complexity of the model. For instance, it could be the early stopping in a learning process so that we do not converge completely to the minimal error with the data. It could be discarding outliers that prevent the model from learning properly on the relevant data. It could also be in the architecture of the model, for instance the random forest is an ensemble approach that aims at reducing the overfit, and it will be presented in the next section. The learning rate in the gradient boosting is also a regularization parameter that smoothes the learning process and will be tackled in the dedicated section. The implicit regularization is related to the construction of the model itself and will therefore be explained in more details in the section on machine learning models.
 
+\subsubsection{Learning strategies}
 
+\todo{Train test set split}
+\todo{cross validation}
 
-\subsection{Tree-based models}
+\todo{ go quickly on other training strats}
+
+\subsection{Learning models}\label{sct:model}
+
+Relevant models for our thesis
+
+\subsubsection{Linear regression}
 
 \subsubsection{Regression tree}
 
@@ -54,6 +123,8 @@ Bagging
 
 \subsubsection{Gradient Boosting}
 
+Gradient descent / gradient boost
+\todo{compare to the optimization of molecular structure in an \emph{ab intio} simulation. Find a minimum, gradient descent}
 
 random forest 
 boosting
