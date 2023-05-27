@@ -22,10 +22,7 @@ In this example, we can see how the machine learned the value of each moves by c
 
 \subsection{Introduction to supervised learning}
 
-In this thesis, we will focus on the most common way of statistically learning from data, which is the supervised learning. As previously introduced, supervised learning corresponds to the extraction of a relationship between the labels of a set of data points and some of their known characteristics or features. This relationship can be called the model or the predictor and should ideally generalize to similar but unseen data. In this section, we will formalize the goal of the learning algorithm when given a set of labeled data in order to introduce more complex notions in machine learning like the bias--variance trade-off and also more specific models that will be used in this chapter like the tree-based models.
-
-\todo{Specify the sources}
-Adaptation from several sources The Elements of Statistial Learning\autocite{Hastie_2009} and an Introduction to machine learning (in French) from Azencott\autocite{azencott2022introduction}
+In this thesis, we will focus on the most common way of statistically learning from data, which is the supervised learning. As previously introduced, supervised learning corresponds to the extraction of a relationship between the labels of a set of data points and some of their known characteristics or features. This relationship can be called the model or the predictor and should ideally generalize to similar but unseen data. In this section, we will formalize the goal of the learning algorithm when given a set of labeled data in order to introduce more complex notions in machine learning like the bias--variance trade-off and also more specific models that will be used in this chapter like the tree-based models. Different books have been used for the conception of this section, mainly the Elements of Statistial Learning\autocite{Hastie_2009} and an Introduction to machine learning (in French) from Azencott\autocite{azencott2022introduction}.
 
 \subsubsection{Mathematical considerations}
 
@@ -36,23 +33,48 @@ We can model the statistical observables by a random variable $X$ and the label 
 \end{equation}
 The challenge of supervised learning lies in the fact that the data at our disposal does not give a complete picture of the probability law. And the goal is to give the most probable label $y$ for a data point characterized by $\mathbf{x}$, which is determining the conditional expectation $\E{Y|X=\mathbf{x}}$ of $Y$ given the observable $\mathbf{x}$, which depends on the conditional probabilities $\mathbb{P}(Y=y_i|X=\mathbf{x}_j)$ seen across all data points $i,j\in\{1,\ldots,n\}$.
 
-\todo{Picture of machine learning}
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.9\textwidth]{figures/4-ml/machine learning.pdf}
+    \caption{Illustration of the basic principle of supervised learning.}\label{fgr:supervised_leaning}
+\end{figure}
 
 To do so, the learning algorithm uses a ``predictor'' $f$ that can be defined as the function that associates values (features) from $\mathcal{X}=\mathbb{R}^{p}$ to values of $\mathcal{Y}$. By changing the learning model (subsection~\ref{sct:model}) or by changing the feature space $\mathcal{X}$ we can define different domains $\mathcal{F}\subseteq{\mathcal{Y}}^{\mathcal{X}}$ where we search for the prediction function $f$. The domain $\mathcal{F}$ can either be too restrictive and the optimum function found is too far from the theoretical one, or be too large and the optimization problem is nearly impossible to solve or the solution is way too close to the data, which raises question of fitting that will be discussed later.
 
-This predictor can be interpreted as the function that gives the most probable outcome $y$ for a given input $\mathbf{x}$. To evaluate the quality of the predictor, we can introduce a loss function $\mathcal{L}:\mathcal{Y}\times\mathcal{Y} \rightarrow \mathbb{R}^{p}$ that compares the predicted value $f(\mathbf{x})$ to the true value $y$ on the dataset at our disposal $\mathcal{D}_{n}$. This loss function needs to increase when $f(\mathbf{x})$ moves away from $y$. To extend the definition of the loss to the entire possible space, we can introduce the theoretical risk $\mathcal{R}$ of a predictor $h$ using the random variables $X$ and $Y$ so that $\mathcal{R}(h) = \E{\mathcal{L}(h(X),Y)}$. However, since we do not know the exact mapping of the random variables, we will rather evaluate empirically the risk $\mathcal{R}_n$ on the known dataset $\mathcal{D}_{n}$:
-\begin{equation}
-  \mathcal{R}_n(h) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(h(\mathbf{x}_i),y_i)
+This predictor can be interpreted as the function that gives the most probable outcome $y$ for a given input $\mathbf{x}$. To evaluate the quality of the predictor, we can introduce a loss function $\mathcal{L}:\mathcal{Y}\times\mathcal{Y} \rightarrow \mathbb{R}^{p}$ that compares the predicted value $f(\mathbf{x})$ to the true value $y$ on the dataset at our disposal $\mathcal{D}_{n}$. This loss function needs to increase when $f(\mathbf{x})$ moves away from $y$. To extend the definition of the loss to the entire possible space, we can introduce the theoretical risk $\mathcal{R}$ of a predictor $h$ using the random variables $X$ and $Y$ so that $\mathcal{R}(h) = \E{\mathcal{L}\left(h(X),Y\right)}$. However, since we do not know the exact mapping of the random variables, we will rather evaluate empirically the risk $\mathcal{R}_n$ on the known dataset $\mathcal{D}_{n}$:
+\begin{equation}\label{eq:risk}
+  \mathcal{R}_n(h) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(h(\mathbf{x}_i),y_i\right)
 \end{equation}
 
 The goal is therefore to find a function that minimizes the risk function across the known data, and this optimal predictor $f^*$ can be defined as:
-\begin{equation}
+\begin{equation}\label{eq:min_f}
   f_n^* = \underset{f\in\mathcal{F}}{\text{arg min}} \mathcal{R}_n(f)
 \end{equation}
 
-\todo{balayer les classifications}
-Many loss funcitons can be used and depending on the definition, we enphasize more or less on the larges errors. For instance a quadratic cost funciton will penalize a lot the outlier so that a few medium errors are better than one great error, which is not the case for an absolute cost..
-Give examples of cost for regression > Quadratic/etc. (element of statistics)
+
+Many loss functions can be used and depending on the definition, we enphasize more or less on the larges errors. For instance a quadratic cost function will penalize a lot the outlier so that a few medium errors are better than one great error, which is not the case for an absolute cost. Since we only use regression models in this thesis, we will not go into the details of classification loss functions and will rather focus more on the regression loss functions. The quadratic loss or squared error loss $L\e{SE}(f(\mathbf{x}),y)=0.5\left(y-f(\mathbf{x})\right)^2$ of a predictor $f$ on a data point $(\mathbf{x},y)$ is simply defined as the squared difference between the prediction and the true label. The multiplicative $0.5$ coefficient is here to simplify in the derivatives. This loss is similar to the mean squared error (MSE) used to compare two quantities across a dataset, the risk function actually corresponds to half of the MSE on the predictions $\mathcal{D}_n$:
+\begin{equation}
+  \mathcal{R}\e{SE}(f) = 0.5\frac{1}{n}\sum_{i=1}^n \left(y_i-f(\mathbf{x}_i)\right)^2
+\end{equation}
+
+A second very common loss function is the absolute loss, which is associated with the mean absolute error (MAE) used in error evaluation. The loss can be expressed as $L\e{AE}(f(\mathbf{x}),y)=\left|y-f(\mathbf{x})\right|$, and the risk function associated is simply the MAE across the dataset predictions:
+\begin{equation}
+  \mathcal{R}\e{AE}(f) = \frac{1}{n}\sum_{i=1}^n \left|y_i-f(\mathbf{x}_i)\right|
+\end{equation}
+It is also possible to make this loss function flatter near the minimal error by introducing a parameter $\epsilon$. The $\epsilon$-insensitive loss corresponds to a modified absolute loss $L_{\epsilon}(f(\mathbf{x}),y)=\max\left(0,\left|y-f(\mathbf{x})\right|\right)$.
+
+Finally, it is possible to combine the less outlier-sensitive absolute loss with the smoothness of the quadratic loss near the minimal error domain by using a Huber loss. For a given $\delta$, the Huber loss is defined as:
+\begin{equation}
+  L_{\delta}(f(\mathbf{x}),y) = \left\{
+    \begin{array}{ll}
+        \tfrac{1}{2}\left(y-f(\mathbf{x})\right)^2 & \mbox{for } \left|y-f(\mathbf{x})\right| \leq \delta \\
+        \delta\left(\left|y-f(\mathbf{x})\right| - \tfrac{1}{2}\delta\right) & \mbox{otherwise.}
+    \end{array}
+  \right.
+\end{equation}
+We can see the different loss function on the Figure\todo{}.
+
+\todo{Figure of different regression errors}
 
 Through these theoretical considerations, we demystified the process of a machine learning from data by simply formulating this leaning process as an optimization of a cost function, which is a common tool in any scientific field. However, this optimization problem is challenging in the sense that the variable is a function that lies in a high dimension space and approximations are needed to reduce the space. This is why most of the engineering breakthroughs happens in the conception of the architecture of the ML model that defines the form of the prediction function $f$. Another difficulty of machine learning is to deal with an ill-posed problem, which means that one of the three conditions of Hadamard is not verified. These conditions being the existence of a solution, its unicity and the continuity of the solution with regards to the initial conditions. This issue is usually tackled using regularization techniques such as the one introduced by Tikhonov in the second half of the 20\e{th} century. Furthermore, the minization of the empiric risk is not always consistant with the minization of the more global risk (considering all possible observations), since minimizing $\mathcal{R}_n$ does not always give the same solution as the minimization of $\mathcal{R}$. Therefore, the complexity of the risk optimization problem depends on the loss function chosen but also the domain $\mathcal{F}$ defined by the model and different techniques can be used to construct a solution without anything that guarantees the optimality of it. One of the biggest challenge of ML is to overcome the problem of generalizability, which will be the topic of the next discussion.
 
@@ -71,7 +93,7 @@ The first term of the above-written sum corresponds to a bias error, because it 
   \centering
     \includegraphics[width=0.45\textwidth]{figures/4-ml/Bias_and_variance_contributing_to_total_error.svg.png}
     \includegraphics[width=0.45\textwidth]{figures/4-ml/Overfitted_Data.png}
-    \caption{On the left, theoretical relation between the bias, variance and total errors and the model complexity. This is an illustration of what happens for instance on the left, when considering different degrees of polynomials. The lower degree linear function is more generalizable that the biased high degree polynomial that fits perfectly the data.}\label{fgr:bias_variance}
+    \caption{On the left, theoretical relation between the bias, variance and total errors and the model complexity taken from \href{https://en.wikipedia.org/wiki/File:Bias_and_variance_contributing_to_total_error.svg}{Wikimedia Commons} under above \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0} license. This is an illustration of what happens for instance on the left plot (taken from \href{https://en.wikipedia.org/wiki/File:Overfitted_Data.png}{Wikimedia Commons} under a \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0} license), when considering different degrees of polynomials. The lower degree linear function is more generalizable that the biased high degree polynomial that fits perfectly the data.}\label{fgr:bias_variance}
 \end{figure}
 
 In general, if the model is very complex in comparison to the amount of data we have, we would fit too closely to the data and have a very high change to overfit. The opposite is also true, a simplistic model would yield to a poor bias error and the model would be underfit. This principle is represented on the Figure~\ref{fgr:bias_variance} and should guide us in the design of a new ML model.
@@ -81,41 +103,62 @@ The complex art of fitting a model to a dataset consists in finding the right ba
 
 Regularization consists generally in adding implicit or explicit constraints on the optimization problem to find not only the most accurate solution (minimal loss) but also the simplest. This criterion of simplicity is crucial in the generalization of the problem. We typically don't need a high degree polynomial when a linear function is a more suitable solution as shown on Figure~\ref{fgr:bias_variance}. 
 
-The explicit regularization technique consists in penalizing the complexity of a model by adding to the global loss function an error term that scales with the complexity of the model. The error associated to a predictor $f$ can be expressed with an additional regularization term $\mathcal{r}_n(f)$:
+The explicit regularization technique consists in penalizing the complexity of a model by adding to the global loss function an error term that scales with the complexity of the model. The error associated to a predictor $f$ can be expressed with an additional regularization term ${\Omega}_n(f)$:
 \begin{equation}
-  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f(\mathbf{x}_i),y_i) + \lambda\mathcal{r}_n(f)
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(f(\mathbf{x}_i),y_i\right) + \Omega_n(f)
 \end{equation}
-where $\lambda$ controls the importance of the regularization term on the optimization process. 
-Some examples of regularization 
-\todo{L1 and L2 regularization lasso ridge / elastic net}
-Tikhonov
-For a linear regression, f(\mathbf{x}) = \mathbf{w}\ex{T}\mathbf{x}  \todo{talk about polynomials as a particular case}
+And, depending on the expression of the regularization term ${\Omega}_n(f)$, the regularization will have more or less influence on the optimization problem. 
+
+Since the regularization is a model-specific function (depends on $f$), we need to define a model to study more specific expressions of regularization. 
+Let's consider a multilinear model so that $f(\mathbf{x}) = \mathbf{w}\mathbf{x}\ex{T}$, where $\mathbf{w}=(w^{(1)},\ldots,w^{(p)})$ is a vectorial representation of the weights of the $p$ features contained in $\mathbf{x}$ in the linear regression. In a standard multilinear regression, with a quadratic loss, the risk function to minimize can be expressed as:
+\begin{equation}\label{eq:linear}
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \left(\mathbf{w}\mathbf{x}_i\ex{T}-y_i\right)^2 
+\end{equation}
+and $y_i$ is now a scalar in a regression problem ($\mathcal{Y}=\mathbb{R}$). One of the earliest regularization tool introduced by Tikhonov to deal with ill-posed optimization problem is the L2 regularization. Used in linear regression, this new type of model is called the ridge regression and consists simply in adding a L2-norm penality on the model weights in the risk function as expressed in the following equation:
 \begin{equation}\label{eq:L2_reg}
-  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f(\mathbf{x}_i),y_i) + \lambda {\lVert \mathbf{w} \rVert}_2^2
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(f(\mathbf{x}_i),y_i\right) + \lambda_2 {\lVert \mathbf{w} \rVert}_2^2 = \frac{1}{n}\sum_{i=1}^n \left(\mathbf{w}\mathbf{x}_i\ex{T}-y_i\right)^2 + \lambda_2 \sum_{k=1}^p \left|w^{(k)}\right|^2
 \end{equation}
+where $\lambda_2$ is the prameter of the L2-regularization, it controls the importance of the regularization term in the optimization process. This parameter controls the complexity of the model and needs to be tweaked to find the optimum between accuracy and generalizability as shown on the Figure~\ref{fgr:bias_variance}. If we now consider a polynomial function, the vector $\mathbf{x}_i$ represents the vector of different exponentiations of a scalar $x_i$ so that $\mathbf{x}_i=(x_i^0,\ldots,x_i^{n-1})$, and the weights $\mathbf{w}$ are just the polynomial coefficients of the polynom $f$. This is a clear illustration of how the complexity of the model is penalized since regularization terms directly measures how many terms are used and how influencial they are in the fitting process.
+Note that this regularization can be adapted to other types of model, given that we manage to define a L2-norm of the prediction function $f$.
 
+A second very common regularization term is based on the L1-norm of the prediction function. A L1-regularized least square linear regression is called a LASSO (Least Absolute Shrinkage and Selection Operator) regression, it allows for a cleaner selection of the weights since a weight can go to zero in the optimization process, which is not the case for a L2-regularization. The risk function associated with this regression model can be expressed as:
 \begin{equation}\label{eq:L1_reg}
-  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}(f(\mathbf{x}_i),y_i) + \alpha{\lVert \mathbf{w} \rVert}_1
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(f(\mathbf{x}_i),y_i\right) + \lambda_1{\lVert \mathbf{w} \rVert}_1 = \frac{1}{n}\sum_{i=1}^n \left(\mathbf{w}\mathbf{x}_i\ex{T}-y_i\right)^2 + \lambda_1 \sum_{k=1}^p |w^{(k)}|
 \end{equation}
+where $\lambda_1$ is the L1-regularization parameter that controls its importance. The L1-norm can be defined differently depending on the model we consider, but the core idea is that it is a function of the absolute values of the weights of the model. 
 
-\todo{ the norm of the function in its reproducing kernel Hilbert space}
+Finally, if we combine both L1 and L2-regularization, the linear regression becomes an elastic net regression and the risk function becomes:
+\begin{equation}\label{eq:elasticnet_reg}
+  \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(f(\mathbf{x}_i),y_i\right) + \lambda_{1,2} \left({\alpha \lVert \mathbf{w} \rVert }_1 + (1-\alpha) {\lVert \mathbf{w} \rVert}_2^2\right)
+\end{equation}
+where $\alpha\in[0,\,1]$ defines the relative weight of L1 and L2 regularization term and $\lambda_{1,2}$ governs the importance of the combined regularization term. This regularization technique simply combines both L1 and L2 regularization, and the different regularization parameters can be tweaked to find the best bias--variance tradeoff for the final model. These parameters are also called hyperparameters in machine learning, because it changes the parameters at the higher model level.
 
-Implicit regularization corresponds to other forms of control of the complexity of the model. For instance, it could be the early stopping in a learning process so that we do not converge completely to the minimal error with the data. It could be discarding outliers that prevent the model from learning properly on the relevant data. It could also be in the architecture of the model, for instance the random forest is an ensemble approach that aims at reducing the overfit, and it will be presented in the next section. The learning rate in the gradient boosting is also a regularization parameter that smoothes the learning process and will be tackled in the dedicated section. The implicit regularization is related to the construction of the model itself and will therefore be explained in more details in the section on machine learning models.
+Finally, implicit regularization corresponds to other forms of control of the complexity of the model. For instance, it could be the early stopping in a learning process so that we do not converge completely to the minimal error with the data. It could be discarding outliers that prevent the model from learning properly on the relevant data. It could also be in the architecture of the model, for instance the random forest is an ensemble approach that aims at reducing the overfit, and it will be presented in the next section. The learning rate in the gradient boosting is also a regularization parameter that smoothes the learning process and will be tackled in the dedicated section. The implicit regularization is related to the construction of the model itself and will therefore be explained in more details in the section on machine learning models.
 
 \subsubsection{Learning strategies}
 
-\todo{Train test set split}
-\todo{cross validation}
+We previously identified the theory behind the bias--variance tradeoff, which boils down to the generalization of model that has a partial glimpse of all the available data. Yet, in practice we need to evaluate the generalization error $\mathcal{R}_n(f)-\mathcal{R}^*$. To achieve that, the common strategy is to randomly split the available data into two sets a training set $\mathcal{D}\e{train}=\left\{(\mathbf{x}_{i_1},y_{i_1}),...,(\mathbf{x}_{i_s},y_{i_s})\right\}$ and a test set $\mathcal{D}\e{test}=\left\{(\mathbf{x}_{j_1},y_{j_1}),...,(\mathbf{x}_{j_t},y_{j_t})\right\}$ so that $\mathcal{D}_n = \mathcal{D}\e{train} \cap \mathcal{D}\e{test}$. The training set is used to perform the optimization problem as defined in equations~\ref{eq:risk} and~\ref{eq:min_f}, and the test set is used to evaluate the generalization error since it is unseen data for the model. In practice, we choose a percentage of data (e.g.\ {20\%}) that defines the size of the test set from an initial dataset, and the randomness of the split ensures that the data from both sets are similar yet not exactly the same. However, in some cases, one should be aware that outliers can be present in the test set, which makes the performance on the test set worse than expected. Or in some cases, the dataset is too small and every data point are very different from each other, and the test set is very different from the training set, which makes it impossible for the model to predict on the test with the parcelar information given by the training set. The percentage of the train/test split should therefore be chosen wisely and according to the dataset so that it remains representative of the training set.
 
-\todo{ go quickly on other training strats}
+The main property of the test set is that it is a completely unsee dataset, which means that the training of model should be independent of this set except for the very final evaluation. But in some cases, we want to compare different models with each other or change a ``hyperparameter'' like the regularization parameter within the same model architecture. To evaluate theses models, we cannot evaluate for every model the generalization error on the test set, because it would compromise the independence of the test set with the training process. Hence, we introduce validation sets within the initial training set. We could do a simple training/validation split like we did for the test set, however it would weaken the model training even more since there is less data available, and furthermore it does not use all the potential of training set. A very common technique to test the performance of a model on a training set is the cross-validation. The idea is to use different training/validation splits to test the model in multiple configurations to have a better evaluation of the model performance by averaging the different performances. 
 
-\subsection{Learning models}\label{sct:model}
+The most used method is the k-fold cross-validation technique which consists in partioning the training set $\mathcal{D}\e{training}$ in k equal size subsets $\mathcal{S}_1,...,\mathcal{S}_k$. The model is then trained on the union $\bigcup_{l\neq m} \mathcal{S}_l$ of all subsets but one subset $\mathcal{S}_m$ that will be used as a validation set for all $m\in \{1,\ldots,k\}$. The principle of the k-fold approach is illustrated on the Figure~\ref{fgr:kfold}. The approximate generalization error of the model is then the average of every loss calculated on the validation subsets. This tool provides a way of comparing different models without using the test set, which is extremely useful especially in the parameterization of the ML model.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.6\textwidth]{figures/4-ml/1280px-K-fold_cross_validation_EN.svg.png}
+    \caption{A k-folds cross-validation illustration adapted from \href{https://en.wikipedia.org/wiki/File:1280px-K-fold_cross_validation_EN.svg.png}{Wikimedia Commons} under a \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0} license. \todo{redo if time}}\label{fgr:kfold}
+\end{figure}
+
+Other cross-validation techniques exist and are used in specific cases, for example the stratification corss-validation consists in ensuring the same repartition of the labels $y_i$ in each subset, which is useful in classification problems. We can also make the validaiton process even more exhaustive by increasing the k in the k-fold validation, however it requires k training of the models, which increase the computation time required. When increase to the maximum k is equal to the size of the training set and the method is called leave-one-out cross-validation. Finally, for time series, the cross-validation technique usually requires to sort the data according to the time history so that the training set is always prior to the validation set, which creates a whole new approach to cross-validation. The core idea of cross-validation is to find multiple training/validation splits to evaluate the model on more than one angle, and different strategies exist depending on the training problem before us.
+
+\subsection{Machine learning models}\label{sct:model}
 
 Relevant models for our thesis
 
-\subsubsection{Linear regression}
-
 \subsubsection{Regression tree}
+
+\todo{bootstrap}
+\todo{bagging, out-of-bag error}
 
 \subsubsection{Random Forest}
 
