@@ -72,9 +72,14 @@ Finally, it is possible to combine the less outlier-sensitive absolute loss with
     \end{array}
   \right.
 \end{equation}
-We can see the different loss function on the Figure\todo{}.
 
-\todo{Figure of different regression errors}
+We can see the different loss function on the Figure~\ref{fgr:loss_comp}.\todo{comment figure and link all errors}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.6\textwidth]{figures/4-ml/loss_comparison.pdf}
+    \caption{Comparison of different loss functions (quadratic loss, absolute loss, $\epsilon$-insensitive and the Huber loss). }\label{fgr:loss_comp}
+\end{figure}
 
 Through these theoretical considerations, we demystified the process of a machine learning from data by simply formulating this leaning process as an optimization of a cost function, which is a common tool in any scientific field. However, this optimization problem is challenging in the sense that the variable is a function that lies in a high dimension space and approximations are needed to reduce the space. This is why most of the engineering breakthroughs happens in the conception of the architecture of the ML model that defines the form of the prediction function $f$. Another difficulty of machine learning is to deal with an ill-posed problem, which means that one of the three conditions of Hadamard is not verified. These conditions being the existence of a solution, its unicity and the continuity of the solution with regards to the initial conditions. This issue is usually tackled using regularization techniques such as the one introduced by Tikhonov in the second half of the 20\e{th} century. Furthermore, the minization of the empiric risk is not always consistant with the minization of the more global risk (considering all possible observations), since minimizing $\mathcal{R}_n$ does not always give the same solution as the minimization of $\mathcal{R}$. Therefore, the complexity of the risk optimization problem depends on the loss function chosen but also the domain $\mathcal{F}$ defined by the model and different techniques can be used to construct a solution without anything that guarantees the optimality of it. One of the biggest challenge of ML is to overcome the problem of generalizability, which will be the topic of the next discussion.
 
@@ -118,10 +123,10 @@ and $y_i$ is now a scalar in a regression problem ($\mathcal{Y}=\mathbb{R}$). On
 \begin{equation}\label{eq:L2_reg}
   \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(f(\mathbf{x}_i),y_i\right) + \lambda_2 {\lVert \mathbf{w} \rVert}_2^2 = \frac{1}{n}\sum_{i=1}^n \left(\mathbf{w}\mathbf{x}_i\ex{T}-y_i\right)^2 + \lambda_2 \sum_{k=1}^p \left|w^{(k)}\right|^2
 \end{equation}
-where $\lambda_2$ is the prameter of the L2-regularization, it controls the importance of the regularization term in the optimization process. This parameter controls the complexity of the model and needs to be tweaked to find the optimum between accuracy and generalizability as shown on the Figure~\ref{fgr:bias_variance}. If we now consider a polynomial function, the vector $\mathbf{x}_i$ represents the vector of different exponentiations of a scalar $x_i$ so that $\mathbf{x}_i=(x_i^0,\ldots,x_i^{n-1})$, and the weights $\mathbf{w}$ are just the polynomial coefficients of the polynom $f$. This is a clear illustration of how the complexity of the model is penalized since regularization terms directly measures how many terms are used and how influencial they are in the fitting process.
+where $\lambda_2$ is the prameter of the L2-regularization, it controls the importance of the regularization term in the optimization process. This parameter controls the complexity of the model and needs to be tweaked to find the optimum between accuracy and generalizability as shown on the Figure~\ref{fgr:bias_variance}. If we now consider a polynomial function, the vector $\mathbf{x}_i$ represents the vector of different exponentiations of a scalar $x_i$ so that $\mathbf{x}_i=\left(x_i^0,\ldots,x_i^{n-1}\right)$, and the weights $\mathbf{w}$ are just the polynomial coefficients of the polynom $f$. This is a clear illustration of how the complexity of the model is penalized since regularization terms directly measures how many terms are used and how influencial they are in the fitting process.
 Note that this regularization can be adapted to other types of model, given that we manage to define a L2-norm of the prediction function $f$.
 
-A second very common regularization term is based on the L1-norm of the prediction function. A L1-regularized least square linear regression is called a LASSO (Least Absolute Shrinkage and Selection Operator) regression, it allows for a cleaner selection of the weights since a weight can go to zero in the optimization process, which is not the case for a L2-regularization. The risk function associated with this regression model can be expressed as:
+A second very common regularization term is based on the L1-norm of the prediction function. A L1-regularized least square linear regression is called a LASSO (Least Absolute Shrinkage and Selection Operator) regression, it allows for a sparser selection of the model weights by allowing zero weights in the model, which is not the case for a L2-regularization. The risk function associated with this regression model can be expressed as:
 \begin{equation}\label{eq:L1_reg}
   \mathcal{R}_n(f) = \frac{1}{n}\sum_{i=1}^n \mathcal{L}\left(f(\mathbf{x}_i),y_i\right) + \lambda_1{\lVert \mathbf{w} \rVert}_1 = \frac{1}{n}\sum_{i=1}^n \left(\mathbf{w}\mathbf{x}_i\ex{T}-y_i\right)^2 + \lambda_1 \sum_{k=1}^p |w^{(k)}|
 \end{equation}
@@ -137,7 +142,7 @@ Finally, implicit regularization corresponds to other forms of control of the co
 
 \subsubsection{Learning strategies}
 
-We previously identified the theory behind the bias--variance tradeoff, which boils down to the generalization of model that has a partial glimpse of all the available data. Yet, in practice we need to evaluate the generalization error $\mathcal{R}_n(f)-\mathcal{R}^*$. To achieve that, the common strategy is to randomly split the available data into two sets a training set $\mathcal{D}\e{train}=\left\{(\mathbf{x}_{i_1},y_{i_1}),...,(\mathbf{x}_{i_s},y_{i_s})\right\}$ and a test set $\mathcal{D}\e{test}=\left\{(\mathbf{x}_{j_1},y_{j_1}),...,(\mathbf{x}_{j_t},y_{j_t})\right\}$ so that $\mathcal{D}_n = \mathcal{D}\e{train} \cap \mathcal{D}\e{test}$. The training set is used to perform the optimization problem as defined in equations~\ref{eq:risk} and~\ref{eq:min_f}, and the test set is used to evaluate the generalization error since it is unseen data for the model. In practice, we choose a percentage of data (e.g.\ {20\%}) that defines the size of the test set from an initial dataset, and the randomness of the split ensures that the data from both sets are similar yet not exactly the same. However, in some cases, one should be aware that outliers can be present in the test set, which makes the performance on the test set worse than expected. Or in some cases, the dataset is too small and every data point are very different from each other, and the test set is very different from the training set, which makes it impossible for the model to predict on the test with the parcelar information given by the training set. The percentage of the train/test split should therefore be chosen wisely and according to the dataset so that it remains representative of the training set.
+We previously identified the theory behind the bias--variance tradeoff, which boils down to the generalization of model that has a partial glimpse of all the available data. Yet, in practice we need to evaluate the generalization error $\mathcal{R}_n(f)-\mathcal{R}^*$. To achieve that, the common strategy is to randomly split the available data into two sets a training set $\mathcal{D}\e{train}=\left\{(\mathbf{x}_{i_1},y_{i_1}),...,(\mathbf{x}_{i_t},y_{i_t})\right\}$ and a test set $\mathcal{D}\e{test}=\left\{(\mathbf{x}_{j_1},y_{j_1}),...,(\mathbf{x}_{j_{n-t}},y_{j_{n-t}})\right\}$ so that $\mathcal{D}_n = \mathcal{D}\e{train} \cap \mathcal{D}\e{test}$. The training set is used to perform the optimization problem as defined in equations~\ref{eq:risk} and~\ref{eq:min_f}, and the test set is used to evaluate the generalization error since it is unseen data for the model. In practice, we choose a percentage of data (e.g.\ {20\%}) that defines the size of the test set from an initial dataset, and the randomness of the split ensures that the data from both sets are similar yet not exactly the same. However, in some cases, one should be aware that outliers can be present in the test set, which makes the performance on the test set worse than expected. Or in some cases, the dataset is too small and every data point are very different from each other, and the test set is very different from the training set, which makes it impossible for the model to predict on the test with the parcelar information given by the training set. The percentage of the train/test split should therefore be chosen wisely and according to the dataset so that it remains representative of the training set.
 
 The main property of the test set is that it is a completely unsee dataset, which means that the training of model should be independent of this set except for the very final evaluation. But in some cases, we want to compare different models with each other or change a ``hyperparameter'' like the regularization parameter within the same model architecture. To evaluate theses models, we cannot evaluate for every model the generalization error on the test set, because it would compromise the independence of the test set with the training process. Hence, we introduce validation sets within the initial training set. We could do a simple training/validation split like we did for the test set, however it would weaken the model training even more since there is less data available, and furthermore it does not use all the potential of training set. A very common technique to test the performance of a model on a training set is the cross-validation. The idea is to use different training/validation splits to test the model in multiple configurations to have a better evaluation of the model performance by averaging the different performances. 
 
@@ -153,31 +158,55 @@ Other cross-validation techniques exist and are used in specific cases, for exam
 
 \subsection{Machine learning models}\label{sct:model}
 
-Relevant models for our thesis
+In this chapter, we will use the eXtreme Gradient Boosting (XGBoost) as the machine learning framework for our predictive model because of its accuracy, efficiency and simplicity of use. Its performance has long been proven since 17 out 29 Kaggle challenge winning solutions were based on this algorithm in 2015. The XGBoost system is highly scalable and parallelized, which gives very fast model training.\autocite{chen2016xgboost} Compared to more standard tree-based algorithms such as random forest (commonly used in the field~\autocite{Simon_2015}), the boosting component of the algorithm means that it learns from previous mistakes and puts higher weights on the problematic data points, hence improving the accuracy of the final ML model. In this section, we will go from the basic components of the model (decision tree) to the more complex ensemble model (e.g. random forest), and to finish with the gradient boosting model. The discussion will be mainly focused on regression problems and not classification problems since the goal is to predict a continuous variable (the xenon/krypton selectivity).
 
 \subsubsection{Regression tree}
 
-\todo{bootstrap}
-\todo{bagging, out-of-bag error}
+Tree-based models are usually used in classification problem where depending on a set of ``yes'' or ``no'' questions the tree classifies the data points into the different predfined categories. The questions are in fact associated to threshold values of the $p$ features or characteristics $C_1,\ldots,C_p$; for example a not of the tree could ask the question ``Is $C_1$ higher than $3$?'', which splits the space into two categories the ``yes'' and the ``no''. This is why we can see a decision tree model as a splitting of the space into rectangles (in 2D) or an equivalent of a rectangle in $p$-dimensional feature space. To adapt this type of model into a regression problem, we can group different label values $y$ into categories that are represented by the average label values. To sum up, a decision tree for regression splits the feature space into a set of pseudo-rectangles (volumes separated by limited hyper-surfaces) defined by the nodes of the tree, and in each of these subspaces are given the average of the different points present in this subspace. To clarify the terminology, a splitting node correspond to a separation between regions, while a terminal node or leaf corresponds to the region itself.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.45\textwidth]{figures/4-ml/tree_example.png}
+  \includegraphics[width=0.45\textwidth]{figures/4-ml/tree_regions_example.png}
+  \caption{Illustration of the decision tree and the region splitting performed by a CART\autocite{Breiman_2017} algorithm, taken from the book ``Elements of Statistical Learning'' \cite{Hastie_2009}. \todo{refaire le graphe ?}}\label{fgr:tree}
+\end{figure}
+
+The CART\autocite{Breiman_2017} algorithm developed by Breiman et al. is usually presented as the archetype of a decision tree model. The algorithm is pretty straightforward to understand, three steps are required: (1) Examine every split allowed on each feature $C_i$, (2) select and use the best split according to a loss function (squared error or absolute error usually), and (3) stop splitting a node when a stopping rule is satisfied (e.g. mininimum samples split).\autocite{Dension_1998} We could split indefinitely the decision tree so that each data point has its own region, but this would be a textbook case of overfitting, any new datapoint would never be correctly predicted with such a model. To prevent this from happening, the decision tree has a regularization parameter called mininimum samples split $n\e{min}$ that only allows a further split; if the node contains less than a given number $n\e{min}$, then it is necessarily a terminal node. The decision trees are known to be very prone to overfitting, another useful regularization parameter can be used to prevent an evergrowing tree is the maximum depth of the tree,  which can also stop the iterative process of tree growing. Finally, to further regularize the tree, a process called tree pruning simplifies the tree and outputs the final model. We won't go into the details of tree pruning as it is not the main subject (see Ref.~\cite{Hastie_2009} for further details). The final tree $f\e{tree}$ can be expressed as a function of the different regions $R_1,\ldots,R_M$ carved by the splitting process:
+\begin{equation}
+  f\e{tree}(\mathbf{x}) = \sum_{m=1}^M c_m \mathbb{1}(\mathbf{x}\in R_m)
+\end{equation}
+where $c_m$ is the value of the leaf corresponding to $R_m$, and $\mathbb{1}$ is a identity function that returns $1$ if the argument is true and $0$ otherwise. The coefficients $c_m$ of this fonction are actually equal to the average of the labeling values of the dataset $\mathcal{D}_n$ in the region $R_m$, i.e. $c_m= \underset{i\in \mathcal{D}_n}{\text{ave}}(y_i|\mathbf{x}_i\in R_m)$.
+To put it simply, the tree function returns the average value of $y$ (in the dataset) in the region where $x$ (could be new data) is located. 
+
+The decision tree has the main advantage of being very easily interpretable as defined in the book of C. Molnar \cite{molnar2020interpretable}. This interpretability boils down to the easily understandable binary decision at the root of the decision tree --- we can easily see the explaining characteristics ($R_m$) of a predicted value, we can easily imagine different predictions depending on the value of $\mathbf{x}$, and for small trees we can even run the model in our own head. However, this model has a reputation of being very inefficient in finding simple linear relations resulting in a step-like function. The model is not very smooth, slight changes in the input $x$ can have a big impact on the predicted value (typically near the sepration between two regions) and some change (noise) in the training data can totally change the structure of the tree. This unstability of a single tree makes it very hard to generalize over unseen data.\autocite{molnar2020interpretable} To improve this single decision tree, Breiman introduced bagging predictors in 1996 to improve the accuracy of models that are unstable with regard to small changes in the learning set.\autocite{Breiman_1996} This new approach is at the origin of the random forest, and will be presented more in depth in the following subsection.
 
 \subsubsection{Random Forest}
 
-Bagging
+The core idea behind random forest is that an collection of weak learners, called an ensemble model, is better than a single strong learner, this assumption relies on a proven theorem that states that the minimal error of a forest is lower than the error of a single tree (theorem 11.2. of Ref.~\cite{Breiman_2001}). The strength of model depends on the amount of information we feed into the model and its complexity. To achieve a diverse forest of weaker decision trees, we need to introduce two concepts; the first one is the boostrap aggregating (bagging) and second one is the random column subsampling. Both methods ensure a diversity in the generated trees by using random selections and also a relative weakness of the trees by reducing the amount of information it can access. 
+
+The bagging method consists in generating a set $\left\{\phi_b\right\}_{b\in \{1,\ldots,B\}}$ of $B$ models from different bootstrap datasets $\left\{\mathcal{D}\ex{train}_b\right\}_{b\in \{1,\ldots,B\}}$. Each boostrap dataset $\mathcal{D}\ex{train}_b$ is generated by randomly selecting $t$ elements of $\mathcal{D}\ex{train}$ using a sample with replacement --- note that each bootstrap sample has the same number of elements than $\mathcal{D}\ex{train}$ but data points can appear several times in it. The number of times a data point $(\mathbf{x}_i,y_i)$ appears represents the weight of this data point in the bootstrap learning set. To simplify, we can say that each tree model $\phi_b$ learns on the $\mathcal{D}\ex{train}_b$ dataset that has randomly defined weights on the different data points, which means that every model will pay attention to different parts of the training data. We can also evaluate the generalization error of the model since some trees have never seen some data points, we can evaluate the generalization error on the unseen data for every tree (similar to cross-validation), this error is called the out-of-bag error.
+
+The second technique consists in randomly choosing a subsample of the features on which to find the best split (second part of the CART tree growing algorithm). This technique is inspired from the one developed by Ho in 1998, where each tree of a forest is trained only on a randomly chosen feature subspace.\autocite{Tin_Kam_Ho_1998} The only tweak in the procedure lies in the fact that the feature space changes at each iteration of the tree growing process instead of between each tree generation. This method also improves the generalizability of the method by weakening each tree so that they don't overfit, the accuracy is achieved by the aggregation of all the trees. 
+
+The random forest as formulated by Breiman combines these two randomness-based techniques to train a forest.\autocite{Breiman_2001} The algorithm starts by looping over the number of trees $B$ in the forest, for each tree $b$ a bootstrap sample $\mathcal{D}\ex{train}_b$ is randomly drawn (with replacement) and this data is used to grow the tree (training procedure). In the training, a modified CART algorithm is applied to grow the tree by splitting recursively on each node: (1) instead of testing all features for the best splitting, only a random selection of $m$ variables is considered among the $p$ features, (2) the best split point is selected among the $m$ variables, and (3) the node is split in two until the minimum leaf size $n\e{min}$ is reached. The size of the column subsample defines the number of features to randomly consider at each split; this is another implicit regularization parameter associated with the random forest along with the previously identifies regularization parameters of the decision tree such as the minimal leaf size $n\e{min}$ or the maximal depth of a tree. Finally we have a set of $B$ trees $\left\{\phi_b\right\}$ that can be used to make an ensemble model $\phi$ so that:
+\begin{equation}
+  \phi(\mathbf{x}) = \frac{1}{B}\sum_{b=1}^{B} \phi_b(\mathbf{x}) = \frac{1}{B}\sum_{b=1}^{B}\sum_{m=1}^{M_b} c_{m,b} \mathbb{1}(\mathbf{x}\in R_{m,b})
+\end{equation}
 
 \subsubsection{Gradient Boosting}
 
 Gradient descent / gradient boost
 \todo{compare to the optimization of molecular structure in an \emph{ab intio} simulation. Find a minimum, gradient descent}
 
-random forest 
-boosting
-eXtreme Gradient Boosting
+Ada boost
 
-\subsubsection{Hyperparameters}
+learning rate, 
 
-\todo{compile all hyperparameters}
+\subsubsection{XGBoost}
 
-We used the training data to perform a random search of hyperparameters, with 5-fold cross-validation to evaluate the root mean squared errors (RMSE) of the model. The range of search explored for each hyperparameter is made available in the SI. After this search, a set of optimal hyperparameters were identified that give an average RMSE of \SI{0.36}{\kilo\joule\per\mole}; we used it to build our final model. A convergence plot of the model performed using 5-fold cross-validations is given in Figure~S6. Given this configuration, the model is tested on the prior defined test-set and interpretation tools are used to better understand the structure-property relationships in play.
+
+\todo{compile all relevant hyperparameters}
+%learning rate, colsample_bytree, colsample_bylevel
 
 \section{Prediction of the Ambient-pressure Selectivity}
 
@@ -188,7 +217,8 @@ All the approaches described above can have good accuracy in the prediction of l
 In this section, we combined a grid-based approach with core components of our previously developed RAESS algorithm~\autocite{Ren_2023} to design a new adsorption energy sampling technique. Moreover, a statistical characterization of the pore size and energy distributions has been performed to inform the model on a potential selectivity drop. By combining these two approaches, we propose a set of useful ML descriptors for fast and accurate ambient-pressure selectivity prediction, and we highlight its performance on the case of xenon/krypton separation in the CoRE MOF 2019 database\autocite{Chung_2019}.\todo{ref previous chapter}
 
 
-\subsection{Components of the ML model}
+
+\subsection{Model training}
 
 \subsubsection{The machine learning model}
 
@@ -248,6 +278,26 @@ By using different temperatures, we noted that the infinite dilution adsorption 
 
 %% conclusion
 By combining the above-mentioned features with more standard geometrical descriptors, we trained an ML model for the ambient pressure selectivity that identifies the origins of the selectivity drop and gives promising prediction results.
+
+\subsubsection{Hyperparameter optimization}
+
+\begin{lstlisting}[language=Python]
+  optimal_params = {
+      'objective':'reg:squarederror',
+      'n_estimators': 1500,
+      'max_depth': 6,
+      'colsample_bytree':0.85,
+      'colsample_bylevel':0.65,
+      'subsample':0.7,
+      'alpha': 0.4,
+      'lambda':0,
+      'gamma' :0,
+      'learning_rate': 0.04,
+      }
+  \end{lstlisting}
+
+\todo{add SI data on hyperparameter}
+We used the training data to perform a random search of hyperparameters, with 5-fold cross-validation to evaluate the root mean squared errors (RMSE) of the model. The range of search explored for each hyperparameter is made available in the SI. After this search, a set of optimal hyperparameters were identified that give an average RMSE of \SI{0.36}{\kilo\joule\per\mole}; we used it to build our final model. A convergence plot of the model performed using 5-fold cross-validations is given in Figure~S6. Given this configuration, the model is tested on the prior defined test-set and interpretation tools are used to better understand the structure-property relationships in play.
 
 \subsection{ML model performance}
 

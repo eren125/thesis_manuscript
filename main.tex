@@ -331,6 +331,33 @@
 %\def\MLPl{\mbox{MLP(liquid)}\xspace}
 %\def\MLPc{\mbox{MLP(crystal)}\xspace}
 
+%code
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{codekey}{rgb}{0.149,0.5451,0.8235}
+\definecolor{codecomm}{rgb}{0.3961,0.4824,0.5137}
+\definecolor{codenum}{rgb}{0.8275,0.2118,0.5098}
+\definecolor{codestring}{rgb}{0.1647,0.6314,0.5961}
+\definecolor{backcolour}{rgb}{0.9922,0.9647,0.8902}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codecomm},
+    keywordstyle=\color{codekey},
+    numberstyle=\tiny\color{codenum},
+    stringstyle=\color{codestring},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
 \newcommand{\dd}{
       \mathop{}\mathopen{}\mathrm{d}
    }
