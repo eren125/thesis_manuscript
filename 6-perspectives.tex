@@ -6,19 +6,62 @@
 \chapter{Toward the next generation of screenings}
 \vspace*{-1\baselineskip}
 
-\section{Limits of the Current Screening Methodologies}
+\section{Limits of Current Screening Methodologies}
+
+Comme présenté dans notre article de revue sur les différentes techniques de screening de performances de matériaux,\autocite{Ren_2022} les méthodologies standard de screening sont en silo : certains se concentrent sur les propriétés thermodynamiques, d'autres sur les propriétés de transports et la flexibilité n'est étudiée que de manière embryonnaire du point de vue du screening. L'ambition de la troisième année est de mettre en lien ces différents screenings afin de prédire au plus près les performances expérimentales tout en parcourant de larges bases de données. 
+
+Pour voir les limites de l'approche standard, nous allons partir d'un exemple problématique. Si on considère le matériau SBMOF-1,\autocite{Banerjee_2016} la sélectivité prédite est certes très élevée (de l'ordre de 70,6 pour Simon \emph{et al.}) mais la sélectivité mesurée expérimentalement est seulement de 16. On pourrait expliquer ce phénomène par la qualité du champ de force, mais également par des mécanismes non décrits par les modèles sous-jacents comme la flexibilité ou la cinétique d'adsorption.
+
+Dans un cristal poreux macroscopique, il y a une distribution plus ou moins diverse de tailles de pore qui dépend d'une part de la flexibilité intrinsèque du matériau et d'autre part de l'interaction des molécules de gaz avec les pores. Or, dans notre modélisation on prend uniquement en compte une configuration des pores, donc une unique taille de pore à travers tout le matériau nanoporeux. Cette hypothèse simplificatrice peut être remise en cause notamment sur l'exemple de SBMOF-1. On trouve en effet une dizaine de structures différentes décrivant pourtant le même matériau dans la base de données CoRE MOF 2019. Ces structures sont différentes du point de vue de la structure, notamment de la taille des cavités adsorbantes (``Largest Cavity Diameter'' -- LCD), ainsi que la taille des canaux les reliant (``Pore Limiting Diameter'' -- PLD). 
+
+\begin{table}[t]
+\centering
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+    CCSD ref. code & Adsorbat &  LCD (\SI{}{\angstrom}) &  Sélectivité &  PLD (\SI{}{\angstrom}) &  Coeff. de Diff. Xe \\
+\hline
+  KAXQOR\autocite{Banerjee2012} & aucun & 4,51 &  22 & 4,04 & 7$\times$10\ex{-06} \SI{}{\square\centi\meter\per\second} \\
+  QUXRIM\autocite{Banerjee2016hydro} & hexane & 4,75 &  52 & 4,31 & 3$\times$10\ex{-05} \SI{}{\square\centi\meter\per\second} \\
+  QUXRUY\autocite{Banerjee2016hydro} & hexane & 4,91 &  96 & 3,57 & 9$\times$10\ex{-10} \SI{}{\square\centi\meter\per\second} \\
+KAXQOR01\autocite{Yeh2012} & aucun & 4,99 & 101 & 3,66 & 3$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second} \\
+  QUWYEO\autocite{Banerjee2016hydro} & butane & 4,99 & 100 & 3,65 & 5$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second} \\
+  QUXROS\autocite{Banerjee2016hydro} & hexane & 5,00 &  99 & 3,66 & 5$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
+  QUXREI\autocite{Banerjee2016hydro} & hexane & 5,02 & 101 & 3,67 & 7$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
+  QUXRAE\autocite{Banerjee2016hydro} & hexane & 5,03 & 100 & 3,68 & 7$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
+  KAXQIL\autocite{Banerjee2012} & H\e{2}O & 5,12 & 104 & 3,77 & 3$\times$10\ex{-08} \SI{}{\square\centi\meter\per\second} \\
+  QUXQUX\autocite{Banerjee2016hydro} & butane & 5,17 & 103 & 3,83 & 1$\times$10\ex{-07} \SI{}{\square\centi\meter\per\second} \\
+\hline
+  UQEFAZ\autocite{Banerjee_2016} & krypton & 4,53 & 23 & 4,08 & 5$\times$10\ex{-06} \SI{}{\square\centi\meter\per\second} \\
+  UQEFED\autocite{Banerjee_2016} & xénon & 4,89 & 63 & 3,54 & 1$\times$10\ex{-11} \SI{}{\square\centi\meter\per\second} \\
+\hline
+\end{tabular}
+\caption{\ Performances de structures similaires à SBMOF-1 décrite par Simon \emph{et al.}\autocite{Simon_2015,Banerjee2016} pour la séparation Xe/Kr. Les deux dernières correspondent aux structures de la publication de Simon, Banerjee \emph{et al.} Différentes tailles de pore induisent différentes sélectivités et différentes diffusivités. }
+\label{table:sbmof}
+\end{table}
+
+Pour simplifier, on peut identifier deux types de conformations sur la table~\ref{table:sbmof} : 1) la cavité est petite (autour de \SI{4,5}{\angstrom}) et les canaux restent larges (autour de \SI{4,0}{\angstrom}) ; 2) la cavité est grande (autour de \SI{5}{\angstrom}) et les canaux sont étroits (autour de \SI{3,5}{\angstrom}). Dans le premier cas, la diffusion à travers le matériau est légèrement entraver sans blocage cinétique mais la sélectivité théorique est moyenne autour de 20. Tandis que dans le deuxième cas, la sélectivité prédite est très élevée mais la diffusion est tellement entravée qu'il y aurait un blocage cinétique de l'adsorption. \`A l'aune de ces résultats, la différence entre la théorie et l'expérience pourrait en effet s'expliquer par la flexibilité qu'induit l'adsorbat et les conditions de l'expérience (température). Une telle diversité de taille caractéristiques nous amène à nous interroger sur l'influence de la flexibilité sur les résultats du screening. Sachant que la flexibilité peut changer grandement les valeurs de sélectivité, le fait que la structure existe sous différentes conformations nous invitent à interroger l'hypothèse de rigidité.\autocite{Witman_2017} 
+
+D'autre part, le cas de UQEFED, qui représente la structure de SBMOF-1 adsorbé par du xénon déterminée par Banerjee \emph{et al.},\autocite{Banerjee_2016} allie une forte sélectivité (63) mais avec une très faible diffusivité (1$\times$10\ex{-11} \SI{}{\square\centi\meter\per\second}). Bien que la sélectivité thermodynamique est très bonne, cet équilibre ne peut être atteint que très lentement car les molécules de xénon n'ont pas le temps de se déplacer dans la structure. Ainsi, ce blocage cinétique pourrait également expliquer que l'expérience note des valeurs de sélectivités en décalage avec la théorie. En effet, rien ne nous dit que l'équilibre est atteint lors du tracé des isothermes expérimentales. Une pénétration lente du xénon à l'intérieur du matériau donnerait des quantités de xénon adsorbées plus faibles que prévu par la thermodynamique, ce qui mettrait en défaut les simulations théoriques. 
+
+Fort de ces deux constats, il est plus probable que le matériau SBMOF-1 réel ait une certaine flexibilité permettant le déplacement du xénon quand les sites ne sont pas déjà occupés par du xénon. Mais lorsqu'il y a un xénon qui occupe le site, les canaux deviennent plus étroits et induisent un blocage cinétique. Ces phénomènes ne pourraient pas être révélés par une étude purement thermodynamique et montrent l'intérêt de tenir en compte de propriétés clés comme la cinétique ou la flexibilité. C'est pourquoi, il est maintenant crucial d'aller au-delà des méthodes de screening standard décrites dans la littérature et d'essayer de prendre en compte d'autres phénomènes physiques dans le screening. En considérant la flexibilité et les effets de transport on peut ainsi identifier des matériaux qui garderont leur performance lors de l'expérimentation.
 
 \todo{put graph comparing experiment and UFF}
 
 The beginning of some explication
 
-\section{Flexibility}
+\section{Flexibility in a Screening}
 Final screening step, easy integration into the workflow of current sreenings
 \subsection{Problem, literature}
 
-\subsection{Database approach}
+\subsection{}
 
-\subsection{Perspectives: Snapshot method}
+
+\subsection{Database approach: Snapshot method}
+
+On peut distinguer deux types de flexibilité pour les matériaux poreux : la première flexibilité intrinsèque correspond simplement à la vibration thermique du matériau et la deuxième flexibilité induite dépend de l'interaction avec l'adsorbat. Pour décrire complètement la flexibilité, il faut utiliser des champs de force flexibles ce qui démultiplie considérablement le temps de calcul, ce qui est inimaginable pour un screening. Une approche plus raisonnable consiste donc à ne tenir en compte de la flexibilité intrinsèque en générant un ensemble de conformations ``snapshots'' d'une même structure vibrant via des simulations NPT \emph{ab initio} ou classique. La publication de Witman \emph{et al.} montre un changement des performances de sélectivité Xe/Kr lorsqu'on tient en compte de ce phénomène de vibration thermique.\autocite{Witman_2017} 
+
+Cette approche peut donc être généralisée pour calculer des sélectivités en système flexible à partir du code d'échantillonnage de surface présenté dans la deuxième partie de ce rapport. Couplé au code de calcul de diffusion (en cours de développement), il serait possible de calculer des coefficients de diffusion en système flexible sur des bases de données de milliers de structures. En piste de recherche potentielle, il pourrait être intéressant d'insérer un adsorbat comme le xénon à des points stratégiques de la structure pour voir la déformation induite et ainsi étudier la flexibilité induite du matériau qui aurait été négligée dans la première approche. 
+
 
 \section{Noble Gas Polarizability}
 
