@@ -435,24 +435,26 @@ By combining both the ``blocking'' of the high energy grid points and the ``symm
 
 \subsection{Performance on the adsorption equilibrium}
 
-The good performance of the grid sampling on the structures of CoRE MOF 2019 database can be explained by their rather small pores and their high order of symmetry. For instance, the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. And the ``symmetry'' procedure implies that only {$\sim$17\%} of points need to be considered, and the combination of both theoretical reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation while keeping the accuracy level compared to the naive grid approach, as shown in Table~\ref{tab:grid}. \todo{compare naive blocking etc.}
+If we now look at the performance of this new grid sampling algorithm compared to other sampling algorithms introduced in the previous sections. We can see that it is very advantageous to use this new sampling on the CoRE MOF 2019 database because of its accuracy and its speed.
+The good time performance of the grid sampling on the structures of CoRE MOF 2019 database can be explained by their rather small porosity of the materials and their high order of symmetry. For instance, the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. And the ``symmetry'' procedure implies that only {$\sim$17\%} of points need to be considered, and the combination of both theoretical reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation while keeping the accuracy level (low error on the Xe adsorption enthalpy \SI{0.014}{\kilo\joule\per\mole}) compared to the naive grid approach, as shown in Table~\ref{tab:grid}. In the grid simulation, with the blocking procedure, the time required is only {$\sim$29\%} of the time required in a naive approach, and a similar reduction to {$\sim$23\%} is observed for the symmetry-aware grid sampling. By combining both simplifications, the time required of the fast grid sampling is reduced by almost {$\sim$91.6\%} for a grid spacing of \SI{0.12}{\angstrom}.
 
 \setlength{\extrarowheight}{0.1cm}
 \begin{table}[ht]
   \centering
   \begin{tabular}{|l|r|r|}
     \hline
-    Energy sampling  &  Average CPU & RMSE on adsorption  \\
-    method &  time (s)  &  enthalpy (\si{\kilo\joule\per\mole}) \\[0.5mm]
+    Energy sampling  & RMSE on xenon  &  Average CPU  \\
+    method  & adsorption enthalpy (\si{\kilo\joule\per\mole}) &  time (s) \\[0.5mm]
     \hline
-    Grid -- naive -- \SI{0.12}{\angstrom} &  35 & 0.01  \\[0.5mm] 
-    Grid -- blocking -- \SI{0.12}{\angstrom} &  18.8 & 0.01  \\ % déjà lancé
-    Grid -- symmetry -- \SI{0.12}{\angstrom} &  16.8 & 0.01  \\ % à analyser
-    Grid -- fast -- \SI{0.12}{\angstrom} &  2.96 & 0.01  \\
-    Grid -- fast -- \SI{0.2}{\angstrom} &  0.41 & 0.05  \\
-    Grid -- fast -- \SI{0.3}{\angstrom} &  0.16 & 0.22  \\
-    RAESS\autocite{Ren_2023}  &  0.34 & 0.33  \\
-    Widom\autocite{Widom1963} (12k cycles) &  150 & 0.01  \\
+    Grid -- naive -- \SI{0.12}{\angstrom} & 0.014  &  35.4 \\[0.5mm] 
+    Grid -- blocking -- \SI{0.12}{\angstrom} & 0.014  &  10.4 \\ 
+    Grid -- symmetry -- \SI{0.12}{\angstrom} & 0.014  &  8.3 \\ 
+    Grid -- fast -- \SI{0.12}{\angstrom} & 0.014  &  2.96 \\
+    Grid -- fast -- \SI{0.2}{\angstrom} & 0.048  &  0.41 \\
+    Grid -- fast -- \SI{0.3}{\angstrom} & 0.21  &  0.13 \\
+    Voronoi sampling &   2.1  & 0.40 \\
+    RAESS\autocite{Ren_2023} & 0.33   &  0.34 \\
+    Widom\autocite{Widom1963} (12k cycles) & 0.038  &  150 \\
     \hline
   \end{tabular}
   \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-step Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} of CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. \todo{refaire les RMSE et tout manque blcking et symmetry}}\label{tab:grid}
