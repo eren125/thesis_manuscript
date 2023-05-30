@@ -64,9 +64,12 @@ From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$,
 
 \subsubsection{Diffusivity calculation using the trajectory}
 
-The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta t$ that Einstein used in his derivation, a shift of the origin of time by $\delta t$ would generate another trajectory. We can therefore generate $(t\e{tot} -\tau)/ \delta t$ different time frames of duration $\tau$ with a single MD simulation of one particle.
+The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta\tau$ that Einstein used in his derivation, a shift of the origin of time by $\delta\tau$ would generate another trajectory. We can therefore generate $(t\e{tot} -\tau)/ \delta\tau$ different time frames of duration $\tau$ with a single MD simulation of one particle.
+
+How $\delta\tau$ is chosen
 
 \todo{Plot to explain how the trajectories can be augmented by changing the origin}
+
 
 We decided to use only one molecule of xenon or krypton within a large enough box so that no self interactions are possible for a given cutoff radius.
 
@@ -108,8 +111,15 @@ Before going into the details of the screening study, we will present the approa
 
 \todo{Pictures of fittings}
 
+If we don't have enough time steps > don't reach the diffusion regime 
 
-If we don't have enough time steps > don't reach the diffusion regime
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.png}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean.png}
+    \caption{\todo{MSD}}
+    \label{fgr:}
+\end{figure}
 
 \todo{uncertainty discussion}
 
@@ -122,6 +132,8 @@ If we don't have enough time steps > don't reach the diffusion regime
 
 
 \subsection{Structure--diffusivity relationships}
+
+500 000 000 cycles with restart on the server.
 
 \todo{correlation with VF/SA/Selectivity/permselectivity}
 
