@@ -16,7 +16,7 @@ In separation processes, diffusion can either be the main performance metric or 
     \label{fgr:intro_diffusion}
 \end{figure}
 
-\section{Modeling Diffusion}
+\section{Modeling the Diffusion Process}
 
 % From the macroscopic brownian motion modeled by the
 % Fick's law
@@ -27,7 +27,7 @@ Since the pollen motion observations of the botannist Brown in 1826, scientists 
 \end{equation}
 
 To better understand the brownian motion of suspended particles on a liquid Einstein derived a microscopic model of the diffusion motion based on the molecular-kinetic theory of heat on the miraculous year of 1905.\autocite{einstein1905motion} To determine the so-called self-diffusion coefficient, he followed the motion of a particle assumed independent from other particles and time steps large enough to consider mutually independent two consecutive motions.  By using the particle distribution of N independent diffusing particle, he redefined the diffusion coefficient as a function of the mean square displacement of a particle. In a tridimensional space, we have the following Einstein relation:
-\begin{equation}
+\begin{equation}\label{eq:einstein}
   \langle r(t)^2 \rangle = 6Dt
 \end{equation}
 where $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on Figure~\ref{fgr:intro_diffusion}.
@@ -64,11 +64,22 @@ From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$,
 
 \subsubsection{Diffusivity calculation using the trajectory}
 
-The MD trajectory can be used to generate displacement of any size $\tau$. A naive approach consists in taking $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$
+The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta t$ that Einstein used in his derivation, a shift of the origin of time by $\delta t$ would generate another trajectory. We can therefore generate $(t\e{tot} -\tau)/ \delta t$ different time frames of duration $\tau$ with a single MD simulation of one particle.
 
-\todo{explain how the trajectories can be augmented by changing the origin}
+\todo{Plot to explain how the trajectories can be augmented by changing the origin}
 
+We decided to use only one molecule of xenon or krypton within a large enough box so that no self interactions are possible for a given cutoff radius.
+
+\subsubsection{Screening strategy}
+
+Similar approaches in the literature have been presented in the chapter 1
 \todo{cite some studies/review daglar > ref chapter 1}
+
+Calibration of the total time of simulation after the equilibration steps $t\e{tot}$ to reach diffusion times estimated to be at ... for a series of tests.
+
+Then screening strategy to reach this
+
+\subsubsection{ML modeling}
 
 \subsection{Kinetic Monte Carlo}
 
@@ -86,18 +97,29 @@ tutrast\autocite{Mace_2019} autre étude avant aussi
 
 \subsubsection{Generation of trajectories}
 
-\subsection{ML modeling}
 
-
-\section{Transport properties of xenon/krypton separation}
+\section{Screening of transport properties}
 
 \todo{We have generated diffusion coefficients for the ... best materials}
 
-\subsection{Why studying diffusion for xenon krypton}
+\subsection{Diffusion in a selective material}
+
+Before going into the details of the screening study, we will present the approach of diffusion coefficient calculation using MSD values on the example of SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be finally used in the screening study of the most selective materials. 
+
+\todo{Pictures of fittings}
+
+
+If we don't have enough time steps > don't reach the diffusion regime
+
+\todo{uncertainty discussion}
 
 % si on s'intéresse à la régénération par exemple (petit problème). barrière cinétique d'entrée et de sortie.
 % courbe de percée de la publi banerjee> une partie est expliquée par la diffusion également.
-\todo{kinetic KAXQIL problem}
+\todo{kinetic KAXQIL (water loaeded structure) problem}
+
+
+\todo{Worse if we consider xenon and krypton}
+
 
 \subsection{Structure--diffusivity relationships}
 
@@ -120,8 +142,7 @@ tutrast\autocite{Mace_2019} autre étude avant aussi
 \begin{figure*}[t]
 \centering
   \includegraphics[width=0.8\textwidth]{figures/5-diffusion/D_log-diameter_colored_s_models+.png}
-  \caption{\small{\ Logarithme du coefficient de diffusion du xénon à la limite des basses pressions en fonction du diamètre de la plus petite sphère libre dans le matériau (LCD). Les points sont colorés en fonction du logarithme de la sélectivité à basse pression $\log(s_0)$.}}
-  \label{fgr:Diff_Df_s}
+  \caption{Logarithme du coefficient de diffusion du xénon à la limite des basses pressions en fonction du diamètre de la plus petite sphère libre dans le matériau (LCD). Les points sont colorés en fonction du logarithme de la sélectivité à basse pression $\log(s_0)$.}\label{fgr:Diff_Df_s}
 \end{figure*}
 
 
@@ -143,7 +164,7 @@ GUMDEZ\cite{Yin_2014} &  5,3 & 42 & 56 & 4,8 &  0.5 &               7$\times$10\
 ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
 \hline
 \end{tabular}
-\caption{\ Performances de structures identifiées par un screening prenant en compte les coefficients de diffusion. }
+\caption{Performances de structures identifiées par un screening prenant en compte les coefficients de diffusion. }
 \label{table:diff}
 \end{table}
 
