@@ -26,13 +26,13 @@ Since the pollen motion observations of the botannist Brown in 1826, scientists 
   \frac{\partial \phi}{\partial t} = D_x \frac{\partial^2 \phi}{{\partial x}^2}
 \end{equation}
 
-To better understand the brownian motion of suspended particles on a liquid Einstein derived a microscopic model of the diffusion motion based on the molecular-kinetic theory of heat on the miraculous year of 1905.\autocite{einstein1905motion} To determine the so-called self-diffusion coefficient, he followed the motion of a particle assumed independent from other particles and time steps large enough to consider mutually independent two consecutive motions.  By using the particle distribution of N independent diffusing particle, he redefined the diffusion coefficient as a function of the mean square displacement of a particle. In a tridimensional space, we have the following Einstein relation:
+To better understand the brownian motion of suspended particles on a liquid Einstein derived a microscopic model of the diffusion motion based on the molecular-kinetic theory of heat on the miraculous year of 1905.\autocite{einstein1905motion} To determine the so-called self-diffusion coefficient, he followed the motion of a particle assumed independent from other particles and time steps large enough to consider mutually independent two consecutive motions.  By using the particle distribution of $N$ independent diffusing particle, he redefined the diffusion coefficient as a function of the mean squared displacement (MSD) of a particle. In a tridimensional space, we have the following Einstein relation:
 \begin{equation}\label{eq:einstein}
   \langle {r(t)}^2 \rangle = 6Dt
 \end{equation}
 where $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on Figure~\ref{fgr:intro_diffusion}.
 
-Using molecular simulations of the adsorbate displacements, we will try to model the diffusion coefficient of xenon and krypton inside a nanoporous material. Although other approaches like the Green-Kubo equation exist the relatively less complex Einstein law is prefered for self-diffusion calculations, as shown by the following comparative study~\cite{Maginn_2020}. In this section, we will focus on the different simulation techniques that can be used to evaluate the diffusion in high-throughput screenings. We will try to present different ways of accessing the mean square displacement of a diffusing particles, by beginning from the most straight-forward molecular dynamics to faster methodologies more suitable in screenings such as machine learned surrogate models and kinetic monte carlo simulations.
+Using molecular simulations of the adsorbate displacements, we will try to model the diffusion coefficient of xenon and krypton inside a nanoporous material. Although other approaches like the Green-Kubo equation exist the relatively less complex Einstein law is prefered for self-diffusion calculations, as shown by the following comparative study~\cite{Maginn_2020}. In this section, we will focus on the different simulation techniques that can be used to evaluate the diffusion in high-throughput screenings. We will try to present different ways of accessing the MSD of a diffusing particles, by beginning from the most straight-forward molecular dynamics to faster methodologies more suitable in screenings such as machine learned surrogate models and kinetic monte carlo simulations.
 
 
 \subsection{Molecular dynamics}
@@ -52,59 +52,54 @@ In a classical modeling, the forces are determined using the well-named forcefie
 \end{equation}
 where $\epsilon_{ij}$ and $\sigma_{ij}$ are the LJ parameters of the pair of atoms $ij$. And the resulting force is simply the sum of the forces $\mathbf{F}_i=\sum_{j}\mathbf{f}_{ij}$ exerted by the surrounding atoms $j$. To reduce the computation time required, molecular simulations only consider the atoms within a given cutoff radius. 
 
-Now that we defined the force $\mathbf{F}_i$, we can put a molecule in motion by integrating the equation~\ref{eq:newton} from a time $t$ to a time $t+\delta t$. There are different methods to integrate equation of motion such as the Euler or velocity-Verlet scheme presented in the book of Frenkel et al.\autocite{frenkel2001md} Here, we will focus on the \emph{leap frop} integration implemented in the Raspa2\autocite{dubbeldam2016} software that we used for our simulations. The position $\mathbf{r}_i$ and the velocity $\dot{\mathbf{r}}_i$ are between each time step $\delta t$ using the following equations:
+Now that we defined the force $\mathbf{F}_i$, we can put a molecule in motion by integrating the equation~\ref{eq:newton} from a time $t$ to a time $t+\delta t$. There are different methods to integrate equation of motion such as the Euler or velocity-Verlet scheme presented in the book of Frenkel et al.\autocite{frenkel2001md} Here, we will focus on the \emph{leap frop} integration implemented in the RASPA\autocite{dubbeldam2016} software that we used for our simulations. The position $\mathbf{r}_i$ and the velocity $\dot{\mathbf{r}}_i$ are between each time step $\delta t$ using the following equations:
 \begin{equation}\label{eq:frogleap_integration}
   \begin{split}
     \dot{\mathbf{r}}_i\left(t+\tfrac{1}{2}\delta t\right) & = \dot{\mathbf{r}}_i\left(t-\tfrac{1}{2}\delta t\right) + \tfrac{1}{m_i}\mathbf{f}_i \\
     \mathbf{r}_i\left(t+\delta t\right) & = \mathbf{r}_i\left(t\right) + \dot{\mathbf{r}}_i\left(t+\tfrac{1}{2}\delta t\right)\delta t
   \end{split}
 \end{equation}
-From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$, we can translate the center of mass of the molecule $i$ to any position $\mathbf{r}_i(t_n=n*\delta t)$. We will skip the rotation step required for polyatomic molecules since we are restricting the study on the monoatomic noble gas. The different positions ${\left\{\left(t_n,\mathbf{r}_i(t_n)\right)\right\}}_{n=0,\ldots,N\e{tot}}$ constitute the total trajectory of the MD simulation (to simplify I do not mention the velocities). It is possible to use this total trajectory to derive an average of mean squared displacement that could be analysed to calculate the diffusion coefficient.
+From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$, we can translate the center of mass of the molecule $i$ to any position $\mathbf{r}_i(t_n=n*\delta t)$. We will skip the rotation step required for polyatomic molecules since we are restricting the study on the monoatomic noble gas. The different positions ${\left\{\left(t_n,\mathbf{r}_i(t_n)\right)\right\}}_{n=0,\ldots,N\e{tot}}$ constitute the total trajectory of the MD simulation (to simplify I do not mention the velocities). It is possible to use this total trajectory to derive an average of MSD that could be analysed to calculate the diffusion coefficient.
 
 \subsubsection{Diffusivity calculation using an MD trajectory}
 
-I used the MSD sampling technique implemented in Raspa2\autocite{dubbeldam2016} that was presented in an article~\cite{Dubbeldam_2009} by a few authors of the adsorption simulation software. The approach is based on a modified approach of the order-$\mathbf{n}$ algorithm described in the book of Frenkel and Smit~\cite{frenkel2001msd} I will focus on the so-called multiple window algorithm, 
+I used the MSD sampling technique implemented in RASPA\autocite{dubbeldam2016} that was presented in an article~\cite{Dubbeldam_2009} by a few authors of the adsorption simulation software. The approach is based on a modified approach of the order-$\mathbf{n}$ algorithm described in the book of Frenkel and Smit~\cite{frenkel2001msd} I will focus, therefore, on the so-called multiple window algorithm used to calculate the diffusion coefficients of xenon and krypton in this chapter. 
 
-Window algorithm
+To understand it, I will start by explaining what a window algorithm would do and how it generalizes to the multiple window algorithm we are interested in.
+First, let us consider a single MD trajectory of duration $t\e{tot}=N\e{tot}\delta t$. This trajectory can be used to generate displacement of any size $\tau$. Naively, we can start by taking ${\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert}^2$ as a square displacement of a sub-trajectory $\mathcal{T}(0\rightarrow\tau)$ of duration $\tau$. 
+However, it is not enough to make a statistically meaningful average of the MSD as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta t$ used in Einstein's paper~\cite{einstein1905motion}, a shift of the origin of time by $\delta t$ would generate another trajectory. We can repeat this process $i$ times while $\tau + i\delta t\leq t\e{tot}$. This would be very accurate, but also very inefficient in the case where $\tau \gg \delta t$ since two consecutive sub-trajectories $\mathcal{T}(i\delta t\rightarrow\tau+i\delta t)$ and $\mathcal{T}((i+1)\delta t\rightarrow\tau+(i+1)\delta t)$ would be very similar. 
 
-Multiple window algorithm\cite{Dubbeldam_2009}
-
-$N\e{tot}$ definition $ t\e{tot}$
-The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta\tau$ that Einstein used in his derivation, a shift of the origin of time by $\delta\tau$ would generate another trajectory. We can therefore generate $N_{\tau} = \lfloor(t\e{t ot} -\tau)/ \delta\tau \rfloor$ different time frames of duration $\tau$ with a single MD simulation of one particle.
-
-One question remain: how do we choose $\delta\tau$? This trajectory augmentation technique relies on the independence of the trajectories $\left\{\mathcal{T}(0\rightarrow\tau), \mathcal{T}(\delta\tau\rightarrow\tau + \delta\tau), \ldots, \mathcal{T}(N_{\tau}\delta\tau\rightarrow\tau + N_{\tau}\delta\tau)\right\}$, which means that any consecutive trajectories need to be independent. This is true if and only if the time scale of $\tau$ is not too large compared to $\delta\tau$. To achieve this the Raspa2 code would consider different timescales depending on the total number of timesteps ($N\e{tot}$) and the duration of a single timestep $\delta t$.
-
-\todo{Look in raspa how the trajectory is segmented}
-
-There is an efficiency problem, using the same $\delta\tau$ can make us reuse the same trajectories to improve efficiency
+To efficiently sample the trajectory into sub-trajectories that are independent we can use a sampling time step of $\delta \tau\lesssim\tau$ chosen to be in the same order of magnitude as $\tau$. To do so, the window approach would first define a value $\delta \tau$ and generate $N_{\tau} = \lfloor(t\e{t ot} -\tau)/ \delta\tau \rfloor$ different sub-trajectories $\left\{\mathcal{T}(0\rightarrow\tau), \mathcal{T}(\delta\tau\rightarrow\tau + \delta\tau), \ldots, \mathcal{T}(N_{\tau}\delta\tau\rightarrow\tau + N_{\tau}\delta\tau)\right\}$ of duration $\tau=k\delta\tau$, where $k$ is an integer between $1$ and $K$ that defines the time window we want to sample. By doing so, we get the MSD $\langle {r(\tau)}^2 \rangle$ for duration values $\tau$ equal to $\delta\tau, \ldots, K\delta\tau$. The relation $\langle {r(\tau)}^2 \rangle$ can then be fitted to the equation~\ref{eq:einstein} to obtain the diffusion coefficient if the relation is linear. The trajectory generation of the window approach is illustrated on the Figure~\ref{fgr:window_msd} for a decomposition into sub-trajectories of a duration $\tau=3\delta\tau$ shifted by $\delta\tau$.
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.95\textwidth]{figures/5-diffusion/diffusion_averaging.pdf}
-    \caption{Illustration of the generation of trajectories of size $\tau$ by shifting the origins of multiple durations $\delta\tau$. }
-    \label{fgr:diffusiotrajectories}
+    \caption{Illustration of the generation of trajectories of size $\tau$ by shifting the origins of multiple durations $\delta\tau$. }\label{fgr:window_msd}
 \end{figure}
 
-\todo{Plot to explain how the trajectories can be augmented by changing the origin}
+The major drawback of this method is that we need to define a timescale $\left\{\delta\tau, \ldots, K\delta\tau\right\}$ beforehand. In order to be able to access the different timescales in a single simulation, we can perform a multiple window algorithm developed by Dubbeldam et al.\ and used in the RASPA software to compute mean squared displacements (MSD) in a molecular dynamics simulation.
 
+The different time windows are defined in a recursive way using the default parameters of RASPA. The first time window is defined by $K=25$ displacements of duration $\delta t, 2\delta t, \ldots,K\delta t$ with a shift of $\delta t$ (the default shift value $\delta t$ of the first window can be changed with the parameter SampleMSDEvery). The second window is now based on a sampling duration $\delta \tau_1 = K\delta t$ and the sub-trajectories will have durations of $\left(\tau_1^{(1)} = \delta\tau_1\right),\ldots,\left(\tau_1^{(k)} = K\delta\tau_1\right)$. If we repeat the process recursively until no window can be generated anymore, and the $i$\e{th} window would have a sampling duraction of $\delta \tau_i = K^i\delta t$ and sub-trajectories durations of $\left(\tau_i^{(1)} = \delta\tau_i\right),\ldots,\left(\tau_i^{(k)} = K\delta\tau_i\right)$. The time scale $\delta \tau_i = K^i\delta t$ we sample follows a geometrical progression and very different time scales can be accessed using this method in order to find the time scale corresponding to the diffusion regime (linear relation between the MSD and the duration of the sub-trajectories used in the averaging). For example on Figure~\ref{fgr:MSD_init}, we can see the different timescales and the exponent value $b$ of a fit to a function of type $x \mapsto ax^b$ for the different time windows --- values of $b$ near $1$ can be associated to a diffusion regime. The determination of the diffusion coefficient is now reduced to a simple fitting problem that will be explained in more details in the presentation of the diffusion coefficient screening in section~\ref{sct:md_screening}.
 
-We decided to use only one molecule of xenon or krypton within a large enough box so that no self interactions are possible for a given cutoff radius.
-
-\subsubsection{Screening strategy}
-
-Similar approaches in the literature have been presented in the chapter 1
-\todo{cite some studies/review daglar > ref chapter 1}
-
-Calibration of the total time of simulation after the equilibration steps $t\e{tot}$ to reach diffusion times estimated to be at ... for a series of tests.
-
-Then screening strategy to reach this
+This methodology can then be used replicated to thousands of structures to characterize the diffusion properties of these materials. Several screenings have already been carried out in the literature as presented in the chapter 1 in the section dedicated to transport property screenings. We will now dive a little deeper in the prediction of these quantities using machine learning.
 
 \subsubsection{ML modeling}
 
-\subsection{Kinetic Monte Carlo}
+In a very recent study, Daglar et al.\ used an ML model to predict the diffusion coefficient of a 100 thousand hypothetical MOFs using the data for about 5000 CoRE MOF structures.\autocite{Daglar_2022} Along with very standard geometrical descriptors, they used chemical composition descriptors and the heat of adsorption as the input features of their machine learning model to predict the diffusion coefficients of \ce{H2}, \ce{CH4}, \ce{N2} and \ce{He} in the different MOF materials of CoRE MOF 2019 (training) and of hMOF (testing). The combination of kinetic data with thermodynamic data for the characterization of MOf materials is a very interesting approach. However, the major drawback of most of the approaches in the literature is the lack of structure--property relationship to understand the microscopic origins of the diffusion coefficient values.
+
+Simarly to what we have done on the thermodynamic screening (chapter 2-4), in our approach to tranport property screening, we will also start by drawing structure--property relationships between the diffusion coefficient and the geometrical descriptors of the MOF structures. And in an attempt to have a deeper understanding of the diffusion process, we will try to evaluate the diffusion activation energy using energy grid-based methods described in the literature. All these techniques aim at better predicting the diffusion coefficients either in a direct calculation or in an ML surrogate model. To achieve that, we will start by introducing the kinetic Monte Carlo approach that is less accurate than the MD approach but is indeed much more efficient.
+
+\subsection{Lattice kinetic Monte Carlo}
+
+The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable points corresponding to adsorption sites. Each site connected to another if there is a diffusion path (narrow channel) that connects them. To calculate the probability of transition from one site to another, we need to define a transition state in the narraow channel which correspond to the highest energy point on the minimal energy diffusion path (the saddle point). The probability of transition would therefore be defined with regard to the energy barrier to overcome in order to cross the channel. Once the lattice defined, we only need to propagate an adsorbate from one site to another using the different transition probabilities, which gives a coarse-grained trajectory compared to the one obtained in a MD simulation, but is perfectly usable to compute the MSD and calculate a diffusion coefficient.
+
+\todo{Illustration}
 
 \subsubsection{Transition state theory}
 
+The transition state theory is usually used in chemistry to explain the kinetics of a reaction. To do so it compares the energy of the reactants before reacting and the one of the transition state to calculate the rate of the reaction. And it defines a reaction kinetic rate that explains the kinetics of a reaction.
+
+In our case, we want to study the transition from a pore to another one by transitioning through a channel. It is also possible to define a diffusion rate that connects the adsorption sites of the pores. 
 
 \todo{what is a transition state for diffusion?}
 
@@ -118,7 +113,7 @@ tutrast\autocite{Mace_2019} autre étude avant aussi
 \subsubsection{Generation of trajectories}
 
 
-\section{Screening of transport properties}
+\section{Screening of transport properties}\label{sct:md_screening}
 
 To complete the thermodynamic screenings that we performed in the chapters 2-4, we also carried out a transport property screening. In this section, we will provide a description of the screening approach as well as the analysis of the diffusion coefficients compared with typical geometrical descriptors.
 
@@ -132,7 +127,7 @@ First, I ran a molecular dynamics simulation of 500 million steps (about 1-2 day
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.png}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean.png}
-    \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:}
+    \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:MSD_init}
 \end{figure}
 
 The diffusion regime seems to happen at a time scale of tens of nanoseconds. But the number of data points is not high enough at this higher time scale. 
