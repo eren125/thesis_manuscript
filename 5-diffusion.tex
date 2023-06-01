@@ -59,15 +59,14 @@ Now that we defined the force $\mathbf{F}_i$, we can put a molecule in motion by
     \mathbf{r}_i\left(t+\delta t\right) & = \mathbf{r}_i\left(t\right) + \dot{\mathbf{r}}_i\left(t+\tfrac{1}{2}\delta t\right)\delta t
   \end{split}
 \end{equation}
-From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$, we can translate the center of mass of the molecule $i$ to any position $\mathbf{r}_i(t_n=n*\delta t)$. We will skip the rotation step required for polyatomic molecules since we are restricting the study on the monoatomic noble gas. The different positions $\left(t_n,\mathbf{r}_i(t_n)\right)$ constitute the trajectory of the MD simulation.
+From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$, we can translate the center of mass of the molecule $i$ to any position $\mathbf{r}_i(t_n=n*\delta t)$. We will skip the rotation step required for polyatomic molecules since we are restricting the study on the monoatomic noble gas. The different positions $\left\{\left(t_n,\mathbf{r}_i(t_n)\right)\right\}_{n=0,\ldots,N\e{tot}}$ constitute the total trajectory of the MD simulation (to simplify I do not mention the velocities). It is possible to use this total trajectory to derive an average of mean squared displacement that could be analysed to calculate the diffusion coefficient.
 
-
-\subsubsection{Diffusivity calculation using the trajectory}
+\subsubsection{Diffusivity calculation using an MD trajectory}
 
 Window algorithm
-Order-N algorithm
+Order-N algorithm\cite{frenkel2001msd}
 
-Multiple window algorithm
+Multiple window algorithm\cite{Dubbeldam_2009}
 
 $N\e{tot}$ definition $ t\e{tot}$
 The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta\tau$ that Einstein used in his derivation, a shift of the origin of time by $\delta\tau$ would generate another trajectory. We can therefore generate $N_{\tau} = \lfloor(t\e{t ot} -\tau)/ \delta\tau \rfloor$ different time frames of duration $\tau$ with a single MD simulation of one particle.
