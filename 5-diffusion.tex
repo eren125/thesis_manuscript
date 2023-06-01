@@ -53,7 +53,7 @@ In a classical modeling, the forces are determined using the well-named forcefie
 where $\epsilon_{ij}$ and $\sigma_{ij}$ are the LJ parameters of the pair of atoms $ij$. And the resulting force is simply the sum of the forces $\mathbf{F}_i=\sum_{j}\mathbf{f}_{ij}$ exerted by the surrounding atoms $j$. To reduce the computation time required, molecular simulations only consider the atoms within a given cutoff radius. 
 
 Now that we defined the force $\mathbf{F}_i$, we can put a molecule in motion by integrating the equation~\ref{eq:newton} from a time $t$ to a time $t+\delta t$. There are different methods to integrate equation of motion such as the Euler or velocity-Verlet scheme presented in the book of Frenkel et al.\autocite{frenkel2001md} Here, we will focus on the \emph{leap frop} integration implemented in the Raspa2\autocite{dubbeldam2016} software that we used for our simulations. The position $\mathbf{r}_i$ and the velocity $\dot{\mathbf{r}}_i$ are between each time step $\delta t$ using the following equations:
-\begin{equation}
+\begin{equation}\label{eq:frogleap_integration}
   \begin{split}
     \dot{\mathbf{r}}_i\left(t+\tfrac{1}{2}\delta t\right) & = \dot{\mathbf{r}}_i\left(t-\tfrac{1}{2}\delta t\right) + \tfrac{1}{m_i}\mathbf{f}_i \\
     \mathbf{r}_i\left(t+\delta t\right) & = \mathbf{r}_i\left(t\right) + \dot{\mathbf{r}}_i\left(t+\tfrac{1}{2}\delta t\right)\delta t
@@ -64,9 +64,26 @@ From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$,
 
 \subsubsection{Diffusivity calculation using the trajectory}
 
-The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta\tau$ that Einstein used in his derivation, a shift of the origin of time by $\delta\tau$ would generate another trajectory. We can therefore generate $(t\e{tot} -\tau)/ \delta\tau$ different time frames of duration $\tau$ with a single MD simulation of one particle.
+Window algorithm
+Order-N algorithm
 
-How $\delta\tau$ is chosen
+Multiple window algorithm
+
+$N\e{tot}$ definition $ t\e{tot}$
+The MD trajectory can be used to generate displacement of any size $\tau$. Naively, we can take $\lVert\mathbf{r}_i(\tau)-\mathbf{r}_i(0)\rVert$ as a displacement in a time frame $\tau$. However, it is not enough to make a statistically meaningful average as described in the Einstein equation\ref{eq:einstein}. Using the hypothesis of independence between two movements of the same particle separated by a time $\delta\tau$ that Einstein used in his derivation, a shift of the origin of time by $\delta\tau$ would generate another trajectory. We can therefore generate $N_{\tau} = \lfloor(t\e{t ot} -\tau)/ \delta\tau \rfloor$ different time frames of duration $\tau$ with a single MD simulation of one particle.
+
+One question remain: how do we choose $\delta\tau$? This trajectory augmentation technique relies on the independence of the trajectories $\left\{\mathcal{T}(0\rightarrow\tau), \mathcal{T}(\delta\tau\rightarrow\tau + \delta\tau), \ldots, \mathcal{T}(N_{\tau}\delta\tau\rightarrow\tau + N_{\tau}\delta\tau)\right\}$, which means that any consecutive trajectories need to be independent. This is true if and only if the time scale of $\tau$ is not too large compared to $\delta\tau$. To achieve this the Raspa2 code would consider different timescales depending on the total number of timesteps ($N\e{tot}$) and the duration of a single timestep $\delta t$.
+
+\todo{Look in raspa how the trajectory is segmented}
+
+There is an efficiency problem, using the same $\delta\tau$ can make us reuse the same trajectories to improve efficiency
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.95\textwidth]{figures/5-diffusion/diffusion_averaging.pdf}
+    \caption{Illustration of the generation of trajectories of size $\tau$ by shifting the origins of multiple durations $\delta\tau$. }
+    \label{fgr:diffusiotrajectories}
+\end{figure}
 
 \todo{Plot to explain how the trajectories can be augmented by changing the origin}
 
@@ -103,23 +120,29 @@ tutrast\autocite{Mace_2019} autre étude avant aussi
 
 \section{Screening of transport properties}
 
-\todo{We have generated diffusion coefficients for the ... best materials}
+To complete the thermodynamic screenings that we performed in the chapters 2-4, we also carried out a transport property screening. In this section, we will provide a description of the screening approach as well as the analysis of the diffusion coefficients compared with typical geometrical descriptors.
 
 \subsection{Diffusion in a selective material}
 
-Before going into the details of the screening study, we will present the approach of diffusion coefficient calculation using MSD values on the example of SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be finally used in the screening study of the most selective materials. 
+Before going into the details of the screening study, we will present the approach adopted for the diffusion coefficient calculation using MSD values, on one example, SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be used in the final screening study.
 
-\todo{Pictures of fittings}
-
-If we don't have enough time steps > don't reach the diffusion regime 
+First, I ran a molecular dynamics simulation of 500 million steps (about 1-2 days of simulation) with x thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. We tested three different time steps $\delta t$ as defined in equation~\ref{eq:frogleap_integration}. 
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.png}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean.png}
-    \caption{\todo{MSD}}
+    \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}
     \label{fgr:}
 \end{figure}
+
+The diffusion regime seems to happen at a time scale of tens of nanoseconds. But the number of data points is not high enough at this higher time scale. 
+\todo{Confirm with real data} 
+
+\todo{Put data for 5fs and 10 fs}
+
+
+\todo{If we don't have enough time steps > can't reach the diffusion regime}
 
 \todo{uncertainty discussion}
 
@@ -134,6 +157,7 @@ If we don't have enough time steps > don't reach the diffusion regime
 \subsection{Structure--diffusivity relationships}
 
 500 000 000 cycles with restart on the server.
+\todo{We have generated diffusion coefficients for the ... best materials}
 
 \todo{correlation with VF/SA/Selectivity/permselectivity}
 
@@ -165,7 +189,7 @@ If we don't have enough time steps > don't reach the diffusion regime
 
 % Une autre structure, ADOGEH (\emph{cf.} table~\ref{table:diff}), présente une diffusion 14 fois plus rapide pour le xénon que le krypton, tout en ayant une sélectivité à basse pression de 49. Ce phénomène s'explique par le fait que la structure a des canaux dans les trois directions et que pour changer de direction il faut passer par un canal plus étroit non accessible par le xénon. Ainsi le xénon, n'ayant qu'une direction de diffusion à l'intérieur du matériau, va bien plus vite que le krypton pour lequel toutes les directions s'offrent à lui. Ainsi, le krypton est plus lent à diffuser car il change de direction constamment dans le matériau contrairement au xénon. En revanche, la sélectivité baisse à 10 lorsque l'on considère un mélange de 20/80 Xe/Kr à pression ambiante au lieu de la dilution infinie. Ce matériau pourrait être utile notamment à pression partielle faible en xénon et krypton, ce qui est le cas pour notre application. Des études plus approfondies sont encore à mener, notamment en confirmant les valeurs de sélectivité par des calculs DFT plus fiable ou en étudiant la flexibilité ; mais si les résultats sont concluant ces matériaux pourraient alors être testés expérimentalement pour une éventuelle application industrielle.
 
-\begin{table}[t]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|l|r|r|r|r|r|r|}
 \hline
