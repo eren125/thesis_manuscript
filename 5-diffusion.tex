@@ -28,7 +28,7 @@ Since the pollen motion observations of the botannist Brown in 1826, scientists 
 
 To better understand the brownian motion of suspended particles on a liquid Einstein derived a microscopic model of the diffusion motion based on the molecular-kinetic theory of heat on the miraculous year of 1905.\autocite{einstein1905motion} To determine the so-called self-diffusion coefficient, he followed the motion of a particle assumed independent from other particles and time steps large enough to consider mutually independent two consecutive motions.  By using the particle distribution of N independent diffusing particle, he redefined the diffusion coefficient as a function of the mean square displacement of a particle. In a tridimensional space, we have the following Einstein relation:
 \begin{equation}\label{eq:einstein}
-  \langle r(t)^2 \rangle = 6Dt
+  \langle {r(t)}^2 \rangle = 6Dt
 \end{equation}
 where $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on Figure~\ref{fgr:intro_diffusion}.
 
@@ -48,7 +48,7 @@ Molecular dynamics (MD) aims at describing the motion of particles subjected to 
 
 In a classical modeling, the forces are determined using the well-named forcefield that was previously introduced in the chapter 2. Back there, we only considered intermolecular interactions simply modeled by the Lennard-Jones (LJ) interaction potential between atom pairs, which is also what we will use in this section (of course, it is not the only way of defining a forcefield but just a simplification). Using the LJ potentials $U\ex{LJ}$ (defined in equation~\ref{eq:LJ}), we can derive a vectorial force $\mathbf{f}_{ij}$ between two atoms $i$ and $j$.
 \begin{equation}
-  \mathbf{f}_{ij} = - \left.\dfrac{\dd U\ex{LJ}_{ij}}{\dd r}\right|_{r=r_{ij}} \frac{\mathbf{r}_{ij}}{r_{ij}} = 24\epsilon_{ij}  \left(2\left(\dfrac{\sigma_{ij}}{r_{ij}}\right)^{12} - \left(\dfrac{\sigma_{ij}}{r_{ij}}\right)^{6}\right) \frac{\mathbf{r}_{ij}}{r_{ij}^2}
+  \mathbf{f}_{ij} = - \left.{\dfrac{\dd U\ex{LJ}_{ij}}{\dd r}}\right\rvert_{r=r_{ij}} \frac{\mathbf{r}_{ij}}{r_{ij}} = 24\epsilon_{ij}  \left(2{\left(\dfrac{\sigma_{ij}}{r_{ij}}\right)}^{12} - {\left(\dfrac{\sigma_{ij}}{r_{ij}}\right)}^{6}\right) \frac{\mathbf{r}_{ij}}{r_{ij}^2}
 \end{equation}
 where $\epsilon_{ij}$ and $\sigma_{ij}$ are the LJ parameters of the pair of atoms $ij$. And the resulting force is simply the sum of the forces $\mathbf{F}_i=\sum_{j}\mathbf{f}_{ij}$ exerted by the surrounding atoms $j$. To reduce the computation time required, molecular simulations only consider the atoms within a given cutoff radius. 
 
@@ -59,12 +59,13 @@ Now that we defined the force $\mathbf{F}_i$, we can put a molecule in motion by
     \mathbf{r}_i\left(t+\delta t\right) & = \mathbf{r}_i\left(t\right) + \dot{\mathbf{r}}_i\left(t+\tfrac{1}{2}\delta t\right)\delta t
   \end{split}
 \end{equation}
-From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$, we can translate the center of mass of the molecule $i$ to any position $\mathbf{r}_i(t_n=n*\delta t)$. We will skip the rotation step required for polyatomic molecules since we are restricting the study on the monoatomic noble gas. The different positions $\left\{\left(t_n,\mathbf{r}_i(t_n)\right)\right\}_{n=0,\ldots,N\e{tot}}$ constitute the total trajectory of the MD simulation (to simplify I do not mention the velocities). It is possible to use this total trajectory to derive an average of mean squared displacement that could be analysed to calculate the diffusion coefficient.
+From the initial conditions $(\mathbf{r}_i(0),\dot{\mathbf{r}}_i(0.5\delta t))$, we can translate the center of mass of the molecule $i$ to any position $\mathbf{r}_i(t_n=n*\delta t)$. We will skip the rotation step required for polyatomic molecules since we are restricting the study on the monoatomic noble gas. The different positions ${\left\{\left(t_n,\mathbf{r}_i(t_n)\right)\right\}}_{n=0,\ldots,N\e{tot}}$ constitute the total trajectory of the MD simulation (to simplify I do not mention the velocities). It is possible to use this total trajectory to derive an average of mean squared displacement that could be analysed to calculate the diffusion coefficient.
 
 \subsubsection{Diffusivity calculation using an MD trajectory}
 
+I used the MSD sampling technique implemented in Raspa2\autocite{dubbeldam2016} that was presented in an article~\cite{Dubbeldam_2009} by a few authors of the adsorption simulation software. The approach is based on a modified approach of the order-$\mathbf{n}$ algorithm described in the book of Frenkel and Smit~\cite{frenkel2001msd} I will focus on the so-called multiple window algorithm, 
+
 Window algorithm
-Order-N algorithm\cite{frenkel2001msd}
 
 Multiple window algorithm\cite{Dubbeldam_2009}
 
@@ -131,8 +132,7 @@ First, I ran a molecular dynamics simulation of 500 million steps (about 1-2 day
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.png}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean.png}
-    \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}
-    \label{fgr:}
+    \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:}
 \end{figure}
 
 The diffusion regime seems to happen at a time scale of tens of nanoseconds. But the number of data points is not high enough at this higher time scale. 
@@ -164,8 +164,7 @@ The diffusion regime seems to happen at a time scale of tens of nanoseconds. But
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_Df-ccdc_barrier.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{\todo{correlation with PLD without labeling}}
-    \label{fgr:}
+    \caption{\todo{correlation with PLD without labeling}}\label{fgr:}
 \end{figure}
 
 
@@ -192,15 +191,14 @@ The diffusion regime seems to happen at a time scale of tens of nanoseconds. But
 \centering
 \begin{tabular}{|l|r|r|r|r|r|r|}
 \hline
-  CCSD ref. code &      LCD (\SI{}{\angstrom}) &    s$_1$ &       s$_0$ &     PLD (\SI{}{\angstrom}) &     Ratio Diff. &  Coeff. de Diff. Xe \\
+  CCSD ref.\ code &      LCD (\SI{}{\angstrom}) &    s$_1$ &       s$_0$ &     PLD (\SI{}{\angstrom}) &     Ratio Diff. &  Coeff.\ de Diff. Xe \\
 \hline
 QOZDOY\cite{Zhang_2001} &  5,3 & 37 & 52 & 4,7 &  0.4 &               7$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
 GUMDEZ\cite{Yin_2014} &  5,3 & 42 & 56 & 4,8 &  0.5 &               7$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
 ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
 \hline
 \end{tabular}
-\caption{Performances de structures identifiées par un screening prenant en compte les coefficients de diffusion. }
-\label{table:diff}
+\caption{Performances de structures identifiées par un screening prenant en compte les coefficients de diffusion. }\label{table:diff}
 \end{table}
 
 % Les résultats d'un screening couplant thermodynamique et cinétique permettent déjà de mettre en valeur des matériaux encore inconnus de la communauté. La question du blocage cinétique est certes traitée dans certaines études,\cite{Stanton_2022} mais aucune approche systématique n'a encore été développée. Ces structures ont des sélectivités élevées mais ne sont pas les plus sélectives; elles auraient donc été écartées dans un screening standard basé uniquement sur la thermodynamique. 
@@ -222,8 +220,7 @@ ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/diffusion_prediction.pdf}
-    \caption{}
-    \label{fgr:}
+    \caption{}\label{fgr:}
 \end{figure}
 
 \begin{figure}[ht]
@@ -237,8 +234,7 @@ ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_Df-ccdc_barrier.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{}
-    \label{fgr:}
+    \caption{}\label{fgr:}
 \end{figure}
 
 ML descriptors
