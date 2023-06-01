@@ -87,7 +87,7 @@ This methodology can then be used replicated to thousands of structures to chara
 
 In a very recent study, Daglar et al.\ used an ML model to predict the diffusion coefficient of a 100 thousand hypothetical MOFs using the data for about 5000 CoRE MOF structures.\autocite{Daglar_2022} Along with very standard geometrical descriptors, they used chemical composition descriptors and the heat of adsorption as the input features of their machine learning model to predict the diffusion coefficients of \ce{H2}, \ce{CH4}, \ce{N2} and \ce{He} in the different MOF materials of CoRE MOF 2019 (training) and of hMOF (testing). The combination of kinetic data with thermodynamic data for the characterization of MOf materials is a very interesting approach. However, the major drawback of most of the approaches in the literature is the lack of structure--property relationship to understand the microscopic origins of the diffusion coefficient values.
 
-Simarly to what we have done on the thermodynamic screening (chapter 2-4), in our approach to tranport property screening, we will also start by drawing structure--property relationships between the diffusion coefficient and the geometrical descriptors of the MOF structures. And in an attempt to have a deeper understanding of the diffusion process, we will try to evaluate the diffusion activation energy using energy grid-based methods described in the literature. All these techniques aim at better predicting the diffusion coefficients either in a direct calculation or in an ML surrogate model. To achieve that, we will start by introducing the kinetic Monte Carlo approach that is less accurate than the MD approach but is indeed much more efficient.
+Simarly to what we have done on the thermodynamic screening (chapter 2--4), in our approach to tranport property screening, we will also start by drawing structure--property relationships between the diffusion coefficient and the geometrical descriptors of the MOF structures. And in an attempt to have a deeper understanding of the diffusion process, we will try to evaluate the diffusion activation energy using energy grid-based methods described in the literature. All these techniques aim at better predicting the diffusion coefficients either in a direct calculation or in an ML surrogate model. To achieve that, we will start by introducing the kinetic Monte Carlo approach that is less accurate than the MD approach but is indeed much more efficient.
 
 \subsection{Lattice kinetic Monte Carlo}
 
@@ -99,46 +99,63 @@ The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable
 
 The transition state theory is usually used in chemistry to explain the kinetics of a reaction. To do so it compares the energy of the reactants before reacting and the one of the transition state to calculate the rate of the reaction. And it defines a reaction kinetic rate that explains the kinetics of a reaction.
 
-In our case, we want to study the transition from a pore to another one by transitioning through a channel. It is also possible to define a diffusion rate that connects the adsorption sites of the pores. 
+In our case, we want to study the transition from a pore to another one by transitioning through a channel. It is also possible to define a diffusion rate that connects the adsorption sites of the pores. \todo{Bennet-Chandler approach}
 
 \todo{what is a transition state for diffusion?}
 
-\subsubsection{Construction of the Markov chain}
+\subsubsection{Construction of the lattice}
 
 \todo{Detect TS, and bassins.}
 
 Fast kinetic Monte Carlo
 tutrast\autocite{Mace_2019} autre étude avant aussi
 
-\subsubsection{Generation of trajectories}
+\todo{Generation of trajectories + similar techniques than previously presented to find the MSD}
 
 
 \section{Screening of transport properties}\label{sct:md_screening}
 
-To complete the thermodynamic screenings that we performed in the chapters 2-4, we also carried out a transport property screening. In this section, we will provide a description of the screening approach as well as the analysis of the diffusion coefficients compared with typical geometrical descriptors.
+To complete the thermodynamic screenings that we performed in the chapters 2--4, we also carried out a transport property screening. In this section, we will provide a description of the screening approach as well as the analysis of the diffusion coefficients compared with typical geometrical descriptors.
 
 \subsection{Diffusion in a selective material}
 
 Before going into the details of the screening study, we will present the approach adopted for the diffusion coefficient calculation using MSD values, on one example, SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be used in the final screening study.
 
-First, I ran a molecular dynamics simulation of 500 million steps (about 1-2 days of simulation) with x thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. We tested three different time steps $\delta t$ as defined in equation~\ref{eq:frogleap_integration}. 
+First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. We tested three different time steps $\delta t$ as defined in equation~\ref{eq:frogleap_integration}. 
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.png}
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean.png}
+    \includegraphics[width=0.6\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.pdf}
     \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:MSD_init}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+\includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_1.pdf}
+\includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_2.pdf}
+\caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:MSD_linear_init}
 \end{figure}
 
 The diffusion regime seems to happen at a time scale of tens of nanoseconds. But the number of data points is not high enough at this higher time scale. 
 \todo{Confirm with real data} 
 
-\todo{Put data for 5fs and 10 fs}
+1.5e-8 cm2/s (0.01 -- 0.4ns)
+1.4e-8 cm2/s (0.4--9 ns)
+
+
+\todo{uncertainty discussion}
+
+\todo{1.77 +/- 0.35 10-8cm2/s} on 10 different trajectories (20\% error)
+
+\todo{Put data for 5fs}
+
+0.8 ns -- 1.9 ns
+
+2 ns -- 46 ns
 
 
 \todo{If we don't have enough time steps > can't reach the diffusion regime}
 
-\todo{uncertainty discussion}
 
 % si on s'intéresse à la régénération par exemple (petit problème). barrière cinétique d'entrée et de sortie.
 % courbe de percée de la publi banerjee> une partie est expliquée par la diffusion également.
