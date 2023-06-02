@@ -99,7 +99,7 @@ The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable
 
 The transition state theory is usually used in chemistry to explain the kinetics of a reaction. To do so it compares the energy of the reactants before reacting and the one of the transition state to calculate the rate of the reaction. And it defines a reaction kinetic rate that explains the kinetics of a reaction.
 
-In our case, we want to study the transition from a pore to another one by transitioning through a channel. It is also possible to define a diffusion rate that connects the adsorption sites of the pores. 
+In our case, we want to study the transition from a pore to another one by transitioning through a channel. It is also possible to define a diffusion rate that connects the adsorption sites of the pores using Bennet-Chandler 
 \todo{Bennet-Chandler approach}\autocite{BENNETT1977}
 
 \todo{what is a transition state for diffusion?}
@@ -143,10 +143,13 @@ The diffusion regime seems to happen at a time scale of tens of nanoseconds. But
 1.5e-8 cm2/s (0.01 -- 0.4ns)
 1.4e-8 cm2/s (0.4--9 ns)
 
-
 \todo{uncertainty discussion}
 
 \todo{1.77 +/- 0.35 10-8cm2/s} on 10 different trajectories (20\% error)
+\todo{If we don't have enough time steps > can't reach the diffusion regime}
+\todo{Remodeler}
+To access timescales where the diffusion is much more linear according to the plot without increasing the calculation time that is already of the order of 1--2 days per structures, we can increase the MD time step. This is generally not recommended as we try to be half the period of the fastest vibration (Nyquist-Shannon sampling theorem).
+1--2fs is very common in most MD. Even in ``rigid' nanoporous materials, typical time steps are $\sim$1fs is used, but no one really questioned the relevance of this time step value.\autocite{Bukowski_2021}  In this rigid system, the only moving particle is xenon, hence in theory there is no vibration limitations. However, to access higher time steps, we need to check the stability of the diffusion values.
 
 \todo{Put data for 5fs}
 
@@ -155,7 +158,6 @@ The diffusion regime seems to happen at a time scale of tens of nanoseconds. But
 2 ns -- 46 ns
 
 
-\todo{If we don't have enough time steps > can't reach the diffusion regime}
 
 
 % si on s'intéresse à la régénération par exemple (petit problème). barrière cinétique d'entrée et de sortie.
@@ -222,6 +224,8 @@ ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$
 
 \subsection{Implementation in C++}
 
+Breadth-first search
+
 \subsection{Preliminary results}
 
 \subsection{Visualization tool}
@@ -251,7 +255,12 @@ ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$
 \end{figure}
 
 ML descriptors
-next steps
+
+\textbf{Next steps}
+
+\todo{Broaden to the study of collective diffusion, Maxwell-stefan, Onsager, etc.}
+
+\todo{Can be used in breakthrough simulations using RUPTURA\autocite{Sharma_2023} and equations that link the diffusion coefficient to the axial dispersion coefficient a key parameter in the breakthrough modeling.}
 
 \OnlyInSubfile{\printglobalbibliography}
 
