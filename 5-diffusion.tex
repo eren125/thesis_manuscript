@@ -122,7 +122,7 @@ To complete the thermodynamic screenings that we performed in the chapters 2--4,
 
 Before going into the details of the screening study, we will present the approach adopted for the diffusion coefficient calculation using MSD values, on one example, SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be used in the final screening study.
 
-First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. We tested three different time steps $\delta t$ as defined in equation~\ref{eq:frogleap_integration}. 
+First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. And we can observe on the Figure~\ref{fgr:MSD_init} the different time scales at which different transport phenomena occur. 
 
 \begin{figure}[ht]
   \centering
@@ -145,6 +145,8 @@ The diffusion regime seems to happen at a time scale of tens of nanoseconds. But
 
 \todo{uncertainty discussion}
 
+
+I tested three different time steps $\delta t$ as defined in equation~\ref{eq:frogleap_integration}. 
 \todo{1.77 +/- 0.35 10-8cm2/s} on 10 different trajectories (20\% error)
 \todo{If we don't have enough time steps > can't reach the diffusion regime}
 \todo{Remodeler}
