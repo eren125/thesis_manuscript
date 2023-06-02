@@ -37,7 +37,6 @@
 \usepackage{pgfornament}
 \usepackage[
     backend=biber,
-    bibencoding=utf8,
     maxbibnames=99,
     maxcitenames=1,
     url=false,
@@ -388,7 +387,8 @@
 \input{cover}
 
 \addsectionbib{publications.bib}
-\bibliography{thesis,publications}
+\addbibresource{thesis.bib}
+\bibliography{thesis.bib,publications.bib}
 
 \addto\captionsenglish{\renewcommand{\contentsname}{Table of contents}}
 
