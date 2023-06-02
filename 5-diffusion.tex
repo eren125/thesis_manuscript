@@ -20,7 +20,7 @@ In separation processes, diffusion can either be the main performance metric or 
 
 % From the macroscopic brownian motion modeled by the
 % Fick's law
-Since the pollen motion observations of the botannist Brown in 1826, scientists have observed and studied the seemingly erratic movement of particles in a static bulk medium. Later, Fick proposed a macroscopic model of this so-called brownian motion by introduced the coefficient $D$ of a diffusion equation~\ref{eq:fick} (1D) based on experimental measures of the concentration $\phi$.\autocite{Fick_1855} According to this law, at the macroscopic level, the particles tend to go move from the most concentrated area of the bulk to the less concentrated one. 
+Since the pollen motion observations of the botannist Brown in 1826, scientists have observed and studied the seemingly erratic movement of particles in a static bulk medium. Later, Fick proposed a macroscopic model of this so-called brownian motion by introduced the coefficient $D$ of a diffusion equation~\ref{eq:fick} (1D) based on experimental measures of the concentration $\phi$.\autocite{Fick_1855} According to this law (valid only for independent particles), at the macroscopic level, the particles tend to move from the most concentrated area of the bulk to the less concentrated one. 
 
 \begin{equation}\label{eq:fick}
   \frac{\partial \phi}{\partial t} = D_x \frac{\partial^2 \phi}{{\partial x}^2}
@@ -122,57 +122,49 @@ To complete the thermodynamic screenings that we performed in the chapters 2--4,
 
 Before going into the details of the screening study, we will present the approach adopted for the diffusion coefficient calculation using MSD values, on one example, SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be used in the final screening study.
 
-First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. And we can observe on the Figure~\ref{fgr:MSD_init} the different time scales at which different transport phenomena occur. 
+First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. And we can observe on the Figure~\ref{fgr:MSD_init}, the different time scales at which different transport phenomena occur. 
+
+From \SI{1}{\fs} to \SI{1}{\ps}, there is a ballistic regime with a squared dependence of the mean squared displacement. For a particle of mass $m$, the MSD $\langle {r(\tau)}^2 \rangle$ in this regime follows a simple ballistic relation (length equals velocity multiplied by time):
+\begin{equation}
+  \langle {r(\tau)}^2 \rangle = v_m^2 \tau^2 = \frac{k\e{B}T}{2\pi m}\tau^2
+\end{equation}
+where $v_m$ is the average velocity of a particle that follows the Maxwell-Boltzmann distribution at temperature $T$. If we calculate the squared mean velocity $v_m^2$ using the standard Maxwell-Boltzmann relation, we get a value of \SI{3}{\square\m\per\square\second}, which is very close to the value of \SI{2.8}{\square\m\per\square\second} obtained by the fit shown right plot of Figure~\ref{fgr:MSD_init}. This first regime simply corresponds to the movement of the particles subjected to the thermal agitation and is of little interest for diffusion. 
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.6\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.pdf}
-    \caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:MSD_init}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/Msd_anomalous_diffusion.svg.png}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.pdf}
+    \caption{Left: Different regimes that could be observed in an MSD plot as a function of time. The ballistic regime can be considered superdiffusional, the normal diffusion is simply a linear relation as described in the Einstein equation\ref{eq:einstein}, and the subdiffusion regime often occurs in obstructed media like nanoporous materials. \todo{redo} The different regimes can be found on the right plot of an actual MSD calculated using the multiple window method. The fittings are done using a generic function $K_\alpha\tau^\alpha$ and the exponents $\alpha$ are given in the legend. }\label{fgr:MSD_init}
 \end{figure}
+
+Then, there is a transition from the ballistic regime to the pseudo-diffusional regime (the exponent does not reach $1$ yet) that we observe in cyan on the plot. Between \SI{1}{\ps} and \SI{100}{\ps}, there is a so-called subdiffusion regime, where the MSD has a power function of the time $\langle {r(\tau)}^2 \rangle=K_\alpha\tau^\alpha$ with an exponent inferior to $1$ as illustrated on the left plot of Figure~\ref{fgr:MSD_init}. This regime corresponds to the confinement of the xenon particle inside an adsorption pore, there is only thermal vibration occuring and no diffusion hopping is observed at this time scale. And diffusion seems to start occuring at the \SI{10}{\ns} time-scale. As we can see on the Figure~\ref{fgr:MSD_linear_init}, the MSD between \SI{0.01}{\ns} and \SI{0.4}{\ns} really represents a sub-diffusional regime due to the confinement imposed by the nanopores of KAXQIL, but at \SI{0.4}{\ns}--\SI{9}{\ns}, the MSD start to have an exponent closer to $1$ and a linear fit is possible although not perfect. Ideally, we would want to sample trajectories in the order of tens of nanoseconds, which is the next time-scale. But with an MD time step of \SI{1}{\fs}, this would mean multiplying the computation time by at least 5 (1--2 weeks for one MD simulation), which begins to be prohibitive. 
 
 \begin{figure}[ht]
   \centering
 \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_1.pdf}
 \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_2.pdf}
-\caption{\todo{MSD, show the fit at higher time scale/ Change (10-300) yellow / Add (300-1000) il cyan}}\label{fgr:MSD_linear_init}
+\caption{ Plots of the MSD at the last two time scales considered on the Figure~\ref{fgr:MSD_init}. On the left, the time-scale between \SI{0.01}{\ns} and \SI{0.4}{\ns} is considered, the MSD is fitted by a power function with the same exponent as one determined earlier, and a linear fit is given to show the incompatibility with the diffusion equation. On the right, we have the same approach but for the time-scale between \SI{0.4}{\ns} and \SI{9}{\ns}. }\label{fgr:MSD_linear_init}
 \end{figure}
 
-The diffusion regime seems to happen at a time scale of tens of nanoseconds. But the number of data points is not high enough at this higher time scale. 
-\todo{Confirm with real data} 
+If we use the right plot of Figure~\ref{fgr:MSD_linear_init} to fit a linear relation and deduct the diffusion coefficient, we can have an underestimated value of the diffusion coefficient of $2.24\times 10^{-8}$~\si{\square\cm\per\square\s} --- it is an underestimation because the MSD is rather concave, which reduces the slope in the fitting process. This value is already a good estimation of the diffusion coefficient considering the rather high exponent $\alpha$ value in the with regard to $K_\alpha\tau^\alpha$.
 
-1.5e-8 cm2/s (0.01 -- 0.4ns)
-1.4e-8 cm2/s (0.4--9 ns)
+Since there is an element of randomness in the initial position of xenon (pockets have been blocked so that xenon is not blocked), we need to measure the effet of running different MD simulations of the value of the diffusion coefficients. To measure this uncertainty across different MD simulations with different initial positions determined by with different random seed. In RASPA, the random seed is simply equal to the UNIX time upon launching the MD simulation. This ensures that a different random seed is given to the $10$ different MD simulations we launched using the exact same parameters as mentioned previously. We found that the average diffusion coefficient value equals $2.13\times 10^{-8}$~\si{\square\cm\per\square\s} and the standard deviation equals $0.37\times 10^{-8}$~\si{\square\cm\per\square\s}, which represents about {17\%} of the average value. We could estimate the uncertainty to about {17\%} on the diffusion coefficient for a rather low coefficient around $10^{-8}$~\si{\square\cm\per\square\s}, we could expect lower uncertainty for less obstructing materials. 
 
-\todo{uncertainty discussion}
+Now that we have more confidence on the method we are using, we will try to probe higher time-scales than the one accessible with an MD time step of \SI{1}{\fs}, because the diffusion regime seems to be occuring rather at the \SI{10}{\ns} time-scale. We ran a first calculation with 500 million step to confirm that we obtain a similar diffusion coefficient value. The time window between \SI{2}{\ns} and \SI{47}{\ns}, and the MSD are calculated from about 200 sampled trajectories, which gives rather correct values. We can obtain a more accurate diffusion coefficient of $2.6\times 10^{-8}$~\si{\square\cm\per\square\s}, which is very close to the one obtained in the previous approach. The value is slightly higher (which is expected) since the previous values was over-estimated. This approach is therefore consistent with the previous one.
 
+To further back-up the use of a higher time integration step, we need to understand the origin of the value of \SI{1}{\fs}. This value is usually justified by the Nyquist-Shannon sampling theorem that implies the integration step to be at most half of the period of the fastest vibration within the system. If we take a C--H vibration, the maximum time step value is \SI{5}{\fs}, and to be on the safe side, a time step of $1$--$2$~\si{\fs} is chosen in most of the diffusion studies in nanoporous materials.\autocite{Bukowski_2021} But in our system of a xenon diffusing in a rigid environment, we actually don't have any vibrational limitations as described earlier. I think that the use of higher time steps in this situation can be an easy way to access higher time-scales; however, furhter studies need to be performed to be sure of the validity of the quantities we derive from these MD simulations. The value of \SI{5}{\fs} is on the higher side of what we usually see in MD simulations, but it can be justified by the rigidity of the framework and the adsorbate we consider. Even higher time steps could be tested, but to be sure of the results we stay at this reasonable middle ground of \SI{5}{\fs} for all our high-throughput screening of the transport properties.
 
-I tested three different time steps $\delta t$ as defined in equation~\ref{eq:frogleap_integration}. 
-\todo{1.77 +/- 0.35 10-8cm2/s} on 10 different trajectories (20\% error)
-\todo{If we don't have enough time steps > can't reach the diffusion regime}
-\todo{Remodeler}
-To access timescales where the diffusion is much more linear according to the plot without increasing the calculation time that is already of the order of 1--2 days per structures, we can increase the MD time step. This is generally not recommended as we try to be half the period of the fastest vibration (Nyquist-Shannon sampling theorem).
-1--2fs is very common in most MD. Even in ``rigid' nanoporous materials, typical time steps are $\sim$1fs is used, but no one really questioned the relevance of this time step value.\autocite{Bukowski_2021}  In this rigid system, the only moving particle is xenon, hence in theory there is no vibration limitations. However, to access higher time steps, we need to check the stability of the diffusion values.
+\todo{talk about superdiffusion for KAXQIL. Maybe landauer blowtorch effect.}
+When probing the much higher time-scale of 50--950~\si{\ns}, I came across an anomalous diffusion regime that corresponds to a surdiffusion according to the plot...
 
-\todo{Put data for 5fs}
-
-0.8 ns -- 1.9 ns
-
-2 ns -- 46 ns
-
-
-
-
-% si on s'intéresse à la régénération par exemple (petit problème). barrière cinétique d'entrée et de sortie.
-% courbe de percée de la publi banerjee> une partie est expliquée par la diffusion également.
-\todo{kinetic KAXQIL (water loaeded structure) problem}
-
-
-\todo{Worse if we consider xenon and krypton}
 
 
 \subsection{Structure--diffusivity relationships}
 
-500 000 000 cycles with restart on the server.
+
+500 000 000 cycles with restart on the server. order of 2--3 days per structures
+Requires 2 to 3 restarts. Still some structures did not finish within this time frame but the incomplete MSD can however be anlyzed.
+
 \todo{We have generated diffusion coefficients for the ... best materials}
 
 \todo{correlation with VF/SA/Selectivity/permselectivity}
