@@ -95,9 +95,9 @@ The first term of the above-written sum corresponds to a bias error, because it 
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.45\textwidth]{figures/4-ml/Bias_and_variance_contributing_to_total_error.svg.png}
-    \includegraphics[width=0.45\textwidth]{figures/4-ml/Overfitted_Data.png}
-    \caption{On the left, theoretical relation between the bias, variance and total errors and the model complexity taken from \href{https://en.wikipedia.org/wiki/File:Bias_and_variance_contributing_to_total_error.svg}{Wikimedia Commons} under absorbers \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0} license. This is an illustration of what happens for instance on the left plot (taken from \href{https://en.wikipedia.org/wiki/File:Overfitted_Data.png}{Wikimedia Commons} under a \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0} license), when considering different degrees of polynomials. The lower degree linear function is more generalizable that the biased high degree polynomial that fits perfectly the data.}\label{fgr:bias_variance}
+    \includegraphics[width=0.45\textwidth]{figures/4-ml/Bias_variance_tradeoff.pdf}
+    \includegraphics[width=0.45\textwidth]{figures/4-ml/overfit.pdf}
+    \caption{On the left, theoretical relation between the bias, variance and total errors and the model complexity. The overfit case is illustrated on the right plot when considering polynomial fits. The lower degree linear function is more generalizable than the biased high degree polynomial that fits perfectly the data.}\label{fgr:bias_variance}
 \end{figure}
 
 In general, if the model is very complex in comparison to the amount of data we have, we would fit too closely to the data and have a very high change to overfit. The opposite is also true, a simplistic model would yield to a poor bias error and the model would be underfit. This principle is represented on the Figure~\ref{fgr:bias_variance} and should guide us in the design of a new ML model.

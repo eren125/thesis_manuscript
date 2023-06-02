@@ -132,7 +132,7 @@ where $v_m$ is the average velocity of a particle that follows the Maxwell-Boltz
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/Msd_anomalous_diffusion.svg.png}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_anomalous_diffusion.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean.pdf}
     \caption{Left: Different regimes that could be observed in an MSD plot as a function of time. The ballistic regime can be considered superdiffusional, the normal diffusion is simply a linear relation as described in the Einstein equation\ref{eq:einstein}, and the subdiffusion regime often occurs in obstructed media like nanoporous materials. \todo{redo} The different regimes can be found on the right plot of an actual MSD calculated using the multiple window method. The fittings are done using a generic function $K_\alpha\tau^\alpha$ and the exponents $\alpha$ are given in the legend. }\label{fgr:MSD_init}
 \end{figure}
@@ -155,14 +155,15 @@ Now that we have more confidence on the method we are using, we will try to prob
 To further back-up the use of a higher time integration step, we need to understand the origin of the value of \SI{1}{\fs}. This value is usually justified by the Nyquist-Shannon sampling theorem that implies the integration step to be at most half of the period of the fastest vibration within the system. If we take a C--H vibration, the maximum time step value is \SI{5}{\fs}, and to be on the safe side, a time step of $1$--$2$~\si{\fs} is chosen in most of the diffusion studies in nanoporous materials.\autocite{Bukowski_2021} But in our system of a xenon diffusing in a rigid environment, we actually don't have any vibrational limitations as described earlier. I think that the use of higher time steps in this situation can be an easy way to access higher time-scales; however, furhter studies need to be performed to be sure of the validity of the quantities we derive from these MD simulations. The value of \SI{5}{\fs} is on the higher side of what we usually see in MD simulations, but it can be justified by the rigidity of the framework and the adsorbate we consider. Even higher time steps could be tested, but to be sure of the results we stay at this reasonable middle ground of \SI{5}{\fs} for all our high-throughput screening of the transport properties.
 
 \todo{talk about superdiffusion for KAXQIL. Maybe landauer blowtorch effect.}
-When probing the much higher time-scale of 50--950~\si{\ns}, I came across an anomalous diffusion regime that corresponds to a surdiffusion according to the plot...
+When probing the much higher time-scale of 50--950~\si{\ns}, I came across an anomalous diffusion regime that corresponds to a surdiffusion as defined in the Figure~\ref{fgr:MSD_init}
 
 
 
 \subsection{Structure--diffusivity relationships}
 
+\todo{HERE}
 
-500 000 000 cycles with restart on the server. order of 2--3 days per structures
+500 million cycles with restart on the server. order of 2--3 days per structures
 Requires 2 to 3 restarts. Still some structures did not finish within this time frame but the incomplete MSD can however be anlyzed.
 
 \todo{We have generated diffusion coefficients for the ... best materials}
@@ -258,9 +259,13 @@ ML descriptors
 
 \textbf{Next steps}
 
-\todo{Broaden to the study of collective diffusion, Maxwell-stefan, Onsager, etc.}
+
+\todo{find higher order relations than the diffusion for 1D frameworks. Is it possible for other D channels?}
 
 \todo{Can be used in breakthrough simulations using RUPTURA and equations that link the diffusion coefficient to the axial dispersion coefficient a key parameter in the breakthrough modeling.}\autocite{Sharma_2023}
+
+\todo{Broaden to the study of collective diffusion, Maxwell-stefan, Onsager, etc.}
+
 
 \OnlyInSubfile{\printglobalbibliography}
 
