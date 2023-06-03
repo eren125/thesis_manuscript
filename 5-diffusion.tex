@@ -173,7 +173,7 @@ This approach only probes the linear relations between the MSD and time to deter
 
 In this section, I will present the different relations the diffusion coefficient may or may not have with the geometrical descriptors. I decided to use a forcefield-dependent definition of the radii so that it better correlates with the results of the MD simulation that uses the UFF forcefield. The different geometrical descriptors are then calculated using Zeo++ and these radii to calculate the PLD, the LCD or D$_{if}$ along a free path, the surface area and the pore volume, as already explained in the chapter 2. To further justify the use of the UFF-based radii, the original paper \cite{Hung_2021} showed the better correlation of the PLD to the diffusion constant, and we can also see it from the Figure~\ref{fgr:diff_pld}. The PLD calculated by the standard CCDC defined atom radii does not fit the diffusion coefficient as well as the UFF-defined PLD. As shown in a smaller scale in the article \cite{Haldoupis_2010} (see Figure~\ref{fgr:Haldoupis_2010} in the chapter 1), there is a linear relation between the diffusion activation energy (logarithmic transform of the diffusion coefficient) and the PLD, and this linear relation is much more noisy for the PLD defined by the standard CCDC radii than for the UFF-based PLD.
 
-Beyond the practical considerations on the geometrical descriptor calculations, the PLD is one of the key metric to explain the 
+Beyond the practical considerations on the geometrical descriptor calculations, the PLD explains the outlines of the variation of diffusion performance inside a nanoporous material. First there is a the linear relation previously highlighted, and then there is a sort of noisy plateau. In the first zone, the xenon is constrained by channels narrower than its kinetic radius. The wider the channel the higher the diffusion coefficient is, and this positive correlation persists until the channel is wider than about \SI{4.6}{\angstrom}. After this threshold, the diffusion coefficient is rather stable around $10^{-4}$~\si{\square\cm\per\square\s}, and the variations can only be explained by other phenomena such as the tortuosity inside nanopores or chemical nature of the surface of the nanopores. 
 
 \begin{figure}[ht]
   \centering
@@ -181,8 +181,9 @@ Beyond the practical considerations on the geometrical descriptor calculations, 
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-diameter_colored_s_+.pdf}
     \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the pore limiting diameter (PLD). The diameter of the largest free sphere is defined using two different radius systems: the standard CCDC-based PLD (on the left), and the one defined using the UFF forcefield (on the right)\autocite{Hung_2021} --- as defined in the chapter 2. }\label{fgr:diff_pld}
 \end{figure}
+\todo{refaire les figures avec D à la place de log10 D et en log scale}
 
-
+If we now analyze the channel dimensions (determined using Zeo++) that could inform use a little bit on the channel shape, we can see (on Figure~\ref{fgr:hist_diffusion_chandim}) that the distribution of diffusion coefficients depends in some extend to the dimensionality of the channels within the framework. The distribution for structures containing 1D structures is much more heavy tail in terms of low diffusion coefficients. We can more easily find 1D structures with very low diffusion coefficients under $3/times 10^{-8}$~\si{\square\cm\per\square\s}. The vast majority of structures with tridimensional channels has a rather higher diffusion coefficient between $3\times 10^{-6}$~\si{\square\cm\per\square\s} and $10^{-4}$~\si{\square\cm\per\square\s} with almost no structures with lower diffusion coefficients. This is not as blatant for bi- and unidimensional channels, we can more easily find structures between $3/times 10^{-8}$~\si{\square\cm\per\square\s} and $3\times 10^{-6}$~\si{\square\cm\per\square\s}, even if thery are not that frequent. The dimensionality of the channels can therefore influence the values of diffusion coefficient but the relation is not as clear as for PLD. Maybe it can help distinguish the structures in the plateau.
 
 \begin{figure}[ht]
   \centering
@@ -190,6 +191,15 @@ Beyond the practical considerations on the geometrical descriptor calculations, 
     \includegraphics[width=0.32\textwidth]{figures/5-diffusion/histogram_chan2D.pdf}
     \includegraphics[width=0.32\textwidth]{figures/5-diffusion/histogram_chan3D.pdf}
     \caption{ Distributions of diffusion coefficient of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:hist_diffusion_chandim}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.32\textwidth]{figures/5-diffusion/D_log-PLD_1D_chan.pdf}
+    \includegraphics[width=0.32\textwidth]{figures/5-diffusion/D_log-PLD_2D_chan.pdf}
+    \includegraphics[width=0.32\textwidth]{figures/5-diffusion/D_log-PLD_3D_chan.pdf}
+    \caption{ Distributions of diffusion coefficient of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:scatter_diffusion_chandim}
 \end{figure}
 
 \todo{Enthalpy / LCD}
