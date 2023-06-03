@@ -163,24 +163,64 @@ Blow torch effect, file-diffusion (no its not sqrt), ballistic conduction likely
 
 \subsubsection{Screening procedure}
 
-500 million cycles with restart on the server. order of 2--3 days per structures
-Requires 2 to 3 restarts. Still some structures did not finish within this time frame but the incomplete MSD can however be analyzed.
+In order to include the transport properties in our analysis, I performed MD calculations of a xenon or krypton at infinite dilution (no guest--guest interactions) for the 7822 most selective materials. For each of them, 500 million steps of MD were planned in the RASPA script in the calculation machines and 2 to 3 restarts were done on the slowest simulations so that every MSD data were obtained after 2--3 days. After this process, \todo{X} structures have finished the planned 500 million steps, but it does not mean that the MSD is not exploitable for the determination of the diffusion coefficients. 
 
-\todo{We have generated diffusion coefficients for the ... best materials}
+To determine the diffusion coefficients we analyzed two time-scales (2--47\si{\ns} and 50--950~\si{\ns}) to fit the MSD with a linear function. We chose the linear fit with the highest determination coefficient (within $0$ and $1$) of both time-scales to output a value of diffusion coefficient. After this step, we removed structures with a determination coefficient lower than $0.6$ and used the 5398 remaining structures to draw structure--diffusivity relationships. 
+
+This approach only probes the linear relations between the MSD and time to determine the self-diffusion at infinite dilution. We did not analyze the nature of the transport property by comparing for example the exponent of a generalized formula $\text{MSD}(/tau) = K_\alpha\tau^\alpha$ with structural dscriptors. We did not study the more complex diffusion at higher loading values, which could be more accurately described by a collective diffusion coefficient instead of the self-diffusion coefficient. 
 
 \subsubsection{Structure--diffusivity relationships}
 
-\todo{correlation with VF/SA/Selectivity/permselectivity}
+In this section, I will present the different relations the diffusion coefficient may or may not have with the geometrical descriptors. I decided to use a forcefield-dependent definition of the radii so that it better correlates with the results of the MD simulation that uses the UFF forcefield. The different geometrical descriptors are then calculated using Zeo++ and these radii to calculate the PLD, the LCD or D$_{if}$ along a free path, the surface area and the pore volume, as already explained in the chapter 2. To further justify the use of the UFF-based radii, the original paper \cite{Hung_2021} showed the better correlation of the PLD to the diffusion constant, and we can also see it from the Figure~\ref{fgr:diff_pld}. The PLD calculated by the standard CCDC defined atom radii does not fit the diffusion coefficient as well as the UFF-defined PLD. As shown in a smaller scale in the article \cite{Haldoupis_2010} (see Figure~\ref{fgr:Haldoupis_2010} in the chapter 1), there is a linear relation between the diffusion activation energy (logarithmic transform of the diffusion coefficient) and the PLD, and this linear relation is much more noisy for the PLD defined by the standard CCDC radii than for the UFF-based PLD.
 
-Justify the use of UFF \autocite{Hung_2021} (Chapitre 2)
+Beyond the practical considerations on the geometrical descriptor calculations, the PLD is one of the key metric to explain the 
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-diameter_ccdc_colored_s_+.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-diameter_colored_s_+.pdf}
-    \caption{Logarithme du coefficient de diffusion du xénon à la limite des basses pressions en fonction du diamètre de la plus petite sphère libre dans le matériau (LCD). Les points sont colorés en fonction du logarithme de la sélectivité à basse pression $\log(s_0)$. \todo{correlation with PLD}Left: PLD/e{CCDC} and right: PLD\e{UFF}}\label{fgr:}
+    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the pore limiting diameter (PLD). The diameter of the largest free sphere is defined using two different radius systems: the standard CCDC-based PLD (on the left), and the one defined using the UFF forcefield (on the right)\autocite{Hung_2021} --- as defined in the chapter 2. }\label{fgr:diff_pld}
 \end{figure}
 
+
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.32\textwidth]{figures/5-diffusion/histogram_chan1D.pdf}
+    \includegraphics[width=0.32\textwidth]{figures/5-diffusion/histogram_chan2D.pdf}
+    \includegraphics[width=0.32\textwidth]{figures/5-diffusion/histogram_chan3D.pdf}
+    \caption{ Distributions of diffusion coefficient of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:hist_diffusion_chandim}
+\end{figure}
+
+\todo{Enthalpy / LCD}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-H_Xe_s_+.pdf}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-lcd_s_+.pdf}
+    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the xenon adsorption enthalpy (left) and the largest cavity diameter D$_{if}$ within a free diffusion path. }\label{fgr:diff_H_lcd}
+\end{figure}
+
+\todo{Density / Molar Mass}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-density_s_+.pdf}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-mass_s_+.pdf}
+    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the density (left) and the mass (right) of the frameworks. }\label{fgr:diff_density_mass}
+\end{figure}
+
+Avec la définition UFF.
+
+\todo{VF}
+\todo{SA}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-sa_12_s_+.pdf}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-vf_2_s_+.pdf}
+    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the accessible surface area (left) and the void fraction (right). }\label{fgr:diff_sa_vf}
+\end{figure}
 
 % Outre l'exemple très parlant de SBMOF-1, d'autres publications, dans la séparation d'hydrocarbures notamment, s'intéressent aux éventuelles blocages cinétiques grâce à des simulations de dynamique moléculaire (MD) flexible.\cite{Stanton_2022} Ils ont notamment mis en évidence que la diffusion pouvait détériorer les performances de structure présentant d'excellente performance thermodynamique (énergie d'adsorption). Cette approche est très complète, car elle allie la thermodynamique, la flexibilité et les effets de transport dans une seule étude. En revanche, elle est très coûteuse en temps de calcul et ne pourrait être appliquée qu'à une poignée de structures. Au lieu d'utiliser des champs de force flexible qui alourdissent énormément la simulation, il est possible de se tourner vers une approche en ``snapshot'' bien moins coûteuse que nous développerons dans la dernière partie de ce rapport. Dans cette partie, nous nous focaliserons uniquement sur le couplage thermodynamique/cinétique.
 
@@ -188,15 +228,11 @@ Justify the use of UFF \autocite{Hung_2021} (Chapitre 2)
 % Des trajectoires de dynamique moléculaire ont été calculées sur l'ensemble de ces structures deux fois pour chaque adsorbat à dilution infinie. Il a fallu environ une à deux journées de simulation par structure afin de déterminer leurs coefficients de diffusion. Il est à noter pour la suite que les valeurs de diffusivités sont déterminés à l'ordre de grandeur près. Autrement dit c'est l'échelle logarithmique qui est pertinent pour les comparer à d'autres grandeurs. On a pu établir une forte corrélation entre le coefficient de diffusion et la taille minimale des canaux de diffusion à l'intérieur du matériau (PLD). La figure~\ref{fgr:Diff_Df_s} met en évidence la corrélation linéaire entre le logarithme de la diffusivité et le LCD pour des canaux de taille inférieure au diamètre cinétique du xénon (\SI{4,3}{\angstrom}). Ensuite, on arrive sur un plateau, c'est-à-dire que la diffusion du xénon dans le matériau ou dans le vide sont quasiment équivalentes. Les canaux sont assez larges pour permettre la libre diffusion du xénon à l'intérieur de ces matériaux. On voit aussi que ces matériaux ont moins de chances d'être sélectifs (les points foncés sont plus rares). Cette corrélation ouvre la voie au développement de modèles statistiques pour prédire la diffusivité, ce qui a déjà été étudié par Daglar \emph{et al.} dans leur récente publication.\cite{Daglar_2022} Dans leur étude, pour l'hélium, le coefficient de corrélation entre les coefficients de diffusion prédites et calculés par MD est d'environ 0,65 pour les données de test, ce qui n'est pas très précis. Il faut donc nuancer l'approche ``machine learning'' pour la prédiction des diffusivités. Cependant, l'étude n'a pas encore été menée sur le xénon et le krypton, ce qui pourrait mériter une étude préliminaire.
 
 
-Avec la définition UFF.
-
-\todo{VF}
-
-\todo{SA}
+\subsection{A trade-off between the selectivity and the diffusion}
 
 
-\subsection{Identification of interesting materials}
 
+\todo{Identification of interesting materials}
 
 % En analysant les rapports des coefficients de diffusion en comparaison des sélectivités, on a pu identifier deux structures qui couplent une bonne sélectivité à un ratio de diffusivités autour de 0,5 (\emph{cf.} table~\ref{table:diff}) : les structures de code CCSD GUMDEZ et QOZDOY. Grâce à leur LCD proches du diamètre cinétique du xénon et à un PLD assez élevé pour ne pas entraver le déplacement du xénon à travers les canaux. Les coefficients de diffusion du xénon tournent autour de 7$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} ce qui est proche de la diffusion libre (de l'ordre de 10\ex{-5} \SI{}{\square\centi\meter\per\second}), ce qui confirme l'absence de blocage cinétique. 
 
@@ -256,6 +292,10 @@ Breadth-first search
 
 ML descriptors
 
+Chann dim
+
+\todo{coefficient of tortuosity ?}
+
 \textbf{Next steps}
 
 
@@ -269,3 +309,4 @@ ML descriptors
 \OnlyInSubfile{\printglobalbibliography}
 
 \end{document}
+
