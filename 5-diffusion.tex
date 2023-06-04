@@ -120,8 +120,11 @@ where the integration for the transition state is done on a bottle-neck surface 
 
 In this section, I will focus on the second approach that relies on the determination of a transition state as a surface. This approach has been developed by Mace et al. and relies on detecting the merging points of bassin representing the adsorption sites. The algorithm developed is called TuTraST, which stand for Tunnels and Transition States, is a search algorithm that aims at finding the tunnels and the transition states within them.\autocite{Mace_2019} Once the adsorption sites, the transition states and the tunnels that connect them are found, the equation ~\ref{eq:trans_rate} can be used to calculate the transition rates to move a particle from one point to another and hence producing a kinetic Monte Carlo simulation to determine the MSD and eventually the diffusion coefficients. 
 
-This approach is inspiring our code to 
-\todo{}
+
+\todo{Give the scheme here}
+
+This approach is very promising since it is much more efficient than the MD simulation based techniques. with an implementation in Matlab, the code is already out-performing most of the MD simulations for diffsuion coefficient calculation, with a minimal cost in accuracy as shown in their screening of diffusion coefficients in zeolites. By using the C++ programming language, I tried to rewrite the algorithm for a more efficient search of the transition states. At this point of the development, I stopped at the determination of the diffusion activation energy which is independent of the detection of the transition state. And, in section~\ref{sct:algo_diff}, I will give the algorithmic detail for the determination of the diffusion activation energy in nanoporous mateirals using our in-house algorithm as well as the projected develoopment to achieve a faster lattice kinetic Monte Carlo simulation inspired by TuTraST.
+
 
 \section{Screening of transport properties}\label{sct:md_screening}
 
@@ -188,9 +191,8 @@ Beyond the practical considerations on the geometrical descriptor calculations, 
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-diameter_ccdc_colored_s_+.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-diameter_colored_s_+.pdf}
-    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the pore limiting diameter (PLD). The diameter of the largest free sphere is defined using two different radius systems: the standard CCDC-based PLD (on the left), and the one defined using the UFF forcefield (on the right)\autocite{Hung_2021} --- as defined in the chapter 2. }\label{fgr:diff_pld}
+    \caption{Xenon diffusion coefficient at infinite dilution as a function of the pore limiting diameter (PLD). The diameter of the largest free sphere is defined using two different radius systems: the standard CCDC-based PLD (on the left), and the one defined using the UFF forcefield (on the right)\autocite{Hung_2021} --- as defined in the chapter 2. }\label{fgr:diff_pld}
 \end{figure}
-\todo{refaire les figures avec D à la place de log10 D et en log scale}
 
 If we now analyze the channel dimensions (determined using Zeo++) that could partially inform us on the channel shape. As we can see on the Figure~\ref{fgr:scatter_diffusion_chandim}, the dispersion of the diffusion coefficients at the plateau is actually very hard to characterize using the channel dimension with bear eyes. 
 
@@ -199,7 +201,7 @@ If we now analyze the channel dimensions (determined using Zeo++) that could par
     \includegraphics[width=0.32\textwidth]{figures/5-diffusion/D_log-PLD_1D_chan.pdf}
     \includegraphics[width=0.32\textwidth]{figures/5-diffusion/D_log-PLD_2D_chan.pdf}
     \includegraphics[width=0.32\textwidth]{figures/5-diffusion/D_log-PLD_3D_chan.pdf}
-    \caption{ Distributions of diffusion coefficient of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:scatter_diffusion_chandim}
+    \caption{ Distributions of the base-10 logarithm of the diffusion coefficients of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:scatter_diffusion_chandim}
 \end{figure}
 
 For this reason, I plotted on Figure~\ref{fgr:hist_diffusion_chandim} the distribution of diffusion coefficients that depends on the dimensionality of the channels within the framework. The distribution for structures containing 1D structures is much more heavy tail in terms of low diffusion coefficients. We can more easily find 1D structures with very low diffusion coefficients under $3/times 10^{-8}$~\si{\square\cm\per\square\s}. The vast majority of structures with tridimensional channels has a rather higher diffusion coefficient between $3\times 10^{-6}$~\si{\square\cm\per\square\s} and $10^{-4}$~\si{\square\cm\per\square\s} with almost no structures with lower diffusion coefficients. This is not as blatant for bi- and unidimensional channels, we can more easily find structures between $3/times 10^{-8}$~\si{\square\cm\per\square\s} and $3\times 10^{-6}$~\si{\square\cm\per\square\s}, even if thery are not that frequent. The dimensionality of the channels can therefore influence the values of diffusion coefficient but the relation is not as clear as for PLD.
@@ -218,7 +220,7 @@ Other geometrical properties of the material that can influence the diffusion is
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-vf_2_s_+.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-sa_12_s_+.pdf}
-    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the accessible surface area (left) and the void fraction (right). }\label{fgr:diff_sa_vf}
+    \caption{Xenon diffusion coefficient at infinite dilution as a function of the accessible surface area (left) and the void fraction (right). }\label{fgr:diff_sa_vf}
 \end{figure}
 
 Framework density and molar mass are immediate characterictics of the structure since they do not require complicated simulations to obtain. The relation to the diffusion is, however, not that clear as we can see of the Figure~\ref{fgr:diff_density_mass}. We can probably say that low values of the density favors high values of the diffusion coefficeint, this can be understtod by the logical relation between low density and high porosity. Another relation to the diffusion coefficient concerns the higher probability to find high diffusion coefficients as materials have a higher molar mass. This last assertion is harder to justify using simple geometrical reasoning. 
@@ -227,7 +229,7 @@ Framework density and molar mass are immediate characterictics of the structure 
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-density_s_+.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-mass_s_+.pdf}
-    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the density (left) and the mass (right) of the frameworks. }\label{fgr:diff_density_mass}
+    \caption{Xenon diffusion coefficient at infinite dilution as a function of the density (left) and the mass (right) of the frameworks. }\label{fgr:diff_density_mass}
 \end{figure}
 
 The largest sphere diameter D$_{if}$ along a free diffusion path has a similar relation to the diffusion coefficient, but the correlations are much more noisy as we can see on the left plot of the Figure~\ref{fgr:diff_H_lcd}.  This can be explained by the fact that D$_{if}$ is always superior or equal to the pore limiting diameter  D$_{f}$ by definition. When both are equal it is equivalent to the Figure~\ref{fgr:diff_pld} with a linear relation and plateau, but if it is higher it creates the sort of noise that we see on the the left plot of the Figure~\ref{fgr:diff_H_lcd}. 
@@ -236,16 +238,18 @@ The largest sphere diameter D$_{if}$ along a free diffusion path has a similar r
   \centering
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-lcd_s_+.pdf}
     \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_log-H_Xe_s_+.pdf}
-    \caption{Logarithm of the xenon diffusion coefficient at infinite dilution as a function of the largest sphere diameter D$_{if}$ along a free diffusion path (left) and the xenon adsorption enthalpy (right). }\label{fgr:diff_H_lcd}
+    \caption{Xenon diffusion coefficient at infinite dilution as a function of the largest sphere diameter D$_{if}$ along a free diffusion path (left) and the xenon adsorption enthalpy (right). }\label{fgr:diff_H_lcd}
 \end{figure}
 
 The last comparison is made with a thermodynamic quantity, the xenon adsorption enthalpy $\Delta\e{ads}\ex{Xe}H$. There is no relation between diffusion coefficient and the xenon adsorption enthalpy, which is good thing because it means that any configurations are possible. A material can both have a high diffusion coefficient and a high xenon adsorption affinity (very negative values of enthalpy), which is the best configuration for adsorption at infinite dilution. However, it also means that we need to test the diffusivity when the material has a good affinity in order to optimize both properties. This approach will constitue the core discussion around the optimization of both the Xe/Kr selectivity and the diffusion coefficients of Xe and Kr.  
 
-
-
 \subsection{A trade-off between the selectivity and the diffusion}
 
+In this section, I will analyze the screening of the diffusion and selectivity properties calculated for xenon and krypton to identify interesting materials that presents both a good Xe/Kr selectivity and a good Xe/Kr diffusion coefficient ratio.
+
 \subsubsection{Diffusion selectivity and permselectivity}
+
+\todo{HERE}
 
 \subsubsection{Identification of interesting materials}
 
@@ -271,7 +275,7 @@ ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$
 
 % Cette approche basée sur des trajectoires de dynamique moléculaire présente toutefois ses propres défauts. En effet, la méthode est très lente (quelques jours de simulation par structure), les structures avec différents canaux non connectées posent problème car l'adsorbat ne peut diffuser que dans un seul des deux canaux. Ainsi, il faudrait dans certains cas faire plusieurs trajectoires ce qui demande encore davantage de temps de calcul. De plus, si l'on veut ajouter de la flexibilité, cette méthode ne pourrait être utilisée que sur quelques structures. C'est pourquoi, un algorithme bien plus efficace est en cours d'implémentation en C++ pour accélérer les calculs de diffusivité. Un tel algorithme est déjà conçu par le groupe de Berend Smit à l'EPFL \cite{Mace_2019}, mais le code étant sous Matlab (langage peut efficace), il est impossible de l'utiliser dans des procédures de screening. Cet algorithme détermine des sites d'adsorption et des états de transition pour passer d'un site à un autre. Puis à l'aide de simulations de Monte Carlo cinétique l'adsorbat se déplace d'un site à un autre au rythme d'une constante cinétique déterminée par l'état de transition. Cette méthode permet également d'identifier en avance les différents canaux et on assure que chacun d'entre eux sont traversés par des molécules. Par conséquent, ce nouveau code permettrait de résoudre les problèmes de temps de calcul et de fiabilité rencontrés avec la dynamique moléculaire. 
 
-\section{Fast diffusion calculation algorithm}
+\section{Fast diffusion calculation algorithm}\label{sct:algo_diff}
 
 \subsection{Implementation in C++}
 
