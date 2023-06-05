@@ -166,26 +166,22 @@ Now that we have more confidence on the method we are using, we will try to prob
 
 To further back-up the use of a higher time integration step, we need to understand the origin of the value of \SI{1}{\fs}. This value is usually justified by the Nyquist-Shannon sampling theorem that implies the integration step to be at most half of the period of the fastest vibration within the system. If we take a C--H vibration, the maximum time step value is \SI{5}{\fs}, and to be on the safe side, a time step of $1$--$2$~\si{\fs} is chosen in most of the diffusion studies in nanoporous materials.\autocite{Bukowski_2021} But in our system of a xenon diffusing in a rigid environment, we actually don't have any vibrational limitations as described earlier. I think that the use of higher time steps in this situation can be an easy way to access higher time-scales; however, furhter studies need to be performed to be sure of the validity of the quantities we derive from these MD simulations. The value of \SI{5}{\fs} is on the higher side of what we usually see in MD simulations, but it can be justified by the rigidity of the framework and the adsorbate we consider. Even higher time steps could be tested, but to be sure of the results we stay at this reasonable middle ground of \SI{5}{\fs} for all our high-throughput screening of the transport properties.
 
-\todo{talk about superdiffusion for KAXQIL. Maybe landauer blowtorch effect.}
-When probing the much higher time-scale of 50--950~\si{\ns}, I came across an anomalous diffusion regime that corresponds to a surdiffusion as defined in the Figure~\ref{fgr:MSD_init}
-Blow torch effect, file-diffusion (no its not sqrt), ballistic conduction likely 
-
 
 \subsection{High-throughput screening of diffusion coefficients}
 
 \subsubsection{Screening procedure}
 
-In order to include the transport properties in our analysis, I performed MD calculations of a xenon or krypton at infinite dilution (no guest--guest interactions) for the 7822 most selective materials. For each of them, 500 million steps of MD were planned in the RASPA script in the calculation machines and 2 to 3 restarts were done on the slowest simulations so that every MSD data were obtained after 2--3 days. After this process, \todo{X} structures have finished the planned 500 million steps, but it does not mean that the MSD is not exploitable for the determination of the diffusion coefficients. 
+In order to include the transport properties in our analysis, I performed MD calculations of a xenon or krypton at infinite dilution (no guest--guest interactions) for the 6,525 non-disordered most selective materials. For each of them, 500 million steps of MD were planned in the RASPA script in the calculation machines and 2 to 3 restarts were done on the slowest simulations so that every MSD data were obtained after 2--3 days. After this process, only 432 structures have finished the planned 500 million steps, but it does not mean that the MSD is not exploitable for the determination of the diffusion coefficients. 
 
-To determine the diffusion coefficients we analyzed two time-scales (2--47\si{\ns} and 50--950~\si{\ns}) to fit the MSD with a linear function. We chose the linear fit with the highest determination coefficient (within $0$ and $1$) of both time-scales to output a value of diffusion coefficient. After this step, we removed structures with a determination coefficient lower than $0.6$ and used the 5398 remaining structures to draw structure--diffusivity relationships. 
+To determine the diffusion coefficients we analyzed two time-scales (2--47\si{\ns} and 50--950~\si{\ns}) to fit the MSD with a linear function. We chose the linear fit with the highest determination coefficient (within $0$ and $1$) of both time-scales to output a value of diffusion coefficient. After this step, we removed structures with a determination coefficient lower than $0.9$ and used the 5,125 remaining structures to draw structure--diffusivity relationships --- these structures for which we have a good degree of confidence on the diffusion coefficient values will be comparatively studied against different geometrical and thermodynamic quantities in this section
 
-This approach only probes the linear relations between the MSD and time to determine the self-diffusion at infinite dilution. We did not analyze the nature of the transport property by comparing for example the exponent of a generalized formula $\text{MSD}(/tau) = K_\alpha\tau^\alpha$ with structural dscriptors. We did not study the more complex diffusion at higher loading values, which could be more accurately described by a collective diffusion coefficient instead of the self-diffusion coefficient. 
+This approach only probes the linear relations between the MSD and time to determine the self-diffusion at infinite dilution. We did not analyze the nature of the transport property (e.g. single-file diffusion\autocite{Lin_2005}) by comparing for example the exponent of a generalized formula $\text{MSD}(/tau) = K_\alpha\tau^\alpha$ with structural dscriptors. We did not study the more complex diffusion at higher loading values, which could be more accurately described by a collective diffusion coefficient instead of the self-diffusion coefficient. The goal of this study is to find materials that do not present a kinetic limitation as it is the case for KAXQIL\autocite{Banerjee2012} (xenon has a diffusion coefficient that is about ten thousand times lower in the material than outside).
 
 \subsubsection{Structure--diffusivity relationships}
 
-In this section, I will present the different relations the diffusion coefficient may or may not have with the geometrical descriptors. I decided to use a forcefield-dependent definition of the radii so that it better correlates with the results of the MD simulation that uses the UFF forcefield. The different geometrical descriptors are then calculated using Zeo++ and these radii to calculate the PLD, the largest sphere diameter D$_{if}$ along a free path, the surface area and the pore volume, as already explained in the chapter 2. To further justify the use of the UFF-based radii, the original paper \cite{Hung_2021} showed the better correlation of the PLD to the diffusion constant, and we can also see it from the Figure~\ref{fgr:diff_pld}. The PLD calculated by the standard CCDC defined atom radii does not fit the diffusion coefficient as well as the UFF-defined PLD. As shown in a smaller scale in the article \cite{Haldoupis_2010} (see Figure~\ref{fgr:Haldoupis_2010} in the chapter 1), there is a linear relation between the diffusion activation energy (logarithmic transform of the diffusion coefficient) and the PLD, and this linear relation is much more noisy for the PLD defined by the standard CCDC radii than for the UFF-based PLD.
+In this section, I will present the different relations the diffusion coefficient may or may not have with the geometrical descriptors. I decided to use a forcefield-dependent definition of the radii so that it better correlates with the results of the MD simulation that uses the UFF forcefield. The different geometrical descriptors are then calculated using Zeo++ and these radii to calculate the PLD, the largest sphere diameter D$_{if}$ along a free path, the surface area and the pore volume, as already explained in the chapter 2. To further justify the use of the UFF-based radii, the original paper \cite{Hung_2021} showed the better correlation of the PLD to the diffusion constant, and we can also see it from the Figure~\ref{fgr:diff_pld}. The PLD calculated by the standard CCDC defined atom radii does not fit the diffusion coefficient as well as the UFF-defined PLD. As shown in a smaller scale in the article~\cite{Haldoupis_2010} (see Figure~\ref{fgr:Haldoupis_2010} in the chapter 1), there is a linear relation between the diffusion activation energy (logarithmic transform of the diffusion coefficient) and the PLD, and this linear relation is much more noisy for the PLD defined by the standard CCDC radii than for the UFF-based PLD.
 
-Beyond the practical considerations on the geometrical descriptor calculations, the PLD explains the outlines of the variation of diffusion performance inside a nanoporous material. First there is a the linear relation previously highlighted, and then there is a sort of noisy plateau. In the first zone, the xenon is constrained by channels narrower than its kinetic radius. The wider the channel the higher the diffusion coefficient is, and this positive correlation persists until the channel is wider than about \SI{4.6}{\angstrom}. After this threshold, the diffusion coefficient is rather stable around $10^{-4}$~\si{\square\cm\per\square\s}, and the variations can only be explained by other phenomena such as the tortuosity inside nanopores or chemical nature of the surface of the nanopores. 
+Beyond the practical considerations on the geometrical descriptor calculations, the PLD explains the outlines of the variation of diffusion performance inside a nanoporous material. First there is a the linear relation previously highlighted, and then there is a sort of noisy plateau. In the first zone, the xenon is constrained by channels narrower than its kinetic radius. The wider the channel the higher the diffusion coefficient is, and this positive correlation persists until the channel is wider than about \SI{4.6}{\angstrom}. After this threshold, the diffusion coefficient is rather stable around $10^{-4}$~\si{\square\cm\per\square\s}, and the variations can only be explained by other phenomena such as the tortuosity inside nanopores or chemical nature of the surface of the nanopores. This value of diffusion coefficient is roughly the diffusion coefficient of a free xenon outside of the material. The material channels do not affect much the diffusion of the xenon inside the nanoporous materials represented on this plateau line.
 
 \begin{figure}[ht]
   \centering
@@ -245,15 +241,58 @@ The last comparison is made with a thermodynamic quantity, the xenon adsorption 
 
 \subsection{A trade-off between the selectivity and the diffusion}
 
-In this section, I will analyze the screening of the diffusion and selectivity properties calculated for xenon and krypton to identify interesting materials that presents both a good Xe/Kr selectivity and a good Xe/Kr diffusion coefficient ratio.
+In this section, I will analyze the screening of the diffusion and selectivity properties calculated for xenon and krypton to identify interesting materials that presents both a good Xe/Kr selectivity and a good Xe/Kr diffusion coefficient ratio. To do so we also performed a diffusion coefficient screening for krypton, and we end up with 4,816 structures that has good determination coefficient for both linear fits of xenon and krypton MSD. These structures are then tested to find materials with a good balance between thermodynamic and kinetic properties for the xenon/krypton separation.
 
 \subsubsection{Diffusion selectivity and permselectivity}
 
-\todo{HERE}
+I will start by comparing the xenon/krypton selectivity at infinite dilution with the xenon and krypton diffusion coefficients. First, we can say that a highly selective materials can have a decent diffusion coefficient, the diffusion limitation observed on the KAXQIL structure is therefore not inevitable, which is a good news. On the left plot of the Figure~\ref{fgr:diff_s0_lcd}, we can clearly see that all configurations are possible: high selectivity (over $40$) with high diffusion coefficient (over $10^{-6}$~\si{\square\cm\per\square\s}) and high selectivity with low diffusivity. The krypton coefficients seem to be rather stable between $10^{-6}$~\si{\square\cm\per\square\s} and $10^{-3}$~\si{\square\cm\per\square\s}. It means that it is not the main leverage to increase the diffusion selectivity since very low values of kryton diffusion coefficients do not appear for highly selective materials. To improve the tunnel vision we had on the thermodynamic selectivity, we will study a transport related selectivity metric to find highly selective materials that do not show significant transport limitations.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_xe-s0-lcd.pdf}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/D_kr-s0-lcd.pdf}
+    \caption{}\label{fgr:diff_s0_lcd}
+\end{figure}
+
+To take account of the transport properties in a separation process, we generally use the ratio of the diffusion coefficients or the diffusion selectivity as a performance metric. For xenon and krypton the diffusion selectivity can be defined as follows:\autocite{Krishna_2010}
+\begin{equation}
+  s\ex{Xe/Kr}\e{diff} = \frac{D\ex{Xe}}{D\ex{Kr}}
+\end{equation}
+If we want to look at both the transport and thermodynamic effects, we can combine the thermodynamic adsorption selectivity defined in chapter 2 (equations~\ref{eq:selec_0} and~\ref{eq:selec_0}) and the diffusion selectivity to define the membrane selectivity (used to characterize membranes). This membrane selectivity can also be called a perm-selectivity because it corresponds to the ratio of the permeabilities of the components of the binary mixture we want to separate. The xenon/krypton permselectivity $s\ex{Xe/Kr}\e{perm}$ can therefore be defined as follows:
+\begin{equation}
+  s\ex{Xe/Kr}\e{perm} = s\ex{Xe/Kr}\e{diff} \times s\ex{Xe/Kr}\e{ads}
+\end{equation}
+where $s\ex{Xe/Kr}\e{ads}$ corresponds to the adsorption selectivity used throughout the previous chapters (at infinite dilution or higher pressure). 
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/diff_D_xekr-s0-lcd.pdf}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/diff_D_xekr-s0-chandim.pdf}
+    \caption{}\label{fgr:perm_selec0}
+\end{figure}
+
+Using both $s\ex{Xe/Kr}\e{diff}$ and $s\ex{Xe/Kr}\e{ads}$ at different pressure conditions, we will try to find materials that exhibit a rather high selectivity with a high diffusion selectivity. The plots of the Figure~\ref{fgr:perm_selec0} shows that 48 structures have a selectivity over $40$ with a rather good diffusion selectivity over $0.1$. These structures have rather high values of pore size represented by the largest included sphere along a free diffusion path $D_{if}$ as we can see on the left plot of the Figure~\ref{fgr:perm_selec0}. And these rather large pores are associated with structures with different dimensionalities.
+One remarkable structure among them has a very high diffusion selectivity (over $15$, grey point on the upper right side of the left plot of Figure~\ref{fgr:perm_selec0}) coupled with a high adsorption selectivity at infinite dilution. This structure, with a CSD code ADOGEH\cite{Peikert_2012}, has a tridimensional channel framework with large pores and rather narrow connecting channels. The high adsorption selectivity at infinite dilution is however not conserved at ambient pressure as we can see on the Figure~\ref{fgr:perm_selec2080}  (see Table~\ref{table:diff}).
+
+If we look into the details of these structures, we can see that they combine large pores with smaller pores so that the diffusion is not obstructed and the selectivity is high in more confined spaces. We saw that these type of materials with different sizes of pore could cause a selectivity drop at higher pressure, because the larger pores are less selective and are accessed when the gas pressure is increased. This phenomenon is observed when we compare the plots to the ones of Figure~\ref{fgr:perm_selec2080}.
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/diff_D_xekr-s2080-lcd.pdf}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/diff_D_xekr-s2080-chandim.pdf}
+    \caption{}\label{fgr:perm_selec2080}
+\end{figure}
+
+
+We can see that at higher pressure, some materials experience a shift toward lower selectivity values. And, only 2 structures have an ambient-pressure selectivity over $40$: the MOFs with the following CSD code XUNSOQ\autocite{Abrahams_2014} and GUMDEZ\cite{Yin_2014}  (see Table~\ref{table:diff}). Most of these materials actually have a high value of cavity size, only structures with LCD near \SI{6}{\angstrom} are left in this area of the plot. We can also note that the dimension of the channel is equal to one too, which starts to brush a picture of the interesting materials. These materials are constituted of unidimensional channels with a small pore sizes so that the selectivity is conserved even at higher pressure conditions. If we broaden the scope to the structures with a selectivity higher than $30$ instead of $40$, we now have 38 structures that also have similar features with rather low pore sizes and low channel dimensionality. Some of these structures have more or less kept their selectivity such as QOZDOY\cite{Zhang_2001} and wasn't detected on the pre-screening on the low-pressure selectivity (Figure~\ref{fgr:perm_selec0}), but other structures, such as the MOF MISQIQ\autocite{Tong_2013}, actually dropped significantly in selectivity values from infinite dilution to ambient pressure (see Table~\ref{table:diff}). 
+
+Since we are interested in optimizing the kinetic properties of materials for adsorption-based separation, we will not try to optimize the perm-selectivity also known as the membrane selectivity that is specifically useful for membrane separations. From this screening of the most selective materials, we identified some interesting materials that will be further studied in the following subsection. 
+
 
 \subsubsection{Identification of interesting materials}
 
-% En analysant les rapports des coefficients de diffusion en comparaison des sélectivités, on a pu identifier deux structures qui couplent une bonne sélectivité à un ratio de diffusivités autour de 0,5 (\emph{cf.} table~\ref{table:diff}) : les structures de code CCSD GUMDEZ et QOZDOY. Grâce à leur LCD proches du diamètre cinétique du xénon et à un PLD assez élevé pour ne pas entraver le déplacement du xénon à travers les canaux. Les coefficients de diffusion du xénon tournent autour de 7$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} ce qui est proche de la diffusion libre (de l'ordre de 10\ex{-5} \SI{}{\square\centi\meter\per\second}), ce qui confirme l'absence de blocage cinétique. 
+
+% En analysant les rapports des coefficients de diffusion en comparaison des sélectivités, on a pu identifier deux structures qui couplent une bonne sélectivité à un ratio de diffusivités autour de 0,5 (\emph{cf.} table~\ref{table:diff}) : les structures de code CCSD GUMDEZ et QOZDOY. Grâce à leur LCD proches du diamètre cinétique du xénon et à un PLD assez élevé pour ne pas entraver le déplacement du xénon à travers les canaux. Les coefficients de diffusion du xénon tournent autour de 7$\times$10\ex{-5} \si{\square\centi\meter\per\second} ce qui est proche de la diffusion libre (de l'ordre de 10\ex{-5} \si{\square\centi\meter\per\second}), ce qui confirme l'absence de blocage cinétique. 
 
 % Une autre structure, ADOGEH (\emph{cf.} table~\ref{table:diff}), présente une diffusion 14 fois plus rapide pour le xénon que le krypton, tout en ayant une sélectivité à basse pression de 49. Ce phénomène s'explique par le fait que la structure a des canaux dans les trois directions et que pour changer de direction il faut passer par un canal plus étroit non accessible par le xénon. Ainsi le xénon, n'ayant qu'une direction de diffusion à l'intérieur du matériau, va bien plus vite que le krypton pour lequel toutes les directions s'offrent à lui. Ainsi, le krypton est plus lent à diffuser car il change de direction constamment dans le matériau contrairement au xénon. En revanche, la sélectivité baisse à 10 lorsque l'on considère un mélange de 20/80 Xe/Kr à pression ambiante au lieu de la dilution infinie. Ce matériau pourrait être utile notamment à pression partielle faible en xénon et krypton, ce qui est le cas pour notre application. Des études plus approfondies sont encore à mener, notamment en confirmant les valeurs de sélectivité par des calculs DFT plus fiable ou en étudiant la flexibilité ; mais si les résultats sont concluant ces matériaux pourraient alors être testés expérimentalement pour une éventuelle application industrielle.
 
@@ -261,14 +300,16 @@ In this section, I will analyze the screening of the diffusion and selectivity p
 \centering
 \begin{tabular}{|l|r|r|r|r|r|r|}
 \hline
-  CCSD ref.\ code &      PLD (\SI{}{\angstrom}) &    s$_1$ &       s$_0$ &     PLD (\SI{}{\angstrom}) &     Ratio Diff. &  Coeff.\ de Diff. Xe \\
+  CCSD ref.\ code &      $D_{if}\ex{UFF}$ (\si{\angstrom}) &    s$_1$ &       s$_0$ &     PLD\ex{UFF} (\si{\angstrom}) &    Xe/Kr diffusion selectivity &  Xe diff. coeff. \\
 \hline
-QOZDOY\cite{Zhang_2001} &  5,3 & 37 & 52 & 4,7 &  0.4 &               7$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
-GUMDEZ\cite{Yin_2014} &  5,3 & 42 & 56 & 4,8 &  0.5 &               7$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
-ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$10\ex{-5} \SI{}{\square\centi\meter\per\second} \\
+ADOGEH\cite{Peikert_2012} & 12.9 &  10 & 49 & 5.3 & 15.5 &               5$\times$10\ex{-5} \si{\square\centi\meter\per\second} \\
+XUNSOQ\autocite{Abrahams_2014} &  5.6 & 48 & 38 & 4.8 &  0.23 &  7$\times$10\ex{-6}~\si{\square\centi\meter\per\second} \\
+GUMDEZ\cite{Yin_2014} &  5.5 & 42 & 56 & 5.1 &  0.55 &               7$\times$10\ex{-5} \si{\square\centi\meter\per\second} \\
+QOZDOY\cite{Zhang_2001} &  5.6 & 37 & 52 & 5.0 &  0.45 &               7$\times$10\ex{-5} \si{\square\centi\meter\per\second} \\
+MISQIQ\cite{Tong_2013} &  4.6 & 37 & 140 & 4.5 &  1.4 &               2$\times$10\ex{-4} \si{\square\centi\meter\per\second} \\
 \hline
 \end{tabular}
-\caption{Performances de structures identifiées par un screening prenant en compte les coefficients de diffusion. }\label{table:diff}
+\caption{Transport and thermodynamic performances of some top performing structures of CoRE MOF 2019. }\label{table:diff}
 \end{table}
 
 % Les résultats d'un screening couplant thermodynamique et cinétique permettent déjà de mettre en valeur des matériaux encore inconnus de la communauté. La question du blocage cinétique est certes traitée dans certaines études,\cite{Stanton_2022} mais aucune approche systématique n'a encore été développée. Ces structures ont des sélectivités élevées mais ne sont pas les plus sélectives; elles auraient donc été écartées dans un screening standard basé uniquement sur la thermodynamique. 
@@ -278,6 +319,7 @@ ADOGEH\cite{Peikert_2012} & 12,7 &  10 & 49 & 5,1 & 14 &               5$\times$
 \section{Fast diffusion calculation algorithm}\label{sct:algo_diff}
 
 \subsection{Implementation in C++}
+
 
 Grid calculation similar to the one in chapter 3
 
@@ -308,7 +350,7 @@ Explains the difference in diffusivity values for mateirals with a PLD superior 
 
 \section{First ML prediction Model}
 
-
+Noisy data to begin with
 
 \textbf{Performances}
 
