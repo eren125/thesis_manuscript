@@ -28,9 +28,9 @@ Since the pollen motion observations of the botannist Brown in 1826, scientists 
 
 To better understand the brownian motion of suspended particles on a liquid Einstein derived a microscopic model of the diffusion motion based on the molecular-kinetic theory of heat on the miraculous year of 1905.\autocite{einstein1905motion} To determine the so-called self-diffusion coefficient, he followed the motion of a particle assumed independent from other particles and time steps large enough to consider mutually independent two consecutive motions.  By using the particle distribution of $N$ independent diffusing particle, he redefined the diffusion coefficient as a function of the mean squared displacement (MSD) of a particle. In a tridimensional space, we have the following Einstein relation:
 \begin{equation}\label{eq:einstein}
-  \langle {r(t)}^2 \rangle = 6D\e{diff}t
+  \langle {r(t)}^2 \rangle = 2dD\e{diff}t
 \end{equation}
-where $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on Figure~\ref{fgr:intro_diffusion}.
+where  $d$ is the dimension of the space in which the particle diffuses ($d=3$ in a volume) and $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on Figure~\ref{fgr:intro_diffusion}.
 
 Using molecular simulations of the adsorbate displacements, we will try to model the diffusion coefficient of xenon and krypton inside a nanoporous material. Although other approaches like the Green-Kubo equation exist the relatively less complex Einstein law is prefered for self-diffusion calculations, as shown by the following comparative study~\cite{Maginn_2020}. In this section, we will focus on the different simulation techniques that can be used to evaluate the diffusion in high-throughput screenings. We will try to present different ways of accessing the MSD of a diffusing particles, by beginning from the most straight-forward molecular dynamics to faster methodologies more suitable in screenings such as machine learned surrogate models and kinetic monte carlo simulations.
 
@@ -97,7 +97,7 @@ The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.95\textwidth]{figures/5-diffusion/kinetic_MC.pdf}
-    \caption{Illustration of the core principle of lattice kinetic Monte Carlo in a periodic system. The particle moves inside the periodic system according to the transition probabilities to move from one site to another. The transition rates are determined using the activation energy needed to move to the transition state between the two stable adsoprtion sites as shown in equations~\ref{eq:trans_rate_path} and~\ref{eq:trans_rate}. }\label{fgr:kMC_principle}
+    \caption{Illustration of the core principle of lattice kinetic Monte Carlo in a periodic system. The particle moves inside the periodic system according to the transition probabilities to move from one site to another. The transition rates are determined using the activation energy needed to move to the transition state between the two stable adsorption sites as shown in equations~\ref{eq:trans_rate_path} and~\ref{eq:trans_rate}. }\label{fgr:kMC_principle}
 \end{figure}
 
 \subsubsection{Transition state theory for diffusion}
@@ -160,7 +160,7 @@ Then, there is a transition from the ballistic regime to the pseudo-diffusional 
 
 If we use the right plot of Figure~\ref{fgr:MSD_linear_init} to fit a linear relation and deduct the diffusion coefficient, we can have an underestimated value of the diffusion coefficient of $2.24\times 10^{-8}$~\si{\square\cm\per\s} --- it is an underestimation because the MSD is rather concave, which reduces the slope in the fitting process. This value is already a good estimation of the diffusion coefficient considering the rather high exponent $\alpha$ value in the with regard to $K_\alpha\tau^\alpha$.
 
-Since there is an element of randomness in the initial position of xenon (pockets have been blocked so that xenon is not blocked), we need to measure the effet of running different MD simulations of the value of the diffusion coefficients. To measure this uncertainty across different MD simulations with different initial positions determined by with different random seed. In RASPA, the random seed is simply equal to the UNIX time upon launching the MD simulation. This ensures that a different random seed is given to the $10$ different MD simulations we launched using the exact same parameters as mentioned previously. We found that the average diffusion coefficient value equals $2.13\times 10^{-8}$~\si{\square\cm\per\s} and the standard deviation equals $0.37\times 10^{-8}$~\si{\square\cm\per\s}, which represents about {17\%} of the average value. We could estimate the uncertainty to about {17\%} on the diffusion coefficient for a rather low coefficient around $10^{-8}$~\si{\square\cm\per\s}, we could expect lower uncertainty for less obstructing materials. 
+Since there is an element of randomness in the initial position of xenon (block pockets have been calculated for a \SI{1.5}{\angstrom}-radius probe), we need to measure the effet of running different MD simulations of the value of the diffusion coefficients. To measure this uncertainty across different MD simulations with different initial positions determined by with different random seed. In RASPA, the random seed is simply equal to the UNIX time upon launching the MD simulation. This ensures that a different random seed is given to the $10$ different MD simulations we launched using the exact same parameters as mentioned previously. We found that the average diffusion coefficient value equals $2.13\times 10^{-8}$~\si{\square\cm\per\s} and the standard deviation equals $0.37\times 10^{-8}$~\si{\square\cm\per\s}, which represents about {17\%} of the average value. We could estimate the uncertainty to about {17\%} on the diffusion coefficient for a rather low coefficient around $10^{-8}$~\si{\square\cm\per\s}, we could expect lower uncertainty for less obstructing materials. 
 
 Now that we have more confidence on the method we are using, we will try to probe higher time-scales than the one accessible with an MD time step of \SI{1}{\fs}, because the diffusion regime seems to be occuring rather at the \SI{10}{\ns} time-scale. We ran a first calculation with 500 million step to confirm that we obtain a similar diffusion coefficient value. The time window between \SI{2}{\ns} and \SI{47}{\ns}, and the MSD are calculated from about 200 sampled trajectories, which gives rather correct values. We can obtain a more accurate diffusion coefficient of $2.6\times 10^{-8}$~\si{\square\cm\per\s}, which is very close to the one obtained in the previous approach. The value is slightly higher (which is expected) since the previous values was over-estimated. This approach is therefore consistent with the previous one.
 
@@ -210,7 +210,7 @@ For this reason, I plotted on Figure~\ref{fgr:hist_diffusion_chandim} the distri
     \caption{ Distributions of diffusion coefficient of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:hist_diffusion_chandim}
 \end{figure}
 
-Other geometrical properties of the material that can influence the diffusion is the void fraction and surface area. The low diffusion coefficients usually happen in materials with small pore volumes below $0.6$ as we can see on the Figure~\ref{fgr:diff_sa_vf}. However, it is diffuscult to draw a relationship between the voide fraction and the diffusion coefficient. The only relation is that materials with void fraction higher than $0.6$ have a diffsion coefficient over $3\times 10^{-6}$~\si{\square\cm\per\s}. This phenomenon is certainly du to the correlation between the PLd and the void fraction. Large PLD values are usually associated with large values of the void fraction. On the other hand, the accessible surface area for a probe of size $1.2$~\si{\angstrom} does not seem to influence the diffusion coefficient at all. 
+Other geometrical properties of the material that can influence the diffusion is the void fraction and surface area. The low diffusion coefficients usually happen in materials with small pore volumes below $0.6$ as we can see on the Figure~\ref{fgr:diff_sa_vf}. However, it is diffuscult to draw a relationship between the voide fraction and the diffusion coefficient. The only relation is that materials with void fraction higher than $0.6$ have a diffsion coefficient over $3\times 10^{-6}$~\si{\square\cm\per\s}. This phenomenon is certainly du to the correlation between the PLD and the void fraction. Large PLD values are usually associated with large values of the void fraction. On the other hand, the accessible surface area for a probe of size $1.2$~\si{\angstrom} does not seem to influence the diffusion coefficient at all. 
 
 \begin{figure}[ht]
   \centering
@@ -291,11 +291,15 @@ When considering the ambient-pressure selectivity, the large majority of highly 
 
 \subsubsection{Identification of interesting materials}
 
-By crossing the transport data with the thermodynamic one, we 
+By crossing the transport data with the thermodynamic one, we can optimize the Xe/Kr adsorption selectivity under some constraint on the diffusion selectivity so that it is in an acceptable range (over $0.1$). The structures of the 65 structures with a low-pressure Xe/Kr selectivity higher than $40$ or with an ambient-pressure Xe/Kr selectivity higher than $30$ have been manually visualized and quickly analyzed, and different materials have been hand-picked for further analysis due to some special characterictics. We discarded some materials that have different type of channels that can artificially have a high diffusion coefficient. This phenomenon is due to the randomness of the initial condition, for example, when the xenon diffuses in a wider channel while the krypton diffuses in the narrower channel, the diffusion selectivity will inevitability be artificially higher. For example, the MOF with a CSD code OQESAF\autocite{Xie_2011} was concerned by this phenomenon as we can see on Figure~\ref{fgr:OQESAF} it clearly has different diffusion coefficeint values depending on the channel considered (a Henry coefficient weighted average need to be performed in this case). Other materials have a moderately high diffusion selectivity ($\lesssim 1$), they are usually composed of a unidimensional channel that allows a rather free diffusion of a xenon (higher than \SI{4.6}{\angstrom}) with different cavity sizes. Different factors seem to influence the diffusion coefficients, the values of the channel size and the pore size could explain the values of the diffusion and adsorption selectivity, but more interestingly the shape of the channel composed of cavities connected by narrower walls is also very important. Depending on the tortuosity of the layout and the relative difference between the cavities and the connecting channels, diffusion properties can be very different. 
 
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/OQESAF.jpg}
+    \caption{Wrongly attributed to high diffusion selectivity\todo{OQESAF picture}}\label{fgr:OQESAF}
+\end{figure}
 
-% En analysant les rapports des coefficients de diffusion en comparaison des sélectivités, on a pu identifier deux structures qui couplent une bonne sélectivité à un ratio de diffusivités autour de 0,5 (\emph{cf.} table~\ref{table:diff}) : les structures de code CCSD GUMDEZ et QOZDOY. Grâce à leur LCD proches du diamètre cinétique du xénon et à un PLD assez élevé pour ne pas entraver le déplacement du xénon à travers les canaux. Les coefficients de diffusion du xénon tournent autour de 7$\times$10\ex{-5} \si{\square\centi\meter\per\second} ce qui est proche de la diffusion libre (de l'ordre de 10\ex{-4} \si{\square\centi\meter\per\second}), ce qui confirme l'absence de blocage cinétique. 
-
+In this section, we will look into the details of the comparative transport and adsorption performances of some archetypal structures (Table~\ref{table:diff}) to better understand the key factors that could explain the difference in performance. In the future, this work can be used for the design of more quantitative characteristics that could explain the better transport performance, similarly to what we did for the thermodynamic screening that led to a series of key thermodynamic descriptors that led to the design of a ML model for adsorption selectivity prediction (chapters 3--4). To achieve this, we will use a visualization tool based on the grid calculation principle shown in the dedicated section~\ref{sct:grid}, whose code is published in a Github repository: \todo{Give a github repo}.
 
 \begin{table}[ht]
 \setlength\extrarowheight{5pt}
@@ -305,23 +309,58 @@ By crossing the transport data with the thermodynamic one, we
   Structure &       &    &  Pore size &  Channel size   &     & Diffusion Coeff. \\
   CSD ref.\ code &  $s_0\ex{Xe/Kr}$  &  $s_1\ex{Xe/Kr}$   &    D$_{if}\ex{UFF}$ (\si{\angstrom})   &   PLD\ex{UFF} (\si{\angstrom})  &  $s\e{diff}\ex{Xe/Kr}$ &  $D\e{diff}\ex{Xe}$ (\si{\square\centi\meter\per\second}) \\
 \hline
-ADOGEH\autocite{Peikert_2012} & 49  &  10 & 12.9 & 5.3 & 15.5 &  5$\times$10\ex{-5}  \\
-XUNSOQ\autocite{Abrahams_2014} & 38  & 48 &  5.6 & 4.8 &  0.23 &  7$\times$10\ex{-6} \\
-GUMDEZ\autocite{Yin_2014} & 56 & 42 &  5.5 & 5.1 &  0.55 &  7$\times$10\ex{-5} \\
-QOZDOY\autocite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} \\
-MISQIQ\autocite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} \\
+ADOGEH~\cite{Peikert_2012} & 49  &  10 & 12.9 & 5.3 & 15.5 &  5$\times$10\ex{-5}  \\
+XUNSOQ~\cite{Abrahams_2014} & 38  & 48 &  5.6 & 4.8 &  0.23 &  7$\times$10\ex{-6} \\
+GUMDEZ~\cite{Yin_2014} & 56 & 42 &  5.5 & 5.1 &  0.55 &  7$\times$10\ex{-5} \\
+QOZDOY~\cite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} \\
+MISQIQ~\cite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} \\
+TONBII~\cite{Du_2010} & 44 & 35 &  5.1 & 4.8 &  0.86 &  1$\times$10\ex{-4} \\
+BAEDTA01_clean	37.741382	152.160042	5.69169	4.63570	0.400504	
+OQESAF_clean	27.903385	27.667023	5.79096	4.96599	16.856013	0.000037
 \hline
 \end{tabular}
 \caption{Transport and thermodynamic performances of top performing structures of CoRE MOF 2019 screened out by the approach developed in section~\ref{sct:diff_screen}. The thermodynamic properties are determined using $s_0\ex{Xe/Kr}$ and $s_1\ex{Xe/Kr}$ that correspond to the xenon/krypton adsorption selectivity values respectively at infinite dilution and ambient pressure condition. The pore size is defined as the largest cavity along a free diffusion path D$_{if}\ex{UFF}$ and the channel size is defined using the pore limiting diameter PLD\ex{UFF} using atom radii defined by the UFF. The transport properties are evaluated using the xenon/krypton diffusion selectivity $s\e{diff}\ex{Xe/Kr}$ and the xenon diffusion coefficient $D\e{diff}\ex{Xe}$ calculated by the MD-based screening presented above. }\label{table:diff}
 \end{table}
+\todo{capacity ?}
 
+The structure ADOGEH\autocite{Peikert_2012} was not found when crossing the transport data with ambient-pressure selectivity values by with the infinite dilution ones, which explains that the selectivity $s_1$ is rather low ($10$) compared to the other materials (over $35$). This structure was actually detected when looking at the selectivity $s_0$ at infinite dilution, because of its extraordinary diffusion selectivity around ($10$). This would mean that as membrane material, its selectivity would be around $100$, which is on of the highest. Even as an adsorption-based separation material, it has an outstanding low-pressure selectivity of $49$ coupled with the high diffusion selectivity it can be considered for some applications at very low partial pressure of xenon and krypton. 
 
-% Une autre structure, ADOGEH (\emph{cf.} table~\ref{table:diff}), présente une diffusion 14 fois plus rapide pour le xénon que le krypton, tout en ayant une sélectivité à basse pression de 49. Ce phénomène s'explique par le fait que la structure a des canaux dans les trois directions et que pour changer de direction il faut passer par un canal plus étroit non accessible par le xénon. Ainsi le xénon, n'ayant qu'une direction de diffusion à l'intérieur du matériau, va bien plus vite que le krypton pour lequel toutes les directions s'offrent à lui. Ainsi, le krypton est plus lent à diffuser car il change de direction constamment dans le matériau contrairement au xénon. En revanche, la sélectivité baisse à 10 lorsque l'on considère un mélange de 20/80 Xe/Kr à pression ambiante au lieu de la dilution infinie. Ce matériau pourrait être utile notamment à pression partielle faible en xénon et krypton, ce qui est le cas pour notre application. Des études plus approfondies sont encore à mener, notamment en confirmant les valeurs de sélectivité par des calculs DFT plus fiable ou en étudiant la flexibilité ; mais si les résultats sont concluant ces matériaux pourraient alors être testés expérimentalement pour une éventuelle application industrielle.
-\todo{Visualization of the energy map inside}
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/ADOGEH_Xe.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/ADOGEH_Kr.jpg}
+    \caption{3D volume plot of the xenon (left) and krypton (right) interaction energy values inside the material ADOGEH\autocite{Peikert_2012} calculated using an energy grid as described in section~\ref{sct:grid}. }\label{fgr:ADOGEH}
+\end{figure}
 
+And even as an experimental material, the diffusion properties of xenon and krypton in this material are extremely interesting in themselves. If we look at the Figure~\ref{fgr:perm_selec0}, only two materials have a diffusion selectivity over $10$, but the other one actually has a falsely high value of diffusion selectivity due to the above-mentioned randomness of the initial position in the MD simulation and the presence of two types of channel (see Figure~\ref{fgr:false_diff_sele}). ADOGEH is therefore the only material that shows such a high diffusion selectivity among all materials screened for their diffusion performance. In a unidimensional system, it is actually more natural to have a higher or equivalent diffusion coefficient for krypton than for xenon due to the obvious size difference. It is possible to explain this exceptional by a special mechanism that happens in the tridimensional network of channel of ADOGEH. As we can see on the Figure~\ref{fgr:ADOGEH}, for both xenon and krypton all dimensions are available for diffusion through the channels in the three cardinal directions. However, when we look at the sort of ``pocket'' (not a blocking pocket in the MD simulation) that connects the channels diagonally, the access to it is clearly not the same if we compare the two 3D energy grid plots. For xenon, on the left, the connection is way thinner than for krypton for the same energy threshold. This can be interpreted as a higher energy barrier for xenon than for krypton to access this ``pocket''. But, why would this explain the unusual difference in diffusion coefficients for xenon and krypton? This can be explained by the fact that the directions in which a krypton can diffuse is therefore much higher, which means that it has a higher probability of turning around than xenon. To say it more explicitely, a xenon can diffuse in the 3D space by taking the 6 main channels only, but a krypton would lose time in small channels connecting the cardinal directions --- opening up dimensions decreases the diffusion coeffcient ($\langle{r(t)}^2\rangle=2d\tau$). Moreover, when a krypton takes the small channel toward the ``pocket'', it would have a non negligible residence time inside, which further slows it down compared to a xenon. These ``pockets'' can be seen as traps for krypton if it were a race between both adsorbate inside the nanoporous material. 
+
+\todo{HERE}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/XUNSOQ.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/GUMDEZ.jpg}
+    \caption{\todo{}}\label{fgr:Other}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/BAEDTA01.jpg}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/MISQIQ.jpg}
+    \caption{\todo{}}\label{fgr:drop_selec}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/viz/TONBII.jpg}
+    \caption{\todo{}}\label{fgr:TONBII}
+\end{figure}
+
+\todo{write about this \autocite{Stanton_2022}}
 
 % Les résultats d'un screening couplant thermodynamique et cinétique permettent déjà de mettre en valeur des matériaux encore inconnus de la communauté. La question du blocage cinétique est certes traitée dans certaines études,\autocite{Stanton_2022} mais aucune approche systématique n'a encore été développée. Ces structures ont des sélectivités élevées mais ne sont pas les plus sélectives; elles auraient donc été écartées dans un screening standard basé uniquement sur la thermodynamique. 
 
+\todo{transition to faster approaches}
 % Cette approche basée sur des trajectoires de dynamique moléculaire présente toutefois ses propres défauts. En effet, la méthode est très lente (quelques jours de simulation par structure), les structures avec différents canaux non connectées posent problème car l'adsorbat ne peut diffuser que dans un seul des deux canaux. Ainsi, il faudrait dans certains cas faire plusieurs trajectoires ce qui demande encore davantage de temps de calcul. De plus, si l'on veut ajouter de la flexibilité, cette méthode ne pourrait être utilisée que sur quelques structures. C'est pourquoi, un algorithme bien plus efficace est en cours d'implémentation en C++ pour accélérer les calculs de diffusivité. Un tel algorithme est déjà conçu par le groupe de Berend Smit à l'EPFL \autocite{Mace_2019}, mais le code étant sous Matlab (langage peut efficace), il est impossible de l'utiliser dans des procédures de screening. Cet algorithme détermine des sites d'adsorption et des états de transition pour passer d'un site à un autre. Puis à l'aide de simulations de Monte Carlo cinétique l'adsorbat se déplace d'un site à un autre au rythme d'une constante cinétique déterminée par l'état de transition. Cette méthode permet également d'identifier en avance les différents canaux et on assure que chacun d'entre eux sont traversés par des molécules. Par conséquent, ce nouveau code permettrait de résoudre les problèmes de temps de calcul et de fiabilité rencontrés avec la dynamique moléculaire. 
 
 \section{Fast diffusion calculation algorithm}\label{sct:algo_diff}
