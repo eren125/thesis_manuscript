@@ -317,6 +317,7 @@ QOZDOY~\cite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} \
 MISQIQ~\cite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} \\
 BAEDTA01~\cite{Chen_2010} & 152 & 38 &  5.7 & 4.6 &  0.4 &  \todo{} \\
 TONBII~\cite{Du_2010} & 44 & 35 &  5.1 & 4.8 &  0.86 &  1$\times$10\ex{-4} \\
+VOHQIS~\cite{Wragg_2001} & 51 & 48 &  5.7 & 3.9 &  0.01 &  6$\times$10\ex{-8} \\
 \hline
 \end{tabular}
 \caption{Transport and thermodynamic performances of top performing structures of CoRE MOF 2019 screened out by the approach developed in section~\ref{sct:diff_screen}. The thermodynamic properties are determined using $s_0\ex{Xe/Kr}$ and $s_1\ex{Xe/Kr}$ that correspond to the xenon/krypton adsorption selectivity values respectively at infinite dilution and ambient pressure condition. The pore size is defined as the largest cavity along a free diffusion path D$_{if}\ex{UFF}$ and the channel size is defined using the pore limiting diameter PLD\ex{UFF} using atom radii defined by the UFF. The transport properties are evaluated using the xenon/krypton diffusion selectivity $s\e{diff}\ex{Xe/Kr}$ and the xenon diffusion coefficient $D\e{diff}\ex{Xe}$ calculated by the MD-based screening presented above. }\label{table:diff}
@@ -334,32 +335,62 @@ The structure ADOGEH\autocite{Peikert_2012} was not found when crossing the tran
 
 And even as an experimental material, the diffusion properties of xenon and krypton in this material are extremely interesting in themselves. If we look at the Figure~\ref{fgr:perm_selec0}, only two materials have a diffusion selectivity over $10$, but the other one actually has a falsely high value of diffusion selectivity due to the above-mentioned randomness of the initial position in the MD simulation and the presence of two types of channel (see Figure~\ref{fgr:OQESAF}). ADOGEH is therefore the only material that shows such a high diffusion selectivity among all materials screened for their diffusion performance. In a unidimensional system, it is actually more natural to have a higher or equivalent diffusion coefficient for krypton than for xenon due to the obvious size difference. It is possible to explain this exceptional by a special mechanism that happens in the tridimensional network of channel of ADOGEH. As we can see on the Figure~\ref{fgr:ADOGEH}, for both xenon and krypton all dimensions are available for diffusion through the channels in the three cardinal directions. However, when we look at the sort of ``pocket'' (not a blocking pocket in the MD simulation) that connects the channels diagonally, the access to it is clearly not the same if we compare the two 3D energy grid plots. For xenon, on the left, the connection is way thinner than for krypton for the same energy threshold. This can be interpreted as a higher energy barrier for xenon than for krypton to access this ``pocket''. But, why would this explain the unusual difference in diffusion coefficients for xenon and krypton? This can be explained by the fact that the directions in which a krypton can diffuse is therefore much higher, which means that it has a higher probability of turning around than xenon. To say it more explicitely, a xenon can diffuse in the 3D space by taking only 3 main directions, but a krypton would lose time deviating from the cardinal directions --- the same way as opening-up dimensions decreases the diffusion coefficient ($\langle{r(t)}^2\rangle=2d\tau$). Moreover, when a krypton takes the small channel toward the ``pocket'', it would have a non negligible residence time inside, which further slows it down compared to a xenon. These ``pockets'' can be seen as traps for krypton, if it were a race between both adsorbate inside the nanoporous material. 
 
-\todo{HERE}
 
 Beyond the particular cases of OQESAF and ADOGEH, other nanoporous materials have lower diffusion selectivity values. For instance, all the other materials of the Table~\ref{table:diff} have a diffusion selectivity between $0.2$ and $1.4$. Depending on the shape and the size distribution of the porous channels, we would have higher or lower values of diffusion selectivity and xenon diffusion coefficient values. 
 
-If we take the materials with nanopores composed of pseudo-spherical cavities connected by cylindrical channels, we can see a clear correlation between the difference D$_{if}-$D$_f$ (between the LCD and the PLD) and the diffusion selectivity. \todo{plot} 
+If we take the materials with nanopores composed of pseudo-spherical cavities connected by cylindrical channels, there seems to be a correlation between the difference D$_{if}-$D$_f$ (between the LCD and the PLD) and the diffusion selectivity for the materials with an adsorption selectivity over 
+
+\todo{plot}
 
 \todo{Try to see if there is actually a correlation, on more }
 
-
-\begin{figure}[ht]
+\begin{figure}
   \centering
-  \includegraphics[height=0.28\textwidth]{figures/5-diffusion/viz/XUNSOQ.jpg}
-  \includegraphics[height=0.28\textwidth]{figures/5-diffusion/viz/BAEDTA01.jpg}
-  \includegraphics[height=0.28\textwidth]{figures/5-diffusion/viz/TONBII.jpg}
-  \caption{\todo{}}\label{fgr:tube_cavities}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/XUNSOQ.jpg}
+      \caption{XUNSOQ}\label{fgr:tube_cavities_a}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/TONBII.jpg}
+      \caption{TONBII}\label{fgr:tube_cavities_b}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/BAEDTA01.jpg}
+      \caption{BAEDTA01}\label{fgr:tube_cavities_c}
+  \end{subfigure}
+     \caption{Some examples of tortuous \todo{}}\label{fgr:tube_cavities}
 \end{figure}
 
 If we look at another type of shape, as we can see of the Figure~\ref{fgr:zigzag}, the channels are much more tortuose than the previous type of channel. It seems to make a ``zig-zag'' like shape. 
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
-    \includegraphics[height=0.4\textwidth]{figures/5-diffusion/viz/MISQIQ.jpg}
-    \includegraphics[height=0.4\textwidth]{figures/5-diffusion/viz/GUMDEZ.jpg}
-    \caption{\todo{}}\label{fgr:zigzag}
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/MISQIQ.jpg}
+      \caption{MISQIQ}\label{fgr:zigzag_a}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/GUMDEZ.jpg}
+      \caption{GUMDEZ}\label{fgr:zigzag_b}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/VOHQIS.jpg}
+      \caption{VOHQIS}\label{fgr:zigzag_c}
+  \end{subfigure}
+     \caption{Some examples of tortuous \todo{}}\label{fgr:zigzag}
 \end{figure}
-\todo{add a less selective one with this tortuose shepe}
+
+\todo{add a less selective one with this tortuous shape}
 
 Go beyond this study by quantitatively quantify tortuosity and try to find patterns in the correlations.
 
