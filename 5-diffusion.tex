@@ -96,7 +96,7 @@ The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.95\textwidth]{figures/5-diffusion/kinetic_MC.pdf}
+    \includegraphics[width=0.9\textwidth]{figures/5-diffusion/kinetic_MC.pdf}
     \caption{Illustration of the core principle of lattice kinetic Monte Carlo in a periodic system. The particle moves inside the periodic system according to the transition probabilities to move from one site to another. The transition rates are determined using the activation energy needed to move to the transition state between the two stable adsorption sites as shown in equations~\ref{eq:trans_rate_path} and~\ref{eq:trans_rate}. }\label{fgr:kMC_principle}
 \end{figure}
 
@@ -310,14 +310,17 @@ In this section, we will look into the details of the comparative transport and 
   CSD ref.\ code &  $s_0\ex{Xe/Kr}$  &  $s_1\ex{Xe/Kr}$   &    D$_{if}\ex{UFF}$ (\si{\angstrom})   &   PLD\ex{UFF} (\si{\angstrom})  &  $s\e{diff}\ex{Xe/Kr}$ &  $D\e{diff}\ex{Xe}$ (\si{\square\centi\meter\per\second}) \\
 \hline
 OQESAF~\cite{Xie_2011} & 28 & 28 &  5.8 & 5.0 &  17 &  4$\times$10\ex{-5} \\
+\hline
 ADOGEH~\cite{Peikert_2012} & 49  &  10 & 12.9 & 5.3 & 15.5 &  5$\times$10\ex{-5}  \\
+\hline
 XUNSOQ~\cite{Abrahams_2014} & 38  & 48 &  5.6 & 4.8 &  0.23 &  7$\times$10\ex{-6} \\
-GUMDEZ~\cite{Yin_2014} & 56 & 42 &  5.5 & 5.1 &  0.55 &  7$\times$10\ex{-5} \\
-QOZDOY~\cite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} \\
-MISQIQ~\cite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} \\
 BAEDTA01~\cite{Chen_2010} & 152 & 38 &  5.7 & 4.6 &  0.4 &  \todo{} \\
 TONBII~\cite{Du_2010} & 44 & 35 &  5.1 & 4.8 &  0.86 &  1$\times$10\ex{-4} \\
+\hline
 VOHQIS~\cite{Wragg_2001} & 51 & 48 &  5.7 & 3.9 &  0.01 &  6$\times$10\ex{-8} \\
+QOZDOY~\cite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} \\
+GUMDEZ~\cite{Yin_2014} & 56 & 42 &  5.5 & 5.1 &  0.55 &  7$\times$10\ex{-5} \\
+MISQIQ~\cite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} \\
 \hline
 \end{tabular}
 \caption{Transport and thermodynamic performances of top performing structures of CoRE MOF 2019 screened out by the approach developed in section~\ref{sct:diff_screen}. The thermodynamic properties are determined using $s_0\ex{Xe/Kr}$ and $s_1\ex{Xe/Kr}$ that correspond to the xenon/krypton adsorption selectivity values respectively at infinite dilution and ambient pressure condition. The pore size is defined as the largest cavity along a free diffusion path D$_{if}\ex{UFF}$ and the channel size is defined using the pore limiting diameter PLD\ex{UFF} using atom radii defined by the UFF. The transport properties are evaluated using the xenon/krypton diffusion selectivity $s\e{diff}\ex{Xe/Kr}$ and the xenon diffusion coefficient $D\e{diff}\ex{Xe}$ calculated by the MD-based screening presented above. }\label{table:diff}
@@ -328,23 +331,56 @@ The structure ADOGEH\autocite{Peikert_2012} was not found when crossing the tran
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[height=0.4\textwidth]{figures/5-diffusion/viz/ADOGEH_Xe.jpg}
-    \includegraphics[height=0.4\textwidth]{figures/5-diffusion/viz/ADOGEH_Kr.jpg}
-    \caption{3D volume plot of the xenon (left) and krypton (right) interaction energy values inside the material ADOGEH\autocite{Peikert_2012} calculated using an energy grid as described in section~\ref{sct:grid}. }\label{fgr:ADOGEH}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/5-diffusion/viz/ADOGEH_Xe.jpg}
+    \caption{Xe}\label{fgr:ADOGEH_Xe}
+  \end{subfigure}
+  \hspace{1cm}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/5-diffusion/viz/ADOGEH_Kr.jpg}
+    \caption{Kr}\label{fgr:ADOGEH_Kr}
+  \end{subfigure}
+  \caption{3D volume plot of the xenon (a) and krypton (b) interaction energy values inside the material ADOGEH\autocite{Peikert_2012} calculated using an energy grid as described in section~\ref{sct:grid}. }\label{fgr:ADOGEH}
 \end{figure}
 
-And even as an experimental material, the diffusion properties of xenon and krypton in this material are extremely interesting in themselves. If we look at the Figure~\ref{fgr:perm_selec0}, only two materials have a diffusion selectivity over $10$, but the other one actually has a falsely high value of diffusion selectivity due to the above-mentioned randomness of the initial position in the MD simulation and the presence of two types of channel (see Figure~\ref{fgr:OQESAF}). ADOGEH is therefore the only material that shows such a high diffusion selectivity among all materials screened for their diffusion performance. In a unidimensional system, it is actually more natural to have a higher or equivalent diffusion coefficient for krypton than for xenon due to the obvious size difference. It is possible to explain this exceptional by a special mechanism that happens in the tridimensional network of channel of ADOGEH. As we can see on the Figure~\ref{fgr:ADOGEH}, for both xenon and krypton all dimensions are available for diffusion through the channels in the three cardinal directions. However, when we look at the sort of ``pocket'' (not a blocking pocket in the MD simulation) that connects the channels diagonally, the access to it is clearly not the same if we compare the two 3D energy grid plots. For xenon, on the left, the connection is way thinner than for krypton for the same energy threshold. This can be interpreted as a higher energy barrier for xenon than for krypton to access this ``pocket''. But, why would this explain the unusual difference in diffusion coefficients for xenon and krypton? This can be explained by the fact that the directions in which a krypton can diffuse is therefore much higher, which means that it has a higher probability of turning around than xenon. To say it more explicitely, a xenon can diffuse in the 3D space by taking only 3 main directions, but a krypton would lose time deviating from the cardinal directions --- the same way as opening-up dimensions decreases the diffusion coefficient ($\langle{r(t)}^2\rangle=2d\tau$). Moreover, when a krypton takes the small channel toward the ``pocket'', it would have a non negligible residence time inside, which further slows it down compared to a xenon. These ``pockets'' can be seen as traps for krypton, if it were a race between both adsorbate inside the nanoporous material. 
+And even as an experimental material, the diffusion properties of xenon and krypton in this material are extremely interesting in themselves. If we look at the Figure~\ref{fgr:perm_selec0}, only two materials have a diffusion selectivity over $10$, but the other one actually has a falsely high value of diffusion selectivity due to the above-mentioned randomness of the initial position in the MD simulation and the presence of two types of channel (see Figure~\ref{fgr:OQESAF}). ADOGEH is therefore the only material that shows such a high diffusion selectivity among all materials screened for their diffusion performance. In a unidimensional system, it is actually more natural to have a higher or equivalent diffusion coefficient for krypton than for xenon due to the obvious size difference. 
+
+It is possible to explain this exceptional by a special mechanism that happens in the tridimensional channel network of ADOGEH. As we can see on the Figure~\ref{fgr:ADOGEH}, for both xenon and krypton all dimensions are available for diffusion through the channels in the three cardinal directions. However, when we look at the sort of ``pocket'' (not a blocking pocket in the MD simulation) that connects the channels diagonally, the access to it is clearly not the same if we compare the two 3D energy grid plots. For xenon, on the Figure~\ref{fgr:ADOGEH_Xe}, the connection is way thinner than for krypton, on the Figure~\ref{fgr:ADOGEH_Kr}, for the same energy threshold. This can be interpreted as a higher energy barrier for xenon than for krypton to access this ``pocket''. But, why would this explain the unusual difference in diffusion coefficients for xenon and krypton? This can be explained by the fact that the directions in which a krypton can diffuse is therefore much higher, which means that it has a higher probability of turning around than xenon. To say it more explicitely, a xenon can diffuse in the 3D space by taking only 3 main directions, but a krypton would lose time deviating from the cardinal directions --- the same way as opening-up dimensions decreases the diffusion coefficient ($\langle{r(t)}^2\rangle=2d\tau$). Moreover, when a krypton takes the small channel toward the ``pocket'', it would have a non negligible residence time inside, which further slows it down compared to a xenon. These ``pockets'' can be seen as traps for krypton, if it were a race between both adsorbate inside the nanoporous material. 
 
 
-Beyond the particular cases of OQESAF and ADOGEH, other nanoporous materials have lower diffusion selectivity values. For instance, all the other materials of the Table~\ref{table:diff} have a diffusion selectivity between $0.2$ and $1.4$. Depending on the shape and the size distribution of the porous channels, we would have higher or lower values of diffusion selectivity and xenon diffusion coefficient values. 
+Beyond the particular cases of OQESAF and ADOGEH, other nanoporous materials have lower diffusion selectivity values. For instance, all the other materials of the Table~\ref{table:diff} have a diffusion selectivity between $0.2$ and $1.4$. Depending on the shape and the size distribution of the porous channels, we would have higher or lower values of diffusion selectivity and xenon diffusion coefficient values. For instance, as shown on the Figure~\ref{fgr:porediff_b}, there seems to be a weak correlation between a pore size characteristics (LCD\ex{UFF}$-$PLD\ex{UFF}) and the diffusion performance for structures with a LCD\ex{UFF} value lower than \SI{6}{\angstrom} --- for these structures, pore size have a higher chance to influence the transport properties. This correlation is logically due to the fact that if this difference between LCD and PLD is high, the diffusing xenon will have to cross a higher energy barrier to move inside the channels, therefore decreasing the diffusion coefficient. If we consider, all structures available, the correlation disappears because in the materials with a higher LCD value the movement of the diffusing xenon is not influenced as much by the pore walls. And actually for values of LCD higher than \SI{7}{\angstrom}, the diffusion coefficient is rather stabilized around $10^{-5}$~\si{\square\cm\per\s} as shown on the Figure~\ref{fgr:diff_H_lcd}. 
 
-If we take the materials with nanopores composed of pseudo-spherical cavities connected by cylindrical channels, there seems to be a correlation between the difference D$_{if}-$D$_f$ (between the LCD and the PLD) and the diffusion selectivity for the materials with an adsorption selectivity over 
+For structures with a high ambient-pressure selectivity (Figure~\ref{fgr:porediff_c}), we can now see a negative linear relation between this LCD-PLD difference and the xenon/krypton diffusion selectivity. This is actually due to the fact that highly selective materials have pore size close to the size of a xenon as shown in details in the previous chapters. The effect on Xe diffusion coefficient can in fact be enlarged to the Xe/Kr diffusion seelectivity as previously suggested by the noisy but stable values of Kr diffusion coefficients around $3\times10^{-5}$~\si{\square\cm\per\s} (see Figure~\ref{fgr:diff_s0_lcd}). The weakness of the correlation can be explained by the uncertainty inherent to the MD methodology for diffusion coefficient calculation (evaluated to around {20\%} for the material KAXQIL), but also by phenomena that we did not cover with the simple arithmetic difference of two pore characteristics. For instance the tortuosity of the channel, which is very tricky to evaluate in a tridimensional space can surely add some insight to the comprehension of the diffusion coefficeint values. For instance, I will show different channel shape in the different examples below that can be qualitatively discussed but no effort to quantify these effects have been done in my current work.
 
-\todo{plot}
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/D_xe-poresize-chandim_all.pdf}
+      \caption{All structures}\label{fgr:porediff_a}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/D_xe-poresize-chandim_LCDunder.pdf}
+      \caption{LCD\ex{UFF}$<5.5$}\label{fgr:porediff_b}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.32\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/diff_D_xekr-poresize-chandim.pdf}
+      \caption{$s\ex{Xe/Kr}_1>30$}\label{fgr:porediff_c}
+  \end{subfigure}
+     \caption{Some examples of tortuous \todo{}}\label{fgr:porediff}
+\end{figure}
 
-\todo{Try to see if there is actually a correlation, on more }
+The highly selective materials shown in the Figure~\ref{fgr:porediff_c} are actually the ones we are studying in this section, some of which are shown on the Table~\ref{table:diff}. The negative linear relation between the LCD-PLD difference and the Xe/Kr diffusion selectivity or the Xe diffusion coefficient can be reconfirmed by looking at the values of the Table for materials with 1D channels (ADOGEH excepted). We are now going to split them into two categories in order to take a glimpse on the tortuosity difference between these materials.  
 
-\begin{figure}
+We can first take a look at materials with nanopores composed of pseudo-spherical cavities connected by cylindrical channels following a straight line, as we can see on the Figure~\ref{fgr:tube_cavities}. These channels are actually forming straight lines, and if evaluated, their tortuosity would actually be very low. For TONBII, we actually have very small LCD-PLD difference, which explains the rather high diffusion selectivity near $1$. There are almost no difference between xenon and krypton diffusing in the channels of this material. When we increase the value of LCD, for a very similar value of PLD, the diffusion selectivity of such materials drops as we can see for BAEDTA01 and XUNSOQ on the Table~\ref{table:diff}. This drop can be explained by a now lower value of the xenon diffusion coefficient. 
+
+\begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
@@ -354,26 +390,32 @@ If we take the materials with nanopores composed of pseudo-spherical cavities co
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/TONBII.jpg}
-      \caption{TONBII}\label{fgr:tube_cavities_b}
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/BAEDTA01.jpg}
+      \caption{BAEDTA01}\label{fgr:tube_cavities_b}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/BAEDTA01.jpg}
-      \caption{BAEDTA01}\label{fgr:tube_cavities_c}
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/TONBII.jpg}
+      \caption{TONBII}\label{fgr:tube_cavities_c}
   \end{subfigure}
      \caption{Some examples of tortuous \todo{}}\label{fgr:tube_cavities}
 \end{figure}
 
-If we look at another type of shape, as we can see of the Figure~\ref{fgr:zigzag}, the channels are much more tortuose than the previous type of channel. It seems to make a ``zig-zag'' like shape. 
+Beyond consideration on the purely diffusion properties, the rather high adsorption selectivity coupled with very little diffusion limitations, make these materials extremely interesting for further study. The material BAEDTA01 has already been mentioned in the study on the selectivity drop due to pressure condition changes, the Figure~\ref{fgr:tube_cavities_b} sheds a brighter light on the origins of this selectivity drop, we can clearly see the two different adsorption sites (one narrower than the other) --- the narrower site is the one giving the very high low-pressure selectivity. The other two materials TONBII and XUNSOQ have a rather stable selectivity value between the low pressure and the ambient pressure cases. If we compare to the KAXQIL structure given by a previous high-throughput screening~\autocite{Simon_2015}, the diffusion coefficeints are much higher and the problem of a potential diffusion limitation is solved, the selectivity values of these materials are however yet to be confirmed. The very high selectivity value found for KAXQIL xas for instance found to be much lower afterward.
+\todo{mettre KAXQIL dans le tableau}
+\todo{discuss about capacity ?}
 
-\begin{figure}
+
+\todo{HERE}
+If we look at another type of shape, as we can see of the Figure~\ref{fgr:zigzag}, the channels are much more tortuous than the previous type of channel. It seems to make a ``zig-zag'' like shape. 
+
+\begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/MISQIQ.jpg}
-      \caption{MISQIQ}\label{fgr:zigzag_a}
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/VOHQIS.jpg}
+      \caption{VOHQIS}\label{fgr:zigzag_a}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
@@ -384,8 +426,8 @@ If we look at another type of shape, as we can see of the Figure~\ref{fgr:zigzag
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/VOHQIS.jpg}
-      \caption{VOHQIS}\label{fgr:zigzag_c}
+      \includegraphics[width=\textwidth]{figures/5-diffusion/viz/MISQIQ.jpg}
+      \caption{MISQIQ}\label{fgr:zigzag_c}
   \end{subfigure}
      \caption{Some examples of tortuous \todo{}}\label{fgr:zigzag}
 \end{figure}
