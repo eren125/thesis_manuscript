@@ -164,6 +164,12 @@ Since there is an element of randomness in the initial position of xenon (block 
 
 Now that we have more confidence on the method we are using, we will try to probe higher time-scales than the one accessible with an MD time step of \SI{1}{\fs}, because the diffusion regime seems to be occuring rather at the \SI{10}{\ns} time-scale. We ran a first calculation with 500 million step to confirm that we obtain a similar diffusion coefficient value. The time window between \SI{2}{\ns} and \SI{47}{\ns}, and the MSD are calculated from about 200 sampled trajectories, which gives rather correct values. We can obtain a more accurate diffusion coefficient of $2.6\times 10^{-8}$~\si{\square\cm\per\s}, which is very close to the one obtained in the previous approach. The value is slightly higher (which is expected) since the previous values was over-estimated. This approach is therefore consistent with the previous one.
 
+\begin{figure}[ht]
+  \centering
+\includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_1.pdf}
+\caption{ \todo{}}\label{fgr:MSD_5fs}
+\end{figure}
+
 To further back-up the use of a higher time integration step, we need to understand the origin of the value of \SI{1}{\fs}. This value is usually justified by the Nyquist-Shannon sampling theorem that implies the integration step to be at most half of the period of the fastest vibration within the system. If we take a C--H vibration, the maximum time step value is \SI{5}{\fs}, and to be on the safe side, a time step of $1$--$2$~\si{\fs} is chosen in most of the diffusion studies in nanoporous materials.\autocite{Bukowski_2021} But in our system of a xenon diffusing in a rigid environment, we actually don't have any vibrational limitations as described earlier. I think that the use of higher time steps in this situation can be an easy way to access higher time-scales; however, furhter studies need to be performed to be sure of the validity of the quantities we derive from these MD simulations. The value of \SI{5}{\fs} is on the higher side of what we usually see in MD simulations, but it can be justified by the rigidity of the framework and the adsorbate we consider. Even higher time steps could be tested, but to be sure of the results we stay at this reasonable middle ground of \SI{5}{\fs} for all our high-throughput screening of the transport properties.
 
 
@@ -404,7 +410,7 @@ We can first take a look at materials with nanopores composed of pseudo-spherica
 
 Beyond consideration on the purely diffusion properties, the rather high adsorption selectivity coupled with very little diffusion limitations, make these materials extremely interesting for further study. The material BAEDTA01 has already been mentioned in the study on the selectivity drop due to pressure condition changes, the Figure~\ref{fgr:tube_cavities_b} sheds a brighter light on the origins of this selectivity drop, we can clearly see the two different adsorption sites (one narrower than the other) --- the narrower site is the one giving the very high low-pressure selectivity. The other two materials TONBII and XUNSOQ have a rather stable selectivity value between the low pressure and the ambient pressure cases. If we compare to the KAXQIL structure given by a previous high-throughput screening~\autocite{Simon_2015}, the diffusion coefficeints are much higher and the problem of a potential diffusion limitation is solved, the selectivity values of these materials are however yet to be confirmed. The very high selectivity value found for KAXQIL xas for instance found to be much lower afterward.
 \todo{mettre KAXQIL dans le tableau}
-\todo{discuss about capacity ?}
+
 
 
 \todo{HERE}
@@ -432,7 +438,7 @@ If we look at another type of shape, as we can see of the Figure~\ref{fgr:zigzag
      \caption{Some examples of tortuous \todo{}}\label{fgr:zigzag}
 \end{figure}
 
-\todo{add a less selective one with this tortuous shape}
+\todo{discuss about capacity ?}
 
 Go beyond this study by quantitatively quantify tortuosity and try to find patterns in the correlations.
 
