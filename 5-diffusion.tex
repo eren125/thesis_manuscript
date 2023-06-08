@@ -12,7 +12,7 @@ In separation processes, diffusion can either be the main performance metric or 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.95\textwidth]{figures/5-diffusion/Diffusion.pdf}
-    \caption{Illustration of the comparative role of the thermodynamic and transport properties for Xe/Kr separation in nanoporous materials. From the transport dominated process of membrane separation to the thermodynamically equilibrated separation processes in the nanopores, different more nuanced cases could emerge where the diffusion imposes kinetic limitations. }
+    \caption{Illustration of the comparative role of the thermodynamic and transport properties for Xe/Kr separation in nanoporous materials. From the transport dominated process of membrane separation to the thermodynamically equilibrated separation processes in the nanopores, different more nuanced cases could emerge where the diffusion imposes kinetic limitations.}
     \label{fgr:intro_diffusion}
 \end{figure}
 
@@ -30,14 +30,14 @@ To better understand the brownian motion of suspended particles on a liquid Eins
 \begin{equation}\label{eq:einstein}
   \langle {r(t)}^2 \rangle = 2dD\e{diff}t = 6D\e{diff}t
 \end{equation}
-where  $d$ is the dimension of the space in which the particle diffuses ($d=3$ in a volume) and $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on Figure~\ref{fgr:intro_diffusion}.
+where  $d$ is the dimension of the space in which the particle diffuses ($d=3$ in a volume) and $r(t)$ is the displacement of a particle from the time $0$ to $t$. The brackets represent the average over all independent trajectories (different particles and different time origins). This equation can be generalized to the diffusion of an adsorbate in the adsorbed phase, which describes how easy it is for a particle to move inside a nanoporous material. A low diffusion coefficient means a limited access to the pores of the structure as illustrated on the Figure~\ref{fgr:intro_diffusion}.
 
 Using molecular simulations of the adsorbate displacements, we will try to model the diffusion coefficient of xenon and krypton inside a nanoporous material. Although other approaches like the Green-Kubo equation exist the relatively less complex Einstein law is prefered for self-diffusion calculations, as shown by the following comparative study~\cite{Maginn_2020}. In this section, we will focus on the different simulation techniques that can be used to evaluate the diffusion in high-throughput screenings. We will try to present different ways of accessing the MSD of a diffusing particles, by beginning from the most straight-forward molecular dynamics to faster methodologies more suitable in screenings such as machine learned surrogate models and kinetic monte carlo simulations.
 
 
 \subsection{Molecular dynamics}
 
-Molecular dynamics are used to simulate the motion of molecules in a given system. It is usually used to calculate thermodynamic averagings.\todo{give some examples} Here, we are going to focus on the calculation of diffusion coefficients of monoatomic molecules.
+Molecular dynamics are used to simulate the motion of molecules in a given system. It is usually used to calculate thermodynamic averagings by using an hypothesis on the equivalence between the time averaging and ensemble averaging (ergodic hypothesis); in other system configurations, we can determine mechanical properties, thermodynamic properties or chemical properties. But here, we are more interested in the calculation of diffusion coefficients of monoatomic molecules, and the discussion will be driven toward averaging trajectories to obtain MSD values.
 
 \subsubsection{Simulation details}
 
@@ -79,7 +79,7 @@ To efficiently sample the trajectory into sub-trajectories that are independent 
 
 The major drawback of this method is that we need to define a timescale $\left\{\delta\tau, \ldots, K\delta\tau\right\}$ beforehand. In order to be able to access the different timescales in a single simulation, we can perform a multiple window algorithm developed by Dubbeldam et al.\ and used in the RASPA2 software to compute mean squared displacements (MSD) in a molecular dynamics simulation.
 
-The different time windows are defined in a recursive way using the default parameters of RASPA2. The first time window is defined by $K=25$ displacements of duration $\delta t, 2\delta t, \ldots,K\delta t$ with a shift of $\delta t$ (the default shift value $\delta t$ of the first window can be changed with the parameter SampleMSDEvery). The second window is now based on a sampling duration $\delta \tau_1 = K\delta t$ and the sub-trajectories will have durations of $\left(\tau_1^{(1)} = \delta\tau_1\right),\ldots,\left(\tau_1^{(k)} = K\delta\tau_1\right)$. If we repeat the process recursively until no window can be generated anymore, and the $i$\e{th} window would have a sampling duraction of $\delta \tau_i = K^i\delta t$ and sub-trajectories durations of $\left(\tau_i^{(1)} = \delta\tau_i\right),\ldots,\left(\tau_i^{(k)} = K\delta\tau_i\right)$. The time scale $\delta \tau_i = K^i\delta t$ we sample follows a geometrical progression and very different time scales can be accessed using this method in order to find the time scale corresponding to the diffusion regime (linear relation between the MSD and the duration of the sub-trajectories used in the averaging). For example on Figure~\ref{fgr:MSD_init}, we can see the different timescales and the exponent value $b$ of a fit to a function of type $x \mapsto ax^b$ for the different time windows --- values of $b$ near $1$ can be associated to a diffusion regime. The determination of the diffusion coefficient is now reduced to a simple fitting problem that will be explained in more details in the presentation of the diffusion coefficient screening in section~\ref{sct:md_screening}.
+The different time windows are defined in a recursive way using the default parameters of RASPA2. The first time window is defined by $K=25$ displacements of duration $\delta t, 2\delta t, \ldots,(K-1)\delta t$ with a shift of $\delta t$ (the default shift value $\delta t$ of the first window can be changed with the parameter SampleMSDEvery). The second window is now based on a sampling time $\delta \tau_1 = K\delta t$ and the sub-trajectories will have durations of $\left(\tau_1^{(1)} = \delta\tau_1\right),\ldots,\left(\tau_1^{(K-1)} = (K-1)\delta\tau_1\right)$. We, then, repeat the process recursively, and the $i$\e{th} window would have a sampling time of $\delta \tau_i = K^i\delta t$ and sub-trajectories durations of $\left(\tau_i^{(1)} = \delta\tau_i\right),\ldots,\left(\tau_i^{(K-1)} = (K-1)\delta\tau_i\right)$, for each of them a window algorithm similar to the one described above is applied. The algorithm stops when no window can be generated anymore, when $\tau_n^{(k)}>t\e{tot}$ with $n$ being the index of the window and $k$ the index in the single-window algorithm that defines the time we want to sample with regard to a sampling time $\delta\tau_i$. The time-scale $\delta \tau_i = K^i\delta t$ we sample follows a geometrical progression and very different time-scales can be accessed using this method in order to find the time-scale corresponding to the diffusion regime (linear relation between the MSD and the duration of the sub-trajectories used in the averaging). For example on the Figure~\ref{fgr:MSD_init}, we can see the different timescales and the exponent value $b$ of a fit to a function of type $x \mapsto ax^b$ for the different time windows --- values of $b$ near $1$ can be associated to a diffusion regime. The determination of the diffusion coefficient is now reduced to a simple fitting problem that will be explained in more details in the presentation of the diffusion coefficient screening in section~\ref{sct:md_screening}.
 
 This methodology can then be used replicated to thousands of structures to characterize the diffusion properties of these materials. Several screenings have already been carried out in the literature as presented in the chapter 1 in the section dedicated to transport property screenings. We will now dive a little deeper in the prediction of these quantities using machine learning.
 
@@ -91,7 +91,7 @@ Simarly to what we have done on the thermodynamic screening (chapter 2--4), in o
 
 \subsection{Lattice kinetic Monte Carlo}
 
-The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable points corresponding to adsorption sites. Each site connected to another if there is a diffusion path (narrow channel) that connects them. To calculate the probability of transition from one site to another, we need to define a transition state in the narraow channel which correspond to the highest energy point on the minimal energy diffusion path (the saddle point). The probability of transition would therefore be defined with regard to the energy barrier to overcome in order to cross the channel. Once the lattice defined, we only need to propagate an adsorbate from one site to another using the different transition probabilities, which gives a coarse-grained trajectory compared to the one obtained in a MD simulation, but is perfectly usable to compute the MSD and calculate a diffusion coefficient.
+The lattice kinetic Monte Carlo method relies on a pre-defined lattice of stable points corresponding to adsorption sites. Each site connected to another if there is a diffusion path (narrow channel) that connects them. To calculate the probability of transition from one site to another, we need to define a transition state (TS) in the narraow channel which correspond to the highest energy point on the minimal energy diffusion path (the saddle point). The probability of transition would therefore be defined with regard to the energy barrier to overcome in order to cross the channel. Once the lattice defined, we only need to propagate an adsorbate from one site to another using the different transition probabilities, which gives a coarse-grained trajectory compared to the one obtained in a MD simulation, but is perfectly usable to compute the MSD and calculate a diffusion coefficient.
 
 
 \begin{figure}[ht]
@@ -116,14 +116,19 @@ Another approach is to determine a surface of transition through which the adsor
 \end{equation}
 where the integration for the transition state is done on a bottle-neck surface that a diffusing particle need to cross in order to go from the volume occupied by a site $0$ to the one occupied by $1$.
 
-\subsubsection{Construction of the lattice}
+\subsubsection{TuTraST algorithm for kinetic MC}\label{sct:tutrast}
 
-In this section, I will focus on the second approach that relies on the determination of a transition state as a surface. This approach has been developed by Mace et al.\ and relies on detecting the merging points of bassin representing the adsorption sites. The algorithm developed is called TuTraST, which stand for Tunnels and Transition States, is a search algorithm that aims at finding the tunnels and the transition states within them.\autocite{Mace_2019} Once the adsorption sites, the transition states and the tunnels that connect them are found, the equation~\ref{eq:trans_rate} can be used to calculate the transition rates to move a particle from one point to another and hence producing a kinetic Monte Carlo simulation to determine the MSD and eventually the diffusion coefficients. 
+In this section, I will focus on the second approach that relies on the determination of a transition state as a surface. This approach has been developed by Mace et al.\autocite{Mace_2019}\ and relies on detecting the merging points between basins representing the adsorption pores. The algorithm developed is called TuTraST, which stand for Tunnels and Transition States. It is a search algorithm that aims at finding the tunnels and the transition states that separate different adsorption ``basins'' within them. Once the adsorption sites, the transition states and the tunnels that connect them are found, we can calculate the hopping rates between the stable adsorption sites using the equation~\ref{eq:trans_rate}. Finally, a lattice kinetic Monte Carlo simulation can be used to move particles within simplified hopping diffusion system to determine the MSD and eventually the diffusion coefficient. 
 
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.6\textwidth]{figures/5-diffusion/tutrast.jpg}
+    \caption{ Illustration of the cluster growth and the identification of boundary points in the TuTraST algorithm\autocite{Mace_2019}. the clusters are grown from left to right and top to bottom. A tunnel is detected when the points are connected all the way from one periodic boundary to another (red). The boundary points assigned to the TS surface are indicated in yellow. Reprinted with permission from the original paper~\cite{Mace_2019} copyright \copyright\ 2019 American Chemical Society. }\label{fgr:tutrast}
+\end{figure}
 
-\todo{Give the scheme here}
+In practice, we need to calculate an energy grid that will be used to detect all the different components of lattice. The algorithm iterates over different energy values from $E\e{min}+\delta E, \ldots, E\e{min}+N\delta E$ so that the maximum energy is below an energy cutoff we fixed at the start $E\e{min}+N\delta E<E\e{cutoff}$. At the inital step, the clusters of grid points with an energy below $E\e{min}+\delta E$ are formed naturally depending on whether they are connected or not. Then, at an iteration level $L$, the previous clusters found at iteration $L-1$ are grown layer by layer (one layer corresponds to the immediate neighbors on the grid), as shown on the Figure~\ref{fgr:tutrast}. If the layer touches another cluster, then a boundary point is identified --- it is only accepted if the energy difference between minimum energy of the two touching basins and the boundary point value is high enough, else the barrier is negligible and the basins are merged. At the end, the boundary values will be clustered and assigned as the transition surface between different pairs of adsorption basins. If the points of basins and bboundary surfaces are connected all through, then we can define a tunnel in which diffusion can occur. Finally, when we iterated enough steps, and tunnels with different basins separated by transition state surfaces are defined. We can now run a kinetic Monte Carlo to determine the diffusion coefficient within each tunnel. The diffusion coefficient in the material will correspond to a weighted average of the diffusion coefficient in each tunnel, the weight simply corresponds to the probability of presence in each tunnel, which corresponds to the sum of the Boltzmann factors (proportional to the Henry coefficient in a given tunnel). 
 
-This approach is very promising since it is much more efficient than the MD simulation based techniques. with an implementation in Matlab, the code is already out-performing most of the MD simulations for diffsuion coefficient calculation, with a minimal cost in accuracy as shown in their screening of diffusion coefficients in zeolites. By using the C++ programming language, I tried to rewrite the algorithm for a more efficient search of the transition states. At this point of the development, I stopped at the determination of the diffusion activation energy which is independent of the detection of the transition state. And, in section~\ref{sct:algo_diff}, I will give the algorithmic detail for the determination of the diffusion activation energy in nanoporous mateirals using our in-house algorithm as well as the projected develoopment to achieve a faster lattice kinetic Monte Carlo simulation inspired by TuTraST.
+This approach is very promising since it is much more efficient than the MD simulation based techniques. With an implementation in Matlab (not very computationally efficient), the code is already out-performing most of the MD simulations for diffsuion coefficient calculation, with a minimal cost in accuracy as shown in their screening of diffusion coefficients in zeolites. By using the C++ programming language, I tried to rewrite the algorithm for a more efficient search of the transition states. At this point of the development, I stopped at the determination of the diffusion activation energy which is independent of the detection of the transition state. And, in section~\ref{sct:algo_diff}, I will give the algorithmic detail for the determination of the diffusion activation energy in nanoporous mateirals using our in-house algorithm as well as the projected development to achieve a faster lattice kinetic Monte Carlo simulation inspired by the TuTraST algorithm.
 
 
 \section{Screening of transport properties}\label{sct:md_screening}
@@ -134,7 +139,7 @@ To complete the thermodynamic screenings that we performed in the chapters 2--4,
 
 Before going into the details of the screening study, we will present the approach adopted for the diffusion coefficient calculation using MSD values, on one example, SBMOF-1\autocite{Banerjee_2016}. This preliminary study will help us calibrate the time parameters (time step, maximum time) that will be used in the final screening study.
 
-First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. And we can observe on the Figure~\ref{fgr:MSD_init}, the different time scales at which different transport phenomena occur. 
+First, I ran a molecular dynamics simulation of 500 million steps (about 1--2 days of simulation) with a thousand initialization steps and 100 thousand equilibration steps to model a xenon diffusing in the KAXQIL\autocite{Banerjee2012} MOF at infinite dilution. To be at infinite dilution, we set the box size so that no interactions occur between the different adsorbates. And we can observe on the Figure~\ref{fgr:MSD_init}, the different time-scales at which different transport phenomena occur. 
 
 From \SI{1}{\fs} to \SI{1}{\ps}, there is a ballistic regime with a squared dependence of the mean squared displacement. For a particle of mass $m$, the MSD $\langle {r(\tau)}^2 \rangle$ in this regime follows a simple ballistic relation (length equals velocity multiplied by time):
 \begin{equation}
@@ -149,13 +154,13 @@ where $v_m$ is the average velocity of a particle that follows the Maxwell-Boltz
     \caption{Left: Different regimes that could be observed in an MSD plot as a function of time. The ballistic regime can be considered superdiffusional, the normal diffusion is simply a linear relation as described in the Einstein equation\ref{eq:einstein}, and the subdiffusion regime often occurs in obstructed media like nanoporous materials. The different regimes can be found on the right plot of an actual MSD calculated using the multiple window method. The fittings are done using a generic function $K_\alpha\tau^\alpha$ and the exponents $\alpha$ are given in the legend. }\label{fgr:MSD_init}
 \end{figure}
 
-Then, there is a transition from the ballistic regime to the pseudo-diffusional regime (the exponent does not reach $1$ yet) that we observe in cyan on the plot. Between \SI{1}{\ps} and \SI{100}{\ps}, there is a so-called subdiffusion regime, where the MSD has a power function of the time $\langle {r(\tau)}^2 \rangle=K_\alpha\tau^\alpha$ with an exponent inferior to $1$ as illustrated on the left plot of Figure~\ref{fgr:MSD_init}. This regime corresponds to the confinement of the xenon particle inside an adsorption pore, there is only thermal vibration occuring and no diffusion hopping is observed at this time scale. And diffusion seems to start occuring at the \SI{10}{\ns} time-scale. As we can see on the Figure~\ref{fgr:MSD_linear_init}, the MSD between \SI{0.01}{\ns} and \SI{0.4}{\ns} really represents a sub-diffusional regime due to the confinement imposed by the nanopores of KAXQIL, but at \SI{0.4}{\ns}--\SI{9}{\ns}, the MSD start to have an exponent closer to $1$ and a linear fit is possible although not perfect. Ideally, we would want to sample trajectories in the order of tens of nanoseconds, which is the next time-scale. But with an MD time step of \SI{1}{\fs}, this would mean multiplying the computation time by at least 5 (1--2 weeks for one MD simulation), which begins to be prohibitive. 
+Then, there is a transition from the ballistic regime to the pseudo-diffusional regime (the exponent does not reach $1$ yet) that we observe in cyan on the plot. Between \SI{1}{\ps} and \SI{100}{\ps}, there is a so-called subdiffusion regime, where the MSD has a power function of the time $\langle {r(\tau)}^2 \rangle=K_\alpha\tau^\alpha$ with an exponent inferior to $1$ as illustrated on the left plot of Figure~\ref{fgr:MSD_init}. This regime corresponds to the confinement of the xenon particle inside an adsorption pore, there is only thermal vibration occuring and no diffusion hopping is observed at this time-scale. And diffusion seems to start occuring at the \SI{10}{\ns} time-scale. As we can see on the Figure~\ref{fgr:MSD_linear_init}, the MSD between \SI{0.01}{\ns} and \SI{0.4}{\ns} really represents a sub-diffusional regime due to the confinement imposed by the nanopores of KAXQIL, but at \SI{0.4}{\ns}--\SI{9}{\ns}, the MSD start to have an exponent closer to $1$ and a linear fit is possible although not perfect. Ideally, we would want to sample trajectories in the order of tens of nanoseconds, which is the next time-scale. But with an MD time step of \SI{1}{\fs}, this would mean multiplying the computation time by at least 5 (1--2 weeks for one MD simulation), which begins to be prohibitive. 
 
 \begin{figure}[ht]
   \centering
 \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_1.pdf}
 \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_2.pdf}
-\caption{ Plots of the MSD at the last two time scales considered on the Figure~\ref{fgr:MSD_init}. On the left, the time-scale between \SI{0.01}{\ns} and \SI{0.4}{\ns} is considered, the MSD is fitted by a power function with the same exponent as one determined earlier, and a linear fit is given to show the incompatibility with the diffusion equation. On the right, we have the same approach but for the time-scale between \SI{0.4}{\ns} and \SI{9}{\ns}. }\label{fgr:MSD_linear_init}
+\caption{ Plots of the MSD at the last two time-scales considered on the Figure~\ref{fgr:MSD_init}. On the left, the time-scale between \SI{0.01}{\ns} and \SI{0.4}{\ns} is considered, the MSD is fitted by a power function with the same exponent as one determined earlier, and a linear fit is given to show the incompatibility with the diffusion equation. On the right, we have the same approach but for the time-scale between \SI{0.4}{\ns} and \SI{9}{\ns}. }\label{fgr:MSD_linear_init}
 \end{figure}
 
 If we use the right plot of Figure~\ref{fgr:MSD_linear_init} to fit a linear relation and deduct the diffusion coefficient, we can have an underestimated value of the diffusion coefficient of $2.24\times 10^{-8}$~\si{\square\cm\per\s} --- it is an underestimation because the MSD is rather concave, which reduces the slope in the fitting process. This value is already a good estimation of the diffusion coefficient considering the rather high exponent $\alpha$ value in the with regard to $K_\alpha\tau^\alpha$.
@@ -166,8 +171,9 @@ Now that we have more confidence on the method we are using, we will try to prob
 
 \begin{figure}[ht]
   \centering
-\includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_1.pdf}
-\caption{ \todo{}}\label{fgr:MSD_5fs}
+  \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_KAXQIL_clean_5fs.pdf}
+  \includegraphics[width=0.48\textwidth]{figures/5-diffusion/MSD_Xe_coeff_KAXQIL_clean_5fs.pdf}
+\caption{ On the left, the MSD in log-log scale and a fit to the relation $\text{MSD}(/tau) = K_\alpha\tau^\alpha$ using an MD simulation of a \SI{5}{\fs}-timestep and 500 million steps. We find a better linear fit with this new configuration of the MD simulation than on the Figure~\ref{fgr:MSD_init}, beacause we explore more time-scales using the same amount of computational resource. On the right, we can find the MSD on time-scale of diffusion regime. The linear fit is better than on the Figure~\ref{fgr:MSD_linear_init}.}\label{fgr:MSD_5fs}
 \end{figure}
 
 To further back-up the use of a higher time integration step, we need to understand the origin of the value of \SI{1}{\fs}. This value is usually justified by the Nyquist-Shannon sampling theorem that implies the integration step to be at most half of the period of the fastest vibration within the system. If we take a C--H vibration, the maximum time step value is \SI{5}{\fs}, and to be on the safe side, a time step of $1$--$2$~\si{\fs} is chosen in most of the diffusion studies in nanoporous materials.\autocite{Bukowski_2021} But in our system of a xenon diffusing in a rigid environment, we actually don't have any vibrational limitations as described earlier. I think that the use of higher time steps in this situation can be an easy way to access higher time-scales; however, furhter studies need to be performed to be sure of the validity of the quantities we derive from these MD simulations. The value of \SI{5}{\fs} is on the higher side of what we usually see in MD simulations, but it can be justified by the rigidity of the framework and the adsorbate we consider. Even higher time steps could be tested, but to be sure of the results we stay at this reasonable middle ground of \SI{5}{\fs} for all our high-throughput screening of the transport properties.
@@ -206,7 +212,7 @@ If we now analyze the channel dimensions (determined using Zeo++) that could par
     \caption{ Distributions of the base-10 logarithm of the diffusion coefficients of three different subsets of the screened structures. The first one (a) is composed of structures with a unidimensional channels, the second (b) bidimensional channels and the third one (c) tridimensional channels. }\label{fgr:scatter_diffusion_chandim}
 \end{figure}
 
-For this reason, I plotted on Figure~\ref{fgr:hist_diffusion_chandim} the distribution of diffusion coefficients that depends on the dimensionality of the channels within the framework. The distribution for structures containing 1D structures is much more heavy tail in terms of low diffusion coefficients. We can more easily find 1D structures with very low diffusion coefficients under $3/times 10^{-8}$~\si{\square\cm\per\s}. The vast majority of structures with tridimensional channels has a rather higher diffusion coefficient between $3\times 10^{-6}$~\si{\square\cm\per\s} and $10^{-4}$~\si{\square\cm\per\s} with almost no structures with lower diffusion coefficients. This is not as blatant for bi- and unidimensional channels, we can more easily find structures between $3/times 10^{-8}$~\si{\square\cm\per\s} and $3\times 10^{-6}$~\si{\square\cm\per\s}, even if thery are not that frequent. The dimensionality of the channels can therefore influence the values of diffusion coefficient but the relation is not as clear as for PLD.
+For this reason, I plotted on the Figure~\ref{fgr:hist_diffusion_chandim} the distribution of diffusion coefficients that depends on the dimensionality of the channels within the framework. The distribution for structures containing 1D structures is much more heavy tail in terms of low diffusion coefficients. We can more easily find 1D structures with very low diffusion coefficients under $3\times 10^{-8}$~\si{\square\cm\per\s}. The vast majority of structures with tridimensional channels has a rather higher diffusion coefficient between $3\times 10^{-6}$~\si{\square\cm\per\s} and $10^{-4}$~\si{\square\cm\per\s} with almost no structures with lower diffusion coefficients. This is not as blatant for bi- and unidimensional channels, we can more easily find structures between $3\times 10^{-8}$~\si{\square\cm\per\s} and $3\times 10^{-6}$~\si{\square\cm\per\s}, even if thery are not that frequent. The dimensionality of the channels can therefore influence the values of diffusion coefficient but the relation is not as clear as for PLD.
 
 \begin{figure}[ht]
   \centering
@@ -297,41 +303,42 @@ When considering the ambient-pressure selectivity, the large majority of highly 
 
 \subsubsection{Identification of interesting materials}
 
-By crossing the transport data with the thermodynamic one, we can optimize the Xe/Kr adsorption selectivity under some constraint on the diffusion selectivity so that it is in an acceptable range (over $0.1$). The structures of the 65 structures with a low-pressure Xe/Kr selectivity higher than $40$ or with an ambient-pressure Xe/Kr selectivity higher than $30$ have been manually visualized and quickly analyzed, and different materials have been hand-picked for further analysis due to some special characterictics. We discarded some materials that have different type of channels that can artificially have a high diffusion coefficient. This phenomenon is due to the randomness of the initial condition, for example, when the xenon diffuses in a wider channel while the krypton diffuses in the narrower channel, the diffusion selectivity will inevitability be artificially higher. For example, the MOF with a CSD code OQESAF\autocite{Xie_2011} was concerned by this phenomenon as we can see on Figure~\ref{fgr:OQESAF} it clearly has different diffusion coefficeint values depending on the channel considered (a Henry coefficient weighted average need to be performed in this case). Other materials have a moderately high diffusion selectivity ($\lesssim 1$), they are usually composed of a unidimensional channel that allows a rather free diffusion of a xenon (higher than \SI{4.6}{\angstrom}) with different cavity sizes. Different factors seem to influence the diffusion coefficients, the values of the channel size and the pore size could explain the values of the diffusion and adsorption selectivity, but more interestingly the shape of the channel composed of cavities connected by narrower walls is also very important. Depending on the tortuosity of the layout and the relative difference between the cavities and the connecting channels, diffusion properties can be very different. 
+By crossing the transport data with the thermodynamic one, we can optimize the Xe/Kr adsorption selectivity under some constraint on the diffusion selectivity so that it is in an acceptable range (over $0.1$). The structures of the 65 structures with a low-pressure Xe/Kr selectivity higher than $40$ or with an ambient-pressure Xe/Kr selectivity higher than $30$ have been manually visualized and quickly analyzed, and different materials have been hand-picked for further analysis due to some special characterictics. We discarded some materials that have different type of channels that can artificially have a high diffusion coefficient. This phenomenon is due to the randomness of the initial condition, for example, when the xenon diffuses in a wider channel while the krypton diffuses in the narrower channel, the diffusion selectivity will inevitability be artificially higher. For example, the MOF with a CSD code OQESAF\autocite{Xie_2011} was concerned by this phenomenon as we can see on the Figure~\ref{fgr:OQESAF} it clearly has different diffusion coefficeint values depending on the channel considered (a Henry coefficient weighted average need to be performed in this case). Other materials have a moderately high diffusion selectivity ($\lesssim 1$), they are usually composed of a unidimensional channel that allows a rather free diffusion of a xenon (higher than \SI{4.6}{\angstrom}) with different cavity sizes. Different factors seem to influence the diffusion coefficients, the values of the channel size and the pore size could explain the values of the diffusion and adsorption selectivity, but more interestingly the shape of the channel composed of cavities connected by narrower walls is also very important. Depending on the tortuosity of the layout and the relative difference between the cavities and the connecting channels, diffusion properties can be very different. 
 
 \begin{figure}[ht]
   \centering
     \includegraphics[height=0.4\textwidth]{figures/5-diffusion/viz/OQESAF.jpg}
-    \caption{Wrongly attributed to high diffusion selectivity\todo{OQESAF picture}}\label{fgr:OQESAF}
+    \caption{Snapshot of a 3D visualization of the xenon interaction energy inside the channels of the OQESAF\autocite{Xie_2011} material. We can see two different unidimensional channels. In an MD simulation of a single xenon per box, we cannot test out all the initial positions. }\label{fgr:OQESAF}
 \end{figure}
 
-In this section, we will look into the details of the comparative transport and adsorption performances of some archetypal structures (Table~\ref{table:diff}) to better understand the key factors that could explain the difference in performance. In the future, this work can be used for the design of more quantitative characteristics that could explain the better transport performance, similarly to what we did for the thermodynamic screening that led to a series of key thermodynamic descriptors that led to the design of a ML model for adsorption selectivity prediction (chapters 3--4). To achieve this, we will use a visualization tool based on the grid calculation principle shown in the dedicated section~\ref{sct:grid}, whose code is published in a Github repository: \todo{Give a github repo}.
+In this section, we will look into the details of the comparative transport and adsorption performances of some archetypal structures (Table~\ref{table:diff}) to better understand the key factors that could explain the difference in performance. In the future, this work can be used for the design of more quantitative characteristics that could explain the better transport performance, similarly to what we did for the thermodynamic screening that led to a series of key thermodynamic descriptors that led to the design of a ML model for adsorption selectivity prediction (chapters 3--4). To achieve this, we will use a visualization tool based on the grid calculation principle shown in the dedicated section~\ref{sct:grid}, and the code is published in the same Github repository: \url{github.com/coudertlab/GrAED}.
 
 \begin{table}[ht]
+\small
 \setlength\extrarowheight{5pt}
 \centering
-\begin{tabular}{|l|c|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
 \hline
-  Structure &       &    &  Pore size &  Channel size   &     & Diffusion Coeff. \\
-  CSD ref.\ code &  $s_0\ex{Xe/Kr}$  &  $s_1\ex{Xe/Kr}$   &    D$_{if}\ex{UFF}$ (\si{\angstrom})   &   PLD\ex{UFF} (\si{\angstrom})  &  $s\e{diff}\ex{Xe/Kr}$ &  $D\e{diff}\ex{Xe}$ (\si{\square\centi\meter\per\second}) \\
+  Structure &       &    &  Pore size &  Channel size   &     & Diffusion Coeff. & Xe uptake \\
+  CSD ref.\ code &  $s_0\ex{Xe/Kr}$  &  $s_1\ex{Xe/Kr}$   &    D$_{if}\ex{UFF}$ (\si{\angstrom})   &   PLD\ex{UFF} (\si{\angstrom})  &  $s\e{diff}\ex{Xe/Kr}$ &  $D\e{diff}\ex{Xe}$ (\si{\square\centi\meter\per\second}) & (\si{\milli\mole\per\gram}) \\
 \hline
-OQESAF~\cite{Xie_2011} & 28 & 28 &  5.8 & 5.0 &  17 &  4$\times$10\ex{-5} \\
+OQESAF~\cite{Xie_2011} & 28 & 28 &  5.8 & 5.0 &  17 &  4$\times$10\ex{-5} & 3.2 \\
 \hline
-ADOGEH~\cite{Peikert_2012} & 49  &  10 & 12.9 & 5.3 & 15.5 &  5$\times$10\ex{-5}  \\
+ADOGEH~\cite{Peikert_2012} & 49  &  10 & 12.9 & 5.3 & 15.5 &  5$\times$10\ex{-5} & 1.7 \\
 \hline
-XUNSOQ~\cite{Abrahams_2014} & 38  & 48 &  5.6 & 4.8 &  0.23 &  7$\times$10\ex{-6} \\
-BAEDTA01~\cite{Chen_2010} & 152 & 38 &  5.7 & 4.6 &  0.4 &  \todo{} \\
-TONBII~\cite{Du_2010} & 44 & 35 &  5.1 & 4.8 &  0.86 &  1$\times$10\ex{-4} \\
+KAXQIL~\cite{Banerjee2012} & 104  & 133 &  5.2 & 4.1 &  0.005 &  3$\times$10\ex{-8}  & 1.4 \\
+XUNSOQ~\cite{Abrahams_2014} & 38  & 48 &  5.6 & 4.8 &  0.23 &  7$\times$10\ex{-6} & 3.5 \\
+BAEDTA01~\cite{Chen_2010} & 152 & 38 &  5.7 & 4.6 &  0.4 &  4$\times$10\ex{-5} & 1.1 \\
+TONBII~\cite{Du_2010} & 44 & 35 &  5.1 & 4.8 &  0.86 &  1$\times$10\ex{-4} & 1.5 \\
 \hline
-VOHQIS~\cite{Wragg_2001} & 51 & 48 &  5.7 & 3.9 &  0.01 &  6$\times$10\ex{-8} \\
-QOZDOY~\cite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} \\
-GUMDEZ~\cite{Yin_2014} & 56 & 42 &  5.5 & 5.1 &  0.55 &  7$\times$10\ex{-5} \\
-MISQIQ~\cite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} \\
+VOHQIS~\cite{Wragg_2001} & 51 & 48 &  5.7 & 3.9 &  0.01 &  6$\times$10\ex{-8} & 2.6\\
+QOZDOY~\cite{Zhang_2001} & 52  & 37 &  5.6 & 5.0 &  0.45 &  7$\times$10\ex{-5} & 3.7 \\
+GUMDEZ~\cite{Yin_2014} & 56 & 42 &  5.5 & 5.1 &  0.55 &  7$\times$10\ex{-5} & 3.0 \\
+MISQIQ~\cite{Tong_2013} & 140 & 37 &  4.6 & 4.5 &  1.4 &  2$\times$10\ex{-4} & 2.3 \\
 \hline
 \end{tabular}
-\caption{Transport and thermodynamic performances of top performing structures of CoRE MOF 2019 screened out by the approach developed in section~\ref{sct:diff_screen}. The thermodynamic properties are determined using $s_0\ex{Xe/Kr}$ and $s_1\ex{Xe/Kr}$ that correspond to the xenon/krypton adsorption selectivity values respectively at infinite dilution and ambient pressure condition. The pore size is defined as the largest cavity along a free diffusion path D$_{if}\ex{UFF}$ and the channel size is defined using the pore limiting diameter PLD\ex{UFF} using atom radii defined by the UFF. The transport properties are evaluated using the xenon/krypton diffusion selectivity $s\e{diff}\ex{Xe/Kr}$ and the xenon diffusion coefficient $D\e{diff}\ex{Xe}$ calculated by the MD-based screening presented above. }\label{table:diff}
+\caption{Transport and thermodynamic performances of top performing structures of CoRE MOF 2019 screened out by the approach developed in section~\ref{sct:diff_screen}. The thermodynamic properties are determined using xenon uptake at \SI{1}{\bar} and \SI{298}{\kelvin}, $s_0\ex{Xe/Kr}$ and $s_1\ex{Xe/Kr}$ that correspond to the xenon/krypton adsorption selectivity values respectively at infinite dilution and ambient pressure condition. The pore size is defined as the largest cavity along a free diffusion path D$_{if}\ex{UFF}$ and the channel size is defined using the pore limiting diameter PLD\ex{UFF} using atom radii defined by the UFF. The transport properties are evaluated using the xenon/krypton diffusion selectivity $s\e{diff}\ex{Xe/Kr}$ and the xenon diffusion coefficient $D\e{diff}\ex{Xe}$ calculated by the MD-based screening presented above. }\label{table:diff}
 \end{table}
-\todo{capacity ?}
 
 The structure ADOGEH\autocite{Peikert_2012} was not found when crossing the transport data with ambient-pressure selectivity values by with the infinite dilution ones, which explains that the selectivity $s_1$ is rather low ($10$) compared to the other materials (over $35$). This structure was actually detected when looking at the selectivity $s_0$ at infinite dilution, because of its extraordinary diffusion selectivity around ($10$). This would mean that as membrane material, its selectivity would be around $100$, which is on of the highest. Even as an adsorption-based separation material, it has an outstanding low-pressure selectivity of $49$ coupled with the high diffusion selectivity it can be considered for some applications at very low partial pressure of xenon and krypton. 
 
@@ -340,13 +347,13 @@ The structure ADOGEH\autocite{Peikert_2012} was not found when crossing the tran
   \begin{subfigure}[b]{0.4\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/5-diffusion/viz/ADOGEH_Xe.jpg}
-    \caption{Xe}\label{fgr:ADOGEH_Xe}
+    \caption{Xe energy grid in ADOGEH}\label{fgr:ADOGEH_Xe}
   \end{subfigure}
   \hspace{1cm}
   \begin{subfigure}[b]{0.4\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/5-diffusion/viz/ADOGEH_Kr.jpg}
-    \caption{Kr}\label{fgr:ADOGEH_Kr}
+    \caption{Kr energy grid in ADOGEH}\label{fgr:ADOGEH_Kr}
   \end{subfigure}
   \caption{3D volume plot of the xenon (a) and krypton (b) interaction energy values inside the material ADOGEH\autocite{Peikert_2012} calculated using an energy grid as described in section~\ref{sct:grid}. }\label{fgr:ADOGEH}
 \end{figure}
@@ -379,7 +386,7 @@ For structures with a high ambient-pressure selectivity (Figure~\ref{fgr:poredif
       \includegraphics[width=\textwidth]{figures/5-diffusion/diff_D_xekr-poresize-chandim.pdf}
       \caption{$s\ex{Xe/Kr}_1>30$}\label{fgr:porediff_c}
   \end{subfigure}
-     \caption{Some examples of tortuous \todo{}}\label{fgr:porediff}
+     \caption{ Scatterplots of the diffusion coefficient compared to the LCD-PLD difference labeled using the channel dimension for all structures (a) and for structures with an LCD above \SI{5.5}{\angstrom} (b). On the subfigure (c), the scatterplot of the xenon/krypton diffusion selectivity compared to the LCD-PLD difference for the most selective structures ($s\ex{Xe/Kr}_1>30$). }\label{fgr:porediff}
 \end{figure}
 
 The highly selective materials shown in the Figure~\ref{fgr:porediff_c} are actually the ones we are studying in this section, some of which are shown on the Table~\ref{table:diff}. The negative linear relation between the LCD-PLD difference and the Xe/Kr diffusion selectivity or the Xe diffusion coefficient can be reconfirmed by looking at the values of the Table for materials with 1D channels (ADOGEH excepted). We are now going to split them into two categories in order to take a glimpse on the tortuosity difference between these materials.  
@@ -391,70 +398,84 @@ We can first take a look at materials with nanopores composed of pseudo-spherica
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/viz/XUNSOQ.jpg}
-      \caption{XUNSOQ}\label{fgr:tube_cavities_a}
+      \caption{XUNSOQ~\cite{Abrahams_2014}}\label{fgr:tube_cavities_a}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/viz/BAEDTA01.jpg}
-      \caption{BAEDTA01}\label{fgr:tube_cavities_b}
+      \caption{BAEDTA01~\cite{Chen_2010}}\label{fgr:tube_cavities_b}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/viz/TONBII.jpg}
-      \caption{TONBII}\label{fgr:tube_cavities_c}
+      \caption{TONBII~\cite{Du_2010}}\label{fgr:tube_cavities_c}
   \end{subfigure}
-     \caption{Some examples of tortuous \todo{}}\label{fgr:tube_cavities}
+     \caption{ 3D volume plot of the xenon interaction energy values inside materials with non tortuous unidimensional channels calculated using an energy grid as previously described.}\label{fgr:tube_cavities}
 \end{figure}
 
-Beyond consideration on the purely diffusion properties, the rather high adsorption selectivity coupled with very little diffusion limitations, make these materials extremely interesting for further study. The material BAEDTA01 has already been mentioned in the study on the selectivity drop due to pressure condition changes, the Figure~\ref{fgr:tube_cavities_b} sheds a brighter light on the origins of this selectivity drop, we can clearly see the two different adsorption sites (one narrower than the other) --- the narrower site is the one giving the very high low-pressure selectivity. The other two materials TONBII and XUNSOQ have a rather stable selectivity value between the low pressure and the ambient pressure cases. If we compare to the KAXQIL structure given by a previous high-throughput screening~\autocite{Simon_2015}, the diffusion coefficeints are much higher and the problem of a potential diffusion limitation is solved, the selectivity values of these materials are however yet to be confirmed. The very high selectivity value found for KAXQIL xas for instance found to be much lower afterward.
-\todo{mettre KAXQIL dans le tableau}
+Beyond consideration on the pure diffusion properties, the rather high adsorption selectivity coupled with very little diffusion limitations, make these materials extremely interesting for further study. The material BAEDTA01 has already been mentioned in the study on the selectivity drop due to pressure condition changes, the Figure~\ref{fgr:tube_cavities_b} sheds a brighter light on the origins of this selectivity drop, we can clearly see the two different adsorption sites (one narrower than the other) --- the narrower site is the one giving the very high low-pressure selectivity. The other two materials TONBII and XUNSOQ have a rather stable selectivity value between the low pressure and the ambient pressure cases. If we compare to the KAXQIL structure given by a previous high-throughput screening~\autocite{Simon_2015}, the diffusion coefficients are much higher and the problem of a potential diffusion limitation is solved, the selectivity values of these materials are however yet to be confirmed. The value of the PLD is of course the main factor that explains the lower diffusion coefficient of KAXQIL, but for similar values of PLD, the LCD-PLD difference can be a secondary variable that helps distinguish materials with similar PLD values but different diffusion coefficients. 
 
 
-
-\todo{HERE}
-If we look at another type of shape, as we can see of the Figure~\ref{fgr:zigzag}, the channels are much more tortuous than the previous type of channel. It seems to make a ``zig-zag'' like shape. 
+If we now look at the other materials, as we can see of the Figure~\ref{fgr:zigzag}, the channels are much more tortuous than the previous type of channel. It seems to make a ``zig-zag'' like shape. On this little amount of data, it is hard to quantify the effect of the tortuosity on the diffusion coefficient --- to do so we would need to compare very similar materials (same chemical nature, same pore size) but has only a difference in tortuosity. Howerver, in a theoretical point of view, the tortuosity usually has a negative effect on the diffusion coefficients. VOHQIS, for instance, has a high degree of tortuosity as we can see on the Figure~\ref{fgr:zigzag_a}, and the diffusion properties are not very high, but it is hard to disentangle the effect of the pore size (very big difference between LCD and PLD) from the effect of the tortuosity. A more quantitative approach should be adopted to bring more insights on the diffusion process in nanoporous materials. 
 
 \begin{figure}[ht]
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/viz/VOHQIS.jpg}
-      \caption{VOHQIS}\label{fgr:zigzag_a}
+      \caption{VOHQIS~\cite{Wragg_2001}}\label{fgr:zigzag_a}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/viz/GUMDEZ.jpg}
-      \caption{GUMDEZ}\label{fgr:zigzag_b}
+      \caption{GUMDEZ~\cite{Yin_2014}}\label{fgr:zigzag_b}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/viz/MISQIQ.jpg}
-      \caption{MISQIQ}\label{fgr:zigzag_c}
+      \caption{MISQIQ~\cite{Tong_2013}}\label{fgr:zigzag_c}
   \end{subfigure}
-     \caption{Some examples of tortuous \todo{}}\label{fgr:zigzag}
+     \caption{ 3D volume plot of the xenon interaction energy values inside materials with tortuous unidimensional channels calculated using an energy grid as previously described.}\label{fgr:zigzag}
 \end{figure}
 
-\todo{discuss about capacity ?}
+If make a similar analysis for these materials than for the previous materials with strainght channels, there seem to be the same --- it is not surprising since these materials are included in the correlation plot on the Figure~\ref{fgr:porediff_c}. GUMDEZ is much less tortuous as shown on the Figure~\ref{fgr:zigzag_b}, but the difference in tpore size is also lower, the diffusion coefficient is therefore higher, which explains the good diffusion selectivity. This material also has a much higher xenon uptake than more selective materials like KAXQIL, this is due to the notion uptake--selectivity trade-off we introdued on the Figure~\ref{fgr:sa} for instance. For this reason, this material along with QOZDOY was also previously identified in the literature by the xenon/krypton separation screening made by Chung et al.\autocite{Chung_2019} when introducing the CoRE MOF 2019 database. These materials were presented as having a high xenon/krypton selectivity and much higher xenon uptake, which is also a key metric for industrial separation process --- it typically sets how much xenon can be retrieved per adsorption-desorption cycle. To complexify, the screening we could also add an optimization of the xenon uptake to optimization of the diffusion and selectivity properties. By chance, we found materials such as XUNSOQ, QOZDOY qnd GUMDEZ with good adsorption selectivity, diffusion selectivity and xenon uptake that could be much more versatile than very specialized materials such as KAXQIL. 
 
-Go beyond this study by quantitatively quantify tortuosity and try to find patterns in the correlations.
-
-\todo{write about this \autocite{Stanton_2022}}
-
-% Les résultats d'un screening couplant thermodynamique et cinétique permettent déjà de mettre en valeur des matériaux encore inconnus de la communauté. La question du blocage cinétique est certes traitée dans certaines études,\autocite{Stanton_2022} mais aucune approche systématique n'a encore été développée. Ces structures ont des sélectivités élevées mais ne sont pas les plus sélectives; elles auraient donc été écartées dans un screening standard basé uniquement sur la thermodynamique. 
-
-\todo{transition to faster approaches}
-% Cette approche basée sur des trajectoires de dynamique moléculaire présente toutefois ses propres défauts. En effet, la méthode est très lente (quelques jours de simulation par structure), les structures avec différents canaux non connectées posent problème car l'adsorbat ne peut diffuser que dans un seul des deux canaux. Ainsi, il faudrait dans certains cas faire plusieurs trajectoires ce qui demande encore davantage de temps de calcul. De plus, si l'on veut ajouter de la flexibilité, cette méthode ne pourrait être utilisée que sur quelques structures. C'est pourquoi, un algorithme bien plus efficace est en cours d'implémentation en C++ pour accélérer les calculs de diffusivité. Un tel algorithme est déjà conçu par le groupe de Berend Smit à l'EPFL \autocite{Mace_2019}, mais le code étant sous Matlab (langage peut efficace), il est impossible de l'utiliser dans des procédures de screening. Cet algorithme détermine des sites d'adsorption et des états de transition pour passer d'un site à un autre. Puis à l'aide de simulations de Monte Carlo cinétique l'adsorbat se déplace d'un site à un autre au rythme d'une constante cinétique déterminée par l'état de transition. Cette méthode permet également d'identifier en avance les différents canaux et on assure que chacun d'entre eux sont traversés par des molécules. Par conséquent, ce nouveau code permettrait de résoudre les problèmes de temps de calcul et de fiabilité rencontrés avec la dynamique moléculaire. 
+To sum-up, I performed a screening of diffusion properties for xenon and krypton to inform the previous purely thermodynamic properties screening and I found materials with a good balance between bothe diffusion and adsorption selectivity values. Some of these materials also exhibit very high Xe uptake, which could improve the productivity of xenon in a separation process in addition to a high separative capacity and a fast penetration of the gas inside the material. This study further justifies the mutivariate nature of the optimization problem when looking for a good material for xenon/krypton separation --- it is not sufficient to only look at a single variable. This study brings a more exhaustive approach than already existing studies (on other systems) on the importance of kinetic effects in an adorption process.\autocite{Stanton_2022}
+There are still some work to do on a finer comprehension between the diffusion properties and tortuosity and all the pore size effects. The next section will be dedicated to developping faster methodologies of the screening of transport properties so that we can scale the screening methodology to larger databases. To achieve faster transport property screening, we explored methods based on the transition state theory and machine learning prediction models.
 
 \section{Fast diffusion calculation algorithm}\label{sct:algo_diff}
 
-\subsection{Implementation in C++}
+To go beyond the very computationally demanding MD simulation, in this section, I will present alternative methods that I developed during my thesis to calculate the diffusion coefficient. For instance, methods based on the transition state theory can more efficiently generate MSD at larger time-scales. If we apply a similar algorithm as in TuTraST, we can also overcome the initialization problem of MD simulation when different channels are available in an automated screening --- of course it is always possible to manually put the particle in a given initial state, but it is hard to achieve in a screening process. At this stage of my work, I did not finish the implementation of the C++ algorithm that directly reproduces diffusion coefficients through a rejection-free lattice kinetic Monte Carlo algorithm. However, I used the initial implmentation to calculate maximum barrier energy inside a material. This barrier energy was found to bring a complementary information to the PLD values to predict the diffusion coefficient, and an ML model was trained to predict diffusion coefficients much faster than the current MD method.
 
+\subsection{Planned algorithm for TS detection}
 
-Grid calculation similar to the one in chapter 3
+I used the GrAED algorithm presented on section~\ref{fgr:grid} to calculate the xenon interaction energy with the material at each non-overlapping point of the symmetry-aware grid. With this energy grid, it is now possible to identify the different channels, adsorption pores and the transition surface that separate them. 
+
+I changed a little bit the approach previously described in the section~\ref{sct:tutrast} and adopted by Mace et al.\ to identify the three main components of the lattice Monte Carlo approach. Instead of detecting the channels on the fly, I decided to detect the channels before-hand in order to restrict the cluster growth to a specific channel. This will help decreasing the computation time required during this clustering step since we can do the simulation only for one representing channel out of all the potentially equivalent channels --- because of the high order of symmetry, there are usually equivalent channels within a single unit cell, as we can see on the Figures~\ref{fgr:tube_cavities} and~\ref{fgr:zigzag}. 
+
+To identify the different channels, we used a breadth-first search algorithm to find all connected grid points with energy below a given energy threshold value $E\e{cutoff}$. The connection is defined using the faces of the grid voxel, there are 6 such neighbors. Connections from the 8 edges can be added, and we end up with 14 nearest neighbors. If we add the vertices, we can go up to 26 nearest neighbors. To keep things simple, we only used the 6 obvious connections. The breadth-first search algorithm in a grid system is rather pretty simple:
+
+We loop over all the points of our grid:
+  \begin{enumerate}
+    \item if the point is not already visited and the energy is below the threshold, then the point is saved in the cluster and to a queue, and a search can be initiated to find all the connected neighbors. 
+    \item each (face-connected) neighbor of the point is tested, and is added to the cluster and to a queue if it is not already visited and the energy is below the threshold.
+    \item we repeat the process for every single elements of the queue until the queue becomes empty. At the en we end-up with all the grid points connected to the initial grid point. Then the main loop restarts, and the search restarts only if we find a point that has not yet been visited.
+  \end{enumerate}
+At the end of the breadth-first search we end up with clusters of connected points that are below a given energy threshold. Each of these clusters, can be tested to see if they are actually channels (connected all the way through a periodic boundary). 
+
+Now that we have well-defined channels and pockets of our nanoporous material, we can identify the symmetrically equivalent channels by using the symmetry of grid as already explained in the section~\ref{sct:grid}. We now end with usually a few unique channels (less than three in most cases) that can be used for the basin-cluster growth and the detection of TS surfaces that separate these basins. 
+
+\todo{explain mergin point detection with large energy steps}
+
+Make the layer by layer growth only if there is a change in the number of clusters (a merge occured) > skip first steps. At the first merge we need to pass in layer-b-layer mode. 
+
+The planned next steps for the detection of TS (not done yet) are: (i) defining the bassin grid points, (ii) define a layer by layer cluster growth, and (iii) define the boundary point as another entity that will give the surface. 
+
+\subsection{Calculation of diffusion activation energy}
 
 Breadth-first search
 
@@ -477,11 +498,10 @@ Explains the difference in diffusivity values for mateirals with a PLD superior 
     \caption{}\label{fgr:barrier_diffusion}
 \end{figure}
 
-\subsection{Visualization tool}
 
 \todo{Take some examples for the vizualisation with comparison to the pore size and diffusion coefficient}
 
-\section{First ML prediction Model}
+\subsection{Diffusion coefficient prediction model}
 
 Noisy data to begin with
 
