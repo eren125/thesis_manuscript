@@ -189,7 +189,7 @@ To determine the diffusion coefficients we analyzed two time-scales (2--47\si{\n
 
 This approach only probes the linear relations between the MSD and time to determine the self-diffusion at infinite dilution. We did not analyze the nature of the transport property (e.g. single-file diffusion\autocite{Lin_2005}) by comparing for example the exponent of a generalized formula $\text{MSD}(/tau) = K_\alpha\tau^\alpha$ with structural dscriptors. We did not study the more complex diffusion at higher loading values, which could be more accurately described by a collective diffusion coefficient instead of the self-diffusion coefficient. The goal of this study is to find materials that do not present a kinetic limitation as it is the case for KAXQIL\autocite{Banerjee2012} (xenon has a diffusion coefficient that is about ten thousand times lower in the material than outside).
 
-\subsubsection{Structure--diffusivity relationships}
+\subsubsection{Structure--diffusivity relationships}\label{sct:xenon_diff_screen}
 
 In this section, I will present the different relations the diffusion coefficient may or may not have with the geometrical descriptors. I decided to use a forcefield-dependent definition of the radii so that it better correlates with the results of the MD simulation that uses the UFF forcefield. The different geometrical descriptors are then calculated using Zeo++ and these radii to calculate the PLD, the largest sphere diameter D$_{if}$ along a free path, the surface area and the pore volume, as already explained in the chapter 2. To further justify the use of the UFF-based radii, the original paper~\cite{Hung_2021} showed the better correlation of the PLD to the diffusion constant, and we can also see it from the Figure~\ref{fgr:diff_pld}. The PLD calculated by the standard CCDC defined atom radii does not fit the diffusion coefficient as well as the UFF-defined PLD. As shown in a smaller scale in the article~\cite{Haldoupis_2010} (see Figure~\ref{fgr:Haldoupis_2010} in the chapter 1), there is a linear relation between the diffusion activation energy (logarithmic transform of the diffusion coefficient) and the PLD, and this linear relation is much more noisy for the PLD defined by the standard CCDC radii than for the UFF-based PLD.
 
@@ -255,7 +255,7 @@ The last comparison is made with a thermodynamic quantity, the xenon adsorption 
 
 In this section, I will analyze the screening of the diffusion and selectivity properties calculated for xenon and krypton to identify interesting materials that presents both a good Xe/Kr selectivity and a good Xe/Kr diffusion coefficient ratio. To do so we also performed a diffusion coefficient screening for krypton, and we end up with 4,816 structures that has good determination coefficient for both linear fits of xenon and krypton MSD. These structures are then tested to find materials with a good balance between thermodynamic and kinetic properties for the xenon/krypton separation.
 
-\subsubsection{Screening trade-off between }\label{sct:diff_screen}
+\subsubsection{Screening of diffusion selectivity values: a trade-off between adsorption and diffusion}\label{sct:diff_screen}
 
 I will start by comparing the xenon/krypton selectivity at infinite dilution with the xenon and krypton diffusion coefficients. First, we can say that a highly selective materials can have a decent diffusion coefficient, the diffusion limitation observed on the KAXQIL structure is therefore not inevitable, which is a good news. On the left plot of the Figure~\ref{fgr:diff_s0_lcd}, we can clearly see that all configurations are possible: high selectivity (over $40$) with high diffusion coefficient (over $10^{-6}$~\si{\square\cm\per\s}) and high selectivity with low diffusivity. The krypton coefficients seem to be rather stable between $10^{-6}$~\si{\square\cm\per\s} and $10^{-3}$~\si{\square\cm\per\s}. It means that it is not the main leverage to increase the diffusion selectivity since very low values of kryton diffusion coefficients do not appear for highly selective materials. To improve the tunnel vision we had on the thermodynamic selectivity, we will study a transport related selectivity metric to find highly selective materials that do not show significant transport limitations.
 
@@ -467,43 +467,69 @@ We loop over all the points of our grid:
   \end{enumerate}
 At the end of the breadth-first search we end up with clusters of connected points that are below a given energy threshold. Each of these clusters, can be tested to see if they are actually channels (connected all the way through a periodic boundary). 
 
-Now that we have well-defined channels and pockets of our nanoporous material, we can identify the symmetrically equivalent channels by using the symmetry of grid as already explained in the section~\ref{sct:grid}. We now end with usually a few unique channels (less than three in most cases) that can be used for the basin-cluster growth and the detection of TS surfaces that separate these basins. 
+Now that we have well-defined channels and pockets of our nanoporous material, we can identify the symmetrically equivalent channels by using our symmetrical grid as already explained in the section~\ref{sct:grid}. Then, we usually end up with a few unique channels (less than three in most cases) that can be used for the basin-cluster growth and the detection of TS surfaces that separate these basins. 
 
-\todo{explain mergin point detection with large energy steps}
+Then, we will need to loop over the energy values (in the original paper a step of \SI{1}{\kJ\per\mole} is used), and grow the cluster layer by layer. At this point of the development, another point of improvement is added, I used the previous serach algorithm to quickly count the number of clusters wthin a given channel. If this number changes, it means that some clusters merged. If the energy gap is high enough, we can start to detect the TS surfaces using a layer-by-layer growth within a small energy range ($[E,E+\delta E]$) to generate a smoother surface. 
 
-Make the layer by layer growth only if there is a change in the number of clusters (a merge occured) > skip first steps. At the first merge we need to pass in layer-b-layer mode. 
-
-The planned next steps for the detection of TS (not done yet) are: (i) defining the bassin grid points, (ii) define a layer by layer cluster growth, and (iii) define the boundary point as another entity that will give the surface. 
+I am currently at the last step of the development of this detection algorithm, because the development was put in stand-by to focus on the analysis of the barrier energies calculated from a modified version of this first implementation, which will be detailed in the following discussions.
 
 \subsection{Calculation of diffusion activation energy}
 
-Breadth-first search
+If we are only interested in the activation energy, we can skip the more computationnally demanding TS detection and kinetic Monte Carlo steps. To do so we can simply use the breadth-first search algorithm to label the different connected components inside a given channel. When the number of connected components changes between two energy values $E$ and $E+\delta E$, there are new components appearing or old compoenents that merged or both happening at the same time. By looking at the number of connected components, we can then find the energy at which the components connect back together and reform the channel, it correspond to the minimum energy required to be able to diffuse in the channel. 
 
-\subsection{Preliminary results}
-
-\todo{Barrier energy}
+The activation energy corresponds to the difference between this barrier energy just calculated and the minimum energy within the channel. This is obviously an approximation since it does not take account of multistep diffusion --- a particle can cross a lower barrier to go in a higher energy state than the minimum energy and then another crossing happens with much lower activation energy \todo{illustration}. In this particular case, the relevant activation energy is in fact the maximum value between these two activation energies. 
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_Df-ccdc_barrier.pdf}
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{}\label{fgr:diff_pld_barrier}
+    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/image_scan.png}
+    \caption{}\label{fgr:TS_problem}
 \end{figure}
 
-Explains the difference in diffusivity values for mateirals with a PLD superior to \SI{6}{\angstrom}
+We could improve this approach by finding the intermediate transition state energy values, because this phenomenon happens the diffusion particle can jump to a higher intermediate state with a lower activation energy before jumping to the next basin. This lowers the real activation compared to our simple approach. But the way to detect them is not really clear, it could boil down to finding the TS surfaces, which is our initial problem and will cost more computational resources. 
+
+In this state of my work, I will fisrt focus on using the current non-ideal solution to find correlations with the diffusion coefficients, and eventually make a prediction model based on this barrier activation energy and above-mentioned geometrical descriptors. 
+
+\subsection{Relation of the barrier energy to the diffusion coefficient}
+
+
+I calculated this xenon diffusion activation energy for all the structures selected for the xenon diffusion coefficient screening presented in the section~\ref{sct:xenon_diff_screen}. We used a $\delta E$ of \SI{0.3}{\angstrom} for the loop over the energies to find the energy at which the channel is connected all the way through. As shown on the Figure~\ref{fgr:barrier_diffusion_a}, this barrier energy seems to be correlated to the diffusion coefficient for xenon. The correlation seems to be much stronger for the points with a PLD around \SI{4.5}{\angstrom}, and when we look at PLD values over \SI{6}{\angstrom}, there still is a correlation but it seems weaker than for smaller values of PLD. 
+
+
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff.pdf}
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff_2.pdf}
-    \caption{}\label{fgr:barrier_diffusion}
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff.pdf}
+    \caption{All structures}\label{fgr:barrier_diffusion_a}
+\end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff_2.pdf}
+      \caption{PLD over \SI{6}{\angstrom}}\label{fgr:barrier_diffusion_b}
+  \end{subfigure}
+    \caption{ \todo{}}\label{fgr:barrier_diffusion}
 \end{figure}
 
+This correlation between the barrier energy and the diffusion coefficient is confirmed on the Figure~\ref{fgr:diff_pld_barrier}. We labeled the points according to the barrier energy value, and the highest barrier energy points are mostly concentrated on lower values of diffusion coefficient. We can, however, see some very high barrier energy points associated to points with quite low diffusion coefficient, there are two such points detectable with our bear eyes. These points \todo{needs to be looked into details.} > outliers maybe
 
-\todo{Take some examples for the vizualisation with comparison to the pore size and diffusion coefficient}
+\todo{find some problematic structures and plot them}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.6\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
+    \caption{\todo{change the xlabel}}\label{fgr:diff_pld_barrier}
+\end{figure}
+
+This berrier energy descriptor completes the PLD values to describe the diffusion coefficient. PLD values can not distinguish between the structures over \SI{6}{\angstrom} in the ``plateau''. But it seems that on the Figure~\ref{fgr:diff_pld_barrier}, the higher values of barrier energies are found for lower diffusion coefficient in the plateau value. However, as we discussed before the correlation is not perfect neither. We can at least say that this barrier descriptor better informs on this grey area of PLD values above \SI{6}{\angstrom} that could not be explained only with geometrical considerations. 
+
+In the final section of this chapter, we will therefore combine the geometrical descriptors to the barrier energies to train a machine learning model following the same approach as in the previous chapter 4. The barrier energy and the PLD values are the most correlated descriptors and will play a prominent role in the final ML model. This model could then be used to evaluate the diffusion coefficeint of xenon in other materials, which is much faster than usign MD simulations.
 
 \subsection{Diffusion coefficient prediction model}
 
 Noisy data to begin with
+
+Not to learn form false data, we need to clean the dataset to remove structures with different type of channels (about 150)\todo{}
 
 \textbf{Performances}
 
@@ -514,7 +540,13 @@ Noisy data to begin with
 \end{figure}
 
 
-\textbf{Next steps}
+\todo{dependence plot}
+
+
+
+
+
+\subsection{Next steps}
 
 \todo{coefficient of tortuosity ?}
 
