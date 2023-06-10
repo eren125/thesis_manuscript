@@ -11,12 +11,14 @@
 
 \section{Nanoporous Materials}
 
-\subsection{Definition of the concept}
+Before exploring the screening methodologies of screening, in this first section, I will introduce some key concepts on the system of interest --- the nanoporous materials. Every concept introduced here will follow us throughout the text since the structural characteristics of these materials are closely linked to their performance in any targeted applications.
 
-\subsubsection{Adsorption isotherms and geometrical descriptors}
+\subsection{The main characteristics of nanoporous materials}
 
 %General introduction
 Nanoporous materials are defined as materials with a nanoscale structure constituted by pores and cavities, some of which are connected by a network of channels. These pores can be empty or filled with a variety of substances called adsorbates. By attaching molecules from a liquid or gas phase onto the internal surface of the material, we can use it in diverse applications such as gas separation and purification,\autocite{Li_2009,Lagorsse_2007} energy storage and conversion,\autocite{Morris_2008,Qiu_2020} heterogeneous catalysis\autocite{Bell_2003,Singh_2019,Pascanu_2019} drug delivery,\autocite{Della_Rocca_2011,Bernini_2014} or sensing.\autocite{Breslin_1976} By designing the chemical nature, size, shape and distribution of the pores, we can tailor the physicochemical properties to the targeted application.\autocite{Yan_2020}
+
+\subsubsection{Adsorption isotherms and geometrical descriptors}
 
 %adsorption
 The process of sticking particles or molecules on a surface is called adsorption. Adsorption occurs due to attractive forces between adsorbates and the adsorbent surface, such as van der Waals forces, hydrogen bonding, and electrostatic interactions. The adsorption performance depends on the chemical nature of the interface, its exposed surface area and the shape of the pores. We usually characterize adsorption properties of an adsorbate compound by measuring the numbers of adsorbed molecules as a function of its pressure at a given temperature, which is called the adsorption isotherm\todo{ref to iotherm example}. These isotherms can possibly be used, among other techniques, to determine the pore size distribution, accessible surface area and pore volume.\autocite{Rouquerol_1994} By using fitting models, we can also use adsorption isotherms to characterize the maximum adsorption uptake, among other adsorption descriptors.\autocite{Wang_2020} Using a set of experimental isotherms at close but different temperatures, we can also retrieve information on the isosteric heat of adsorption $q_{st}$ (the negative differential of the excess enthalpy of adsorption with respect to the excess adsorption).\autocite{Nicholson2000} This heat of adsorption (related to the enthalpy of adsorption) can also be directly obtained using calorimetry.\autocite{Dunne_1996} Furthermore measurements at infinite dilution can also lead to a relation between the adsorbed quantity and the pressure defined by the Henry's law; another key adsorption descriptor, the Henry adsorption constant, is defined as the slope of this linear regime.\autocite{Finsy2007} Although all of these thermodynamic quantities do not give a complete picture of the adsorption process like an adsorption isotherm would, they are most valuable in comparing experimental data to computational models to rapidly characterize the materials suitable for a target gas adsorption process.
@@ -39,10 +41,24 @@ Beyond the experimental techniques, some software like Zeo++ or PoreBlazer focus
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[height=0.23\textwidth]{figures/1-screening/FER.jpg}
-  \includegraphics[height=0.23\textwidth]{figures/1-screening/COF-5.jpg}
-  \includegraphics[height=0.23\textwidth]{figures/1-screening/SBMOF-1.jpg}
-  \caption{Illustration of a zeolite FER\autocite{FER}, a COF\autocite{Cote_2005} and a MOF\autocite{KAXQIL}. Color code: brown for C, white for H, red for O, blue for Si, cyan for Ca, yellow for S and green for B.}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{figures/1-screening/FER.jpg}
+    \caption{Zeolite FER~\cite{FER}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{figures/1-screening/COF-5.jpg}
+    \caption{COF COF-5~\cite{Cote_2005}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{figures/1-screening/SBMOF-1.jpg}
+    \caption{MOF KAXQIL~\cite{KAXQIL}}
+  \end{subfigure}
+  \caption{Illustration of a zeolite, a covalent organic framework (COF) and a metal--organic framework (MOF). Color code: brown for C, white for H, red for O, blue for Si, cyan for Ca, yellow for S and green for B. The structure visualizations were generated using the VESTA software.\autocite{VESTA}}
 \end{figure}
 
 %Material classification crystalline / amorphous
@@ -336,7 +352,9 @@ The development of databases is another key aspect in the promotion of data scie
 
 In the future, computational high-throughput screening could be integrated more tightly into the design process of nanoporous materials, hence further improving its efficiency. The computational prescreening can be coupled with automated screenings of the most promising materials to finally identify candidates for further studies. This automated design process is described by Lyu et al.\ in their paper on ``Digital Reticular Chemistry'' and set out promising perspectives for computational screenings in the field.\autocite{Lyu_2020} Some studies are already pioneering this new research area by combining high-throughput characterizations, active learning algorithms and robotic synthesis.\autocite{Greenaway_2018,Moosavi_2019} Another step towards faster industrialization would integrate process modeling to enrich the purely atomistic approach.
 
-Considering all the results gathered from the literature,\todo{Relier en parlant du début} the next chapter will aim at better understanding the microscopic origins of the xenon/krypton separation in nanoporous materials through a thermodynamics-driven screening. This study will include the study of relationships between the separation performance and geometrical characteristics of the structures, the identification of the thermodynamic nature of the separation. This study will, for instance, unravel some interesting effect of the pressure on the selectivity and these effects will help us accelerate the evaluation of the selectivity at any pressure values.
+\vspace{2cm}
+
+This chapter introduced different studies on the screening of nanoporous material properties coming from a large set of research fields from adsorption to transport properties and exploring the more eclectic mechanical, thermal and catalytic properties. Considering all the different approaches gathered from the literature, the next chapter will aim at better describing the microscopic origins of the xenon/krypton separation in nanoporous materials through a thermodynamics-driven screening. This study will include the study of relationships between the separation performance and geometrical characteristics of the structures, the identification of the thermodynamic nature of the separation. By doing so, some interesting effects were unraveled and we expect to use them at our advantage to accelerate the evaluation of the selectivity at any pressure values.
 
 \OnlyInSubfile{\printglobalbibliography}
 

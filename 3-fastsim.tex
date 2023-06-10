@@ -662,7 +662,16 @@ To improve this approach, we can explore the use of a higher temperature Boltzma
 
 \vspace{2cm}
 
-In this section, we tried to single out each of the thermodynamic descriptor we can derive from the grid sampling; the approach is limited by the visualization dimension limitation (bidimensional). Although we can see some examples, how it can help sorting the materials according to some properties that could at the end predict the selectivity (for instance, a given range of standard deviation of the uniformly weighted energy distribution can give a range of possible selectivity), it is still difficult to mix the different descriptors and to give a prediction. To achieve just this, many modern approaches use statistical learning to learn this relationship from a large enough set of structures with some computed properties, and this approach will be tested in the next chapter. Finally, every computation detail on the GrAED sampling technique is available online at \url{github.com/coudertlab/GrAED}.
+This GrAED algorithm can be a very efficeint way of sampling energies, when the structures are highly symmetrical and with a large occupied volume. The highly accurate description by a grid can allow the calculation of other decription metrics that could be useful not only to describe the adsorption at infinte dilution but also to explore correlations with higher pressure selectivity values.
+Finally, every computation details on the GrAED sampling technique is available online at \url{github.com/coudertlab/GrAED}.
+
+
+\section{From description to prediction}
+
+In this chapter, I brushed a large picture of fast sampling techniques to evaluate the adsorption performance at infinite dilution, set apart the standard Widom insertion that was presented in the previous chapter. Here, I proved that these quantities can very efficiently describe the thermodynamics behind the adsorption in naoporous materials by comparing them to standard methods. The next question we want to explore is their value in the prediction of Xe/Kr selectivity in physical conditions that are closer to the industrial ones. 
+
+For instance, in the last section, we tried to single out each of the thermodynamic descriptor we can derive from a grid sampling to compare them to the ambient-pressure conditions, but this approach can only be descriptive and never predictive, and the limited number of dimensions in the visualization can only lead to a narrow picture of the correlations. Although we managed to understand some key features of the most selective materials (pores adapted to the kinetic diameter, pore shape that maximizes the interactions, etc.), we also identified key weaknesses of our correlation-based approach. The high-pressure selectivity is a very difficult quantity to understand using quantities based on solely a host--guest interaction energy grid. To overcome these difficulties, many modern approaches use statistical learning to learn this relationship from a large enough set of structures with some computed properties. In the next chapter, we will explore the possibilities opened up by these new descriptors for the prediction of selectivity values beyond the sole infinitely diluted case at a much lower computational cost.
+
 
 \OnlyInSubfile{\printglobalbibliography}
 
