@@ -6,9 +6,6 @@
 \chapter{High-throughput Computational Screening of Nanoporous Materials}
 \vspace*{-1\baselineskip}
 
-\todo{change some we in I}
-\todo{add intro/transition to each big section}
-
 \section{Nanoporous Materials}
 
 Before exploring the screening methodologies of screening, in this first section, I will introduce some key concepts on the system of interest --- the nanoporous materials. Every concept introduced here will follow us throughout the text since the structural characteristics of these materials are closely linked to their performance in any targeted applications.
@@ -21,9 +18,23 @@ Nanoporous materials are defined as materials with a nanoscale structure constit
 \subsubsection{Adsorption isotherms and geometrical descriptors}
 
 %adsorption
-The process of sticking particles or molecules on a surface is called adsorption. Adsorption occurs due to attractive forces between adsorbates and the adsorbent surface, such as van der Waals forces, hydrogen bonding, and electrostatic interactions. The adsorption performance depends on the chemical nature of the interface, its exposed surface area and the shape of the pores. We usually characterize adsorption properties of an adsorbate compound by measuring the numbers of adsorbed molecules as a function of its pressure at a given temperature, which is called the adsorption isotherm\todo{ref to iotherm example}. These isotherms can possibly be used, among other techniques, to determine the pore size distribution, accessible surface area and pore volume.\autocite{Rouquerol_1994} By using fitting models, we can also use adsorption isotherms to characterize the maximum adsorption uptake, among other adsorption descriptors.\autocite{Wang_2020} Using a set of experimental isotherms at close but different temperatures, we can also retrieve information on the isosteric heat of adsorption $q_{st}$ (the negative differential of the excess enthalpy of adsorption with respect to the excess adsorption).\autocite{Nicholson2000} This heat of adsorption (related to the enthalpy of adsorption) can also be directly obtained using calorimetry.\autocite{Dunne_1996} Furthermore measurements at infinite dilution can also lead to a relation between the adsorbed quantity and the pressure defined by the Henry's law; another key adsorption descriptor, the Henry adsorption constant, is defined as the slope of this linear regime.\autocite{Finsy2007} Although all of these thermodynamic quantities do not give a complete picture of the adsorption process like an adsorption isotherm would, they are most valuable in comparing experimental data to computational models to rapidly characterize the materials suitable for a target gas adsorption process.
+The process of sticking particles or molecules on a surface is called adsorption. Adsorption occurs due to attractive forces between adsorbates and the adsorbent surface, such as van der Waals forces, hydrogen bonding, and electrostatic interactions. The adsorption performance depends on the chemical nature of the interface, its exposed surface area and the shape of the pores. We usually characterize adsorption properties of an adsorbate compound by measuring the numbers of adsorbed molecules as a function of its pressure at a given temperature, which is called the adsorption isotherm. Examples of adsoprtion isotherms can be found on the Figure~\ref{isotherm}. These isotherms can possibly be used, among other techniques, to determine the pore size distribution, accessible surface area and pore volume.\autocite{Rouquerol_1994} By using fitting models, we can also use adsorption isotherms to characterize the maximum adsorption uptake, among other adsorption descriptors.\autocite{Wang_2020} Using a set of experimental isotherms at close but different temperatures, we can also retrieve information on the isosteric heat of adsorption $q_{st}$ (the negative differential of the excess enthalpy of adsorption with respect to the excess adsorption).\autocite{Nicholson2000} This heat of adsorption (related to the enthalpy of adsorption) can also be directly obtained using calorimetry.\autocite{Dunne_1996} Furthermore measurements at infinite dilution can also lead to a relation between the adsorbed quantity and the pressure defined by the Henry's law; another key adsorption descriptor, the Henry adsorption constant, is defined as the slope of this linear regime.\autocite{Finsy2007} Although all of these thermodynamic quantities do not give a complete picture of the adsorption process like an adsorption isotherm would, they are most valuable in comparing experimental data to computational models to rapidly characterize the materials suitable for a target gas adsorption process.
 
-\todo{Illustration of adsorption isotherm}
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{figures/1-screening/isotherm_298K_xenon_UFF_KAXQIL_clean.png}
+    \caption{Xe monocomponent isotherm}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[height=0.7\textwidth]{figures/1-screening/isotherm_298K_xenon_UFF_KAXQIL_clean.png}
+    \caption{Xe/Kr mixture isotherm}
+  \end{subfigure}
+  \caption{Illustration of adsorption isotherms calculated by GCMC calculations. \todo{change figure}}\label{isotherm}
+\end{figure}
 
 %pore size
 Most of the materials studied during my thesis have pores with a size around the nanometer, therefore called ``nanopores''. The International Union of Pure Applied Chemistry (IUPAC) classifies these pores into three categories according to their size: micropores ($\leq$\SI{2}{\nano\meter}), mesopores (\SI{2}{\nano\meter}--\SI{50}{\nano\meter}) and macropores ($>$\SI{50}{\nano\meter}).\autocite{Sing_1985} Here, I will use a single terminology (nanopore) to designate all pores of under a few nanometers. A good characterization of the nanopores of these materials is key to fine-tuning the adsorption properties.\autocite{Yan_2020} The pore size distribution (PSD) can be computationally determined if the structure of the nanoporous material is already resolved using X-ray diffraction on crystallized porous solids. This is the most accurate determination method of the PSD, but it relies on considering that the structure is perfectly rigid and crystalline so that only one structural data can characterize it. Other experimental methods rely on assumptions, model systems (e.g., cylindrical) or adsorption characteristics. For instance, stereological analyses based on plane sections cut through a porous material can evaluate the PSD.\autocite{Haynes_1973} The Horvath-Kawazoe (HK) method is a semi-empirical analytic model of adsorption isotherm that can extract PSD. Small angle X-ray and neutron scattering methods are non-destructive methods of pore characterization.\autocite{Radlinski_2004} In my thesis, I will mainly rely on computationally analyzing experimental structures resolved by X-ray to deduce pore sizes and other geometrical characteristics. 
@@ -103,7 +114,9 @@ To overcome these new challenges, people are looking increasingly towards transf
 
 \section{Review of Screening Methodologies}
 
-\todo{Intro and specify that this review of the state-of-the art has been published.\autocite{Ren_2022}}
+Now that the main concepts around nanoporous materials and their computational representations have been introduced, we can introduce methods to extract meaningful information from this data. These methods enable us to screen, which means evaluate systematically, all the structures from a database. One can easily imagine the scaling issue of such an enterprise, and speed-up strategies are indeed crucial in these screenings.
+
+The following review work will give an overview of all diffferent screening methodologies for very different evaluations of nanoporous materials. This review of the state-of-the-art has been published in Digital Discoveries Ref.~\cite{Ren_2022} and is readapted for the purpose of this manuscript.
 
 \subsection{Non-adsorption properties}
 
@@ -267,7 +280,7 @@ The experimental work on Xe/Kr separation on SBMOF-1 revealed discrepancies betw
 
 In 2019, Chung et al.\ screened the most extensive simulation-ready and experimentally synthesized MOF structures for Xe/Kr separation.\autocite{Chung_2019} This study pointed out the potential of coordinated solvent molecules to fine-tune the selectivity for any separation application, since their presence can enhance selectivity in some cases. The results of their screening confirm the potential of structures such as SBMOF-1 found by Simon et al., but they also described a few structures with similar selectivity but with better xenon uptake. The authors emphasize the importance of considering other figures of merit such as the adsorption capacity. Other factors should be taken into account to find the best trade-off between all the relevant figures of merit; we could think of the kinetics of such a separation, the effect of flexibility on the performance, the stability of the materials (especially in radioactive environment), the financial aspects, and more.
 
-After this quick overview of the different screening studies in the field of xenon/krypton separation, we are now going to detail its industrial context, the foreseen top materials that could fulfill the industrial separation and what further studies are needed to better understand the process while discovering new materials.
+After this quick overview of the different screening studies in the field of xenon/krypton separation, we are now going to detail its industrial context, the foreseen top materials that could fulfill the industrial separation and the further studies needed to better understand the process while discovering new materials.
 
 
 \section{Separation of Xenon from Krypton}
@@ -276,7 +289,6 @@ In this section, I will show how the above-mentioned screening methodologies can
 
 \subsection{Industrial applications}\label{sct:industrial}
 
-
 The industrial interest for noble gases lies first in the many applications attached to them. For instance, xenon has multiple applications in the medical (e.g.\ anesthesia, painkiller, imaging),\autocite{cullen1951anesthetic, holstrater2011intranasal,Mammarappallil_2019} aeronautical\autocite{Patterson_2002,Coxhill_2005}, lithographic\autocite{Abramov_2018}, microelectronic\autocite{Chang_1995} or lighting sectors,\autocite{Jarman_1974,Tanaka_2019} just to cite a few. To meet the demand for these noble gases, one should consider all available sources, the most obvious one being the air we breathe. Xenon and krypton have both very low atmospheric concentrations; out of a thousand liters of air, we would extract at most one tenth of a milliliter of xenon and one of krypton.\autocite{kerry2007industrial} Nevertheless, direct extraction from the air remains the main production mean for xenon and krypton along with chemical plant off-gases that contains a higher concentration of inert gas (e.g., amonia purge gas). In these cases, the industry more commonly uses cryogenic distillation to extract xenon and krypton, which requires a compression and cooling of the gas mixture at very low temperatures. The separation process can be broken down into three steps: first the condensation of all gas with a boiling point higher than the oxygen, then the purification of oxygen resulting in a 20-80 xenon/krypton mixture, and finally the separation of xenon from krypton. In 1997, several cases of explosion of separation units were caused by the reaction of non-filtered dangerous hydrocarbons with purified liquid oxygen produced in the second step of this long process.\autocite{distill_accident,distill_accident2} The extreme chemical and physical conditions required for cryogenic distillation support the need for less energy-intensive and safer alternatives. 
 
 \setlength{\extrarowheight}{0.1cm}
@@ -284,14 +296,15 @@ The industrial interest for noble gases lies first in the many applications atta
 \centering
 \begin{tabular}{|l|c|}
   \hline
-  Industrial application  &  Xe/Kr composition  \\
+  Industrial source  &  Xe/Kr composition  \\
   \hline
   Extraction from ambient air\autocite{kerry2007industrial} &  100~ppm/400~ppm  \\[0.5mm]
+  Uranium 235 fission\autocite{Blades_1956} &  85/15 \\[0.5mm]
   Spent nuclear fuel\autocite{auerbach2003handbook} &  90/10  \\[0.5mm]
-  Molten salt reactor\autocite{Riley_2019} &  unknown \\[0.5mm]
+  Molten salt reactor\autocite{engel1971xenon,Riley_2019} &  unknown \\[0.5mm]
   \hline
 \end{tabular}
-\caption{Composition of the Xe/Kr mixture in different applications. \todo{Search composition, correspondence in simulation to 20/80 etc.}}
+\caption{Composition of the Xe/Kr mixture coming from different industrial sources of production. The Xe/Kr composition can change over time depending on the radioactive decay of Xe and Kr isotopes. The composition out of a molten salt reactor is unknow (no industrial installation exists) and depend on the fissile element, if it is a majority of \ex{235}U, then the composition would be very close to the one indicated by the Ref.~\cite{Blades_1956}. }
 \label{tab:indus_app}
 \end{table}
 
@@ -352,7 +365,7 @@ The development of databases is another key aspect in the promotion of data scie
 
 In the future, computational high-throughput screening could be integrated more tightly into the design process of nanoporous materials, hence further improving its efficiency. The computational prescreening can be coupled with automated screenings of the most promising materials to finally identify candidates for further studies. This automated design process is described by Lyu et al.\ in their paper on ``Digital Reticular Chemistry'' and set out promising perspectives for computational screenings in the field.\autocite{Lyu_2020} Some studies are already pioneering this new research area by combining high-throughput characterizations, active learning algorithms and robotic synthesis.\autocite{Greenaway_2018,Moosavi_2019} Another step towards faster industrialization would integrate process modeling to enrich the purely atomistic approach.
 
-\vspace{2cm}
+\vspace{1cm}
 
 This chapter introduced different studies on the screening of nanoporous material properties coming from a large set of research fields from adsorption to transport properties and exploring the more eclectic mechanical, thermal and catalytic properties. Considering all the different approaches gathered from the literature, the next chapter will aim at better describing the microscopic origins of the xenon/krypton separation in nanoporous materials through a thermodynamics-driven screening. This study will include the study of relationships between the separation performance and geometrical characteristics of the structures, the identification of the thermodynamic nature of the separation. By doing so, some interesting effects were unraveled and we expect to use them at our advantage to accelerate the evaluation of the selectivity at any pressure values.
 
