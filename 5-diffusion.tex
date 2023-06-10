@@ -453,7 +453,7 @@ To go beyond the very computationally demanding MD simulation, in this section, 
 
 \subsection{Planned algorithm for TS detection}
 
-I used the GrAED algorithm presented on section~\ref{fgr:grid} to calculate the xenon interaction energy with the material at each non-overlapping point of the symmetry-aware grid. With this energy grid, it is now possible to identify the different channels, adsorption pores and the transition surface that separate them. 
+I used the GrAED algorithm presented on section~\ref{sct:grid} to calculate the xenon interaction energy with the material at each non-overlapping point of the symmetry-aware grid. With this energy grid, it is now possible to identify the different channels, adsorption pores and the transition surface that separate them. 
 
 I changed a little bit the approach previously described in the section~\ref{sct:tutrast} and adopted by Mace et al.\ to identify the three main components of the lattice Monte Carlo approach. Instead of detecting the channels on the fly, I decided to detect the channels before-hand in order to restrict the cluster growth to a specific channel. This will help decreasing the computation time required during this clustering step since we can do the simulation only for one representing channel out of all the potentially equivalent channels --- because of the high order of symmetry, there are usually equivalent channels within a single unit cell, as shown on the Figures~\ref{fgr:tube_cavities} and~\ref{fgr:zigzag}. 
 
@@ -477,12 +477,12 @@ I am currently at the last step of the development of this detection algorithm, 
 
 Since we only want to determine the activation energy, we can skip the more computationnally demanding TS detection and kinetic Monte Carlo steps. To do so we can simply use the breadth-first search algorithm to label the different connected components inside a given channel. When the number of connected components changes between two energy values $E$ and $E+\delta E$, there are new components appearing or old compoenents that merged or both happening at the same time. By looking at the number of connected components, we can then find the energy at which the components connect back together and reform the channel, it correspond to the minimum energy required to be able to diffuse in the channel. 
 
-The activation energy corresponds to the difference between this barrier energy just calculated and the minimum energy within the channel. This is obviously an approximation since it does not take account of multistep diffusion --- a particle can cross a lower barrier to go in a higher energy state than the minimum energy and then another crossing happens with much lower activation energy \todo{illustration}. In this particular case, the relevant activation energy is in fact the maximum value between these two activation energies. 
+The activation energy corresponds to the difference between this barrier energy just calculated and the minimum energy within the channel. This is obviously an approximation since it does not take account of multistep diffusion --- a particle can cross a series of lower barrier instead of making the highest energy gap we calculated using our method as illustrated on the Figure~\ref{fgr:TS_problem}. In this particular case, the relevant activation energy is in fact the maximum value between these two activation energies. 
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/image_scan.png}
-    \caption{}\label{fgr:TS_problem}
+    \includegraphics[width=0.6\textwidth]{figures/5-diffusion/Diffusion_TS.pdf}
+    \caption{Multi-step diffusion for a basin A to a basin A'. The diffusion process is modeled by transition states TS$_1$, TS$_2$ and TS$_3$ and intermediate steps I$_1$ and I$_2$. In this particular case, there is a difference between the real limiting activation energy and the activation energy calculated by our simplified method. }\label{fgr:TS_problem}
 \end{figure}
 
 We could improve this approach by finding the intermediate transition state energy values, because this phenomenon happens the diffusion particle can jump to a higher intermediate state with a lower activation energy before jumping to the next basin. This lowers the real activation compared to our simple approach. But the way to detect them is not really clear, it could boil down to finding the TS surfaces, which is our initial problem and will cost more computational resources. 
