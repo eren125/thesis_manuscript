@@ -559,8 +559,8 @@ Furthermore, the scatterplot of $k\e{H}$ and $k\e{S}$ (shown on the Figure~\ref{
 \subsection{Detailed investigation}\label{sec:archetypes}
 
 \begin{table}[hb]
+  \centering
   \small
-    \caption{Enthalpic ($k\e{H}$) and entropic ($k\e{S}$) contributions to the selectivity change ($s\e{1}/s\e{0}$) between low and ambient pressures for some archetypal structures selected for their high $s\e{0}$ selectivity at infinite dilution. Every structure is identified using a CSD Refcode and a reference the first article that mentions it. The pore size is also characterized using the diameters D$_i$ and D$_f$ in \si{\angstrom}.}\label{tbl:effect}
     \renewcommand{\arraystretch}{1.1}
     \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}}|lr|rrrrr|rr|}
       \hline
@@ -581,14 +581,15 @@ Furthermore, the scatterplot of $k\e{H}$ and $k\e{S}$ (shown on the Figure~\ref{
       VAPBIZ &~\cite{VAPBIZ} &           $146.73$ &  $ 12.76$ &  $0.09$ &  $0.06$ &  $1.50$  &  $6.3$  &  $3.7$  \\
       \hline 
   \end{tabular*}
+  \caption{Enthalpic ($k\e{H}$) and entropic ($k\e{S}$) contributions to the selectivity change ($s\e{1}/s\e{0}$) between low and ambient pressures for some archetypal structures selected for their high $s\e{0}$ selectivity at infinite dilution. Every structure is identified using a CSD Refcode and a reference the first article that mentions it. The pore size is also characterized using the diameters D$_i$ and D$_f$ in \si{\angstrom}.}\label{tbl:effect}
 \end{table}
 
 In this section, I go over some of the most selective materials, as identified at low pressure and listed in Table~\ref{tbl:effect}, and I provide a detailed investigation of the thermodynamic effects behind their behavior. I split them into three main categories: materials with a slight increase in selectivity or little change in selectivity ($s\e{0}/s\e{1} > 0.8$), materials with a slight decrease in selectivity ($0.5 \le s\e{0}/s\e{1} \le 0.8$) and materials with a significant decrease in selectivity ($s\e{0}/s\e{1} < 0.5$). In this section, I investigate the origins of these different behaviors: all materials are referenced by their CSD refcode.
 
   
 \begin{table*}[hb]
-\fontsize{8.5}{10.5}\selectfont
-  \caption{\ Thermodynamic quantities associated for a few archetypal structures. Henry's constant $K\ex{Xe}$, $K\ex{Kr}$ are in \si{\milli\mol\per\gram\per\pascal}, loadings $q\ex{Xe}\e{1}$ and $q\ex{Kr}\e{1}$ are in \si{\milli\mol\per\gram}, enthalpies $\Delta\e{ads}H\ex{Xe}\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{1}$ and $\Delta\e{ads}H\ex{Xe}\e{1}$ are in \si{\kilo\joule\per\mol}}\label{tbl:thermo}
+  \centering
+  \fontsize{8.5}{10.5}\selectfont
     \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{|lr|rrrrr|rrrrr|}
     \hline
@@ -609,6 +610,7 @@ In this section, I go over some of the most selective materials, as identified a
         VAPBIZ &~\cite{VAPBIZ}        &  $147$  &  $3.54\,10^{-2}$  &  $2.41\,10^{-4}$  &  $-46.4$  &  $-30.5$  &  $ 13$  &  $2.50$  &  $0.78$  &  $-34.1$  &  $-25.3$  \\
     \hline
     \end{tabular}
+    \caption{\ Thermodynamic quantities associated for a few archetypal structures. Henry's constant $K\ex{Xe}$, $K\ex{Kr}$ are in \si{\milli\mol\per\gram\per\pascal}, loadings $q\ex{Xe}\e{1}$ and $q\ex{Kr}\e{1}$ are in \si{\milli\mol\per\gram}, enthalpies $\Delta\e{ads}H\ex{Xe}\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{1}$ and $\Delta\e{ads}H\ex{Xe}\e{1}$ are in \si{\kilo\joule\per\mol}}\label{tbl:thermo}
 \end{table*}
 
 Before introducing the different archetypal structures that undergo different changes in selectivity, let us bring in some notions on adsorption isotherms. The isotherms  can be seen  like a plot of the adsorbed quantity as a function of the pressure for different components at a given temperature. Here, I will only tackle the case of pure-component isotherms at \SI{298}{\kelvin}. Different models have been developed to interpret these plots,\autocite{Al_Ghouti_2020} but I will only use the Langmuir model as it is the most prominent equation to explain adsorption equilibria. The Langmuir model is a local model of adsorption based on the filling of a monolayer by non-interacting adsorbates. Depending on the distribution and shape of the pores, these isotherms can be either modeled by a 1-site Langmuir or a 2-site Langmuir model. At given temperature, some mono-site materials' isotherm can be described by the following equation:
