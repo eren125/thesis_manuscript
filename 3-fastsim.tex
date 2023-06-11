@@ -6,9 +6,11 @@
 \chapter{Adsorption Energies Sampling}
 \vspace*{-1\baselineskip}
 
-\todo{add intro/transition to each big section}
+In this chapter, I will introduce three different energy sampling techniques that can be used to determine an adsorption enthalpy and for some method it is also possible to deduce the Henry constant value. 
 
 \section{Voronoi Sampling}
+
+I will start with a samplign technique that was already studied in previous works for the calculation of geometrical descriptors mainly but also more recently to derive an energy-based descriptor\autocite{Simon_2015}. This sampling method is rather biased since it only consider a sparse sampling based on a Voronoi decomposition that is based little prior physical knowledge and that I will explain in more details in the following. 
 
 \subsection{Theoretical considerations}
 
@@ -150,7 +152,7 @@ This preliminary study identified a fast method for adsorption enthalpy calculat
 
 \section{Rapid Adsorption Enthalpy Surface Sampling (RAESS)}\label{sct:RAESS}
 
-In this section, I describe the development of our surface sampling algorithm, with the goal of being more accurate than Voronoi sampling and faster than Widom insertion. Our initial idea is based on a series of theoretical considerations: (i) the strong adsorption sites are near the surface of the material; (ii) by changing the problem from 3D to 2D sampling we can reduce the complexity; and (iii) the algorithm can scale with the number of unique atoms in the structure (and not with the size of the unit cell), which is efficient because many porous frameworks have high symmetry. The first consideration ensures that this method will be more accurate than a Voronoi sampling, and the last two made us think that a well-optimized code would be fast. To confirm these hypotheses, I will analyze both the accuracy and the speed of this new algorithm and compare them to existing methods.
+In this section, I will describe the development of our surface sampling algorithm, with the goal of being more accurate than Voronoi sampling and faster than Widom insertion. Our initial idea is based on a series of theoretical considerations: (i) the strong adsorption sites are near the surface of the material; (ii) by changing the problem from 3D to 2D sampling we can reduce the complexity; and (iii) the algorithm can scale with the number of unique atoms in the structure (and not with the size of the unit cell), which is efficient because many porous frameworks have high symmetry. The first physical intuition ensures that this method will be more accurate than a Voronoi sampling, whereas the last two enable a more efficeint sampling, which means a faster sampling for a well-optimized code. To confirm these hypotheses, I will analyze both the accuracy and the speed of this new algorithm and compare them to existing methods. The study below has already been published in the Chemical Science journal~\cite{Ren_2022}.
 
 \subsection{Initial implementation}
 
@@ -416,6 +418,8 @@ Finally, although the algorithm in its present form can already be applied in a 
 
 \section{Grid Adsorption Energies Descriptors (GrAED)}\label{sct:grid}
 
+To finish the overview of novel methods of energy sampling, I will present a revisited version of the most standard grid sampling. A grid sampling is the most accurate approach since it is directly based on the averaging definitions of the equations~\ref{eq:eq:ads_enthalpy} and~\ref{eq:henry}. In this seciton, I will leverage the symmetry operations inherent to most material structures and the removal of framework occupied space to speed up this usually very slow method. This exhaustive approach enables the calculation of energy distributions that are much less biased than with any other methods. And from these energy distributions we began to build up some essential building blocks for the prediction of the ambient-pressure selectivity that will be carried out in the next section.
+
 \subsection{Implementation of an efficient grid algorithm}
 
 To build more relevant energy descriptors, I will now go back to the definitions of the adsorption enthalpy and the Henry constant (equation~\ref{eq:ads_enthalpy} and~\ref{eq:henry}) that call for a homogeneous sampling of the adsorption space. The easiest way of sampling consists in laying a grid in the 3D space. This method is, however, known to be the most time-consuming on in theory. Inspired by our work on surface sampling, I designed an approach based on a symmetry-respecting grid,generated using the algorithms of the Gemmi Project,\autocite{Wojdyr_2022} where the points overlapping with framework are discarded. In our grid adsorption energy descriptor (GrAED) calculation algorithm, these new features coupled with a grid sampling makes the calculation of adsorption energies much less time-consuming while being very accurate.
@@ -462,12 +466,11 @@ The good time performance of the grid sampling on the structures of CoRE MOF 201
   \caption{Performance comparison of the new grid method to other standard techniques used to calculate the xenon adsorption enthalpies. The RMSE is calculated by comparing to the values given by a 100k-step Widom insertion considered as the ground truth. The associated calculations are performed on the structures with an LCD\e{CCDC} over \SI{3.7}{\angstrom} of CoRE MOF 2019 database with a single Intel Xeon Platinum 8168 core at 2.7~GHz. The GrAED algorithm (with$\mu=0.8$ $E\e{th}=$\SI{100}{\kilo\joule\per\mole}) is evaluated at different grid spacings ($0.12$, $0.20$, $0.30$).}\label{tab:grid}
 \end{table}
 
-% \todo{Beatify figure with arrow}
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.7\textwidth]{figures/3-fastsim/Sum-up_grid.pdf}
-    \caption{Comparison of the RMSE on Xe adsorption enthalpy and the average CPU time required to run a simulation on a structure of CoRE MOF 2019 (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}). The metrics are taken from the Table~\ref{tab:grid}. }\label{fgr:grid_perfomance}
+    \includegraphics[width=0.7\textwidth]{figures/3-fastsim/Grid_sumup.pdf}
+    \caption{Comparison of the RMSE on Xe adsorption enthalpy and the average CPU time required to run a simulation on a structure of CoRE MOF 2019 (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}). The values are the same as in the Table~\ref{tab:grid}. }\label{fgr:grid_perfomance}
 \end{figure}
 
 As shown on the Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. Almost no error can be detected if looking at the figure for both adsorption enthalpy and Henry constant. The RMSE on the adsorption enthalpy is only about \SI{0.01}{\kilo\joule\per\mole}, while the RMSE on the log10 of the Henry constants (in \si{\milli\mole\per\gram\per\pascal}) is also very low at $0.01$. This method goes back to the initial definition of these quantities at infinite dilution, the perfect correspondence is therefore not very surprising. 
@@ -639,8 +642,6 @@ I introduced two other statistical quantities that could be interesting in descr
 These quantities bring in another information on the distribution. For instance, if the distribution is skewed toward the most negative pore energies it would favor the adsorption at higher pressure, while the opposite would explain a bigger drop in selectivity. The overall shape of the distribution needs to be defined by more than the standard deviation and the mean value in order to capture the origins of the drop in selectivity. Ideally, it would be better to have the whole information on the distribution, but visually speaking, it would be far too complex to compare the structures according to this multidimensional descriptor and the statistical quantities compress in a way the complex data on the energy distribution.
 
 The Figure~\ref{fgr:enthalpy_skew_kurt} further highlights the range of selectivity value I discussed across this section. The materials within this range can be sorted out using the different statistical quantities I introduced throughout this discussion. Depending on these skewness or kurtosis values it could be theoretically possible to identify a link with the selectivity drop previously identified, but without a model or a framework it is impossible to find the right relationship using our bare eyes.
-
-% \todo{Negative skewness > bigger difference in selectivity value ?? Plot something skewness vs diff s1 s0}
 
 \textbf{Uniformely weighted distribution}
 
