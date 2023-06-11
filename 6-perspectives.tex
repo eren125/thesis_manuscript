@@ -6,9 +6,36 @@
 \chapter{Toward the next generation of screenings}
 \vspace*{-1\baselineskip}
 
-\textbf{Limits of Current Screening Methodologies}
+\section{Limits of the Current Screening Methodologies}
 
-Comme présenté dans notre article de revue sur les différentes techniques de screening de performances de matériaux,\autocite{Ren_2022} les méthodologies standard de screening sont en silo : certains se concentrent sur les propriétés thermodynamiques, d'autres sur les propriétés de transports et la flexibilité n'est étudiée que de manière embryonnaire du point de vue du screening. L'ambition de la troisième année est de mettre en lien ces différents screenings afin de prédire au plus près les performances expérimentales tout en parcourant de larges bases de données. 
+As presented in our review of the different screening methodologies in the chapter 1, it is very common to screen for one particular metric whether it is the selectivity or the permselectivity or the capacity depending on the targeted application. Attempts of screening that searches for the most selective materials but combined with a good capacity are more and more common.\autocite{Chung_2019,Zhang_2022,Solanki_2020} If we take the problem of the selectivity screening, many improvements can be made in terms of calculation efficiency, or in terms of correctness of the molecular description. In the previous chapters, I mostly focused on the gain in efficiency by exploring many adsorption energy sampling techniques and by comparing their computational time as well as their accuracy. But I also started to incorporate other properties to the screening procedure by exploring the transport properties for instance. And in an effort to always aim at better efficiency, I explored alternative calculation strategies in addition to the more standard ones. 
+
+To further improve the shortcomings of the current adsorption screening methodologies, we need to explore even more material properties. For example, the rigidity of the structures in most of the screening procedures could sometimes mislead toward materials that appear to have a very high selectivity, whereas the flexible nature of the material tend to lower the calculated selectivity. By taking into account flexibility, one could completely change the rankings found by the screening and hence finding other maybe better materials through this new approach. The other property that could completely change the results obtained by current methodologies is the polarization. For adsorbates like xenon and krypton, the difference in polarizability is in fact at the origin of the separability of these gas using an adsorbent-material. A better description of this particular property can in fact completely change the results of the screening. If we look at the best experimental materials, they are either decorated with polar groups like in the article~\cite{Li_2019} or they present open metal sites like in the article~\cite{Pei_2022}. However, we do not find these criteria as being essential when looking at the results of the current screenings. 
+
+In this final chapter, I want to discuss three main research focuses: (i) the calculation of transport properties that could be further optimized, (ii) the adsorption calculations in flexible frameworks, and (iii) the better description of the polarization in the energy calculations.
+
+\section{Future Developments on Transport Properties}
+
+\subsection{Finish the optimized version of TuTraST}
+
+Next steps in the development of the C++ tool
+
+Layer-by-layer growth 
+equivalent to find the equidistant points within $E$ and $E+\delta E$. 
+Lionel Zoubritzky
+
+\subsection{Connection to the breakthrough experiments}
+
+Diffusion coefficients 
+
+RUPTURA, breakthrough curve
+\todo{one test with SBMOF-1 (experimental?)}
+Discuss the different parameters, and their relevance.
+
+\section{Flexibility in a Screening}
+Final screening step, easy integration into the workflow of current sreenings
+\subsection{Problem, literature}
+
 
 Pour voir les limites de l'approche standard, nous allons partir d'un exemple problématique. Si on considère le matériau SBMOF-1,\autocite{Banerjee_2016} la sélectivité prédite est certes très élevée (de l'ordre de 70,6 pour Simon \emph{et al.}) mais la sélectivité mesurée expérimentalement est seulement de 16. On pourrait expliquer ce phénomène par la qualité du champ de force, mais également par des mécanismes non décrits par les modèles sous-jacents comme la flexibilité ou la cinétique d'adsorption.
 
@@ -18,51 +45,34 @@ Dans un cristal poreux macroscopique, il y a une distribution plus ou moins dive
 \centering
 \begin{tabular}{|l|r|r|r|r|r|}
 \hline
-    CCSD ref. code & Adsorbat &  LCD (\SI{}{\angstrom}) &  Sélectivité &  PLD (\SI{}{\angstrom}) &  Coeff. de Diff. Xe \\
+    CCSD ref. code & Adsorbate &  selectivity $s_0$ &  LCD (\SI{}{\angstrom}) &  PLD (\SI{}{\angstrom}) &  Xe Diff. Coeff.\\
 \hline
-  KAXQOR\autocite{Banerjee2012} & aucun & 4,51 &  22 & 4,04 & 7$\times$10\ex{-06} \SI{}{\square\centi\meter\per\second} \\
-  QUXRIM\autocite{Banerjee2016hydro} & hexane & 4,75 &  52 & 4,31 & 3$\times$10\ex{-05} \SI{}{\square\centi\meter\per\second} \\
-  QUXRUY\autocite{Banerjee2016hydro} & hexane & 4,91 &  96 & 3,57 & 9$\times$10\ex{-10} \SI{}{\square\centi\meter\per\second} \\
-KAXQOR01\autocite{Yeh2012} & aucun & 4,99 & 101 & 3,66 & 3$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second} \\
-  QUWYEO\autocite{Banerjee2016hydro} & butane & 4,99 & 100 & 3,65 & 5$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second} \\
-  QUXROS\autocite{Banerjee2016hydro} & hexane & 5,00 &  99 & 3,66 & 5$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
-  QUXREI\autocite{Banerjee2016hydro} & hexane & 5,02 & 101 & 3,67 & 7$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
-  QUXRAE\autocite{Banerjee2016hydro} & hexane & 5,03 & 100 & 3,68 & 7$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
-  KAXQIL\autocite{Banerjee2012} & H\e{2}O & 5,12 & 104 & 3,77 & 3$\times$10\ex{-08} \SI{}{\square\centi\meter\per\second} \\
-  QUXQUX\autocite{Banerjee2016hydro} & butane & 5,17 & 103 & 3,83 & 1$\times$10\ex{-07} \SI{}{\square\centi\meter\per\second} \\
+  KAXQOR\autocite{Banerjee2012} & Not specified & 22 & 4,51 & 4,04 & 7$\times$10\ex{-06} \SI{}{\square\centi\meter\per\second} \\
+  QUXRIM\autocite{Banerjee2016hydro} & hexane &  52 & 4,75 & 4,31 & 3$\times$10\ex{-05} \SI{}{\square\centi\meter\per\second} \\
+  QUXRUY\autocite{Banerjee2016hydro} & hexane &  96 & 4,91 & 3,57 & 9$\times$10\ex{-10} \SI{}{\square\centi\meter\per\second} \\
+KAXQOR01\autocite{Yeh2012} & Not specified & 101 & 4,99 & 3,66 & 3$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second} \\
+  QUWYEO\autocite{Banerjee2016hydro} & butane & 100 & 4,99 & 3,65 & 5$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second} \\
+  QUXROS\autocite{Banerjee2016hydro} & hexane &  99 & 5,00 & 3,66 & 5$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
+  QUXREI\autocite{Banerjee2016hydro} & hexane & 101 & 5,02 & 3,67 & 7$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
+  QUXRAE\autocite{Banerjee2016hydro} & hexane & 100 & 5,03 & 3,68 & 7$\times$10\ex{-09} \SI{}{\square\centi\meter\per\second}\\
+  KAXQIL\autocite{Banerjee2012} & H\e{2}O & 104 & 5,12 & 3,77 & 3$\times$10\ex{-08} \SI{}{\square\centi\meter\per\second} \\
+  QUXQUX\autocite{Banerjee2016hydro} & butane & 103 & 5,17 & 3,83 & 1$\times$10\ex{-07} \SI{}{\square\centi\meter\per\second} \\
 \hline
-  UQEFAZ\autocite{Banerjee_2016} & krypton & 4,53 & 23 & 4,08 & 5$\times$10\ex{-06} \SI{}{\square\centi\meter\per\second} \\
-  UQEFED\autocite{Banerjee_2016} & xenon & 4,89 & 63 & 3,54 & 1$\times$10\ex{-11} \SI{}{\square\centi\meter\per\second} \\
+  UQEFAZ\autocite{Banerjee_2016} & krypton & 23 & 4,53 & 4,08 & 5$\times$10\ex{-06} \SI{}{\square\centi\meter\per\second} \\
+  UQEFED\autocite{Banerjee_2016} & xenon & 63 & 4,89 & 3,54 & 1$\times$10\ex{-11} \SI{}{\square\centi\meter\per\second} \\
 \hline
 \end{tabular}
 \caption{\ Performances de structures similaires à SBMOF-1 décrite par Simon \emph{et al.}\autocite{Simon_2015,Banerjee_2016} pour la séparation Xe/Kr. Les deux dernières correspondent aux structures de la publication de Simon, Banerjee \emph{et al.} Différentes tailles de pore induisent différentes sélectivités et différentes diffusivités. }
 \label{table:sbmof}
 \end{table}
 
+\todo{Histogram size}
+
 Pour simplifier, on peut identifier deux types de conformations sur la table~\ref{table:sbmof} : 1) la cavité est petite (autour de \SI{4,5}{\angstrom}) et les canaux restent larges (autour de \SI{4,0}{\angstrom}) ; 2) la cavité est grande (autour de \SI{5}{\angstrom}) et les canaux sont étroits (autour de \SI{3,5}{\angstrom}). Dans le premier cas, la diffusion à travers le matériau est légèrement entraver sans blocage cinétique mais la sélectivité théorique est moyenne autour de 20. Tandis que dans le deuxième cas, la sélectivité prédite est très élevée mais la diffusion est tellement entravée qu'il y aurait un blocage cinétique de l'adsorption. \`A l'aune de ces résultats, la différence entre la théorie et l'expérience pourrait en effet s'expliquer par la flexibilité qu'induit l'adsorbat et les conditions de l'expérience (température). Une telle diversité de taille caractéristiques nous amène à nous interroger sur l'influence de la flexibilité sur les résultats du screening. Sachant que la flexibilité peut changer grandement les valeurs de sélectivité, le fait que la structure existe sous différentes conformations nous invitent à interroger l'hypothèse de rigidité.\autocite{Witman_2017} 
 
 D'autre part, le cas de UQEFED, qui représente la structure de SBMOF-1 adsorbé par du xénon déterminée par Banerjee \emph{et al.},\autocite{Banerjee_2016} allie une forte sélectivité (63) mais avec une très faible diffusivité (1$\times$10\ex{-11} \SI{}{\square\centi\meter\per\second}). Bien que la sélectivité thermodynamique est très bonne, cet équilibre ne peut être atteint que très lentement car les molécules de xénon n'ont pas le temps de se déplacer dans la structure. Ainsi, ce blocage cinétique pourrait également expliquer que l'expérience note des valeurs de sélectivités en décalage avec la théorie. En effet, rien ne nous dit que l'équilibre est atteint lors du tracé des isothermes expérimentales. Une pénétration lente du xénon à l'intérieur du matériau donnerait des quantités de xénon adsorbées plus faibles que prévu par la thermodynamique, ce qui mettrait en défaut les simulations théoriques. 
 
 Fort de ces deux constats, il est plus probable que le matériau SBMOF-1 réel ait une certaine flexibilité permettant le déplacement du xénon quand les sites ne sont pas déjà occupés par du xénon. Mais lorsqu'il y a un xénon qui occupe le site, les canaux deviennent plus étroits et induisent un blocage cinétique. Ces phénomènes ne pourraient pas être révélés par une étude purement thermodynamique et montrent l'intérêt de tenir en compte de propriétés clés comme la cinétique ou la flexibilité. C'est pourquoi, il est maintenant crucial d'aller au-delà des méthodes de screening standard décrites dans la littérature et d'essayer de prendre en compte d'autres phénomènes physiques dans le screening. En considérant la flexibilité et les effets de transport on peut ainsi identifier des matériaux qui garderont leur performance lors de l'expérimentation.
-
-\todo{put graph comparing experiment and UFF}
-
-The beginning of some explication
-
-
-\section{Further studies on the transport properties}
-
-\subsection{more work on TST based approach}
-Next steps in the development of the C tool
-
-\subsection{connection to experiment}
-RUPTURE, breakthrough curve
-
-\section{Flexibility in a Screening}
-Final screening step, easy integration into the workflow of current sreenings
-\subsection{Problem, literature}
-
-\subsection{}
 
 
 \subsection{Database approach: Snapshot method}
@@ -75,6 +85,10 @@ Cette approche peut donc être généralisée pour calculer des sélectivités e
 \section{Noble Gas Polarizability}
 
 \subsection{Problem definition}
+
+\todo{put graph comparing experiment and UFF}
+
+The beginning of some explication
 
 Best materials use polarization effects \autocite{Li_2019,Pei_2022}
 
@@ -102,7 +116,8 @@ Open Metal Sites/polar groups
 Tao et al.\autocite{Tao_2020} looked at tuning (and improving) the selective adsorption of Xe over Kr by MOF open metal sites in the UTSA-74 framework structure.
 
 
-\subsection{Perpectives}
+
+PSA for separation most commonly used: selectivity, working capacity, regenerability (kinetics and energy used to regenerate the material i.e. empty the pores for another cycle).\autocite{Kumar_1994}
 
 \OnlyInSubfile{\printglobalbibliography}
 
