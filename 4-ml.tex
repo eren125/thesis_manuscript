@@ -264,8 +264,9 @@ where $w_i^{(b)}$ is the pseudo-residuals of the previous model on the dataset. 
 The learning rate $\eta$ used to update the ensemble model is also a key component of the final model that we will need to tweak in order to maximize the generalizability of the model. This parameter slows down and smoothens the convergence to the solution, which improves the bias--variance tradeoff. Small values below $0.1$ are usually used.
 
 \begin{table}[ht]
+  \setlength{\extrarowheight}{1pt}
   \centering
-  \begin{tabular}{|l|r|m{8cm}|}
+  \begin{tabular}{|l|c|m{8cm}|}
   \hline
     Variable name  &  Variable   &   Description\\
     in XGBoost  &    in this work &  of the hyperparameter \\
@@ -356,8 +357,9 @@ By combining the above-mentioned features with more standard geometrical descrip
 \clearpage
 
 \begin{table}[ht]
+  \setlength{\extrarowheight}{1pt}
   \centering
-  \begin{tabular}{|l|m{13cm}|}
+  \begin{tabular}{|l|m{10cm}|}
   \hline
    {Feature name} &  {Description} \\
   \hline
@@ -381,7 +383,7 @@ By combining the above-mentioned features with more standard geometrical descrip
   \hline
   "pore\_dist\_kurtosis"  & Kurtosis (fourth order standardized moment) of the pore size distribution \\
   \hline
-  "pore\_dist\_neff"  & Effective number of data associated to the pore size distribution: \hspace{3cm} $N\e{eff} =$ sum(weights)$^2$ $/$ sum(weights$^2$) \\
+  "pore\_dist\_neff"  & Effective number of data associated to the pore size distribution: $N\e{eff} =$ sum(weights)$^2$ $/$ sum(weights$^2$) \\
   \hline
   "pore\_dist\_modality"  & Sarle's bimodality coefficient (BC) of the pore size distribution: BC $=$ kurtosis $-$ skewness$^2$ \\
   \hline
@@ -400,25 +402,31 @@ By combining the above-mentioned features with more standard geometrical descrip
 
   \begin{table}[ht]
   \centering
-  \begin{tabular}{|l|m{13cm}|}
+  \setlength{\extrarowheight}{1pt}
+  \begin{tabular}{|l|m{10cm}|}
   \hline
    {Feature name} &  {Description} \\
   \hline
-  "G\_0"  & Low-pressure Xe/Kr exchange Gibbs free energy defined using the low-pressure selectivity: $\Delta\e{exc} G\ex{Xe/Kr} = -RT\ln{\left(s\ex{Xe/Kr}\right)}$ \\
+  "G\_0"  & Low-pressure Xe/Kr exchange Gibbs free energy defined using the low-pressure selectivity: \\
+  & $\Delta\e{exc} G\ex{Xe/Kr} = -RT\ln{\left(s\ex{Xe/Kr}\right)}$ \\
   \hline
-  "G\_Xe\_900K"  & High temperature Xe adsorption Gibbs free energy defined using the Henry's constant: $\Delta\e{ads} G\ex{Xe} (T\e{h}) = -RT\e{h}\ln{\left(RT\e{h}\rho_fK\e{H}\ex{Xe}(T\e{h})\right)}$ \\
+  "G\_Xe\_900K"  & High temperature Xe adsorption Gibbs free energy defined using the Henry's constant: \\
+  & $\Delta\e{ads} G\ex{Xe} (T\e{h}) = -RT\e{h}\ln{\left(RT\e{h}\rho_fK\e{H}\ex{Xe}(T\e{h})\right)}$ \\
   \hline
-  "G\_Kr\_900K"  & High temperature Kr adsorption Gibbs free energy: $\Delta\e{ads} G\ex{Kr} (T\e{h})$ \\
+  "G\_Kr\_900K"  & High temperature Kr adsorption Gibbs free energy: \\
+  & $\Delta\e{ads} G\ex{Kr} (T\e{h})$ \\
   \hline
   "G\_900K"  & High temperature Xe/Kr exchange Gibbs free energy: \\
     & $\Delta\e{exc} G\ex{Xe/Kr} (T\e{h}) = -RT\e{h}\ln{\left(K\e{H}\ex{Xe}(T\e{h})/K\e{H}\ex{Kr}(T\e{h})\right)}$ \\
   \hline
-  "delta\_G0\_298\_900"  & Difference of exchange free energies between the ambient temperature and high temperature: $\Delta\e{T} H\ex{Xe/Kr} = \Delta\e{exc} G\ex{Xe/Kr} (T\e{h})-\Delta\e{exc} G\ex{Xe/Kr} (T\e{0})$ \\
+  "delta\_G0\_298\_900"  & Difference of exchange free energies between the ambient temperature and high temperature: \\
+  & $\Delta\e{T} H\ex{Xe/Kr} = \Delta\e{exc} G\ex{Xe/Kr} (T\e{h})-\Delta\e{exc} G\ex{Xe/Kr} (T\e{0})$ \\
   \hline
-  "delta\_H0\_Xe\_298\_900"  & Difference of Xe adsorption enthalpy between the ambient temperature and high temperature: $\Delta\e{T} H\ex{Xe} = \Delta\e{ads} H\ex{Xe} (T\e{h})-\Delta\e{ads} H\ex{Xe} (T\e{0})$ \\
+  "delta\_H0\_Xe\_298\_900"  & Difference of Xe adsorption enthalpy between the ambient temperature and high temperature: \\
+  & $\Delta\e{T} H\ex{Xe} = \Delta\e{ads} H\ex{Xe} (T\e{h})-\Delta\e{ads} H\ex{Xe} (T\e{0})$ \\
   \hline
   "delta\_TS0\_298\_900"  & Difference of exchange entropic term between the ambient temperature and high temperature: \\
-    & $\Delta\e{T} (-T\Delta\e{exc}S\ex{Xe/Kr}) = \Delta\e{T} (\Delta\e{exc}G\ex{Xe/Kr}) - \Delta\e{T}( \Delta\e{ads}H\ex{Xe} - \Delta\e{ads}H\ex{Kr})$ \\
+    & $\Delta\e{T} \left(-T\Delta\e{exc}S\ex{Xe/Kr}\right) = \Delta\e{T} \left(\Delta\e{exc}G\ex{Xe/Kr} - \Delta\e{exc}H\ex{Xe/Kr}\right)$ \\
   \hline
   "enthalpy\_std\_xenon"  & Standard deviation of the Boltzmann weighted Xe energy distribution \\
   \hline

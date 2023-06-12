@@ -315,6 +315,7 @@ A few precautions should be considered before blindly using the algorithm for se
 As shown on the Table~\ref{tab:selec_prob}, the error on the selectivity highly depends on the $\mu$ value that excludes the points at $\mu\sigma$ of a framework atom center. Logically, a low parameter $\mu$ enables the sampling of higher energy values that goes in the Boltzmann averaging. Another reason is that when dividing by small values any small error on the values can be amplified in the quotient, and this effect can be reduced as the number of sampled points increases. 
 
 \begin{table}[ht]
+  \setlength{\extrarowheight}{1pt}
   \centering
   \begin{tabular}{|l|r|r|}
   \hline
@@ -383,6 +384,7 @@ To further extend the possible uses cases of the RAESS algorithm, I tested the R
 The Table~\ref{tab:amorphous} gives the values of the adsorption enthalpies and the Henry constants of a few amorphous materials as well as the time they took to be computed. The sheer number of atoms in each structure makes the CPU time required much higher than for the crystalline structures of CoRE MOF 2019. The time required are, however, quite manageable in a hypothetical screening procedure. If I consider all the 175 structures that could be calculated by our methods, the average time required is about \SI{75}{\second} per structure. 
 
 \begin{table}[hb]
+  \setlength{\extrarowheight}{1pt}
   \centering
   \begin{tabular}{|l|r|r|r|}
     \hline
@@ -445,9 +447,9 @@ By combining both the ``blocking'' of the high energy grid points and the ``symm
 Looking now at the performance of this new grid sampling algorithm compared to previously introduced sampling algorithms, it is very advantageous to use this new sampling on the CoRE MOF 2019 database because of its accuracy and its speed.
 The good time performance of the grid sampling on the structures of CoRE MOF 2019 database can be explained by their rather small porosity of the materials and their high order of symmetry. For instance, the average void fraction for a \SI{1.2}{\angstrom} probe radius is equal to $0.16$ and the average number of symmetric images is equal to $5.8$ (most MOFs present symmetry operations). On average, the ``blocking'' procedure means that only {$\sim$16\%} of the grid points really need to be calculated. And the ``symmetry'' procedure implies that only {$\sim$17\%} of points need to be considered, and the combination of both theoretical reduces the number of useful points to only {2.7\%} of the grid. This leads to a significant reduction in the CPU time of the calculation while keeping the accuracy level (low error on the Xe adsorption enthalpy \SI{0.014}{\kilo\joule\per\mole}) compared to the naive grid approach, as shown in Table~\ref{tab:grid}. In the grid simulation, with the blocking procedure, the time required is reduced by {$\sim$70.6\%} compared to the naive approach, and a similar reduction of {$\sim$76.6\%} is observed for the symmetry-aware grid sampling. By combining both simplifications, the time required of the fast grid sampling is reduced by almost {$\sim$91.6\%} for a grid spacing of \SI{0.12}{\angstrom}, which echoes with the fewer points needed to be sampled I mentioned above.
 
-\setlength{\extrarowheight}{0.1cm}
 \begin{table}[ht]
   \centering
+  \setlength{\extrarowheight}{1pt}
   \begin{tabular}{|l|r|r|}
     \hline
     Energy sampling  & RMSE on xenon  &  Average CPU  \\
