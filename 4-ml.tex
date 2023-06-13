@@ -460,13 +460,9 @@ In the next sections, I will introduce new descriptors for nanoporous materials,
 
 \subsubsection{Hyperparameter optimization}\label{sct:hyperparameter}
 
-A hyperparameter search consists in finding the best model to optimize the generalization error as defined in equation~\ref{eq:generalization_error}. To do so, the most common strategy consists in doing cross-validations to evaluate different model configurations. This process is called the hyperparameter search or optimization. Here, I used the randomized search algorithm to find the best parameters within a predefined reasonable range of parameters. The Python code below allowed us to find a set of optimal hyperparameters (please refer to Table~\ref{tab:hyperparameter} for the meaning of the parameters) for our final ML model.
+A hyperparameter search consists in finding the best model to optimize the generalization error as defined in equation~\ref{eq:generalization_error}. To do so, the most common strategy consists in doing cross-validations to evaluate different model configurations. This process is called the hyperparameter search or optimization. Here, I used the randomized search algorithm to find the best parameters within a predefined reasonable range of parameters. A set of optimal hyperparameters (please refer to Table~\ref{tab:hyperparameter} for the meaning of the parameters) for our final ML model was found using a random search of 30,000 iterations on the parameter space described by following python dictionary:
 
 \begin{lstlisting}[language=Python]
-import xgboost as xgb
-from sklearn.model_selection import RandomizedSearchCV
-
-xgbr = xgb.XGBRegressor()
 params = {
            'n_estimators': [1500],
            'max_depth': [5,6],
@@ -476,18 +472,9 @@ params = {
            'alpha': np.arange(0, 4, 0.2),
            'subsample': np.arange(0.6, 0.95, 0.05),
          }
-clf = RandomizedSearchCV(estimator=xgbr,
-                         param_distributions=params,
-                         scoring='neg_mean_squared_error',
-                         n_iter=30000,
-                         verbose=1)
-clf.fit(X_train, y_train.to_numpy())
-print("Best parameters:", clf.best_params_)
-print("Lowest RMSE: ", np.sqrt(-clf.best_score_))
 \end{lstlisting}
 
-I used the training data to perform a random search of hyperparameters, with a 5-fold cross-validation to evaluate the root mean squared errors (RMSE) of the model.
-After 30,000 iterations in the hyperparameter space defined by the ranges above, I found a set of optimal hyperparameters that gives an average RMSE of \SI{0.36}{\kilo\joule\per\mole} to be used in our final model.
+At each iteration the training data was used to evaluate the hyperparameters of the model using a 5-fold cross-validation. The final set of optimal hyperparameters corresponding to the model with the lowest RMSE of \SI{0.36}{\kilo\joule\per\mole} is given below. This final set of parameter was the used to train the final model.
 
 \begin{lstlisting}[language=Python]
   optimal_params = {
@@ -512,6 +499,8 @@ To confirm the relevance of the model, I performed another 5-fold cross-validati
   \end{figure}
 
 \subsection{ML model performance}
+
+\todo{Add performance as a function of training size plot}
 
 %% introduction
 In this section, I will present the performance of the ML model that learned the joint effects of all the newly introduced descriptors to detect and evaluate the observed drop between the easily accessible low-pressure selectivity and the more computationally demanding ambient-pressure selectivity.
