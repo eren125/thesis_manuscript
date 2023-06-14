@@ -471,28 +471,58 @@ Now that we have well-defined channels and pockets of our nanoporous material, w
 
 Then, we will need to loop over the energy values (in the original paper a step of \SI{1}{\kJ\per\mole} is used), and grow the cluster layer by layer. At this point of the development, another point of improvement is added, I used the previous serach algorithm to quickly count the number of clusters wthin a given channel. If this number changes, it means that some clusters merged. If the energy gap is high enough, we can start to detect the TS surfaces using a layer-by-layer growth within a small energy range ($[E,E+\delta E]$) to generate a smoother surface. 
 
-I am currently at the last step of the development of this detection algorithm, because the development was put in stand-by to focus on the analysis of the barrier energies calculated from a modified version of this first implementation, which will be detailed in the following discussions.
+I am currently at the last step of the development of this detection algorithm, because the development was put in stand-by to focus on the analysis of the barrier energies calculated from a modified version of this first implementation, which will be detailed in the following discussions. The transition surface detection will be further discussed in the next chapter, and I will try to implement a more optimized version of this detection that could avoid using a computationally expensive layer-by-layer growth. 
 
 \subsection{Calculation of diffusion activation energy}
 
-Since we only want to determine the activation energy, we can skip the more computationnally demanding TS detection and kinetic Monte Carlo steps. To do so we can simply use the breadth-first search algorithm to label the different connected components inside a given channel. When the number of connected components changes between two energy values $E$ and $E+\delta E$, there are new components appearing or old compoenents that merged or both happening at the same time. By looking at the number of connected components, we can then find the energy at which the components connect back together and reform the channel, it correspond to the minimum energy required to be able to diffuse in the channel. 
+Since we only want to determine the activation energy, we can skip the more computationnally demanding TS detection and kinetic Monte Carlo steps. To do so we can simply use the breadth-first search algorithm to label the different connected components inside a given channel between $E\e{min}$ and $E\e{min}+i\delta E$ (at the $i$\ex{th} iteration). When the number of connected components changes between two energy values $E$ and $E+\delta E$, there are new components appearing or old components that merged or both happening at the same time. By looking at the number of connected components, the code automatically detects the energy $E\e{barrier}$ at which the components connect back together and form a channel (possibility to go from one boundary to another). This energy corresponds to the energy required to be able to diffuse through a channel. Then, the activation energy $E\e{a}$ simply corresponds to the difference between this barrier energy $E\e{barrier}$ just calculated and the minimal energy $E\e{min}$ within the channel. 
 
-The activation energy corresponds to the difference between this barrier energy just calculated and the minimum energy within the channel. This is obviously an approximation since it does not take account of multistep diffusion --- a particle can cross a series of lower barrier instead of making the highest energy gap we calculated using our method as illustrated on the Figure~\ref{fgr:TS_problem}. In this particular case, the relevant activation energy is in fact the maximum value between these two activation energies. 
+In the case of KAXQIL, we can carry out a barrier detection using an energy step $\delta E$ of \SI{0.3}{\kJ\per\mol}. There is only one symmetrically unique type of channel in KAXQIL with a minimal energy of $-44.3$~\si{\kJ\per\mole} --- the different channels shown on the Figure~\ref{fgr:KAXQIL_channel} are all symmetrically equivalent. The code only detects one merge that leads to an all connected component inside the channel. This merge occurs for an energy of $-25.7$~\si{\kJ\per\mole} (as shown on the Figure~\ref{fgr:KAXQIL_23}), which means that the activation energy is estimated to be $18.6$~\si{\kJ\per\mole} with an error of \SI{0.3}{\kJ\per\mole} (due to the energy step considered). 
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/5-diffusion/KAXQIL_30.jpg}
+    \caption{$E\e{max}<-30$}~\si{\kJ\per\mole}\label{fgr:KAXQIL_30}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/5-diffusion/KAXQIL_23.jpg}
+    \caption{$E\e{max}<-23$}~\si{\kJ\per\mole}\label{fgr:KAXQIL_23}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/KAXQIL_10.jpg}
+      \caption{$E\e{max}<10$}~\si{\kJ\per\mole}\label{fgr:KAXQIL_channel}
+  \end{subfigure}
+    \caption{ 3D visualization of channels within KAXQIL using different energy thresholds $E\e{max}$. Depending on the maximum value of energy allowed, the channel is either composed of unconnected basins (a), or they are fully connected (b) and (c). This illustrates the principle of the barrier energy detection. }\label{fgr:KAXQIL_channels}
+\end{figure}
+
+In this simple case of one unique merge of a unidimensional channel, the method works pretty well and it is possible to associate this activation energy to a diffusion rate $k\e{diff}$ using the Arrhenius equation:
+\begin{equation}
+  k\e{diff} = A \exp\left(-\frac{E\e{a}}{k\e{B}T}\right)
+\end{equation}
+where $A$ is a prefactor that depend on the temperature and the system (adsorbate, adsrobent). This is a simplified version of the equations~\ref{eq:trans_rate_path} and~\ref{eq:trans_rate} used in transition state theory-based methods. In the case of a unidimensional channel with only one transition possible, the diffusion coefficient is directly related to the diffusion rate. The problem can be reduced to a unidimensional random walk with a given transition probability, and the diffusion coefficient is then simply $D=0.5k\e{diff}L^2$ where $L$ is the distance between two basins (in one dimension). We end up in this special case with a direct relation between the diffusion coefficient and the activation energy $\log(D)\propto E\e{a}$.
+If we consider more complex systems than KAXQIL, this methods may not work that well. 
+
+The case of multistep diffusion is much harder to describe, for example --- a particle can cross a series of lower barrier instead of making the highest energy gap (calculated by our method) as illustrated on the Figure~\ref{fgr:TS_problem}. In this particular case, the relevant activation energy is in fact the maximum value between these two activation energies. And even if we take the maximum activation energy, in the case where they are similar in value, this approximation can be unjustified. Both transitions would influence the diffusion. This approximation is only true if one af the activation energy is much larger than the other ($E\e{a}^1 \gg E\e{a}^2$).
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.6\textwidth]{figures/5-diffusion/Diffusion_TS.pdf}
-    \caption{Multi-step diffusion for a basin A to a basin A'. The diffusion process is modeled by transition states TS$_1$, TS$_2$ and TS$_3$ and intermediate steps I$_1$ and I$_2$. In this particular case, there is a difference between the real limiting activation energy and the activation energy calculated by our simplified method. }\label{fgr:TS_problem}
+    \caption{Multi-step diffusion from a basin A to a basin A'. The diffusion process is modeled by transition states TS$_1$, TS$_2$ and TS$_3$ and intermediate steps I$_1$ and I$_2$. In this particular case, there is a difference between the real limiting activation energy and the activation energy calculated by our simplified method. }\label{fgr:TS_problem}
 \end{figure}
 
-We could improve this approach by finding the intermediate transition state energy values, because this phenomenon happens the diffusion particle can jump to a higher intermediate state with a lower activation energy before jumping to the next basin. This lowers the real activation compared to our simple approach. But the way to detect them is not really clear, it could boil down to finding the TS surfaces, which is our initial problem and will cost more computational resources. 
+To improve this approach,we could detect intermediate transition state energy values by looking at the change in the number of clusters for instance. But again it is hard to say which combinations of energy difference are relevant, and more detailed investigation of the location of these transition states are needed, which is the initial problem of TS surface detection that we put on stand-by. Aware of all these weaknesses, we can however use this quickly measurable activation energy as a proxy of the diffusion coefficient. 
+This will be the object of the next discussion on the relation between this approximated activation energy value and the diffusion coefficients. This new diffusion desriptor can later be used in prediction models as a complementary descriptor to the PLD to give a more complete picture of the diffusion process. 
 
-In this state of my work, I will fisrt focus on using the current non-ideal solution to find correlations with the diffusion coefficients, and eventually make a prediction model based on this barrier activation energy and above-mentioned geometrical descriptors. 
-
-\subsection{Relation of the barrier energy to the diffusion coefficient}
+\subsection{Relation of the approximated activation energy to the diffusion coefficient}
 
 
-I calculated this xenon diffusion activation energy for all the structures selected for the xenon diffusion coefficient screening presented in the section~\ref{sct:xenon_diff_screen}. I used a $\delta E$ of \SI{0.3}{\angstrom} for the loop over the energies to find the energy at which the channel is connected all the way through. As shown on the Figure~\ref{fgr:barrier_diffusion_a}, this barrier energy seems to be correlated to the diffusion coefficient for xenon. The correlation seems to be much stronger for the points with a PLD around \SI{4.5}{\angstrom}, and for PLD values over \SI{6}{\angstrom}, there still is a correlation but it seems weaker than for smaller values of PLD. 
+I calculated this xenon diffusion activation energy for all the 5,125 structures selected for the xenon diffusion coefficient screening presented in the section~\ref{sct:xenon_diff_screen}. I used a $\delta E$ of \SI{0.1}{\kJ\per\mol} for the loop over the energies to find the minimal barrier energy of each unique channels of the material. An activation energy can then be deduced and compared to the diffusion coefficeints. To avoid any noise that could come from the MD simulation initialization problem, we removed all the materials with very different barrier energy values from one channel to the other (the standard deviation of the barrier energy values is higher than \SI{1}{\kJ\per\mol}). These materials only represent 145 materials out of 5,125 \todo{revoir les chiffres}. 
 
 
 \begin{figure}[ht]
@@ -511,9 +541,9 @@ I calculated this xenon diffusion activation energy for all the structures selec
     \caption{ \todo{}}\label{fgr:barrier_diffusion}
 \end{figure}
 
-This correlation between the barrier energy and the diffusion coefficient is confirmed on the Figure~\ref{fgr:diff_pld_barrier}. I labeled the points according to the barrier energy value, and the highest barrier energy points are mostly concentrated on lower values of diffusion coefficient. We can, however, see some very high barrier energy points associated to points with quite low diffusion coefficient, there are two such points detectable with our bear eyes. These points \todo{needs to be looked into details.} > outliers maybe
+As shown on the Figure~\ref{fgr:barrier_diffusion_a}, the activation energy is correlated to the diffusion coefficient for xenon. The correlation seems to be much stronger for the points with a PLD around \SI{4.5}{\angstrom}, and for PLD values over \SI{6}{\angstrom}, there still is a correlation but it seems weaker than for smaller values of PLD as shown by the Figure~\ref{fgr:barrier_diffusion_b}
 
-\todo{find some problematic structures and plot them}
+This correlation between the barrier energy and the diffusion coefficient is confirmed on the Figure~\ref{fgr:diff_pld_barrier}. The points are labeled according to the barrier energy value, and the highest barrier energy points are mostly concentrated on lower values of diffusion coefficient. We can, however, see some very high barrier energy points associated to points with quite low diffusion coefficient, there are two such points detectable with our bear eyes. 
 
 \begin{figure}[ht]
   \centering
@@ -521,15 +551,58 @@ This correlation between the barrier energy and the diffusion coefficient is con
     \caption{\todo{change the xlabel}}\label{fgr:diff_pld_barrier}
 \end{figure}
 
-This berrier energy descriptor completes the PLD values to describe the diffusion coefficient. PLD values can not distinguish between the structures over \SI{6}{\angstrom} in the ``plateau''. But it seems that on the Figure~\ref{fgr:diff_pld_barrier}, the higher values of barrier energies are found for lower diffusion coefficient in the plateau value. However, as I discussed before the correlation is not perfect neither. We can at least say that this barrier descriptor better informs on this grey area of PLD values above \SI{6}{\angstrom} that could not be explained only with geometrical considerations. 
+This barrier activation energy descriptor completes the description of the diffusion coefficient given by PLD values. As discussed in the dedicated section, the PLD values can not distinguish between the structures over \SI{6}{\angstrom} in the ``plateau'', and the difference of diffusion coefficient could only be considered as noise in the previous analysis. But it seems that on the Figure~\ref{fgr:diff_pld_barrier}, the higher values of barrier energies are found for lower diffusion coefficient in the plateau value, hence explaining the different values within the plateau by the value of the activation barrier. 
+Although the correlation is not perfect, this barrier descriptor better informs on this uncharted area of PLD values above \SI{6}{\angstrom} impossible to explain with simple geometrical considerations. This barrier activation energy value informs on the chemical nature of the diffusion barrier to be crossed. 
 
-In the final section of this chapter, I will therefore combine the geometrical descriptors to the barrier energies to train a machine learning model following the same approach as in the previous chapter 4. The barrier energy and the PLD values are the most correlated descriptors and will play a prominent role in the final ML model. This model could then be used to evaluate the diffusion coefficeint of xenon in other materials, which is much faster than usign MD simulations.
+In the final section of this chapter, I will therefore combine geometrical descriptors to this barrier energy to train a machine learning model following the same approach as in the previous chapter 4. The barrier energy and the PLD values are the most correlated descriptors and will play a prominent role in the final ML model. This model could then be used to evaluate the diffusion coefficeint of xenon in other materials, which is much faster than usign MD simulations.
 
 \subsection{Diffusion coefficient prediction model}
 
-Noisy data to begin with
+Diffusion coefficients are extremely time-consuming to calculate and with a lot of complications in the final fitting process. From the 6,525 initial structures, we lost more than a thousand structures, which corresponds to about 79\% success rate due to either a lack of time to give a usable MSD or simply to MSD that describe non-diffusional regimes. By using a rather unconventionally higher time step, we managed to reduce the time required to probe the diffusion regime to only a couple of days per structure. Compared to the \SI{12}{second} required for the barrier energy calculation with an energy step of \SI{0.1}{\kJ\per\mol}, and the few minutes required to run Zeo++, the MD method is extremely slow. If we use very optimistic hypothesis for the MD simulations, we are basically comparing 24 hours to maybe at most 10 minutes per structure, which corresponds to approximately 150-fold speed-up (in reality it is much higher). However, the relationships between the barrier energy, PLD and the diffusion coefficient are not clear --- the arrhenius law generalizes poorly considering the weak correlation shown by the Figure~\ref{fgr:barrier_diffusion_a}. The ML model is here to draw this relation to achieve a good prediction, while spending less time in the future to predict the diffusion coefficient of future selective materials.
 
-Not to learn form false data, we need to clean the dataset to remove structures with different type of channels (about 150)\todo{}
+
+\begin{table}[ht]
+  \setlength{\extrarowheight}{1pt}
+  \centering
+  \begin{tabular}{|l|c|m{8cm}|}
+  \hline
+    Feature name  &  Symbol   &   Description\\
+  \hline
+      "Framework Mass (g/mol)" &   $M_f$ &   Molar mass of the framework material considered  \\
+      "Framework Density (kg/m\^3)" &   $\rho_f$ &   Mass density of the framework material considered  \\
+      "ASA\_m2/cm3\_1.2" &   SA &   Surface area accessible to a \SI{1.2}{\angstrom} radius probe in \si{\square\m\per\cubic\cm}  \\
+      "PO\_VF\_2.0" &   $V\e{pore}$ &  L2-regularization parameter  \\
+      "D\_f\_vdw\_uff298" &   PLD or $D_f$  &   Pore limiting diameter of largest free sphere diameter calculated using the UFF dependent definition  \\
+      "D\_if\_vdw\_uff298" &   LCD or $D_{if}$ &   Largest included free sphere diameter in a free diffusion path calculated using the UFF dependent definition  \\
+      "Adsorption\_enthalpy" &   $\Delta\e{ads}H_0\ex{Xe}(\text{channel})$  &   Xenon adsorption enthalpy within a channel calculated using the barrier algorithm  \\
+      "barrier\_kjmol" &   $E\e{a}$  &   difference between barrier energy $E\e{barrier}$ and the minimal energy $E\e{a}$ within a channel \\
+      "delta\_LCD\_PLD" &   LCD$-$PLD  &   difference between the LCD and PLD values \\
+      "1D\_chan" &  $\mathbb{1}\e{1D}$   &   categorial feature: 1 if there is a unidimensional channel, 0 else \\
+      "2D\_chan" &  $\mathbb{1}\e{2D}$   &   categorial feature: 1 if there is a bidimensional channel, 0 else \\
+      "3D\_chan" &  $\mathbb{1}\e{3D}$   &   categorial feature: 1 if there is a tridimensional channel, 0 else \\
+    \hline
+  \end{tabular}
+  \caption{ Features used in the ML model for diffusion coefficeint prediction }\label{Table:feat_diff}
+\end{table}
+
+To train the ML model, I used {80\%} of the 4,873 structures that survived all the different imposed filters. And I used 12 different descriptors described in the Table\ref{Table:feat_diff} to train this model. The hyperparameters of the XGBoost model was determined using a similar approach as in the chapter 4, and the following were used:
+
+\begin{lstlisting}[language=Python]
+  optimal_params = {
+      'objective': 'reg:squarederror',
+      'n_estimators': 1500,
+      'max_depth': 4,
+      'colsample_bytree': 1,
+      'colsample_bylevel': 0.75,
+      'subsample': 0.75,
+      'alpha': 0.6,
+      'lambda': 1,
+      'learning_rate': 0.04,
+      }
+\end{lstlisting}
+
+With this parameterization, this ML model predicts the $\log_{10}$ of the diffusion coefficient (\si{\square\cm\per\s}) with a root mean square error of $0.26$ on the test set and a mean absolute error of $0.18$. This means that the exponent $\alpha$ is known with an error of about $0.2$ if we express the diffusion coefficient as $D = 10^{\alpha}$. As a point of comparison the previous ML model for thermodynamic selectivity predicts the $\log_{10}$ of the selectivity with an error of about $0.07$. Here, we are not trying to predict the exact values of the diffusion coefficient as there is already a lot of noise in the values generated by MD simulation (about {20\% relative error for KAXQIL}), but we rather try to determine the order of magnitude of the diffusion coefficient value. This model achieves just that, as illustrated on the Figure~\ref{fgr:diffusion_pred}, the predicted diffusion coefficient is very close to the true value in a log scale representation.
+
 
 \textbf{Performances}
 
