@@ -3,7 +3,7 @@
     "workbench.colorTheme": "Quiet Light",
     "diffEditor.wordWrap": "on",
     "editor.wordWrap": "on",
-    "files.autoSave": "onWindowChange",
+    "files.autoSave": "onFocusChange",
     "latex-workshop.view.pdf.ref.viewer":"auto",
     "latex-workshop.latex.tools": [
         {
