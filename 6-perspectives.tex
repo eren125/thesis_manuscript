@@ -16,13 +16,17 @@ In this final chapter, I want to discuss three main research focuses: (i) the ca
 
 \section{Future Developments on Transport Properties}
 
-\subsection{Finish the optimized version of TuTraST}
+Transport properties were thoroughly studied using MD simulations and an ML model mainly based on the PLD and a proxy of the diffusion activation energy. This approach gives very promising results since it speeds up considerably the evaluation of diffusion coefficient values. However, the generalizability to other types of system is not guaranteed when using an ML-based approach. To create a simulation that would be faster than MD simulations and more accurate than the MD-based approach, we will finish the development of the diffusion coefficeint calculation code based on the transition state theory and on kinetic Monte Carlo simulations. As explained in the previous chapter, we are at the last step of the development. When developed, this new approach can give diffusion coefficient that could be fed into a breakthrough modelization tool in order to compare to experimental data. In this seciton I will also talk about the perspectives opened up by the new RUPTURA software in terms of experiment-theory comparison.
 
-Next steps in the development of the C++ tool
+\subsection{Final development of the optimized version of TuTraST}
 
-Layer-by-layer growth 
-equivalent to find the equidistant points within $E$ and $E+\delta E$. 
-Lionel Zoubritzky
+The diffusion calculation code can already do several things: (i) the calculation of the energy grid using the GrAED algorithm, (ii) the identification of connected components or clusters using a breadth-first search algorithm, (iii)
+the detection of channels using a simple all-direction scanning algorithm on the identified clusters, (iv) the detection of the barrier energy by using (ii) and (iii) in a loop over the energy values. The barrier energy of a given channel is defined as the energy at which the channel is connected back into at least one channel connected through at least one direction. 
+
+To finish the implementation of the algorithm, the final step is to be able to detect the transition state surfaces that separate different clusters. This final mapping into basins connected by transition surfaces can then be used to run a simple kinetic Monte Carlo scheme and determine the diffusion coefficient. In the original paper of Mace et al.\autocite{Mace_2019}, the authors make the clusters with energy values below $E\e{min}+i\delta E$ grow layer by layer to clusters with energy values below $E\e{min}+(i+1)\delta E$. When a point of a layer of one cluster touches another cluster, this point can be considered as a transition point if the energy gap is high enough, else the two clusters merge together to form a unique cluster. The reason to use a loop over the energy values is to control the values of the transition points they can only between $E\e{min}+(i)\delta E$ and $E\e{min}+(i+1)\delta E$. If we think about it, the layer-by-layer growth does not find the highest energy point in a given direction as normally defined for transition states, instead they detect the points that are equidistant to the surface of two previous clusters. Both definitions are equivalent if $\delta E$ is infinitely small.
+
+To avoid using a computationally expensive layer-by-layer growth, it could be possible to assign a label according to the distance 
+
 
 \subsection{Connection to the breakthrough experiments}
 

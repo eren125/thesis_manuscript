@@ -538,7 +538,7 @@ I calculated this xenon diffusion activation energy for all the 5,125 structures
       \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff_2.pdf}
       \caption{PLD over \SI{6}{\angstrom}}\label{fgr:barrier_diffusion_b}
   \end{subfigure}
-    \caption{ \todo{}}\label{fgr:barrier_diffusion}
+    \caption{ Scatterplots of the $\log_{10}$ of the diffusion coefficient (in \si{\square\cm\per\s}) compared to the barrier activation energy $E\e{a}$ in \si{\kJ\per\mol} for all structures (a) and for the structures with a PLD over \SI{6}{\angstrom} (b). \todo{change the coloring to be the same as for (a)}}\label{fgr:barrier_diffusion}
 \end{figure}
 
 As shown on the Figure~\ref{fgr:barrier_diffusion_a}, the activation energy is correlated to the diffusion coefficient for xenon. The correlation seems to be much stronger for the points with a PLD around \SI{4.5}{\angstrom}, and for PLD values over \SI{6}{\angstrom}, there still is a correlation but it seems weaker than for smaller values of PLD as shown by the Figure~\ref{fgr:barrier_diffusion_b}
@@ -548,7 +548,7 @@ This correlation between the barrier energy and the diffusion coefficient is con
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.6\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{\todo{change the xlabel}}\label{fgr:diff_pld_barrier}
+    \caption{ Scatterplot of the $\log_{10}$ of the diffusion coefficient (in \si{\square\cm\per\s}) as a function of the PLD values and labeled by the barrier activation energy. The higher barriers seem to be corresponding to lower values of diffusion coefficient echoing to the correlation found on the Figure~\ref{fgr:barrier_diffusion}. \todo{change the xlabel}}\label{fgr:diff_pld_barrier}
 \end{figure}
 
 This barrier activation energy descriptor completes the description of the diffusion coefficient given by PLD values. As discussed in the dedicated section, the PLD values can not distinguish between the structures over \SI{6}{\angstrom} in the ``plateau'', and the difference of diffusion coefficient could only be considered as noise in the previous analysis. But it seems that on the Figure~\ref{fgr:diff_pld_barrier}, the higher values of barrier energies are found for lower diffusion coefficient in the plateau value, hence explaining the different values within the plateau by the value of the activation barrier. 
@@ -606,8 +606,8 @@ With this parameterization, this ML model predicts the $\log_{10}$ of the diffus
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.48\textwidth]{figures/5-diffusion/diffusion_prediction.pdf}
-    \caption{ \todo{}}\label{fgr:diffusion_pred}
+    \includegraphics[width=0.6\textwidth]{figures/5-diffusion/diffusion_prediction.pdf}
+    \caption{ Comparison of the $\log_{10}$ of the diffusion coefficient predicted by an ML model and the true values. \todo{change alpha}}\label{fgr:diffusion_pred}
 \end{figure}
 
 \todo{Stability training}
@@ -615,14 +615,14 @@ With this parameterization, this ML model predicts the $\log_{10}$ of the diffus
 \todo{dependence plot}
 
 
-
+\todo{Conclude}
 
 
 \section{Beyond self-diffusion screenings}
 
 In this chapter, I introduced different methods of evaluating the transport properties of an adsorbate inside a nanoporous material. The most accurate method requires much more computational time and personal attention to achieve the best accuracy. For instance, we need to choose carefully the parameters of the MD simulation so that we obtain a mean square displacement data relevant for diffusion coefficient calculation. I managed to perform a screening of diffusion coefficient values for xneon and krypton to find interesting materials that exhibit both good thermodynamic and kinetic separation performance. These values have also been used to serve as a baseline data to test out other methods such as the activation energy detection and an ML model. The final ML model seems to give very promising performance by achieving a root mean square error of only $0.25$ \todo{recheck} on the base-10 logarithm of the diffusion coefficient. This means that we can evaluate quite accurately the order of magnitude of the diffusion properties. This could help quickly identify possible diffusion limitations of a promising material, but also optimize this property for faster equilibration in an adsoprtion based separation. Beyond our study, the techniques developed and to be developed in my work can also apply to membrane separation processes.
 
-Different follow-up studies can be initiated considering the results obtained. For instance, the effect of tortuosity on the diffusion coefficient values and finding relevant ways of defining it remain open questions. We can for example focus on unidimensional channels, where each change of direction can be analyzed to quantify how frequently it appears and the magnitude of the change of direction it makes.\autocite{Bullitt_2003} Another challenge could be measuring different diffusion regimes such as the single-file diffusion that leads to an MSD that has a square root time relation\todo{cite}. The materials with MSD relations other than linear were in fact discarded in this study since I only took materials with high determination coefficients in the linear fit. 
+Different follow-up studies can be initiated considering the results obtained. For instance, the effect of tortuosity on the diffusion coefficient values and finding relevant ways of defining it remain open questions. We can for example focus on unidimensional channels, where each change of direction can be analyzed to quantify how frequently it appears and the magnitude of the change of direction it makes.\autocite{Bullitt_2003} Another challenge could be measuring different diffusion regimes such as the single-file diffusion that leads to an MSD that has a square root time relation\autocite{Lin_2005}. The materials with MSD relations other than linear were in fact discarded in this study since I only took materials with high determination coefficients in the linear fit. 
 
 To go beyond standard studies, we can even use the diffusion coefficeint to model the breakthrough experiments which is the closest a lab experiment can get from the industrial adsorption process. The recent development of the RUPTURA software,\autocite{Sharma_2023} enables much more perspectives in the field of modeling. We can for instance calculate the axial dispersion coefficient used in a breakthrough model using transport properties while also injecting the thermodynamic data we have on the adsorption process of xenon and krypton. This gives a real opportunity for experiment-theory comparison in order to start a virtuous feedback loop to improve modeling and help in discovring better materials. 
 
