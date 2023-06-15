@@ -500,8 +500,6 @@ To confirm the relevance of the model, I performed another 5-fold cross-validati
 
 \subsection{ML model performance}
 
-\todo{Add performance as a function of training size plot}
-
 %% introduction
 In this section, I will present the performance of the ML model that learned the joint effects of all the newly introduced descriptors to detect and evaluate the observed drop between the easily accessible low-pressure selectivity and the more computationally demanding ambient-pressure selectivity.
 A GCMC simulation of a 20–80 xenon/krypton gas mixture takes in average 2 400~\si{\second} per structure on the CoRE MOF 2019 database, while our grid-based adsorption calculation only takes about \SI{5}{\second} per structure (on a single Intel Xeon Platinum 8168 core at \SI{2.7}{\giga\hertz}). To compute all features needed for our prediction, we would need less than a minute per structure, which is way faster than the 40 minutes required for a GCMC calculation. The ML-based approach has a very clear speed advantage over standard molecular simulations. But to be a good substitute, it needs to keep a good level of accuracy on an unseen set of structures.
