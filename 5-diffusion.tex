@@ -451,7 +451,7 @@ There are still some work to do on a finer comprehension between the diffusion p
 
 To go beyond the very computationally demanding MD simulation, in this section, I will present alternative methods that I developed during my thesis to calculate the diffusion coefficient. For instance, methods based on the transition state theory can more efficiently generate MSD at larger time-scales. If we apply a similar algorithm as in TuTraST, we can also overcome the initialization problem of MD simulation when different channels are available in an automated screening --- of course it is always possible to manually put the particle in a given initial state, but it is hard to achieve in a screening process. At this stage of my work, I did not finish the implementation of the C++ algorithm that directly reproduces diffusion coefficients through a rejection-free lattice kinetic Monte Carlo algorithm. However, I used the initial implmentation to calculate maximum barrier energy inside a material. This barrier energy was found to bring a complementary information to the PLD values to predict the diffusion coefficient, and an ML model was trained to predict diffusion coefficients much faster than the current MD method.
 
-\subsection{Planned algorithm for TS detection}
+\subsection{Code based on the TuTraST algorithm}\label{sct:tutrast}
 
 I used the GrAED algorithm presented on section~\ref{sct:grid} to calculate the xenon interaction energy with the material at each non-overlapping point of the symmetry-aware grid. With this energy grid, it is now possible to identify the different channels, adsorption pores and the transition surface that separate them. 
 
