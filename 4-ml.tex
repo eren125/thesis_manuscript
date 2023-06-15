@@ -516,6 +516,14 @@ I defined a set of {80\%} randomly chosen structures out of the final dataset to
 
 \begin{figure}[ht]
   \centering
+    \includegraphics[width=0.5\linewidth]{figures/4-ml/main/training_curve.pdf}
+    \caption{ Root mean squared errors on the same test set (20\% of all data) as a function of the fraction of the training set used to train smaller models. The error decreases as the amount of data increases. }\label{fgr:training_curve}
+  \end{figure}
+
+To see if it would be possible to train a better model with more training data, we train different models with different fractions of the training set as shown on the Figure~\ref{fgr:training_curve}. The RMSE unsurprisingly decreases as we increase the amount of data, but it seems to start stabilizing for a fraction of 95\% of the training set. This means that the model has good the amount of training data to achieve what it seems to be the minimum error on this test set.
+
+\begin{figure}[ht]
+  \centering
     \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_S1_prediction.pdf}
     \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_S1_prediction_logscale.pdf}
     \caption{Scatter plot of the selectivity derived by the model}\label{fgr:S1_prediction}
