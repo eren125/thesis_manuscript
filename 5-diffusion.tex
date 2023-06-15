@@ -521,7 +521,7 @@ This will be the object of the next discussion on the relation between this appr
 
 \subsection{Relation of the approximated activation energy to the diffusion coefficient}
 
-I calculated this xenon diffusion activation energy for all the 5,125 structures selected for the xenon diffusion coefficient screening presented in the section~\ref{sct:xenon_diff_screen}. I used a $\delta E$ of \SI{0.1}{\kJ\per\mol} for the loop over the energies to find the minimal barrier energy of each unique channels of the material. An activation energy can then be deduced and compared to the diffusion coefficeints. To avoid any noise that could come from the MD simulation initialization problem, we removed all the materials with very different barrier energy values from one channel to the other (the standard deviation of the barrier energy values is higher than \SI{1}{\kJ\per\mol}). These materials only represent 145 materials out of 5,125.
+I calculated this xenon diffusion activation energy for all the 5,125 structures selected for the xenon diffusion coefficient screening presented in the section~\ref{sct:xenon_diff_screen}. I used an energy step $\delta E$ of \SI{0.1}{\kJ\per\mol} for the loop over the energies to find the minimal barrier energy of each unique channels of the material. An activation energy can then be deduced and compared to the diffusion coefficeints. To avoid any noise that could come from the MD simulation initialization problem, we removed all the materials with very different barrier energy values from one channel to the other (the standard deviation of the barrier energy values is higher than \SI{1}{\kJ\per\mol}). These materials only represent 145 materials out of 5,125.
 
 
 \begin{figure}[ht]
@@ -537,7 +537,7 @@ I calculated this xenon diffusion activation energy for all the 5,125 structures
       \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff_2.pdf}
       \caption{PLD over \SI{6}{\angstrom}}\label{fgr:barrier_diffusion_b}
   \end{subfigure}
-    \caption{ Scatterplots of the $\log_{10}$ of the diffusion coefficient (in \si{\square\cm\per\s}) compared to the barrier activation energy $E\e{a}$ in \si{\kJ\per\mol} (a) for all structures  and (b) for the structures with a PLD over \SI{6}{\angstrom}. \todo{change the coloring to be the same as for (a)}}\label{fgr:barrier_diffusion}
+    \caption{ Scatterplots of the $\log_{10}$ of the diffusion coefficient (in \si{\square\cm\per\s}) compared to the barrier activation energy $E\e{a}$ in \si{\kJ\per\mol} (a) for all structures  and (b) for the structures with a PLD over \SI{6}{\angstrom}.}\label{fgr:barrier_diffusion}
 \end{figure}
 
 As shown on the Figure~\ref{fgr:barrier_diffusion_a}, the activation energy is correlated to the diffusion coefficient for xenon. The correlation seems to be much stronger for the points with a PLD around \SI{4.5}{\angstrom}, and for PLD values over \SI{6}{\angstrom}, there still is a correlation but it seems weaker than for smaller values of PLD as shown by the Figure~\ref{fgr:barrier_diffusion_b}
@@ -547,7 +547,7 @@ This correlation between the barrier energy and the diffusion coefficient is con
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.6\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{ Scatterplot of the $\log_{10}$ of the diffusion coefficient (in \si{\square\cm\per\s}) as a function of the PLD values and labeled by the barrier activation energy. The higher barriers seem to be corresponding to lower values of diffusion coefficient echoing to the correlation found on the Figure~\ref{fgr:barrier_diffusion}. \todo{change the xlabel}}\label{fgr:diff_pld_barrier}
+    \caption{ Scatterplot of the $\log_{10}$ of the diffusion coefficient in \si{\square\cm\per\s} as a function of the PLD values and labeled by the barrier activation energy. The higher barriers seem to be corresponding to lower values of diffusion coefficient echoing to the correlation found on the Figure~\ref{fgr:barrier_diffusion}.}\label{fgr:diff_pld_barrier}
 \end{figure}
 
 This barrier activation energy descriptor completes the description of the diffusion coefficient given by PLD values. As discussed in the dedicated section, the PLD values can not distinguish between the structures over \SI{6}{\angstrom} in the ``plateau'', and the difference of diffusion coefficient could only be considered as noise in the previous analysis. But it seems that on the Figure~\ref{fgr:diff_pld_barrier}, the higher values of barrier energies are found for lower diffusion coefficient in the plateau value, hence explaining the different values within the plateau by the value of the activation barrier. 
@@ -570,7 +570,7 @@ Diffusion coefficients are extremely time-consuming to calculate and with a lot 
       "Framework Mass (g/mol)" &   $M_f$ &   Molar mass of the framework material considered  \\
       "Framework Density (kg/m\^3)" &   $\rho_f$ &   Mass density of the framework material considered  \\
       "ASA\_m2/cm3\_1.2" &   SA &   Surface area accessible to a \SI{1.2}{\angstrom} radius probe in \si{\square\m\per\cubic\cm}  \\
-      "PO\_VF\_2.0" &   $V\e{pore}$ &  L2-regularization parameter  \\
+      "PO\_VF\_2.0" &  VF $\tfrac{V\e{pore}}{V\e{tot}}$ &  The void fraction or the ratio of the pore volume occupied by a \SI{2}{\angstrom} radius probe over the total material volume  \\
       "D\_f\_vdw\_uff298" &   PLD or $D_f$  &   Pore limiting diameter of largest free sphere diameter calculated using the UFF dependent definition  \\
       "D\_if\_vdw\_uff298" &   LCD or $D_{if}$ &   Largest included free sphere diameter in a free diffusion path calculated using the UFF dependent definition  \\
       "Adsorption\_enthalpy" &   $\Delta\e{ads}H_0\ex{Xe}(\text{channel})$  &   Xenon adsorption enthalpy within a channel calculated using the barrier algorithm  \\
@@ -581,7 +581,7 @@ Diffusion coefficients are extremely time-consuming to calculate and with a lot 
       "3D\_chan" &  $\mathbb{1}\e{3D}$   &   categorial feature: 1 if there is a tridimensional channel, 0 else \\
     \hline
   \end{tabular}
-  \caption{ Features used in the ML model for diffusion coefficeint prediction }\label{Table:feat_diff}
+  \caption{ Features used in the ML model for diffusion coefficient prediction. }\label{Table:feat_diff}
 \end{table}
 
 To train the ML model, I used {80\%} of the 4,873 structures that survived all the different imposed filters. And I used 12 different descriptors described in the Table\ref{Table:feat_diff} to train this model. The hyperparameters of the XGBoost model was determined using a similar approach as in the chapter 4, and the following were used:
@@ -618,17 +618,47 @@ With this parameterization, this ML model predicts the $\log_{10}$ of the diffus
     \caption{ (a) Comparison of the $\log_{10}$ of the diffusion coefficient predicted by an ML model and the true values. (b) Root mean squared errors on the same test set (20\% of all data) as a function of the fraction of the training set used to train smaller models. The error decreases as the amount of data increases and seems to stabilize near $0.25$. }
 \end{figure}
 
-To check if this model has enough training data, or that it needs more training data, I checked the training curve (Figure~\ref{fgr:training_curve_diff}). The error converges to $0.25$ as we increase the amount of training data, which means that no further data is needed to train the model.
+To check if this model has enough training data, or that it needs more training data, I checked the training curve (Figure~\ref{fgr:training_curve_diff}). The error converges to $0.25$ as we increase the amount of training data, which means that no further data is needed to train the model. However, we could imagine using less data to train a similar model (maybe 50\% instead of 80\% of the total data can be enough to train a similar model). 
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/5-diffusion/Diff_Feature_importance_shapbased.pdf}
+  \caption{ Feature importance determined using the average of the absolute shapley values on every training data for each feature. An influential feature would have a very high average absolute shap value. The features are detailed in the Table~\ref{Table:feat_diff}. }\label{fgr:feat_imp_diff}
+\end{figure}
 
-Finally, I used the SHAP algorithms already presented in the previous chapter to interpret the ML model. Unsurprisingly, 
+Finally, I used the SHAP algorithms already presented in the previous chapter to interpret the ML model. Unsurprisingly, the most important features are the PLD and the barrier activation energy as already shown in the previous section. The void fraction seems to play a non negligible role also.
 
-\todo{Conclude}
+To unravel the relationship between these features and the target diffusion coefficient, I will now look into the partial dependence plots of these features given on the Figure~\ref{fgr:pdp_selection_diff}. 
+
+The PLD has a contribution that is very close to the one described in the section~\ref{sct:xenon_diff_screen}. We can see the linear contribution when the PLD values are below \SI{6}{\angstrom}, and then a constant contribution for PLd values above this threshold. The activation barrier energy is negatively correlated to the log of the diffusion coefficient, which explains the linear contribution observed on the dependence plot. 
+
+The model also uncovers less obvious contributions, looking at the Figure~\ref{fgr:diff_sa_vf}, we can not infer any relations between surface areas or void fractions and the diffusion coefficient. They have a more secondary role than corrects slightly the values obtained with contributions of the order of $0.2$. For instance, the model finds a positive relation between the void fraction and the contribution to the diffusion corfficient value. This is physically true since lower void fraction logically means lower diffusion rate inside the material, if other parameters are considered equal. On the other hand, larger surface areas means more interaction with the pore walls, which slows down the diffusing particle. For the LCD, the LCD-PLD difference the xenon adsorption enethalpy, the framework's mass and density, we can not see clear behavior of the contributions. This is probably due to the fact that a lot of the contribution is already given by the previous features because of the correlation between all these features. 
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/D_f_vdw_uff298.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/barrier_kjmol.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/PO_VF_2.0.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/ASA_m2_cm3_1.2.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/D_if_vdw_uff298.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/Framework Density (kg_m^3).pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/Adsorption_enthalpy.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/Framework Mass (g_mol).pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/delta_LCD_PLD.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/1D_chan.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/2D_chan.pdf}
+    \includegraphics[width=0.32\linewidth]{figures/5-diffusion/PDP/3D_chan.pdf}
+  \caption{ A SHAP dependence plot corresponds to the Shapley values as a function of the feature values for every structures. These SHAP plots show the contribution of the features to the prediction given by the ML model. Each Shapley value depends not only on the value of the feature itself but also on the other features, for this reason, the plots are labeled by a relevant second feature. Every feature's partial dependence plot for the diffusion prediction model are presented here. }\label{fgr:pdp_selection_diff}
+  \end{figure}
+
+Finally, the channel dimension has a rather marginal contribution to the final predicted values, but it corresponds to a clear physical phenomenon. Depending on the dimensionality of the channel, the diffusion coefficients behave differently. As shown on the Figure~\ref{fgr:pdp_selection_diff}, a 1D channel would have a lower diffusion coefficient if all other features are similar. A 2D channel would have a higher contribution, which is also confirmed by the partial dependence plots. And a tridimensional plot would have an even higher diffusion coefficient. The model can distinguish the different types of materials using their channel dimension.
+
+In this section, we have presented an ML-based approach to compute diffusion coefficient values using omputationally chear energy descriptors combined with geometrical descriptors. This method is much more efficeint than the conventional MD simulation since it requires only one costly training seession using MD simulations at the beginning. To go even further in the speed-up process, we can generate the diffusion coefficients using alternative methods as shown by Mace et al.\ in their work \autocite{Mace_2019}. This is a work in progress and I hope that the future implmentation can recover the same diffusion values as the one derived by the MD simulations.
 
 
 \section{Beyond self-diffusion screenings}
 
-In this chapter, I introduced different methods of evaluating the transport properties of an adsorbate inside a nanoporous material. The most accurate method requires much more computational time and personal attention to achieve the best accuracy. For instance, we need to choose carefully the parameters of the MD simulation so that we obtain a mean square displacement data relevant for diffusion coefficient calculation. I managed to perform a screening of diffusion coefficient values for xneon and krypton to find interesting materials that exhibit both good thermodynamic and kinetic separation performance. These values have also been used to serve as a baseline data to test out other methods such as the activation energy detection and an ML model. The final ML model seems to give very promising performance by achieving a root mean square error of only $0.25$ \todo{recheck} on the base-10 logarithm of the diffusion coefficient. This means that we can evaluate quite accurately the order of magnitude of the diffusion properties. This could help quickly identify possible diffusion limitations of a promising material, but also optimize this property for faster equilibration in an adsoprtion based separation. Beyond our study, the techniques developed and to be developed in my work can also apply to membrane separation processes.
+In this chapter, I introduced different methods of evaluating the transport properties of an adsorbate inside a nanoporous material. The most accurate method requires much more computational time and personal attention to achieve the best accuracy. For instance, we need to choose carefully the parameters of the MD simulation so that we obtain a mean square displacement data relevant for diffusion coefficient calculation. I managed to perform a screening of diffusion coefficient values for xneon and krypton to find interesting materials that exhibit both good thermodynamic and kinetic separation performance. These values have also been used to serve as a baseline data to test out other methods such as the activation energy detection and an ML model. The final ML model seems to give very promising performance by achieving a root mean square error of only $0.25$ on the base-10 logarithm of the diffusion coefficient. This means that we can evaluate quite accurately the order of magnitude of the diffusion properties. This could help quickly identify possible diffusion limitations of a promising material, but also optimize this property for faster equilibration in an adsoprtion based separation. Beyond our study, the techniques developed and to be developed in my work can also apply to membrane separation processes.
 
 Different follow-up studies can be initiated considering the results obtained. For instance, the effect of tortuosity on the diffusion coefficient values and finding relevant ways of defining it remain open questions. We can for example focus on unidimensional channels, where each change of direction can be analyzed to quantify how frequently it appears and the magnitude of the change of direction it makes.\autocite{Bullitt_2003} Another challenge could be measuring different diffusion regimes such as the single-file diffusion that leads to an MSD that has a square root time relation\autocite{Lin_2005}. The materials with MSD relations other than linear were in fact discarded in this study since I only took materials with high determination coefficients in the linear fit. 
 
