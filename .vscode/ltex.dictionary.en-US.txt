@@ -42,3 +42,4 @@ tridimensional
 substraction
 bidimensional
 Voronoi
+equilibration
