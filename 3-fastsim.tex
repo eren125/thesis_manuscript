@@ -473,7 +473,7 @@ The good time performance of the grid sampling on the structures of CoRE MOF 201
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.7\textwidth]{figures/3-fastsim/Grid_sumup.pdf}
-    \caption{Comparison of the RMSE on Xe adsorption enthalpy and the average CPU time required to run a simulation on a structure of CoRE MOF 2019 (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}). The values are the same as in Table~\ref{tab:grid}. }\label{fgr:grid_perfomance}
+    \caption{Comparison of the RMSE on Xe adsorption enthalpy and the average CPU time required to run a simulation on a structure of CoRE MOF 2019 (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}) for different sampling techniques (Widom, Voronoi, RAESS and GrAED). The values are reported in Table~\ref{tab:grid}. }\label{fgr:grid_perfomance}
 \end{figure}
 
 As shown on Figure~\ref{fgr:grid_widom}, the approach does not damage the accuracy of the adsorption enthalpy and of the Henry constant. There is an almost perfect accordance between the Widom insertion method and the grid-based approach for a very finely meshed grid (\SI{0.12}{\angstrom} spacing). This was expected since both methods are unbiased sampling of the adsorption energies. Almost no error can be detected if looking at the figure for both adsorption enthalpy and Henry constant. The RMSE on the adsorption enthalpy is only about \SI{0.01}{\kilo\joule\per\mole}, while the RMSE on the log10 of the Henry constants (in \si{\milli\mole\per\gram\per\pascal}) is also very low at $0.01$. This method goes back to the initial definition of these quantities at infinite dilution, the perfect correspondence is therefore not very surprising. 
