@@ -39,7 +39,7 @@ This regular Voronoi tessellation is suitable only for separating space among eq
 
 \subsubsection{Unequal radii}
 
-To address this limitation, an alternative approach called the Apollonian Voronoi diagram can be implemented to model the atomic radii The definition of the Voronoi decomposition, as previously discussed, is limited to equal-sized atoms, as the closest region to an atom is also the closest to its center of mass. This limitation does not apply to the complex atomic structures found in nanoporous frameworks. To overcome this, the Apollonian Voronoi diagram\autocite{voronoi_apollonian} can be utilized to model the atomic radii $r_1,\ldots,r_n$ of points $\vect{x}_1,\ldots,\vect{x}_n$ within the same box $B$. For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
+To address this limitation, an alternative approach called the Apollonian Voronoi diagram can be implemented to model the atomic radii. The definition of the Voronoi decomposition, as previously discussed, is limited to equal-sized atoms, as the closest region to an atom is also the closest to its center of mass. This limitation does not apply to the complex atomic structures found in nanoporous frameworks. To overcome this, the Apollonian Voronoi diagram\autocite{voronoi_apollonian} can be utilized to model the atomic radii $r_1,\ldots,r_n$ of points $\vect{x}_1,\ldots,\vect{x}_n$ within the same box $B$. For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
 
 \begin{equation}\label{eq:r_voronoi_apollonian}
   A_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ {\lVert \vect{x}-\vect{x}_k \rVert}_2 - r_k \leq {\lVert \vect{x}-\vect{x}_l \rVert}_2 - r_l \right\}
