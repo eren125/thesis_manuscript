@@ -81,7 +81,7 @@ I introduced in the previous chapter, the definition of the xenon adsorption ent
 The Voronoi energy as initially conceptualized by Simon et al.\ is based on the average of the xenon interaction energies at the accessible Voronoi nodes. But because I will compare to thermodynamic simulations without blocking pockets, I will not consider the accessible Voronoi nodes but the adsorbable ones since it is closer to the simulation I want to approximate. For simplicity, I define the set of the adsorbable Voronoi nodes $A$ as the Voronoi nodes with a negative energy value, I also apply a condition on the minimum distance (about the radius of a xenon \SI{2}{\angstrom}) to reduce the number of points to be calculated. This average on the adsorbable Voronoi nodes $E\e{voro-A}^{Xe}$ can be written:
 
 \begin{equation}
-    E\e{voro-A}^{Xe} = \sum_{i \in A} E_i -RT
+    E\e{voro-A}^{Xe} = \sum_{i \in A} E_i
 \end{equation}
 
 Another interesting energy descriptor could simply be the minimum of the interaction energies among the Voronoi nodes $V$ with a minimum distance to the nearest atom is higher than \SI{2}{\angstrom}. This minimum Voronoi energy $E\e{voro-M}^{Xe}$ can be written: 
