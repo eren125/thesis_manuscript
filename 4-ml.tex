@@ -36,7 +36,7 @@ The challenge of supervised learning lies in the fact that the data at our dispo
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.9\textwidth]{figures/4-ml/machine learning.pdf}
-    \caption{Illustration of the core principle of supervised learning.}\label{fgr:supervised_leaning}
+    \caption{Illustration of the core principle of supervised learning. A data point of $\mathbb{D}_n$ corresponds to a set of features $\mathbb{x}_i$ labeled by $y_i$. The supervised machine learning model trains a predictor $f$ on the dataset $\mathbb{D}_n$ to predict unknown data $y_{n+1}$ using the features $\mathbb{x}_{n+1}$ so that $f(y_{n+1})\simeq y_{n+1}$ (approximate prediction).}\label{fgr:supervised_leaning}
 \end{figure}
 
 To achieve this, the learning algorithm uses a ``predictor'' $f$ that can be defined as the function that associates values (features) from $\mathcal{X}=\mathbb{R}^{p}$ to values of $\mathcal{Y}$. By changing the learning model (subsection~\ref{sct:model}) or by changing the feature space $\mathcal{X}$ we can define different domains $\mathcal{F}\subseteq{\mathcal{Y}}^{\mathcal{X}}$ where we search for the prediction function $f$. The domain $\mathcal{F}$ can either be too restrictive and the optimum function found is too far from the theoretical one, or be too large and the optimization problem is nearly impossible to solve or the solution is way too close to the data, which raises question of fitting that will be discussed later.
@@ -495,7 +495,7 @@ To confirm the relevance of the model, I performed another 5-fold cross-validati
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.60\linewidth]{figures/4-ml/SI_figure/convergence_plot.pdf}
-    \caption{Convergence plot of the cross-validation training of our ML model. limit value: 0.36~\si{\kilo\joule\per\mole}}\label{fgr:convplot}
+    \caption{Convergence plot of the cross-validation training of our ML model. With the training set considered, the generalization error on the test set converges to 0.36~\si{\kilo\joule\per\mole}.}\label{fgr:convplot}
   \end{figure}
 
 \subsection{ML model performance}
@@ -507,7 +507,7 @@ A GCMC simulation of a 20–80 xenon/krypton gas mixture takes in average 2 400~
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.5\linewidth]{figures/4-ml/main/Scatterplot_G1_prediction.pdf}
-  \caption{Scatter plot of the exchange free energy predicted by the model. There is a good agreement between the predicted and true values. On the test set, there is an RMSE of \SI{0.37}{\kilo\joule\per\mole} and an MAE of \SI{0.21}{\kilo\joule\per\mole}. This plot is equivalent to the scatter plot between the logarithm of the ambient-pressure selectivity (see Figure~\ref{fgr:S1_prediction}). The corresponding errors for the ambient-pressure selectivity are 2.5 and 1.1 for respectively the RMSE and MAE of the selectivity, and 0.065 and 0.038 for the RMSE and MAE of its base-10 logarithm. }\label{fgr:G1_prediction}
+  \caption{Scatterplot of the exchange free energy predicted by the model. There is a good agreement between the predicted and true values. On the test set, there is an RMSE of \SI{0.37}{\kilo\joule\per\mole} and an MAE of \SI{0.21}{\kilo\joule\per\mole}. This plot is equivalent to the scatterplot between the logarithm of the ambient-pressure selectivity (see Figure~\ref{fgr:S1_prediction}).}\label{fgr:G1_prediction}
 \end{figure}
 
 I defined a set of {80\%} randomly chosen structures out of the final dataset to train and fine-tune the parameters of our model. A randomized search over a range of maximum depths, learning rates, sizes of feature samples used by tree and by level, sizes of data sample and alpha regularization parameters has been performed and a set of hyperparameters have been chosen to minimize the average RMSE computed using a 5-fold cross-validation. The ranges used in the randomized search as well as the final hyperparameters set are given in the section~\ref{sct:hyperparameter}. By using this parameterization, our XGBoost model has an RMSE of \SI{0.37}{\kilo\joule\per\mole} and an MAE of \SI{0.21}{\kilo\joule\per\mole} on the exchange Gibbs free energies of the test set of 1,616 structures. If we convert back these results to the selectivity values, the RMSE on the selectivity values would be 2.5 and 0.07 on the logarithm base 10 of the selectivity, which means that the order of magnitude of the selectivity is known with a very good accuracy. To prove that this good performance is not fortuitous, I used a 5-fold cross-validation procedure on the whole dataset and found an average RMSE of \SI{0.36}{\kilo\joule\per\mole} with a standard deviation of \SI{0.01}{\kilo\joule\per\mole}, which is consistent with the performance given by a standard train/test split.
@@ -524,7 +524,7 @@ To see if it would be possible to train a better model with more training data, 
   \centering
     \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_S1_prediction.pdf}
     \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_S1_prediction_logscale.pdf}
-    \caption{Scatter plot of the selectivity derived by the model}\label{fgr:S1_prediction}
+    \caption{Scatterplots of the selectivity predicted by the model of ML compared to the selectivity calculated by GCMC in both log and linear scales. The blue points correspond to the training data while the test data is shown in orange. The focus is on the test data since it shows the generalization of the ML model to unseen data. The corresponding errors for the ambient-pressure selectivity are 2.5 and 1.1 for respectively the RMSE and MAE of the selectivity, and 0.065 and 0.038 for the RMSE and MAE of its base-10 logarithm. }\label{fgr:S1_prediction}
   \end{figure}
 
 This method can later be used in a screening procedure that relies on cheap descriptors to skim off obviously undesirable structures to only keep the promising structures for the final ML model evaluation. For this is the reason, as previously explained in the methods, only the 3D MOF structures with an LCD above \SI{4}{\angstrom} are kept because they have a positive xenon affinity, which is a necessary condition for a good Xe/Kr selectivity. Our model being very good at predicting the ambient pressure selectivity of structures with good xenon affinity, the proposed screening procedure, illustrated Figure~\ref{fgr:pipeline}, would include (i) a check of the nature of the structure to ensure it is a 3D MOF structure, (ii) then a filter on the LCD value (above \SI{4}{\angstrom}), (iii) a pre-evaluation of the Xe/Kr selectivity at infinite dilution using the grid-based method, and (iv) finally the ML evaluation to keep only structures above a certain threshold of ambient-pressure selectivity (\emph{e.g.} 30). We could possibly evaluate more thoroughly the top structures using GCMC simulations, \emph{ab initio} calculations or adsorption experiments.
@@ -532,18 +532,18 @@ This method can later be used in a screening procedure that relies on cheap desc
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.99\linewidth]{figures/4-ml/main/pipeline.pdf}
-  \caption{An illustration of the screening procedure that could be used to find highly selective materials.}\label{fgr:pipeline}
+  \caption{An illustration of the screening procedure that could be used to find highly selective materials. The adsorption properties can be rapidly evaluated using structural and energetic conditions on the structure and by confirming it with the ML model. The structures chosen this way can then be tested with higher-level calculations and experiments. }\label{fgr:pipeline}
 \end{figure}
 
 \section{Opening the black box}
 
 %% SHAP intro
-To better understand the intuition behind this selectivity drop, I used the SHAP\autocite{SHAP,molnar2020interpretable} library of interpretation models to draw relationships between the descriptors and the predicted ambient-pressure selectivity. This code library is based on the calculation of Shapley values\autocite{shapley1953value} that measure the contribution of each descriptor to the prediction to locally interpret our ML model. This interpretation model untangles the interdependence between the descriptors to extract an individual contribution. To go beyond the local interpretation, we can rapidly compute the Shapley values for the whole dataset using faster algorithms;\autocite{SHAP} scatter plots of the contribution as a function of the descriptor values called SHAP dependence plots can then be drawn to make a more global interpretation of our ML model. Knowing a descriptor value, I then infer, with a certain level of uncertainty, how it changes the final predicted value, which highlights unknown structure--property relationships. Finally, I use the mean absolute Shapley values of each feature on the training set to measure the feature importance (see Figure~\ref{fgr:featimp_shap}).
+To better understand the intuition behind this selectivity drop, I used the SHAP\autocite{SHAP,molnar2020interpretable} library of interpretation models to draw relationships between the descriptors and the predicted ambient-pressure selectivity. This code library is based on the calculation of Shapley values\autocite{shapley1953value} that measure the contribution of each descriptor to the prediction to locally interpret our ML model. This interpretation model untangles the interdependence between the descriptors to extract an individual contribution. To go beyond the local interpretation, we can rapidly compute the Shapley values for the whole dataset using faster algorithms;\autocite{SHAP} scatterplots of the contribution as a function of the descriptor values called SHAP dependence plots can then be drawn to make a more global interpretation of our ML model. Knowing a descriptor value, I then infer, with a certain level of uncertainty, how it changes the final predicted value, which highlights unknown structure--property relationships. Finally, I use the mean absolute Shapley values of each feature on the training set to measure the feature importance (see Figure~\ref{fgr:featimp_shap}).
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.70\linewidth]{figures/4-ml/SI_figure/Feature_importance_shapbased.pdf}
-    \caption{Barplot of the features importance for all the descriptors of our final model. The descriptor labels used in this section are explained in more detail in Tables~\ref{tab:geom_descriptors} and \ref{tab:energy_descriptors}.}\label{fgr:featimp_shap}
+    \caption{Barplot of the feature importance for all the descriptors of our final model. The descriptor labels used in this section are explained in more detail in Tables~\ref{tab:geom_descriptors} and~\ref{tab:energy_descriptors}.}\label{fgr:featimp_shap}
   \end{figure}
 
 \subsubsection{Explainable AI}
