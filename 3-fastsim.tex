@@ -30,7 +30,9 @@ The set of all these 3D polyhedral subspaces $S_{k}$ is termed the Voronoi parti
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi.jpg}
+  \hfill
   \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_apollonian.jpg}
+  \hfill
   \includegraphics[width=0.32\textwidth]{figures/3-fastsim/voronoi_radical.jpg}
   \caption{Bidimensional illustrations of a Voronoi decomposition using three types of algorithm: (i) for equally sized circles using the equation~\ref{eq:voronoi_partition} (\url{www.shadertoy.com/view/MslGD8}) (ii) for unequally sized circles using the Apollonian Voronoi decomposition condition~\ref{eq:r_voronoi_apollonian} (\url{www.shadertoy.com/view/4sd3D7}) and (iii) another algorithm for unequally sized circles using the radical Voronoi condition~\ref{eq:r_voronoi_radical} (\url{www.shadertoy.com/view/4tV3z3}). Note that the second picture shows the curved boundaries between the Voronoi cells, while the switch to the radical Voronoi decomposition gives straight line boundaries.}\label{fgr:voronoi_illustration}
 \end{figure}
@@ -110,7 +112,9 @@ As illustrated on Figure~\ref{fgr:compa_voro_0}, the average of energies (left p
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_A_overview.jpg}
+    \hfill
     \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_M_overview.jpg}
+    \hfill
     \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_0_vs_E_voro_B_overview.jpg}
     \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step Widom insertion simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD\e{CCDC}) belonging to one of the intervals.}\label{fgr:compa_voro_0}
 \end{figure}
@@ -120,6 +124,7 @@ The Pearson correlation coefficients corroborate the initial observation made in
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_0_vs_s_2080_overview.jpg}
+  \hfill
   \includegraphics[width=0.45\textwidth]{figures/3-fastsim/H_Xe_0_vs_H_Xe_2080_overview.jpg}
     \caption{Comparison of the ambient-pressure and low-pressure case through two thermodynamic quantities: the Xe/Kr selectivity (left) and the xenon adsorption enthalpy (right). }\label{fgr:compa_pressure}
 \end{figure}
@@ -133,7 +138,9 @@ Upon observing the Figure~\ref{fgr:compa_voro_2080}, it is not clear which descr
 \begin{figure}[ht]
     \centering
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_A_overview.jpg}
+      \hfill
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_M_overview.jpg}
+      \hfill
       \includegraphics[width=0.32\textwidth]{figures/3-fastsim/H_Xe_2080_vs_E_voro_B_overview.jpg}
       \caption{Scatterplots of the energy descriptors $E\e{voro-A}^{Xe}$, $E\e{voro-M}^{Xe}$ and $E\e{voro-B}^{Xe}$ calculated by a Voronoi sampling compared to the enthalpies calculated by a 100k-step GCMC simulation of xenon in structures of CoRE MOF 2019. The points are labeled according to the largest cavity diameter (LCD\e{CCDC} or $D_i$) belonging to one of the intervals.}\label{fgr:compa_voro_2080}
   \end{figure}
@@ -166,7 +173,6 @@ This initial implementation accelerates the calculation of adsorption enthalpy i
 
 \begin{figure}[ht]
 \centering
-
   \includegraphics[clip, trim=0.6cm 0.74cm 0.78cm 0.6cm,width=0.95\linewidth]{figures/3-fastsim/Principe_screening.pdf}
   \caption{Schematic description of the surface sampling based on the three main steps of the algorithm: the loop over the unique atoms, the spiral sampling around each atom, and the energy averaging. The adsorbate is represented by the point $i$ and is moved across all the points around the unique atoms of the structure.}\label{fgr:principle}
 \end{figure}
@@ -176,6 +182,7 @@ To validate the accuracy of the approximation made using this sampling, the init
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_overview.jpg}
+  \hfill
   \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_spiral_zoom.jpg}
     \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by an initial implementation of the RAESS algorithm as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling_init}
 \end{figure}
@@ -242,6 +249,7 @@ For the calculation of adsorption enthalpy, the proposed surface sampling method
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_overview.jpg}
+  \hfill
   \includegraphics[width=0.45\linewidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_surface_final_zoom.jpg}
     \caption{Scatterplots of the xenon surface adsorption enthalpy calculated by the final RAESS algorithm ($\lambda = 1.6$ and $\mu=0.85$) as a function of the xenon adsorption enthalpy calculated by a 100k-step Widom insertion simulation using two value windows, in structures of CoRE MOF 2019 with LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom} at \SI{298}{\kelvin}. The second plot zooms on the negative values corresponding to the most selective materials.}\label{fgr:surface_sampling}
 \end{figure}
@@ -286,6 +294,7 @@ By employing the optimized set of parameters for surface sampling, the algorithm
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.45\textwidth]{figures/3-fastsim/log_henry_convergence.jpg}
+  \hfill
   \includegraphics[width=0.45\textwidth]{figures/3-fastsim/gibbs_free_energy_convergence.jpg}
   \caption{ Left: convergence plot of the log-RMSE on the xenon Henry constants for both the surface sampling and the Widom insertion. Right: convergence plot of the RMSE on the xenon adsorption Gibbs free energy for the final implementation of the surface sampling and the Widom insertion. }\label{fgr:convergence_free_energy}
 \end{figure}
@@ -301,6 +310,7 @@ When $\lambda=1$, spheres with a radius $\sigma$ are sampled, which is equivalen
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.45\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.6_overview.jpg}
+  \hfill
   \includegraphics[width=0.45\textwidth]{figures/3-fastsim/SA_raspa_Xe_m3_cm3_vs_SA_lambda_1.0_overview.jpg}
   \caption{Scatterplots of the surface areas calculated by the RAESS algorithm with two different parameterizations compared to the surface area given by a RASPA2 surface area calculation. The left plot corresponds to the surface sampling described in the section~\ref{sct:final_sampling} with $\lambda=1.6$ and $\mu=0.85$, while the right plot uses a sampling sphere near $\sigma$ with $\lambda=1.0$. The second parameterization is much closer to what a RASPA2 sampling based on the $\sigma$ parameter of a LJ potential does, hence explaining the much better accordance. }\label{fgr:surface_area}
 \end{figure}
@@ -481,6 +491,7 @@ As shown in Figure~\ref{fgr:grid_widom}, the accuracy of the adsorption enthalpy
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/H_Xe_widom_vs_H_Xe_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/K_Xe_widom_vs_K_Xe_grid_overview.jpg}
     \caption{Comparison of the xenon adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA2 with 100,000 cycles on the CoRE MOF 2019 structures (LCD\e{CCDC} $\geq$ \SI{3.7}{\angstrom}). }\label{fgr:grid_widom}
 \end{figure}
@@ -505,6 +516,7 @@ The Xe/Kr selectivity is commonly used to characterize the competitive adsorptio
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/H_Kr_0_widom_vs_H_Kr_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/K_Kr_widom_vs_K_Kr_grid_overview.jpg}
     \caption{Comparison of the krypton adsorption enthalpies (left) and the Henry constants (right) calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA2 with 100,000 cycles. }\label{fgr:grid_widom_kr}
 \end{figure}
@@ -514,6 +526,7 @@ First, the adsorption properties of krypton were also calculated using the same 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_0_widom_vs_s_0_grid_overview_log.jpg}
     \caption{Comparison of the Xe/Kr selectivity calculated by the optimized grid energy sampling (for a \SI{0.12}{\angstrom} spacing, a rejection parameter $\mu=0.8$ and an energy threshold $E\e{th}$ of \SI{100}{\kilo\joule\per\mole}) and by the Widom insertion of RASPA2 with 100,000 cycles. On the left, the axes are in linear scale, whereas the log scale has been used on the right. }\label{fgr:grid_widom_selectivity}
 \end{figure}
@@ -532,6 +545,7 @@ Upon initial observation of the left plot in Figure~\ref{fgr:grid_ambient_select
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/s_2080_vs_s_0_grid_overview_log.jpg}
     \caption{Comparison of the low-pressure Xe/Kr selectivity calculated by the GrAED algorithm (same parameters) and the ambient-pressure selectivity calculated by GCMC simulations of RASPA2 with 100,000 cycles. On the left, the axes are in linear scale, whereas the log scale has been used on the right. }\label{fgr:grid_ambient_selectivity}
 \end{figure}
@@ -547,6 +561,7 @@ In the previous chapter, various thermodynamic quantities were calculated at inf
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_G_Xe_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_G_Kr_grid_overview.jpg}
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the low-pressure adsorption free energies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole} calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_gibbs}
 \end{figure}
@@ -556,6 +571,7 @@ It comes as no surprise that a good adsorption of xenon is a good indication for
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_H_Xe_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_H_Kr_grid_overview.jpg}
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the low-pressure adsorption enthalpies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole} calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_enthalpy}
 \end{figure}
@@ -565,6 +581,7 @@ The same statement on the importance of the adsorption attractiveness of xenon h
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_S_Xe_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_S_Kr_grid_overview.jpg}
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the low-pressure adsorption entropies of xenon (left) and krypton (right) in \si{\kilo\joule\per\mole\per\kelvin} calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_entropy}
 \end{figure}
@@ -574,6 +591,7 @@ The correlation between the adsorption free energy of xenon and the Xe/Kr exchan
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_H_grid_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_S_grid_overview.jpg}
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the low-pressure exchange enthalpy (left, in \si{\kilo\joule\per\mole}) and entropy (right, in \si{\kilo\joule\per\mole\per\kelvin}) calculated by the GrAED algorithm (same parameters).}\label{fgr:grid_comp_exc}
 \end{figure}
@@ -596,6 +614,7 @@ In Figure~\ref{fgr:H_900K}, the high-temperature averaging provides a more accur
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.45\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H0.pdf}
+  \hfill
   \includegraphics[width=0.45\linewidth]{figures/4-ml/SI_figure/Scatterplot_H1_H900K.pdf}
   \caption{Scatterplots of the low-pressure xenon adsorption enthalpy at \SI{298}{\kelvin} (left) and at \SI{900}{\kelvin} (right) calculated by the GrAED algorithm against the ambient-pressure xenon adsorption enthalpy at \SI{298}{\kelvin}. Using a higher temperature Boltzmann averaging, the correlation with the ambient-pressure case of interest significantly improves. For instance, the R2 coefficient improves from $0.80$ to $0.92$. The RMSE also decreases from \SI{2.87}{\kilo\joule\per\mole} to \SI{1.76}{\kilo\joule\per\mole}. }\label{fgr:H_900K}
 \end{figure}
@@ -605,7 +624,9 @@ Figure~\ref{fgr:G_900K} shows that the improvement in xenon adsorption enthalpy 
 \begin{figure}[ht]
 \centering
   \includegraphics[width=0.38\linewidth]{figures/3-fastsim/Scatterplot_G1_G0.pdf}
+  \hfill
   \includegraphics[width=0.27\linewidth]{figures/3-fastsim/Scatterplot_G1_G900K.pdf}
+  \hfill
   \includegraphics[width=0.23\linewidth]{figures/3-fastsim/Scatterplot_G1_G_Xe_900K.pdf}
   \caption{Comparison plot between the low-pressure exchange free energy at \SI{298}{\kelvin} (left) and \SI{900}{\kelvin} (right) calculated by the GrAED algorithm and the ambient-pressure exchange free energy at \SI{298}{\kelvin} calculated by Widom insertion. }\label{fgr:G_900K}
 \end{figure}
@@ -625,6 +646,7 @@ The Boltzmann weighted distribution consists in assigning a weight $\exp(-\beta 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_std_x_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_std_y_overview.jpg}
         \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the standard deviations of the Boltzmann weighted energy distribution of xenon (left) and krypton (right) calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:enthalpy_std}
 \end{figure}
@@ -634,6 +656,7 @@ For instance, the standard deviation of the Boltzmann weighted energy distributi
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_skew_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_enthalpy_kurt_overview.jpg}
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the skewness (left) and the kurtosis (right) of the Boltzmann weighted energy distribution of xenon calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:enthalpy_skew_kurt}
 \end{figure}
@@ -655,6 +678,7 @@ The mean value and standard deviation of this distribution have been analyzed. T
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_mean_grid_x_overview.jpg}
+    \hfill
     \includegraphics[width=0.45\textwidth]{figures/3-fastsim/G_2080_vs_std_grid_x_overview.jpg}
     \caption{Comparison of the ambient-pressure Xe/Kr exchange Gibbs free energy calculated by GCMC simulations of RASPA2 with 100,000 cycles and the mean values (left) and the standard deviation (right) of the uniformly weighted energy distribution of xenon calculated by the GrAED algorithm at \SI{298}{\kelvin}.}\label{fgr:energy_dist_mean_std}
 \end{figure}
