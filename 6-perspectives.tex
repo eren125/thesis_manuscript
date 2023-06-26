@@ -50,7 +50,7 @@ The relevance of the diffusion coefficient calculated by these methods can only 
 
 A breakthrough curve can be broken down into three different zones: an unsaturated zone, a mass transfer zone and a saturated zone as shown in Figure~\ref{fgr:breakthrough_zones}. The mass transfer zone can qualitatively be interpreted as a consequence of the different transport properties. For instance, the breakthrough curves are based on quantities from an adsorption isotherm fit, and mass transfer properties such as the self-diffusion coefficient and material surface diffusion (Knudsen diffusion).\autocite{Sharma_2023} This tool can potentially be used to generate breakthrough curves and compare it to experimental curves. If the isotherm fitting properties come from experimental calculation, then the only variable can only be the mass transfer term. In this case, this tool can be used in a qualitative way of validating a calculated self-diffusion coefficient value.
 
-On the example of SBMOF-1 (Figure~\ref{fgr:sbmof_breakthrough}), a rather slow mass transfer can be associated to \ce{CO2}, whereas the mass transfer corresponds to a vertical line for the other components, which suggests fast diffusion rates. Consequently, there is a diffusion limitation for \ce{CO2} and none for the other adsorbates in the SBMOF-1 material. However, the absence of diffusion limitation for xenon sheds light on an apparent inconsistency with the diffusion coefficient calculated by an MD simulation ($3\times 10^{-8}$\si{\square\cm\per\s}). The next section on the flexible nature of SBMOF-1 offers a reasonable explanation for this discrepancy between the experimental and simulated evaluations of the diffusion.
+On the example of SBMOF-1 (Figure~\ref{fgr:sbmof_breakthrough}), a rather slow mass transfer can be associated to \ce{CO2}, whereas the mass transfer corresponds to a vertical line for the other components, which suggests fast diffusion rates. Consequently, there is a diffusion limitation for \ce{CO2} and none for the other adsorbates in the SBMOF-1 material. However, the absence of diffusion limitation for xenon sheds light on an apparent inconsistency with the diffusion coefficient calculated by an MD simulation ($3\,10^{-8}$\si{\square\cm\per\s}). The next section on the flexible nature of SBMOF-1 offers a reasonable explanation for this discrepancy between the experimental and simulated evaluations of the diffusion.
 
 \section{Screening of flexible materials}
 
@@ -98,12 +98,12 @@ The authors found that the lower experimental selectivity value of $16$ compared
     Data source & Flexible &  Xe Henry Constant &  Kr Henry Constant &  Xe/Kr \\
       & structure &  \si{\mmol\per\g\per\Pa} &  \si{\mmol\per\g\per\Pa} &  selectivity \\
   \hline
-    Experimental data\autocite{Banerjee_2016} & maybe &  $3.84\times 10^{-4}$ &  $2.37\times 10^{-5}$ &  $16$ \\
+    Experimental data\autocite{Banerjee_2016} & maybe &  $3.84\,10^{-4}$ &  $2.37\,10^{-5}$ &  $16$ \\
   \hline
-    Rigid structure SBMOF-1\autocite{Banerjee_2016} & no &  $1.45\times 10^{-2}$ &  $2.70\times 10^{-4}$ &  $54$ \\
-    PBE+D3 (2,2,1 unit cell) & yes &  $6.80\times 10^{-3}$ &  $1.77\times 10^{-4}$ &  $38$ \\
-    UFF-FM & yes &  $6.24\times 10^{-3}$ &  $1.67\times 10^{-4}$ &  $37$ \\
-    UFF-DCM & yes &  $3.18\times 10^{-3}$ &  $1.28\times 10^{-4}$ &  $25$ \\
+    Rigid structure SBMOF-1\autocite{Banerjee_2016} & no &  $1.45\,10^{-2}$ &  $2.70\,10^{-4}$ &  $54$ \\
+    PBE+D3 (2,2,1 unit cell) & yes &  $6.80\,10^{-3}$ &  $1.77\,10^{-4}$ &  $38$ \\
+    UFF-FM & yes &  $6.24\,10^{-3}$ &  $1.67\,10^{-4}$ &  $37$ \\
+    UFF-DCM & yes &  $3.18\,10^{-3}$ &  $1.28\,10^{-4}$ &  $25$ \\
   \hline
 \end{tabular}
 \caption{ Results of the flexibility analysis carried out by Witman et al., flexibility reduces the values originally calculated in a rigid structure. Reproduced with permission from the original paper~\cite{Witman_2017} copyright \copyright\ 2017 American Chemical Society.}\label{table:witman_sbmof}
