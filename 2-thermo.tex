@@ -1,3 +1,4 @@
+%!TeX root = main.tex
 %!TeX root = 2-thermo.tex
 \documentclass[main.tex]{subfiles}
 
@@ -20,7 +21,7 @@ Different definitions of pore sizes can be defined depending on the point where 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.7\textwidth]{figures/2-thermo/pores.pdf}
+  \includegraphics[width=0.65\textwidth]{figures/2-thermo/pores.pdf}
   \caption{Illustration of the different pore sizes D$_f$, D$_i$ and D$_{if}$. Note that in some materials D$_{if}$ is equal to D$_i$, when the largest included sphere is also accessible through a free diffusion path. }\label{fgr:pore_size}
 \end{figure}
 
@@ -33,7 +34,7 @@ The surface areas are calculated using a random sampling technique across the su
 
 \begin{figure}[ht!]
   \centering
-  \includegraphics[width=0.7\textwidth]{figures/1-screening/Pore_descriptors.jpg}
+  \includegraphics[width=0.65\textwidth]{figures/1-screening/Pore_descriptors.jpg}
   \caption{Illustration of the pore surface area and volume in a nanoporous material. As illustrated, there are different definitions of the pore volume: we can either consider the whole volume of the pores (occupiable+non-occupiable) or only the volume occupiable by a probe. People usually use the first definition, but the second definition has recently been proposed. Studies have shown that occupiable volume has a better accordance with experimental data.\autocite{vol_Ongari2017} The surface area also changes depending on the definition. \todo{à discuter}}\label{fgr:pores}
 \end{figure}
 
@@ -411,27 +412,25 @@ In this section, my goal is to map out the details of the thermodynamic features
 
 To assess the performance of a given nanoporous material for separation in the low loading (or low pressure) limit, Henry constants are commonly calculated by linearly fitting low-pressure adsorption isotherm data --- both experimentally and computationally. In this section, the thermodynamics of Xe and Kr adsorption at low pressure are investigated. Specifically, the low-pressure adsorption properties are obtained using the Widom insertion method\autocite{Widom1963, frenkel2001widom} on a dataset of 9\,668 selected structures. This method provides higher accuracy compared to fitting isotherms, where it can be challenging to determine the extent of the linear adsorption regime. Through these simulations, Henry constants $K$ and adsorption enthalpies $\Delta\e{ads}H\e{0}$ (at the zero loading limit) are calculated for both xenon and krypton. The Xe/Kr thermodynamic selectivity $s\e{0}$ in the low-pressure limit is then determined by the ratio $s\e{0} = K\ex{Xe}/K\ex{Kr}$ of the Henry constants for the two gases. In the following discussion, the statistical relationships among the thermodynamic quantities at low pressure, namely $s\e{0}$, $K\ex{Xe}$, $K\ex{Kr}$, $\Delta\e{ads}H\e{0}\ex{Xe}$, $\Delta\e{ads}H\e{0}\ex{Kr}$ and $\Delta\e{exc}H\e{0}$, will be examined.
 
-
-\begin{figure}[ht]
-\centering
-  \includegraphics[width=0.6\linewidth]{figures/2-thermo/Henry_0.jpg}
-  \caption{For 8\,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair plots of $\log\e{10}(s\e{0})$, $\log\e{10}(K\ex{Xe})$ and $\log\e{10}(K\ex{Kr})$ (the Henry constants are in~\si{\milli\mol\per\gram\per\pascal}) in the off-diagonal subplots (note that the y-axis is displayed on the right side) and the distribution of each quantity are on the diagonal (note that the y-axis displayed on the right side corresponds to the count and the x-axis is correctly labeled below each subplot).}\label{fgr:histo_K}
-\end{figure}
-
-
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.45\textwidth]{figures/2-thermo/Henry_0.jpg}
+    \caption{For 8\,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair plots of $\log\e{10}(s\e{0})$, $\log\e{10}(K\ex{Xe})$ and $\log\e{10}(K\ex{Kr})$ (the Henry constants are in~\si{\milli\mol\per\gram\per\pascal}) in the off-diagonal subplots (note that the y-axis is displayed on the right side) and the distribution of each quantity are on the diagonal (note that the y-axis displayed on the right side corresponds to the count and the x-axis is correctly labeled below each subplot).}\label{fgr:histo_K}
+  \end{figure}
+  
 The distribution of thermodynamic properties of materials with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$) is depicted in Figure~\ref{fgr:histo_K}. It is important to note that the plots focus on selectivity values above 1, as these are the materials of interest for separation. This selection eliminates certain outliers with specific geometries or binding sites (without significantly altering the overall conclusions). The plots reveal that while the logarithm of Xe Henry constant $K\ex{Xe}$ exhibits a weak correlation with the logarithm of selectivity $s\e{0}$, this correlation is stronger for highly selective materials. Therefore, in a multistep screening study aimed at identifying the most selective materials, it could be possible to utilize as a ``first filter'' criterion based purely on Xe adsorption, by excluding materials below a certain threshold (e.g., the materials with $s_0\ge30$ can be found in the subset with $K\ex{Xe}\ge2.7\,10^{-1}$~\si{\milli\mol\per\gram\per\pascal}). On the other hand, the correlation between $K\ex{Kr}$ and $s\e{0}$ is relatively weaker. These results suggest that a high affinity with xenon measured by the Henry constant is a determining factor of high selectivity for the most selective materials.  
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.6\textwidth]{figures/2-thermo/Enthalpy_0_log.jpg}
+    \caption{For 8\,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair plots of $\log(s\e{0})$, $\Delta\e{exc}H\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$ and $\Delta\e{ads}H\ex{Kr}\e{0}$ (the enthalpies are in~\si{\kilo\joule\per\mol}) in the off-diagonal subplots and the distribution of each quantity is on the diagonal.}\label{fgr:histo_H}
+  \end{figure}
 
 In terms of Henry constants, a diverse range of behaviors is observed, with $K\ex{Xe}$ ranging from $2.6\,10^{-7}$ to $7.9\,10^{-1}$~\si{\milli\mole\per\gram\per\pascal}, and $K\ex{Kr}$ ranging from $1.3\,10^{-7}$ to $5.1\,10^{-3}$~\si{\milli\mole\per\gram\per\pascal}.  Additionally, there is a statistical trend indicating that a high affinity for xenon typically translates into a relatively high affinity for krypton. This general trend is observed for noble gases, where the adsorption sites lack strong specificity. To delve deeper into the thermodynamic aspects underlying this wide diversity in behavior, the enthalpies involved were plotted in Figure~\ref{fgr:histo_H}.
 
-\begin{figure}[t]
-\centering
-  \includegraphics[width=0.7\linewidth]{figures/2-thermo/Enthalpy_0_log.jpg}
-  \caption{For 8\,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair plots of $\log(s\e{0})$, $\Delta\e{exc}H\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$ and $\Delta\e{ads}H\ex{Kr}\e{0}$ (the enthalpies are in~\si{\kilo\joule\per\mol}) in the off-diagonal subplots and the distribution of each quantity is on the diagonal.}\label{fgr:histo_H}
-\end{figure}
-
 The low-loading adsorption enthalpy of xenon ($\Delta\e{ads}H\ex{Xe}\e{0}$) is strongly correlated with that of krypton ($\Delta\e{ads}H\ex{Kr}\e{0}$), which aligns with the correlation observed between their respective Henry constants. This suggests the involvement of a rather generic physisorption mechanism in the majority of materials, where the host--adsorbate affinities are primarily determined by the enthalpy. The selectivity of Xe/Kr selectivity is not driven significantly by the xenon or krypton adsorption enthalpy alone (both exhibit weak correlation with selectivity), but rather by their difference, $\Delta\e{exc}H\e{0}$, which shows a strong correlation with $\log(s\e{0})$. This finding is further supported by the lack of correlation between selectivity and adsorption entropies (\emph{cf.} Figure~\ref{fgr:SI:HS_0_log}), indicating that the separation is predominantly enthalpic in nature, and any dispersion in the correlation between selectivity $\log(s\e{0})$ and $\Delta\e{exc}H\e{0}$ is influenced by entropy.
 
-\begin{figure*}[ht]
+\begin{figure*}[h]
   \centering
     \includegraphics[width=0.45\textwidth]{figures/2-thermo/Entropy_0.jpg}
     \caption{For 8\,401 MOFs with favorable thermodynamic Xe/Kr selectivity ($s\e{0} > 1$), pair plots of $s\e{0}$, $\Delta\e{exc}S\e{0}$, $\Delta\e{ads}S\ex{Xe}\e{0}$ and $\Delta\e{ads}S\ex{Kr}\e{0}$ in the off-diagonal subplots and the distribution of each quantity are on the diagonal.}\label{fgr:SI:HS_0_log}
@@ -480,7 +479,7 @@ The key takeaways from this section revolve around two relationships. Firstly, t
 %%%%
 \section{Selectivity drop between two pressure regimes}
 
-As the previous section has established the relationship between selectivity and some geometrical and thermodynamic descriptors, this section focuses on examining the relationship between selectivity values at infinite dilution and selectivity values at ambient pressure using a thermodynamics-based approach. The aim is to gain a better understanding of the underlying mechanisms driving the observed changes in selectivity as previously discussed in Figure~\ref{fgr:SI:overview_2080_9010}. It is worth noting that the findings presented in this section have already been published in Ref.~\ref{Ren_2021}
+As the previous section has established the relationship between selectivity and some geometrical and thermodynamic descriptors, this section focuses on examining the relationship between selectivity values at infinite dilution and selectivity values at ambient pressure using a thermodynamics-based approach. The aim is to gain a better understanding of the underlying mechanisms driving the observed changes in selectivity as previously discussed in Figure~\ref{fgr:SI:overview_2080_9010}. It is worth noting that the findings presented in this section have already been published in Ref.~\cite{Ren_2021}
 
 \subsection{Thermodynamic origins}\label{section:pressure}
 
@@ -488,7 +487,7 @@ After delving into the thermodynamics of the infinite dilution case, the focus n
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.6\linewidth]{figures/2-thermo/s_0_vs_s_2080_overview_log.jpg}
+    \includegraphics[width=0.6\textwidth]{figures/2-thermo/s_0_vs_s_2080_overview_log.jpg}
     \caption{Difference of selectivity between low pressure and at a \SI{1013}{\hecto\pascal} pressure for a 20:80 xenon/krypton composition. The relative difference between the low-pressure selectivity and the ambient pressure is particularly high for the points labeled in purple.}\label{fgr:overview}
 \end{figure}
 
@@ -508,7 +507,7 @@ When examining the 90:10 composition, it becomes apparent that the drop in selec
 
 \begin{figure}[t]
   \centering
-    \includegraphics[width=0.6\linewidth]{figures/2-thermo/s_0_vs_s_9010_overview_log.jpg}
+    \includegraphics[width=0.6\textwidth]{figures/2-thermo/s_0_vs_s_9010_overview_log.jpg}
     \caption{Difference of selectivity between low pressure and at a \SI{1013}{\hecto\pascal} pressure for a 90:10 xenon/krypton composition. The relative difference between the low-pressure selectivity and the ambient pressure is particularly high for the points labeled in purple.}\label{fgr:overview_9010}
 \end{figure}
 
@@ -516,7 +515,7 @@ To quantitatively assess the thermodynamic effects involved in the competitive a
   
 \begin{figure}[t]
 \centering
-  \includegraphics[width=0.6\linewidth]{figures/2-thermo/enthalpy_entropy_0_s_0.jpg}
+  \includegraphics[width=0.6\textwidth]{figures/2-thermo/enthalpy_entropy_0_s_0.jpg}
   \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{0}$ and enthalpy $\Delta\e{exc}H\e{0}$ at low pressure labeled using the selectivity $s\e{0}$ at low pressure (for any xenon/krypton composition). The limit between labels follows an affine function of slope $1/T$ and of intercept $-R\ln(s\e{0}\ex{lim})$ where $s\e{0}\ex{lim}$ is the limit selectivity value (\emph{cf.} equation~(\ref{eq:exc_entropy})). In other words, the iso-selectivity lines are all parallel lines of equation $y=f(x)$ where $f$ is the affine function described previously.}\label{fgr:HSplot_0}
 \end{figure}
 
@@ -536,7 +535,7 @@ Figure~\ref{fgr:HSplot_1} represents a scatterplot of the exchange entropy at $P
 
 \begin{figure}[ht]
   \centering
-    \includegraphics[width=0.6\linewidth]{figures/2-thermo/enthalpy_entropy_2080_s_0.jpg}
+    \includegraphics[width=0.6\textwidth]{figures/2-thermo/enthalpy_entropy_2080_s_0.jpg}
     \caption{The energetic equivalent of exchange entropy $T\Delta\e{exc}S\e{1}$ and enthalpy $\Delta\e{exc}H\e{1}$ at ambient pressure (for a 20:80 xenon/krypton composition) labeled using the selectivity $s\e{0}$ at low pressure. The points are layered so that the points with higher $s\e{0}$ are always above. To see a split version of this plot, please refer to Figure~\ref{fgr:SI:HS_split}.}\label{fgr:HSplot_1}
   \end{figure}
  

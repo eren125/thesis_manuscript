@@ -1,3 +1,4 @@
+%!TeX root = main.tex
 %!TeX root = 1-screening.tex
 \documentclass[main.tex]{subfiles}
 
@@ -115,7 +116,7 @@ To overcome these new challenges, researchers are increasingly turning to transf
 
 \begin{figure*}[t]
   \centering
-    \includegraphics[width=0.98\textwidth]{figures/1-screening/Screening_procedures.jpg}
+    \includegraphics[width=0.9\textwidth]{figures/1-screening/Screening_procedures.jpg}
     \caption{Simplified representation of typical funnel-type screening procedures, exemplified on three different applications from the published literature. (a) Wilmer et al.\autocite{Wilmer_2012} used a series of bi-component Grand Canonical Monte Carlo (GCMC) calculations at different levels of complexity to screen a large dataset of hypothetical MOFs for methane storage application. (b) Yang et al.\autocite{Yang_2020} used simulations at infinite dilution to prescreen the dataset before using computationally demanding simulations and multiple metrics to find the most promising ZIFs for carbon capture. (c) In Qiao et al.\autocite{Qiao_2016}, transport properties were screened along standard adsorption properties to find the best materials for the targeted \ce{CO2}/\ce{N2}/\ce{CH4} ternary separation; similarly, cheaper calculations at infinite dilution were carried out in a first step, before using more expensive calculations at working pressure and temperature.}\label{fgr:screening}
 \end{figure*}
 
@@ -144,7 +145,7 @@ By screening these descriptors, the authors identified three promising structure
 
 \begin{figure}[ht]
 \centering
-  \includegraphics[width=0.8\linewidth]{figures/1-screening/Rosen_2019.jpeg}
+  \includegraphics[width=0.75\linewidth]{figures/1-screening/Rosen_2019.jpeg}
   \caption{Analysis of a diverse set of experimentally derived metal--organic frameworks (MOFs) with accessible metal sites for the oxidative activation of methane. The graph shows the predicted barrier for the C--H bond activation of methane, E$_\text{a}$, as a function of the metal-oxo formation energy, $\Delta E_\text{O}$. For each material, the symbol color refers to the group number of the metal in the periodic table. The best-fit line has been plotted in black, and has a mean absolute error (MAE) of \SI{0.09}{\eV}. MOFs with E$_\text{a}<$ \SI{1}{\eV} are classified as being reactive towards C--H bond activation and MOFs with $\Delta E_\text{O}<0$ as having thermodynamically favored active sites when using \ce{O2} as the reference state. Reprinted with permission from Ref.~\cite{Rosen_2019}. Copyright \copyright\  2019 American Chemical Society.}\label{fgr:Rosen_2019}
 \end{figure}
 
@@ -167,7 +168,7 @@ Firstly, researchers have employed tensorial analysis to quantitatively investig
 
 \begin{figure}[ht]
 \centering
-  \includegraphics[width=0.8\linewidth]{figures/1-screening/deJong2015.jpeg}
+  \includegraphics[width=0.75\linewidth]{figures/1-screening/deJong2015.jpeg}
   \caption{Statistical analysis of the calculated volume per atom, Poisson's ratio, bulk modulus {$\mathrm{K_{VRH}}$} and shear modulus {$\mathrm{G_{VRH}}$ of} 1,181 compounds in the Materials Project database. In the vector field-plot, arrows pointing at 12 o'clock correspond to minimum volume-per-atom and move anti-clockwise in the direction of maximum volume-per-atom, which is located at 6 o'clock. Reprinted from Ref.~\cite{deJong_2015} under CC-BY license. Copyright \copyright\  2015 de Jong \emph{et al}.}\label{fgr:deJong2015}
 \end{figure}
 
@@ -236,7 +237,8 @@ One of the pioneering works in computational screening was published in 2012 by 
 
 \begin{figure}[ht]
 \centering
-  \includegraphics[width=0.5\linewidth]{figures/1-screening/Fernandez_2013_feature.jpeg}
+  \includegraphics[width=0.48\linewidth]{figures/1-screening/Fernandez_2013_feature_1.jpg}
+  \includegraphics[width=0.48\linewidth]{figures/1-screening/Fernandez_2013_feature_2.jpg}
   \caption{Two-dimensional response surfaces of the support vector machine (SVM) models trained by Fernandez et al.\ for methane storage at (A) 35~bar and (B) 100~bar using void fraction and dominant pore size. The blue dots represent the GCMC simulated uptake values. The color of the surface represents the methane storage value, from blue (the lowest values) to red (the highest values). Blue and red arrows indicate maxima on the response surface. Reprinted with permission from Ref.~\cite{Fernandez_2013}. Copyright \copyright\  2013 American Chemical Society.}\label{fgr:Fernandez_2013}
 \end{figure}
 
@@ -278,7 +280,7 @@ Seizing the opportunity of a formidable expansion of the nanoporous materials da
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.98\textwidth]{figures/1-screening/Simon.jpg}
+  \includegraphics[width=0.95\textwidth]{figures/1-screening/Simon.jpg}
   \caption{Schematic representation of large-scale screening of nanoporous materials for Xe/Kr adsorption-based separation by Simon et al.,\autocite{Simon_2015} based on a combination of Grand Canonical Monte Carlo simulations and machine learning algorithm (Random Forest Regressor). The main goal of this screening is to find high-performing materials in a large dataset of both experimental and hypothetical materials. 
   Adapted with permission from Ref.~\cite{Simon_2015}. Copyright \copyright\  2015 American Chemical Society.
   }\label{fgr:Simon}
@@ -321,7 +323,7 @@ The role of a dispatchable source of low-carbon energy can only be fulfilled by 
   \includegraphics[width=0.42\textwidth]{figures/1-screening/Kr_treatment.jpg}
   \hfill
   \includegraphics[width=0.55\textwidth]{figures/1-screening/MSR_noble_gas.jpg}
-  \caption{Representation of xenon/krypton separation process using porous materials in a nuclear fuel reprocessing plant and in a molten salt reactor. Reprinted with permission from Ref.~\cite{Banerjee_2014} copyright \copyright\ 2014 American Chemical Society and Ref.~\cite{Riley_2019} copyright \copyright\ 2019 Elsevier.}\label{fgr:industrial}
+  \caption{Representation of xenon/krypton separation process using porous materials in a nuclear fuel reprocessing plant (left panel) and in a molten salt reactor (right panel). Reprinted with permission from Ref.~\cite{Banerjee_2014} copyright \copyright\ 2014 American Chemical Society and Ref.~\cite{Riley_2019} copyright \copyright\ 2019 Elsevier.}\label{fgr:industrial}
 \end{figure}
 
 Banerjee et al.\ proposed a two-bed system with a first bed filled with MOFs designed for xenon separation and then a second one for radioactive krypton capture.\autocite{Banerjee_2014} The authors proposed some examples of material that could be used for this separation unit; more research is needed to find out what the best materials for these separations are. In the following section, we will review the most promising materials for this separation and the structural explaining their high performance. 
