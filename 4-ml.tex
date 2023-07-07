@@ -301,7 +301,8 @@ By combining grid-based descriptors described in Chapter 3 (section~\ref{sct:gri
 
 \subsection{Data Preparation}
 
-
+\todo{Change the interpretation with the new split}
+\todo{résoudre le souci des structures pas simulées}
 \subsubsection{Target variable}
 
 This study aims at building an ML model to predict the Xe/Kr ambient-pressure selectivity faster than standard techniques. To obtain reference values (ground truth), I used the RASPA2 software\autocite{dubbeldam2016} to run GCMC calculations (introduced in section~\ref{sct:GCMC}) of 20–80 Xe/Kr mixtures at \SI{298}{\kelvin} and \SI{1}{\atm} on our cleaned database. The van der Waals interactions are described by a Lennard-Jones (LJ) potential with a cutoff distance of \SI{12}{\angstrom}. The LJ parameters of the framework atoms are given by the universal forcefield (UFF),\autocite{rappe1992} and the guest atoms (xenon and krypton) have their LJ parameters taken from a previous screening study.\autocite{Ryan_2010} The study only focuses on a given Xe/Kr composition usually obtained by cryogenic distillation of ambient air~\autocite{kerry2007industrial} as a first step towards predicting other mixtures at different physical conditions (\emph{e.g.} Xe/Kr mixtures out of nuclear off-gases). 
