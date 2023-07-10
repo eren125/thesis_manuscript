@@ -17,7 +17,7 @@ Before delving into the details of adsorption properties, it is important to int
 
 \subsubsection{Pore size}
 
-Different definitions of pore sizes can be defined depending on the point where we measure it. These diverse pore sizes collectively form what is known as a pore size distribution. However, some pore size values are uniquely defined and can be used to characterize the internal structure. For instance, the diameter of the largest sphere that can freely diffuse in the structure is referred to as D$_f$. The diameter D$_{if}$ corresponds to the diameter of the largest included sphere along a free diffusion path. The diameter of the largest included sphere (not necessarily in a free diffusion path) is denoted D$_i$. The Figure~\ref{fgr:pore_size} illustrates the difference between these pore sizes. In thermodynamic studies, the term ``largest cavity diameter'' (LCD) will be frequently employed instead of the largest included sphere D$_i$. Moreover, the term ``pore limiting diameter'' will be used instead of D$_f$, especially when studying the transport effects within the nanopores.
+Different definitions of pore sizes can be defined depending on the points where it is measured. These diverse pore sizes collectively form what is known as a pore size distribution. However, some pore size values are uniquely defined and can be used to characterize the internal structure. For instance, the diameter of the largest sphere that can freely diffuse in the structure is referred to as D$_f$. The diameter D$_{if}$ corresponds to the diameter of the largest included sphere along a free diffusion path. The diameter of the largest included sphere (not necessarily in a free diffusion path) is denoted D$_i$. The Figure~\ref{fgr:pore_size} illustrates the difference between these pore sizes. In thermodynamic studies, the term ``largest cavity diameter'' (LCD) will be frequently employed instead of the largest included sphere D$_i$. Moreover, the term ``pore limiting diameter'' will be used instead of D$_f$, especially when studying the transport effects within the nanopores.
 
 \begin{figure}[ht]
   \centering
@@ -35,7 +35,7 @@ The surface areas are calculated using a random sampling technique across the su
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=0.65\textwidth]{figures/1-screening/Pore_descriptors.jpg}
-  \caption{Illustration of the pore surface area and volume in a nanoporous material. As illustrated, there are different definitions of the pore volume: we can either consider the whole volume of the pores (occupiable+non-occupiable) or only the volume occupiable by a probe. People usually use the first definition, but the second definition has recently been proposed. Studies have shown that occupiable volume has a better accordance with experimental data.\autocite{vol_Ongari2017} The surface area also changes depending on the definition. \todo{à discuter}}\label{fgr:pores}
+  \caption{Illustration of the pore surface area and volume in a nanoporous material. As illustrated, there are different definitions of the pore volume: either the whole volume of the pores (occupiable+non-occupiable) or only the volume occupiable by a probe are considered. People usually use the first definition, but the second definition has recently been proposed. Studies have shown that occupiable volume has a better accordance with experimental data.\autocite{vol_Ongari2017} The surface area also changes depending on the definition, but it will not be developed here as only one definition based on the framework atoms is used throughout this thesis (not the Connolly surface).}\label{fgr:pores}
 \end{figure}
 
 \subsubsection{Pore volume and porosity}
@@ -91,7 +91,7 @@ Starting from an initial configuration $c_0$, the algorithm has different ration
 \begin{equation}
   acc(c_0 \rightarrow c_1) = \min\left(1, e^{-\beta\left(E_{c_1}-E_{c_0}-\mu \left(N_{c_1}-N_{c_0}\right)\right) }\right)
 \end{equation}
-The configuration $c_1$ is accepted if a number randomly drawn from the $[0,1]$ interval is higher than the acceptance rate $acc(c_0 \rightarrow c_1)$. For an acceptance rate of $1$, when $c_1$ is more stable than $c_0$ ($E_{c_1}-\mu N_{c_1}\leq E_{c_0}-\mu N_{c_0}$), the move is automatically accepted since by construction this randomly drawn number would be lower than $1$. On the other hand, if the move is rejected, then we generate another configuration $c_1$ using another random move, and the acceptance/rejection process restarts until a move is accepted. At the end of the $n$ cycles of the MC simulation, only the accepted configurations $\left\{c_0,\ldots,c_n\right\}$ form a Markov chain, and this sequence describes the probability distribution of the grand canonical ensemble described in equation~\ref{eq:gc}. The multiplicative prefactor does not influence the algorithm since the acceptance rate corresponds to ratios of probabilities $P_c$, so that no prior knowledge of the chemical space is needed, which is a valuable simplification.
+The configuration $c_1$ is accepted if a number randomly drawn from the $[0,1]$ interval is higher than the acceptance rate $acc(c_0 \rightarrow c_1)$. For an acceptance rate of $1$, when $c_1$ is more stable than $c_0$ ($E_{c_1}-\mu N_{c_1}\leq E_{c_0}-\mu N_{c_0}$), the move is automatically accepted since by construction this randomly drawn number would be lower than $1$. On the other hand, if the move is rejected, then another configuration $c_1$ is generated using another random move, and the acceptance/rejection process restarts until a move is accepted. At the end of the $n$ cycles of the MC simulation, only the accepted configurations $\left\{c_0,\ldots,c_n\right\}$ form a Markov chain, and this sequence describes the probability distribution of the grand canonical ensemble described in equation~\ref{eq:gc}. The multiplicative prefactor does not influence the algorithm since the acceptance rate corresponds to ratios of probabilities $P_c$, so that no prior knowledge of the chemical space is needed, which is a valuable simplification.
 
 \begin{figure}[ht]
   \centering
@@ -148,13 +148,13 @@ Let us apply equation~\ref{eq:vpore} and the perfect gas equation of state $P = 
     \dfrac{n\e{ads}}{V} = \dfrac{P}{RT} \langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle
 \end{equation}
 
-By considering the gravimetric loading $L\e{ads}$ (in~\si{\milli\mole\per\gram}) instead of absolute value, we need to divide the equation by the mass density of the framework $\rho_f$:
+Since the gravimetric loading $L\e{ads}$ (in~\si{\milli\mole\per\gram}) is considered instead of the absolute value, the equation is now divided by the mass density of the framework $\rho_f$:
 
 \begin{equation}
   L\e{ads} = \dfrac{n\e{ads}}{V\rho_f} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{\rho_f RT} P
 \end{equation}
 
-Since the Henry's law is described by $L\e{ads}=K\e{H} \times P$, we have the final relationship between the Henry adsorption constant and interaction energy distribution. If we consider a mixture, the pressure should be replaced by partial pressures.
+Since the Henry's law is described by $L\e{ads}=K\e{H} \times P$, a final relationship is obtained between the Henry adsorption constant and interaction energy distribution. For a mixture, the pressure should be replaced by partial pressures.
 
 \begin{equation}\label{eq:henry}
     \boxed{
@@ -167,18 +167,18 @@ Note that the $\rho_f$ factor comes from the use of a gravimetric loading expres
 
 \subsubsection{Adsorption enthalpy or heat of adsorption}
 
-Finally, if we consider an adsorption equilibrium (e.g., $\text{Xe}\e{(g)} \rightleftharpoons \text{Xe}\e{(ads)}$), we can define an equilibrium constant $K\e{ads}$ based on the thermodynamic activities (partial pressure for a gas and volumetric loading for an adsorption phase) of the adsorbate in the different phases:
+Finally, for an adsorption equilibrium (e.g., $\text{Xe}\e{(g)} \rightleftharpoons \text{Xe}\e{(ads)}$), an equilibrium constant $K\e{ads}$ can be defined based on the thermodynamic activities (partial pressure for a gas and volumetric loading for an adsorption phase) of the adsorbate in the different phases:
 \begin{equation}
   K\e{ads} = \dfrac{l\e{ads}P^o}{y\e{gas}Pc^o}
 \end{equation}
-where $l\e{ads}=n\e{ads}/V$ is the volumetric loading in the adsorbed phase (similar to a molar concentration) and $y\e{gas}$ the mole fraction in the gas phase for a given compound (e.g., Xe), and $P^o$ is the standard pressure. And, here we assume the gas ideal by taking a fugacity coefficient of $1$. For a gas at infinite dilution, the Henry's law can then be applied to derive the following relation:
+where $l\e{ads}=n\e{ads}/V$ is the volumetric loading in the adsorbed phase (similar to a molar concentration) and $y\e{gas}$ the mole fraction in the gas phase for a given compound (e.g., Xe), and $P^o$ is the standard pressure. And, here the gas is assumed ideal with a fugacity coefficient of $1$. For a gas at infinite dilution, the Henry's law can then be applied to derive the following relation:
 
 \begin{equation}\label{eq:eq_cst}
   K\e{ads} = \dfrac{n\e{ads}P^o}{y\e{gas}PVc^o} = \dfrac{K\e{H}y\e{gas}P\rho_f V P^o}{y\e{gas}PVc^o} = \dfrac{K\e{H}\rho_f P^o}{c^o} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{c^o RT/P^o}
 \end{equation}
-As a sanity check, we can verify that $c^o/P^o$ has a unit homogeneous with a molar energy, which is consistent with $K\e{ads}$ being unitless.
+As a sanity check, it can be verified that $c^o/P^o$ has a unit homogeneous with a molar energy, which is consistent with $K\e{ads}$ being unitless.
 
-Now by applying the Van't Hoff equation to this infinite-dilution adsorption equilibrium constant $K\e{ads}$, we can derive an expression of the adsorption enthalpy at infinite dilution:
+Now by applying the Van't Hoff equation to this infinite-dilution adsorption equilibrium constant $K\e{ads}$, an expression of the adsorption enthalpy at infinite dilution is finally obtained:
 
 \begin{equation}
   \Delta H\e{ads} = -R\dfrac{\dd \ln\left(K\e{ads}(T)\right)}{\dd (1/T)}
@@ -195,13 +195,13 @@ Then, as $c^o R/P^o$ is constant for the variable $T$, the expression can be sim
   \Delta H\e{ads} = 0 - R\dfrac{\dd \ln\left(\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle\right)}{\dd (1/T)} - RT
 \end{equation}
 
-Using the property that the logarithmic derivative of a function $f$ is obtained by the formula $\dfrac{\dd \ln\left(f\right)}{\dd x}=f'/f$, we can calculate the derivative of the average of the Boltzmann factors $\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle$:
+Using the property that the logarithmic derivative of a function $f$ is obtained by the formula $\dfrac{\dd \ln\left(f\right)}{\dd x}=f'/f$, the derivative of the average of the Boltzmann factors $\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle$ can be expressed as follows:
 
 \begin{equation}
   \Delta H\e{ads} = -R\dfrac{1}{\frac{1}{N}\sum e^{-\frac{\mathcal{E}\e{int}}{RT}}} \frac{1}{N}\sum \dfrac{\dd \exp\left(-\mathcal{E}\e{int}/RT\right)}{\dd (1/T)} - RT
 \end{equation}
 where N corresponds to the number of points where the Widom particle has been inserted.
-The exponential derivative makes the energy factors come out, and we obtain the following expression:
+The exponential derivative makes the energy factors come out, and the following expression is then obtained:
 \begin{equation}
   \Delta H\e{ads} = -R\dfrac{1}{\sum e^{-\frac{\mathcal{E}\e{int}}{RT}}} \sum - \frac{\mathcal{E}\e{int}}{R} e^{-\frac{\mathcal{E}\e{int}}{RT}} - RT
 \end{equation}
@@ -219,7 +219,7 @@ The isosteric heat of adsorption $q\e{st}$ is then simply the opposite of the ad
 \subsubsection{Adsorption entropy}
 
 % entropy from free energy and enthalpy
-From the values of the adsorption free energy and enthalpy, we can now deduce the adsorption entropy $\Delta S\e{ads}$ using the definition of the Gibbs free energy ($G = H-TS$):
+From the values of the adsorption free energy and enthalpy, the adsorption entropy $\Delta S\e{ads}$ can simply be deduced from the definition of the Gibbs free energy ($G = H-TS$):
 \begin{equation}\label{eq:ads_entropy}
   \boxed{
   \Delta S\e{ads} = \dfrac{1}{T} \left(\Delta H\e{ads} - \Delta G\e{ads} \right)
@@ -260,7 +260,7 @@ The Gibbs free energy at equilibrium can be directly defined using the equilibri
 
 \subsubsection{Exchange enthalpy}
 
-This exchange equilibrium can be viewed as the substraction between the adsorption equilibria of xenon and krypton. Applying Hess's law of constant heat summation, we can derive an expression for the exchange enthalpy as the difference of the adsorption enthalpies between xenon and krypton within the mixture. 
+This exchange equilibrium can be viewed as the substraction between the adsorption equilibria of xenon and krypton. Applying Hess's law of constant heat summation, an expression for the exchange enthalpy is simply expressed as the difference of the adsorption enthalpies between xenon and krypton within the mixture. 
 \begin{equation}
   \boxed{
   \Delta\e{exc}H\ex{Xe/Kr} = \Delta\e{ads}H\ex{Xe} - \Delta\e{ads}H\ex{Kr}
@@ -272,14 +272,14 @@ Moreover, the adsorption enthalpy $\Delta\e{ads}H$ is generally defined by compa
   \Delta\e{ads}H = \langle E \rangle\left(\langle N \rangle+1\right)-\langle E \rangle\left(\langle N \rangle\right) - RT
 \end{equation}
 
-In a GCMC calculation, we do not use the previous equation as it is, but we use a formula derived from the fluctuation theorem in statistical mechanics (see a complete derivation in this online article~\autocite{github_simon_gcmc}):
+In a GCMC calculation, the previous equation cannot be used as it is, but the adsorption heat is expressed using a formula derived from the fluctuation theorem in statistical mechanics (see a complete derivation in this online article~\autocite{github_simon_gcmc}):
 \begin{equation}\label{eq:ads_heat_gcmc}
   \Delta\e{ads}H\ex{Xe} \simeq \frac{\partial \langle E \rangle}{\partial \langle N \rangle} - RT = \frac{\partial\langle E \rangle}{\partial\langle \beta\mu \rangle} \bigg/ \frac{\partial \langle N \rangle}{\partial \langle \beta\mu \rangle} - RT = \dfrac{\langle EN \rangle - \langle E \rangle\langle N \rangle}{\langle N^2 \rangle - \langle N \rangle^2} - RT
 \end{equation}
 where $E$ corresponds to the total energy of the adsorption system and $N$ the total number of adsorbates at every step of the simulation. Note that this equation remains only valid for $N\gg1$, as the first step of the derivation is based on a first order Taylor expansion $\langle E \rangle\left(\langle N \rangle+1\right)-\langle E \rangle\left(\langle N \rangle\right) \simeq \frac{\partial \langle E \rangle}{\partial \langle N \rangle}$. 
 
 
-On the other hand, at infinite dilution, we can derive back the equation~\ref{eq:ads_enthalpy} using equation~\ref{eq:enthalpy_gen_def}, where for $N\rightarrow0$ we now have $\Delta H\e{ads} = \langle E \rangle(1)-\langle E \rangle(0) - RT$. The average energy with one adsorbate minus the average energy without adsorbate corresponds to the average over the whole space of the guest--host interaction energies for one adsorbate particle (the host-host energy being encompassed in $\langle E \rangle(0)$). This expression of the adsorption enthalpy echoes with the one derived in equation~\ref{eq:ads_enthalpy}.
+On the other hand, at infinite dilution, the equation~\ref{eq:ads_enthalpy} can be rederived using a similar approach (equation~\ref{eq:enthalpy_gen_def}), where for $N\rightarrow0$ the adsorption enthalpy is now expressed as $\Delta H\e{ads} = \langle E \rangle(1)-\langle E \rangle(0) - RT$. The average energy with one adsorbate minus the average energy without adsorbate corresponds to the average over the whole space of the guest--host interaction energies for one adsorbate particle (the host-host energy being encompassed in $\langle E \rangle(0)$). This expression of the adsorption enthalpy echoes with the one derived in equation~\ref{eq:ads_enthalpy}.
 
 \subsubsection{Exchange entropy}
 
