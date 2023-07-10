@@ -32,14 +32,13 @@ La quantité de matériaux est potentiellement infinie, rien que pour les \emph{
 
 En premier lieu, mes travaux ont porté sur l'analyse poussée des corrélations qu'il pouvait exister entre les différentes grandeurs thermodynamiques décrivant la séparation xénon/krypton. Pour cela, mes travaux se basent sur la base de données CoRE MOF 2019 pour comparer les différentes grandeurs thermodynamiques grâce à des analyses de corrélation. Différentes conditions de pression et de composition ont été étudiées et des explications physiques à l'échelle microscopique sont proposées pour comprendre l'origine des différences observées. 
 
-Pour commencer, j'ai étudié les corrélations entre l'enthalpie et la sélectivité. Sur la figure~\ref{fgr:histo_H_resume}, l'enthalpie d'adsorption du xénon est assez bien corrélée au logarithme de la sélectivité à basse pression suggérant ainsi que l'affinité du xénon avec le matériau peut expliquer la sélectivité. Cette corrélation diminue cependant pour les matériaux moins sélectifs. Les matériaux les plus sélectifs ont en effet des pores dont la taille est très favorable à l'adsorption du xénon comme le suggèrent d'autres études. Pour des gaz nobles, seules les interactions de Van der Waals jouent un rôle important, ainsi la taille des pores permettent d'expliquer en grande partie l'affinité comparée entre deux molécules de tailles différentes le xénon et le krypton. Ainsi, dans des matériaux avec de petits pores, les phénomènes sont dominés par les interactions entre les pores et l'adsorbat, c'est-à-dire par l'enthalpie. Alors que dans de larges pores, les effets entropiques jouent un rôle plus important.
+Pour commencer, j'ai étudié les corrélations entre l'enthalpie et la sélectivité. Sur la figure~\ref{fgr:histo_H_resume}, l'enthalpie d'adsorption du xénon est assez bien corrélée au logarithme de la sélectivité à basse pression suggérant ainsi que l'affinité du xénon avec le matériau peut expliquer la sélectivité. Cette corrélation diminue cependant pour les matériaux moins sélectifs. Les matériaux les plus sélectifs ont en effet des pores dont la taille est très favorable à l'adsorption du xénon comme le suggèrent d'autres études. Pour des gaz nobles, seules les interactions de van der Waals jouent un rôle important, ainsi la taille des pores permettent d'expliquer en grande partie l'affinité comparée entre deux molécules de tailles différentes le xénon et le krypton. Ainsi, dans des matériaux avec de petits pores, les phénomènes sont dominés par les interactions entre les pores et l'adsorbat, c'est-à-dire par l'enthalpie. Alors que dans de larges pores, les effets entropiques jouent un rôle plus important.
 
 \begin{figure}[h]
 \begin{minipage}[t]{.43\textwidth}
 \centering
   \includegraphics[width=\linewidth]{figures/2-thermo/Enthalpy_0_log.jpg}
-  \caption{\small{\ Pour 8\,401 MOFs avec une sélectivité Xe/Kr favorable ($s\e{0} > 1$), pair-plots entre les différentes grandeurs $\log(s\e{0})$, $\Delta\e{exc}H\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$ et $\Delta\e{ads}H\ex{Kr}\e{0}$ (les enthalpies sont en \si{\kilo\joule\per\mol}) en dehors de la diagonale et la distribution de chaque grandeur sur la diagonale.}}
-  \label{fgr:histo_H_resume}
+  \caption{\small{\ Pour 8\,401 MOFs avec une sélectivité Xe/Kr favorable ($s\e{0} > 1$), pair-plots entre les différentes grandeurs $\log(s\e{0})$, $\Delta\e{exc}H\e{0}$, $\Delta\e{ads}H\ex{Xe}\e{0}$ et $\Delta\e{ads}H\ex{Kr}\e{0}$ (les enthalpies sont en \si{\kilo\joule\per\mol}) en dehors de la diagonale et la distribution de chaque grandeur sur la diagonale.}}\label{fgr:histo_H_resume}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{.5\textwidth}
@@ -69,7 +68,7 @@ Pour conclure, la présence de différents types de site et les réorganisations
 
 \section*{Développement d'outils de criblage}
 
-Dans cette partie on va s'intéresser à différentes méthodes de calcul de l'enthalpie d'adsorption qui joue un rôle central dans la performance d'un matériau. Cette enthalpie à basse pression peut être théoriquement calculée grâce à un échantillonnage des énergies d'interaction pour tous les points accessibles de l'espace, mais cette méthode est coûteuse en temps de calcul. C'est pourquoi les méthodes d'échantillonnage aléatoire des points de l'espace se basant sur les algorithmes Monte Carlo sont plus souvent utilisées (insertion de Widom). Cependant, cet échantillonnage aléatoire ne tient donc pas en compte des informations que l'on a sur les matériaux nanoporeux. En effet, les adsorbats ne se situent pas à des endroits imprévisibles, ils sont souvent aux centres des pores (si la taille est adaptée) ou sur la surface des pores. On a donc exploité ces informations afin de diminuer le temps de calcul nécessaire à la détermination de l'enthalpie d'adsorption.
+Dans un second temps, je me suis intéressée à différentes méthodes de calcul de l'enthalpie d'adsorption qui joue un rôle central dans la performance d'un matériau. Cette enthalpie à basse pression peut être théoriquement calculée grâce à un échantillonnage des énergies d'interaction pour tous les points accessibles de l'espace, mais cette méthode est coûteuse en temps de calcul. C'est pourquoi les méthodes d'échantillonnage aléatoire des points de l'espace se basant sur les algorithmes Monte Carlo sont plus souvent utilisées (insertion de Widom). Cependant, cet échantillonnage aléatoire ne tient donc pas en compte des informations que l'on a sur les matériaux nanoporeux. En effet, les adsorbats ne se situent pas à des endroits imprévisibles, ils sont souvent aux centres des pores (si la taille est adaptée) ou sur la surface des pores. On a donc exploité ces informations afin de diminuer le temps de calcul nécessaire à la détermination de l'enthalpie d'adsorption.
 
 La première méthode approchée d'échantillonnage consiste à calculer les énergies sur les {n\oe{}uds} de Voronoï. Les n\oe{}uds de Voronoï sont des points équidistants à au moins quatre atomes de la structure. Si on considère uniquement les points de Voronoï accessibles, ces points seront situés au centre des pores. La deuxième méthode quant à elle échantillonne les surfaces des pores. Pour cela l'algorithme RAESS parcourt les points à la surface des atomes de la structure et y calcule l'énergie d'interaction avec le matériau. Et enfin, la dernière méthode développée durant cette thèse se base sur une grille symétrique optimisée pour faire baisser le temps de calcul par rapport à l'approche usuelle par grille. L'algorithme associé GrAED (\emph{Grid Adsorption Energy Descriptors}) est ainsi très intéressant pour des bases de données ayant des petits pores et des structures avec un haut degré de symétrie. La figure \ref{fgr:grid_perfomance_resume} compile les différentes performances de précision et de temps pour toutes les méthodes de calcul de l'enthalpie d'adsorption étudiée durant ma thèse.
 
@@ -79,14 +78,20 @@ La première méthode approchée d'échantillonnage consiste à calculer les én
     \caption{Comparaison de la racine de l'erreur quadratique moyenne sur l'enthalpie d'adsorption du xénon et le temps de simulation par structure pour différentes méthodes d'échantillonnage  sur la base de données CoRE MOF 2019 (pour une taille de pore supérieure à \SI{3.7}{\angstrom}). }\label{fgr:grid_perfomance_resume}
 \end{figure}
 
-Finalement, j'ai également développé un modèle de machine learning basé sur les descripteurs de GrAED et des descripteurs structurels plus couramment utilisés. Ce modèle donne de très bons résultats de prédiction tout en étant bien plus rapide que les simulations GCMC plus couramment utilisées. La figure~\ref{fgr:S1_prediction_resume} montre l'excellent accord entre les valeurs réelles et celles prédites par le modèle. Quantitativement, l'erreur sur le logarithme base 10 de la sélectivité vaut environ $0,07$ (RMSE).
-\begin{figure}[ht]
+Pour développer une meilleure compréhension du processus de séparation, j'ai également développé un modèle de machine learning basé sur les descripteurs de GrAED et des descripteurs structurels plus couramment utilisés. Pour cela, la base de données CoRE MOF 2019 a été exploitée pour évaluer les valeurs de sélectivité en moins d'une minute, alors qu'une simulation de Monte Carlo grand canonique (GCMC) plus couramment utilisée requiert plus de \SI{40}{\minute}. 
+Ce modèle donne de très bons résultats de prédiction tout en étant bien plus rapide que les simulations GCMC plus couramment utilisées. La figure~\ref{fgr:S1_prediction_resume} montre l'excellent accord entre les valeurs réelles et celles prédites par le modèle. Quantitativement, l'erreur sur le logarithme base 10 de la sélectivité vaut environ $0,06$ (RMSE), ce qui correspond à une excellente prédiction. 
+
+\begin{figure}[h!]
 \centering
     \includegraphics[width=0.48\linewidth]{figures/4-ml/SI_figure/Scatterplot_S1_prediction_logscale.pdf}
     \caption{Graphe de comparaison de la sélectivité Xe/Kr (à pression et température ambiantes pour une composition 20\pp{}80) prédite par le modèle et celle calculée par GCMC en échelle logarithmique. Les points colorés en bleu correspondent au jeu de données d'entraînement, tandis que ceux en orange correspondent au jeu de test. La superposition des points est faite de tel sort que l'on voit davantage les résultats sur le jeu de test pour évaluer la généralisabilité du modèle.}\label{fgr:S1_prediction_resume}
 \end{figure}
 
-Ce modèle peut ensuite être utilisé pour accélérer l'évaluation de la sélectivité Xe/Kr à pression ambiante pour trouver plus rapidement les meilleurs matériaux pour la séparation. Cette partie conclut l'étude des effets thermodynamiques de la séparation xénon/krypton.
+Le second objectif de cette étude a été de mieux quantifier les origines de la différence observée entre la sélectivité à basse pression et celle à haute pression. Pour cela, le modèle ML a été interprété en utilisant des modèles d'interprétabilité comme les valeurs de Shapley. Ces résultats corroborent les deux causes principales attribuées d'une part à la diversité de taille et de nature des pores, et d'autre part à la réorganisation des adsorbats en espace confiné à la limite de la saturation des pores. Des facteurs quantitatifs expliquant ces changements de sélectivités ont ainsi été établis : les moyennes énergétiques à \SI{900}{\kelvin}, des mesures statistiques sur la diversité des énergies d'interaction, mais aussi des tailles de pore. 
+
+Le modèle final peut ensuite être utilisé pour accélérer les méthodes de criblage actuelles. Par exemple, le criblage peut consister à mettre de côtés des structures peu prometteuses en se basant sur des critères purement géométriques, puis des critères énergétiques calculés par l'algorithme de GrAED peuvent s'ajouter, pour enfin utilisé le modèle ML pour avoir une compréhension plus fine des performances de séparation. Cette méthode est pour l'instant testée et validée pour le cas de l'évaluation de la sélectivité Xe/Kr à pression ambiante, mais il peut s'étendre à des adsorbats d'une toute autre nature. 
+
+Au-delà des effets purement thermodynamiques traités dans cette partie du résumé, mais aussi dans les chapitres 2, 3 et 4 de ma thèse, il existe également des effets cinétiques liés au transport des molécules d'adsorbat à l'intérieur des pores et des canaux du matériau.
 
 \section*{Propriétés de transport}
 
@@ -100,37 +105,37 @@ Enfin, mes derniers travaux portent sur la modélisation des effets de transport
 
 Dans cette étude, de nombreuses corrélations ont été analysées et deux descripteurs semblent expliquer les valeurs du coefficient de diffusion. En effet, le diamètre de la plus petite sphère pouvant diffuser librement dans les canaux du matériau (PLD), une caractéristique structurelle facilement calculable, semble corrélé au logarithme du coefficient de diffusion. On peut distinguer deux régimes sur la figure~\ref{fgr:barrier_diffusion_a_resume}: une relation plutôt linéaire suivie d'un plateau. 
 
-\begin{figure}[ht]
-\centering
-\begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{Taille caractéristique des canaux}\label{fgr:barrier_diffusion_a_resume}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff.pdf}
-    \caption{Barrière énergétique de diffusion}\label{fgr:barrier_diffusion_b_resume}
-\end{subfigure}
-    \caption{ (a) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la taille des canaux mesurée par le diamètre minimal du canal (PLD, en anglais), et les points sont étiquetés par les énergies de barrière. (b) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la barrière énergétique de diffusion, les points sont étiquetés par le diamètre PLD. }\label{fgr:barrier_diffusion_resume}
-\end{figure}
-
 Une mesure de la barrière énergétique de diffusion est également proposée en utilisant une grille calculée par l'algorithme GrAED. Cette barrière d'énergie semble inversement proportionnelle au logarithme du coefficient de diffusion comme on peut le voir sur la figure~\ref{fgr:barrier_diffusion_b_resume}. Cette corrélation n'est pas très forte avec un coefficient de Pearson de l'ordre de $-0.77$ si on considère toutes les structures. 
 
-En suivant une approche similaire à celle utilisée pour prédire la sélectivité, le logarithme du coefficient de coefficient du xénon a été prédit en utilisant le diamètre PLD, la barrière énergétique et d'autres descripteurs thermodynamiques et structurels. Ce modèle de machine learning permet ainsi de remplacer la méthode coûteuse de dynamique moléculaire par l'utilisation de simulations moins coûteuses (barrière d'énergie et descripteurs structurels). 
+\begin{figure}[hb]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
+      \caption{Taille caractéristique des canaux}\label{fgr:barrier_diffusion_a_resume}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff.pdf}
+      \caption{Barrière énergétique de diffusion}\label{fgr:barrier_diffusion_b_resume}
+  \end{subfigure}
+      \caption{ (a) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la taille des canaux mesurée par le diamètre minimal du canal (PLD, en anglais), et les points sont étiquetés par les énergies de barrière. (b) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la barrière énergétique de diffusion, les points sont étiquetés par le diamètre PLD. }\label{fgr:barrier_diffusion_resume}
+  \end{figure}
+  
+En suivant une approche similaire à celle utilisée pour prédire la sélectivité, le logarithme du coefficient de coefficient du xénon a été prédit. Ce modèle se base notamment sur le diamètre PLD, la barrière énergétique et d'autres descripteurs thermodynamiques et structurels. Comme on peut le voir sur la figure~\ref{fgr:diff_pred_resume}, le modèle semble bien prédire l'ordre de grandeur du coefficient de diffusion du xénon avec une erreur de l'ordre de $0.25$ sur le $\log_{10}$ de ce coefficient. Cela signifie que l'on a une bonne connaissance de l'exposant du coefficient de diffusion exprimé comme une puissance de 10. Il est donc possible d'évaluer l'ordre de grandeur de la valeur du coefficient de diffusion tout en évitant des simulations de dynamique moléculaire requérant quelques jours de simulation.  
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{figures/5-diffusion/diffusion_prediction.pdf}
-  \caption{ (a) Comparaison du $\log_{10}$ du coefficient de diffusion du xénon prédit par le modèle ML et les valeurs simulés par dynamique moléculaire. La racine de l'erreur quadratique moyenne sur le logarithme base 10 vaut $0.25$. }\label{fgr:diff_pred_resume}
+  \caption{ Comparaison du $\log_{10}$ du coefficient de diffusion du xénon prédit par le modèle ML et les valeurs simulées par dynamique moléculaire. La racine de l'erreur quadratique moyenne sur le logarithme base 10 vaut $0.25$. }\label{fgr:diff_pred_resume}
 \end{figure}
 
-Comme on peut le voir sur la figure~\ref{fgr:diff_pred_resume}, le modèle semble bien prédire l'ordre de grandeur du coefficient de diffusion du xénon avec une erreur de l'ordre de $0.25$ sur le $\log_{10}$ de ce coefficient. Cela signifie que l'on a une bonne connaissance de l'exposant du coefficient de diffusion exprimé comme une puissance de 10. 
 
-D'autres méthodes basées sur la théorie des états de transition ont également été explorées pour calculer le coefficient de diffusion. Ces travaux ont notamment mené  à la conception de l'algorithme utilisé pour calculer des barrières d'énergie. 
+Ce modèle de machine learning permet ainsi de remplacer la méthode coûteuse de dynamique moléculaire par l'utilisation de simulations moins coûteuses (barrière d'énergie et descripteurs structurels). On peut appliquer cette méthode non seulement pour évaluer la cinétique de séparation dans un procédé de séparation par adsorption, mais il permet également de traiter d'autres cas d'application comme la sélectivité d'une membrane de séparation. Enfin, en comparant les rapports des coefficients de diffusion du xénon et du krypton aux valeurs de la sélectivité Xe/Kr, il est possible d'identifier de nouveaux matériaux qui ne présentent pas de blocage cinétique tout en ayant une sélectivité très importante.
 
-Enfin, en comparant les rapports des coefficients de diffusion du xénon et du krypton aux valeurs de la sélectivité Xe/Kr, il est possible d'identifier de nouveaux matériaux qui ne présentent pas de blocage cinétique tout en ayant une sélectivité très importante.
+D'autres méthodes basées sur la théorie des états de transition ont également été explorées pour calculer le coefficient de diffusion. Ces travaux ont notamment mené à la conception de l'algorithme utilisé pour calculer des barrières d'énergie. D'autres études sont encore nécessaires pour aller plus loin sur la description de la diffusion dans les canaux confinés des matériaux comme la prise en compte de la tortuosité, mais aussi la prise en compte des effets de diffusion collective où les équations de Fick et d'Eintein ne suffisent plus. 
+
 
 \section*{Conclusion}
 
