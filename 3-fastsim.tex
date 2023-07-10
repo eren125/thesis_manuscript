@@ -42,7 +42,7 @@ This regular Voronoi tessellation is suitable only for separating space among eq
 
 \subsubsection{Unequal radii}
 
-To address this limitation, an alternative approach called the Apollonian Voronoi diagram can be implemented to model the atomic radii. The definition of the Voronoi decomposition, as previously discussed, is limited to equal-sized atoms, as the closest region to an atom is also the closest to its center of mass. This limitation does not apply to the complex atomic structures found in nanoporous frameworks. To overcome this, the Apollonian Voronoi diagram\autocite{voronoi_apollonian} can be utilized to model the atomic radii $r_1,\ldots,r_n$ of points $\vect{x}_1,\ldots,\vect{x}_n$ within the same box $B$. For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
+To address this limitation, an alternative approach called the Apollonian Voronoi diagram can be implemented to model the atomic radii. The definition of the Voronoi decomposition, as previously discussed, is limited to equal-sized atoms, as the closest region to an atom is also the closest to its center of mass. This limitation does not apply to the complex atomic structures found in nanoporous frameworks. To overcome this, the Apollonian Voronoi diagram\autocite{voronoi_apollonian} can be used to model the atomic radii $r_1,\ldots,r_n$ of points $\vect{x}_1,\ldots,\vect{x}_n$ within the same box $B$. For every $k\in\{1,\ldots,n\}$, the new subspaces $A_{k}$ are defined as follows:
 
 \begin{equation}\label{eq:r_voronoi_apollonian}
   A_{k} = \left\{\vect{x} \in B\ \ |\ \ \forall\ l\neq k,\ {\lVert \vect{x}-\vect{x}_k \rVert}_2 - r_k \leq {\lVert \vect{x}-\vect{x}_l \rVert}_2 - r_l \right\}
@@ -343,7 +343,7 @@ As shown in Table~\ref{tab:selec_prob}, the error in selectivity highly depends 
   \caption{Influence of the rejection condition in the krypton surface simulation on the accuracy of the Xe/Kr selectivity calculation. The lower the parameter $\mu$ the more accurate the simulations are for the final selectivity calculation.}\label{tab:selec_prob}
 \end{table}
 
-According to this initial study, the optimal value is $\mu=0.5$, as it provides the best accuracy with minimal CPU time. This value will be utilized for krypton in order to conduct a comprehensive study on the performance on the Xe/Kr selectivity for materials from CoRE MOF 2019. The following study will thus use the RAESS algorithm with $\lambda=1.6$ and $\mu=0.85$ for xenon and $\lambda=1.6$ and $\mu=0.5$ for krypton.
+According to this initial study, the optimal value is $\mu=0.5$, as it provides the best accuracy with minimal CPU time. This value will be used for krypton in order to conduct a comprehensive study on the performance on the Xe/Kr selectivity for materials from CoRE MOF 2019. The following study will thus use the RAESS algorithm with $\lambda=1.6$ and $\mu=0.85$ for xenon and $\lambda=1.6$ and $\mu=0.5$ for krypton.
 
 The selectivity can be compared directly using a log-scale plot and log-scale metric. By applying the log10 to the selectivity values, the resulting RMSE and MAE are about 0.064 and 0.04 respectively. This implies that the error in comparing the orders of magnitude of the selectivity is around 0.06. For instance, if a selectivity value is predicted to be $s = 10^{-7}$, the actual value $s$ would statistically fall within the range $[10^{-7.06},10^{-6.94}]$.
 
