@@ -105,30 +105,30 @@ Enfin, mes derniers travaux portent sur la modélisation des effets de transport
 
 Dans cette étude, de nombreuses corrélations ont été analysées et deux descripteurs semblent expliquer les valeurs du coefficient de diffusion. En effet, le diamètre de la plus petite sphère pouvant diffuser librement dans les canaux du matériau (PLD), une caractéristique structurelle facilement calculable, semble corrélé au logarithme du coefficient de diffusion. On peut distinguer deux régimes sur la figure~\ref{fgr:barrier_diffusion_a_resume}: une relation plutôt linéaire suivie d'un plateau. 
 
-\begin{figure}[ht]
-\centering
-\begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
-    \caption{Taille caractéristique des canaux}\label{fgr:barrier_diffusion_a_resume}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff.pdf}
-    \caption{Barrière énergétique de diffusion}\label{fgr:barrier_diffusion_b_resume}
-\end{subfigure}
-    \caption{ (a) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la taille des canaux mesurée par le diamètre minimal du canal (PLD, en anglais), et les points sont étiquetés par les énergies de barrière. (b) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la barrière énergétique de diffusion, les points sont étiquetés par le diamètre PLD. }\label{fgr:barrier_diffusion_resume}
-\end{figure}
-
 Une mesure de la barrière énergétique de diffusion est également proposée en utilisant une grille calculée par l'algorithme GrAED. Cette barrière d'énergie semble inversement proportionnelle au logarithme du coefficient de diffusion comme on peut le voir sur la figure~\ref{fgr:barrier_diffusion_b_resume}. Cette corrélation n'est pas très forte avec un coefficient de Pearson de l'ordre de $-0.77$ si on considère toutes les structures. 
 
+\begin{figure}[hb]
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_Df-uff298K_barrier.pdf}
+      \caption{Taille caractéristique des canaux}\label{fgr:barrier_diffusion_a_resume}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{figures/5-diffusion/difflog_barrier_Df_uff.pdf}
+      \caption{Barrière énergétique de diffusion}\label{fgr:barrier_diffusion_b_resume}
+  \end{subfigure}
+      \caption{ (a) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la taille des canaux mesurée par le diamètre minimal du canal (PLD, en anglais), et les points sont étiquetés par les énergies de barrière. (b) Graphe comparant le logarithme base 10 du coefficient de diffusion du xénon à la barrière énergétique de diffusion, les points sont étiquetés par le diamètre PLD. }\label{fgr:barrier_diffusion_resume}
+  \end{figure}
+  
 En suivant une approche similaire à celle utilisée pour prédire la sélectivité, le logarithme du coefficient de coefficient du xénon a été prédit. Ce modèle se base notamment sur le diamètre PLD, la barrière énergétique et d'autres descripteurs thermodynamiques et structurels. Comme on peut le voir sur la figure~\ref{fgr:diff_pred_resume}, le modèle semble bien prédire l'ordre de grandeur du coefficient de diffusion du xénon avec une erreur de l'ordre de $0.25$ sur le $\log_{10}$ de ce coefficient. Cela signifie que l'on a une bonne connaissance de l'exposant du coefficient de diffusion exprimé comme une puissance de 10. Il est donc possible d'évaluer l'ordre de grandeur de la valeur du coefficient de diffusion tout en évitant des simulations de dynamique moléculaire requérant quelques jours de simulation.  
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{figures/5-diffusion/diffusion_prediction.pdf}
-  \caption{ (a) Comparaison du $\log_{10}$ du coefficient de diffusion du xénon prédit par le modèle ML et les valeurs simulées par dynamique moléculaire. La racine de l'erreur quadratique moyenne sur le logarithme base 10 vaut $0.25$. }\label{fgr:diff_pred_resume}
+  \caption{ Comparaison du $\log_{10}$ du coefficient de diffusion du xénon prédit par le modèle ML et les valeurs simulées par dynamique moléculaire. La racine de l'erreur quadratique moyenne sur le logarithme base 10 vaut $0.25$. }\label{fgr:diff_pred_resume}
 \end{figure}
 
 
