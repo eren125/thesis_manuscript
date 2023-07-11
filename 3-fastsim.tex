@@ -688,8 +688,6 @@ The standard deviation of this distribution has a lower value for materials with
 
 To improve this approach, the utilization of a higher temperature Boltzmann average for the distribution weights was explored, without necessarily employing a temperature of \SI{900}{\kelvin}. Additionally, a uniformly weighted average was tested on an energy distribution using different energy thresholds (zero or the mean kinetic energy of a gas $1.5k\e{B}T$). The underlying concept behind these explorations is to characterize a higher energy state close to the state at ambient pressure. Furthermore, higher-order moments can be tested to provide a more picture of the distribution. 
 
-\vspace{2cm}
-
 This GrAED algorithm proves to be particularly efficient in sampling energies for structures characterized by high symmetry and a large occupied volume. The highly accurate description provided by the grid enables the calculation of additional descriptive metrics, which can be valuable not only for describing adsorption at infinite dilution but also for investigating correlations with selectivity values at higher pressures. Finally, detailed computations on the GrAED sampling technique can be accessed online at \url{github.com/coudertlab/GrAED}.
 
 
@@ -697,7 +695,13 @@ This GrAED algorithm proves to be particularly efficient in sampling energies fo
 
 In this chapter, a comprehensive overview of fast sampling techniques for evaluating adsorption performance at infinite dilution was provided, excluding the standard Widom insertion method discussed in the previous chapter. The effectiveness of these quantities in describing the thermodynamics of adsorption in nanoporous materials was demonstrated by comparing them to conventional methods. The next step is to examine their predictive value in determining Xe/Kr selectivity under physical conditions closer to industrial settings.
 
-For instance, in the previous section, each thermodynamic descriptor derived from grid sampling was individually examined and compared to ambient-pressure conditions. However, this approach has limitations, as it only offers a descriptive understanding and cannot provide predictions. Moreover, the limited dimensions in visualization restrict the breadth of correlations. While certain key features of the most selective materials (pores adapted to the kinetic diameter, pore shape that maximizes the interactions, etc.) were identified, the correlation-based approach also revealed inherent weaknesses. Understanding high-pressure selectivity using quantities solely based on a host--guest interaction energy grid proves challenging. To overcome these challenges, modern approaches employ statistical learning to capture this relationship using a sufficiently large set of structures with some computed properties. In the upcoming chapter, the potential of these novel descriptors for predicting selectivity values beyond the infinitely diluted case will be explored, all while significantly reducing computational costs.
+For instance, in the previous section, each thermodynamic descriptor derived from grid sampling was individually examined and compared to ambient-pressure conditions. However, this approach has limitations, as it only offers a descriptive understanding and cannot provide predictions. Moreover, the limited dimensions in visualization restrict the breadth of correlations. While certain key features of the most selective materials (pores adapted to the kinetic diameter, pore shape that maximizes the interactions, etc.) were identified, the correlation-based approach also revealed inherent weaknesses. Understanding high-pressure selectivity using quantities solely based on a host--guest interaction energy grid proves challenging. To overcome these challenges, modern approaches employ statistical learning to capture this relationship using a sufficiently large set of structures with some computed properties. 
+
+\begin{center}
+    \pgfornament[width=6cm,color=CTsemi]{88}
+\end{center}
+
+In the upcoming chapter, the potential of these novel descriptors for predicting selectivity values beyond the infinitely diluted case will be explored, all while significantly reducing computational costs.
 
 
 \OnlyInSubfile{\printglobalbibliography}
