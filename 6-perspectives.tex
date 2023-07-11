@@ -35,17 +35,19 @@ The relevance of the diffusion coefficient calculated by these methods can only 
 
 \begin{figure}[ht]
   \centering
+  \hspace{0.5cm}
   \begin{subfigure}[b]{0.5\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/6-perspectives/breakthrough_cuve_zones.png}
-    \caption{Breakthrough curve zones}\label{fgr:breakthrough_zones}
+    \caption{Zones within a breakthrough curve}\label{fgr:breakthrough_zones}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.4\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/6-perspectives/sbmof_breakthrough.jpg}
-    \caption{SBMOF-1 experimental breakthrough}\label{fgr:sbmof_breakthrough}
+    \caption{SBMOF-1 experimental \\breakthrough curved}\label{fgr:sbmof_breakthrough}
   \end{subfigure}
+  \hspace{0.5cm}
   \caption{ (a) Different zones in a breakthrough curve reprinted from the open-access article~\cite{Sharma_2023}. (b) Experimental breakthrough curves in SBMOF-1 for a gas mixture with 400 ppm Xe and 40 ppm Kr balanced with dry air. Reprinted with permission from Ref.~\cite{Banerjee_2016} copyright \copyright\ 2016 Springer Nature. }\label{fgr:breakthrough}
 \end{figure}
 
@@ -100,12 +102,12 @@ The authors found that the lower experimental selectivity value of $16$, as comp
     Data source & Flexible &  Xe Henry Constant &  Kr Henry Constant &  Xe/Kr \\
       & structure &  \si{\mmol\per\g\per\Pa} &  \si{\mmol\per\g\per\Pa} &  selectivity \\
   \hline
-    Experimental data\autocite{Banerjee_2016} & maybe &  $3.84\,10^{-4}$ &  $2.37\,10^{-5}$ &  $16$ \\
+    Experimental data\autocite{Banerjee_2016} & maybe &  $3.84\cdot10^{-4}$ &  $2.37\cdot10^{-5}$ &  $16$ \\
   \hline
-    Rigid structure SBMOF-1\autocite{Banerjee_2016} & no &  $1.45\,10^{-2}$ &  $2.70\,10^{-4}$ &  $54$ \\
-    PBE+D3 (2,2,1 unit cell) & yes &  $6.80\,10^{-3}$ &  $1.77\,10^{-4}$ &  $38$ \\
-    UFF-FM & yes &  $6.24\,10^{-3}$ &  $1.67\,10^{-4}$ &  $37$ \\
-    UFF-DCM & yes &  $3.18\,10^{-3}$ &  $1.28\,10^{-4}$ &  $25$ \\
+    Rigid structure SBMOF-1\autocite{Banerjee_2016} & no &  $1.45\cdot10^{-2}$ &  $2.70\cdot10^{-4}$ &  $54$ \\
+    PBE+D3 (2,2,1 unit cell) & yes &  $6.80\cdot10^{-3}$ &  $1.77\cdot10^{-4}$ &  $38$ \\
+    UFF-FM & yes &  $6.24\cdot10^{-3}$ &  $1.67\cdot10^{-4}$ &  $37$ \\
+    UFF-DCM & yes &  $3.18\cdot10^{-3}$ &  $1.28\cdot10^{-4}$ &  $25$ \\
   \hline
 \end{tabular}
 \caption{ Results of the flexibility analysis carried out by Witman et al., flexibility reduces the values originally calculated in a rigid structure. Reproduced with permission from the original paper~\cite{Witman_2017} copyright \copyright\ 2017 American Chemical Society.}\label{table:witman_sbmof}
@@ -180,7 +182,7 @@ This method could be generalized to other systems by screening for materials wit
   \caption{ Visualization of the pore size stretching effect using the GrAED algorithm. The xenon increases the LCD value while diminishing the PLD value. }\label{fgr:stretch}
 \end{figure}
 
-Guest transport can also be modulated by the adsorbate-induced flexibility of SBMOF-1. Depending on the structural configuration of the material, the diffusion coefficient becomes limiting only for some configurations of the material: it is equal to $3\times10^{-8}$~\si{\square\cm\per\s} for \texttt{KAXQIL} and $1\times10^{-11}$~\si{\square\cm\per\s} for \texttt{UQEFED} (Table~\ref{table:sbmof}). This lower diffusion coefficient can be explained by the change in PLD value, the channel bottleneck diameter, induced by the stretching illustrated in Figure~\ref{fgr:stretch}. For a material predominantly loaded with krypton molecules, the diffusion channel is significantly broader, which explains the much higher diffusion coefficient of xenon ($5\times10^{-6}$~\si{\square\cm\per\s}). Although the xenon adsorbate does not diffuse freely in the structure, the diffusion is much less obstructed than in the previous material configuration of SBMOF-1 (\texttt{UQEFED}). The Figure~\ref{fgr:stretch} suggests that the SBMOF-1 material changes its pore configuration according to the shape and size of the atoms loaded inside, and these induced deformations lead to significantly different separation performances.
+Guest transport can also be modulated by the adsorbate-induced flexibility of SBMOF-1. Depending on the structural configuration of the material, the diffusion coefficient becomes limiting only for some configurations of the material: it is equal to $3\cdot10^{-8}$~\si{\square\cm\per\s} for \texttt{KAXQIL} and $1\cdot10^{-11}$~\si{\square\cm\per\s} for \texttt{UQEFED} (Table~\ref{table:sbmof}). This lower diffusion coefficient can be explained by the change in PLD value, the channel bottleneck diameter, induced by the stretching illustrated in Figure~\ref{fgr:stretch}. For a material predominantly loaded with krypton molecules, the diffusion channel is significantly broader, which explains the much higher diffusion coefficient of xenon ($5\cdot10^{-6}$~\si{\square\cm\per\s}). Although the xenon adsorbate does not diffuse freely in the structure, the diffusion is much less obstructed than in the previous material configuration of SBMOF-1 (\texttt{UQEFED}). The Figure~\ref{fgr:stretch} suggests that the SBMOF-1 material changes its pore configuration according to the shape and size of the atoms loaded inside, and these induced deformations lead to significantly different separation performances.
 
 Now having identified two completely distinct diffusion behaviors, these results can be extrapolated to hypothetical conditions. For instance, if there is a relation between the quantity of xenon inside the pores and the structural similarity towards \texttt{UQEFED}, then the material could kinetically limit the adsorption of xenon at high loading of xenon. In other words, adsorbing xenon at higher xenon loading values may be kinetically more challenging. However, at lower xenon loading, there are no diffusion limitations, as indicated by the steep mass transfer zone observed in the breakthrough curve of xenon in Figure~\ref{fgr:sbmof_breakthrough}. By connecting these results to the influence of flexibility on transport properties and the adsorption process, it can be inferred that xenon adsorption is thermodynamically much more favorable at higher xenon loading. There is a thermodynamics/kinetics trade-off, as articulated in the previous chapter on \texttt{KAXQIL}. Since \texttt{KAXQIL} and \texttt{UQEFED} are structurally similar, the combination of diffusion limitation and high selectivity can be extended to the xenon-loaded structure (\texttt{UQEFED}), as confirmed by the diffusion coefficient and selectivity values reported in Table~\ref{table:sbmof}. From an industrial perspective, the inclusion of transport effects in the analysis reveals additional costs associated with adsorbing xenon at high loading values, if this theoretical study is validated by experiments.
 
