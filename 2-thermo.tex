@@ -32,15 +32,15 @@ To define these pore sizes, it is necessary to first determine the radii of the 
 
 The surface areas are calculated using a random sampling technique across the surface of the different atom surfaces. The algorithm counts only the points that do not overlap with another atom. This allows for the calculation of an adsorbable surface for each atom. Ultimately, the surface area can be obtained by summing up all these surfaces. This algorithm, known as the ``rolling ball'' algorithm, was initially developed by Shrake and Rupley in 1973.\autocite{Shrake1973} The Voronoi tessellation determines the accessible and non-accessible areas of the structure by using a probe. Depending on the location of the surfaces, they are categorized as either accessible or non-accessible surface areas. In this chapter, the accessible surface area is defined using a probe of $1.2$~\si{\angstrom}. This value is computationally equivalent to the experimental \ce{N2} BET surface area.
 
+\subsubsection{Pore volume and porosity}
+
+The pore volume is calculated by randomly sampling the accessible and inaccessible Voronoi cells. Similarly, other algorithms perform a random sampling over a regular mesh. If the probe used for sampling does not overlap with a framework atom, then it is counted in the number of accessible points $N$ in the volume. The ratio of this number $N$ and the total number of points sampled gives the fraction of the pore volume, also known as the void fraction or porosity. By using the Voronoi decomposition, it is also possible to define the accessible and non-accessible Voronoi cells to reduce the space that needs to be sampled in a Monte Carlo simulation for the surface area and the void fraction calculations. The illustration of the occupiable volume and the surface area in Figure~\ref{fgr:pores} corresponds to the quantities calculated using the aforementioned computational tools implemented in the Zeo++ software.\autocite{Zeo++}
+
 \begin{figure}[ht!]
   \centering
   \includegraphics[width=0.65\textwidth]{figures/1-screening/Pore_descriptors.jpg}
   \caption{Illustration of the pore surface area and volume in a nanoporous material. As illustrated, there are different definitions of the pore volume: either the whole volume of the pores (occupiable+non-occupiable) or only the volume occupiable by a probe are considered. People usually use the first definition, but the second definition has recently been proposed. Studies have shown that occupiable volume has a better accordance with experimental data.\autocite{vol_Ongari2017} The surface area also changes depending on the definition, but it will not be developed here as only one definition based on the framework atoms is used throughout this thesis (not the Connolly surface).}\label{fgr:pores}
 \end{figure}
-
-\subsubsection{Pore volume and porosity}
-
-The pore volume is calculated by randomly sampling the accessible and inaccessible Voronoi cells. Similarly, other algorithms perform a random sampling over a regular mesh. If the probe used for sampling does not overlap with a framework atom, then it is counted in the number of accessible points $N$ in the volume. The ratio of this number $N$ and the total number of points sampled gives the fraction of the pore volume, also known as the void fraction or porosity. By using the Voronoi decomposition, it is also possible to define the accessible and non-accessible Voronoi cells to reduce the space that needs to be sampled in a Monte Carlo simulation for the surface area and the void fraction calculations.
 
 
 \subsection{Intermolecular interactions}\label{sct:interaction}
