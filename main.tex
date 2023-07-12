@@ -102,6 +102,15 @@
     citecolor=CTcitation
 }
 
+
+% epigraph
+% \usepackage{ebgaramond}
+\usepackage{epigraph}
+\setlength{\epigraphrule}{0pt}
+\setlength{\epigraphwidth}{0.8\textwidth}
+ \renewcommand\textflush{flushepinormal}
+ \renewenvironment{flushepinormal}{}{\vspace*{-\baselineskip}}
+
 % Need to be loaded after hyperref
 \usepackage[noabbrev]{cleveref} 
 % Not capitalized by default, use \Cref to capitalize
@@ -403,6 +412,14 @@
     \pagenumbering{roman}
     \maketitle
 
+    \vspace*{6cm}
+    \selectlanguage{french}
+    \epigraph{\itshape L'effort est pénible, mais il est aussi précieux, plus pré­cieux encore que l'\oe{}uvre où il aboutit, parce que, grâce à lui, on a tiré de soi plus qu'il n'y avait, on s'est haussé au-dessus de soi-même.}{Henri \textsc{Bergson}\\  L'Énergie spirituelle, « La conscience et la vie »}
+    \vspace{2cm}
+    \epigraph{\itshape L'instinct achevé est une faculté d'utiliser et même de construire des instruments organisés ; l'intelligence achevée est la faculté de fabriquer et d'employer des instruments inorganisés.}{Henri \textsc{Bergson}\\ L'évolution créatrice}
+    \vfill
+    \clearpage
+
     \input{remerciements}
 
     \begingroup
@@ -414,11 +431,11 @@
         \clearpage
     \endgroup
 
+    \selectlanguage{english}
     \pagestyle{fancy}
     \input{0-intro}
     
- %   \subfile{0-empty_chapter}
-
+ %   \subfile{X-empty_chapter}
     \subfile{1-screening}
     \subfile{2-thermo}
     \subfile{3-fastsim}
@@ -434,7 +451,7 @@
                 \hfill}{\protect\relax}{}}
      
 %    \appendix
-%    \subfile{X-empty_appendix}
+%    \subfile{Y-empty_appendix}
 
     \input{publist}
 
