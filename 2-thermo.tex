@@ -103,9 +103,7 @@ To complete the description of the grand canonical Monte Carlo (GCMC) simulation
 
 By using a GCMC algorithm, it is possible to generate a set of configurations according to their corresponding probability of occurrence. Since the probability law is directly derived from equation~\ref{eq:gc}, the series of configurations describe the thermodynamic equilibrium state of a nanoporous material in contact with a reservoir containing a xenon-krypton mixture at a given composition, pressure and temperature. Ensemble averaging enables the derivation of different thermodynamic quantities, such as the averaging loading or uptake at a given pressure (several pressures yield the isotherm) and the isosteric heat of adsorption for each adsorbate (Xe and Kr). The ratio of the uptakes $q$ informs on the selectivity $s$ of the thermodynamic separation process: 
 \begin{equation}\label{eq:selec}
-  \boxed{
   s = \dfrac{q\ex{Xe}}{q\ex{Kr}}\times\dfrac{y\ex{Kr}}{y\ex{Xe}}
-  }
 \end{equation}
 where $y\ex{Xe}$ and $y\ex{Kr}$ designate respectively the mole fractions of Xe and Kr in the gas phase reservoir.
 
@@ -123,9 +121,7 @@ This thesis will only focus on the insertion from 0 to 1 particle, where no issu
 The adsorption Gibbs free energy $\Delta G\e{ads}$ is equal to the excess free energy previously calculated in a Widom insertion as the structure is rigid and $PV$ does not fluctuate ($G = F + PV$). 
 
 \begin{equation}\label{eq:ads_gibbs}
-  \boxed{
   \Delta G\e{ads} = -RT \ln\left(\langle \exp(-\mathcal{E}\e{int}/RT) \rangle\right)
-  }
 \end{equation}
 
 \subsubsection{Henry constant}
@@ -157,9 +153,7 @@ Since the gravimetric loading $L\e{ads}$ (in~\si{\milli\mole\per\gram}) is consi
 Since the Henry's law is described by $L\e{ads}=K\e{H} \times P$, a final relationship is obtained between the Henry adsorption constant and interaction energy distribution. For a mixture, the pressure should be replaced by partial pressures.
 
 \begin{equation}\label{eq:henry}
-    \boxed{
     K\e{H} = \dfrac{\langle \exp\left(-\mathcal{E}\e{int}/RT\right) \rangle}{\rho_f RT} = \dfrac{1}{\rho_f RT} \exp\left(-\dfrac{\Delta G\e{ads}}{RT}\right)
-    }
 \end{equation}
 
 Note that the $\rho_f$ factor comes from the use of a gravimetric loading expressed in~\si{\milli\mole\per\gram} and is not always present in the different derivations of the literature.\autocite{PoreBlazer} The $RT$ factor derives from the perfect gas assumption made in equation~\ref{eq:1}, which is a good approximation in the case of noble gas. 
@@ -209,9 +203,7 @@ The exponential derivative makes the energy factors come out, and the following 
 With some simplification, the adsorption enthalpy $\Delta H\e{ads}$ can be expressed as the Boltzmann average of the interaction energies minus a term $RT$ that corresponds to the internal energy in the bulk phase under the ideal gas assumption (perfect gas equation of state).
 
 \begin{equation}\label{eq:ads_enthalpy}
-  \boxed{
   \Delta H\e{ads} = \dfrac{\sum \mathcal{E}\e{int}e^{-\frac{\mathcal{E}\e{int}}{RT}}}{\sum e^{-\frac{\mathcal{E}\e{int}}{RT}}} - RT
-  }
 \end{equation}
 
 The isosteric heat of adsorption $q\e{st}$ is then simply the opposite of the adsorption enthalpy, at infinite dilution. 
@@ -221,9 +213,7 @@ The isosteric heat of adsorption $q\e{st}$ is then simply the opposite of the ad
 % entropy from free energy and enthalpy
 From the values of the adsorption free energy and enthalpy, the adsorption entropy $\Delta S\e{ads}$ can simply be deduced from the definition of the Gibbs free energy ($G = H-TS$):
 \begin{equation}\label{eq:ads_entropy}
-  \boxed{
   \Delta S\e{ads} = \dfrac{1}{T} \left(\Delta H\e{ads} - \Delta G\e{ads} \right)
-  }
 \end{equation}
 
 \subsubsection{selectivity}
@@ -231,9 +221,7 @@ From the values of the adsorption free energy and enthalpy, the adsorption entro
 %selectivity
 In the thesis, the selectivity is defined as the ratio of the proportion of Xe/Kr in the adsorption phase to the proportion in the gas phase in equation~\ref{eq:selec}. At infinite dilution, the selectivity can be rewritten using the Henry's law ($q\ex{i}=V\rho_f K\e{H}\ex{i}y\ex{i}P/n\e{tot}$) and simplifying the constant term $PV\rho_f/n\e{tot}$:
 \begin{equation}\label{eq:selec_0}
-  \boxed{
   s = \dfrac{K\e{H}\ex{Xe}y\ex{Xe}}{K\e{H}\ex{Kr}y\ex{Kr}}\times\dfrac{y\ex{Kr}}{y\ex{Xe}} = \dfrac{K\e{H}\ex{Xe}}{K\e{H}\ex{Kr}}
-  }
 \end{equation}
 By extrapolating at the zero loading regime, the Xe/Kr selectivity can be simply expressed as the ratio of the Henry adsorption constants of xenon and krypton.
 
@@ -253,18 +241,14 @@ At any pressure and for a given composition, the equilibrium constant associated
 
 The Gibbs free energy at equilibrium can be directly defined using the equilibrium constant. Applying this relation to the exchange equilibrium, it is possible to define an exchange Gibbs free energy $\Delta\e{exc}G$:
 \begin{equation}\label{eq:exc_gibbs_free_energy}
-  \boxed{
   \Delta\e{exc}G = -RT \ln\left(s\right)
-  }
 \end{equation}
 
 \subsubsection{Exchange enthalpy}
 
 This exchange equilibrium can be viewed as the substraction between the adsorption equilibria of xenon and krypton. Applying Hess's law of constant heat summation, an expression for the exchange enthalpy is simply expressed as the difference of the adsorption enthalpies between xenon and krypton within the mixture. 
 \begin{equation}
-  \boxed{
   \Delta\e{exc}H\ex{Xe/Kr} = \Delta\e{ads}H\ex{Xe} - \Delta\e{ads}H\ex{Kr}
-  }
 \end{equation}
 
 Moreover, the adsorption enthalpy $\Delta\e{ads}H$ is generally defined by comparing the average energy difference between systems differing by one adsorbate:
@@ -285,9 +269,7 @@ On the other hand, at infinite dilution, the equation~\ref{eq:ads_enthalpy} can 
 
 Now that the exchange Gibbs free energy and an exchange enthalpy have been defined at any pressure, the same approach can be applied as in equation~\ref{eq:ads_entropy} to derive the exchange entropy:
 \begin{equation}\label{eq:exc_entropy}
-  \boxed{
   \Delta\e{exc}S = \dfrac{1}{T}\left(\Delta\e{exc}H - \Delta\e{exc}G\right)= \dfrac{1}{T}\Delta\e{exc}H + R\ln(s)
-  }
 \end{equation}
 
 \subsubsection{Conclusion}
