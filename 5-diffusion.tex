@@ -479,19 +479,19 @@ In the case of \texttt{KAXQIL}, barrier detection was performed using an energy 
   \begin{subfigure}[b]{0.32\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/5-diffusion/KAXQIL_30.jpg}
-    \caption{$E\e{max}<-30$}~\si{\kJ\per\mole}\label{fgr:KAXQIL_30}
+    \caption{$E\e{max}<-30$~\si{\kJ\per\mole}}\label{fgr:KAXQIL_30}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.32\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/5-diffusion/KAXQIL_23.jpg}
-    \caption{$E\e{max}<-23$}~\si{\kJ\per\mole}\label{fgr:KAXQIL_23}
+    \caption{$E\e{max}<-23$~\si{\kJ\per\mole}}\label{fgr:KAXQIL_23}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.32\textwidth}
       \centering
       \includegraphics[width=\textwidth]{figures/5-diffusion/KAXQIL_10.jpg}
-      \caption{$E\e{max}<10$}~\si{\kJ\per\mole}\label{fgr:KAXQIL_channel}
+      \caption{$E\e{max}<10$~\si{\kJ\per\mole}}\label{fgr:KAXQIL_channel}
   \end{subfigure}
     \caption{ 3D visualization of channels within \texttt{KAXQIL} using different energy thresholds $E\e{max}$. Depending on the maximum value of energy allowed, the channel is either composed of unconnected basins (a), or they are fully connected (b) and (c). This illustrates the principle of the energy barrier detection. }\label{fgr:KAXQIL_channels}
 \end{figure}
@@ -557,7 +557,7 @@ Calculating diffusion coefficients is an extremely time-consuming process, compl
 \begin{table}[ht]
   \setlength{\extrarowheight}{1pt}
   \centering
-  \begin{tabular}{|l|c|m{8cm}|}
+  \begin{tabular}{|l|c|m{7cm}|}
   \hline
     Feature name  &  Symbol   &   Description\\
   \hline
@@ -575,7 +575,7 @@ Calculating diffusion coefficients is an extremely time-consuming process, compl
       "3D\_chan" &  $\mathbb{1}\e{3D}$   &   categorical feature: 1 if there is a tridimensional channel, 0 else \\
     \hline
   \end{tabular}
-  \caption{ Features used in the ML model for diffusion coefficient prediction. }\label{Table:feat_diff}
+  \caption{ Description of the features used in the ML model for diffusion coefficient prediction. }\label{Table:feat_diff}
 \end{table}
 
 The ML model was trained using {80\%} of the 4,873 structures that survived all the different filters imposed. A total of 12 descriptors described in Table~\ref{Table:feat_diff} were employed to train the ML model. The hyperparameters of the XGBoost model were determined using a similar approach as in Chapter 4, and the following values were used:

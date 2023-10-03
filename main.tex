@@ -52,6 +52,14 @@
   {}
 \usepackage{url}
 \urlstyle{same}
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
 
 \usepackage[version=4]{mhchem}
 \usepackage{subcaption}
@@ -420,7 +428,7 @@
     \selectlanguage{english}
     \epigraph{\itshape The effort is toilsome, but also it is precious, more precious even than the work which it produces, because, thanks to it, one has drawn out from the self more than it had already, we are raised above ourselves.}{Henri \textsc{Bergson}\\  The spiritual energy, Life and Consciousness}
     \vfill
-    \clearpage
+    \newpage
 
     \input{remerciements}
 
